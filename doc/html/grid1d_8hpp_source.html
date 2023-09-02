@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cfd24: Исходный файл grid1d.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">cfd24
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_574e1ef121e4f5fa53295af008031508.html">cfd24</a></li><li class="navelem"><a class="el" href="dir_7a77c6a3e5ccd7a5da9445c24d894823.html">grid</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">grid1d.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CFD24_GEOM_GRID1_HPP</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define CFD24_GEOM_GRID1_HPP</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;cfd24/grid/i_grid.hpp&quot;</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacecfd.html">cfd</a>{</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">/**</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * 1D grid with ordered points</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> */</span></div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classcfd_1_1Grid1D.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classcfd_1_1Grid1D.html">Grid1D</a>: <span class="keyword">public</span> <a class="code" href="classcfd_1_1IGrid1D.html">IGrid1D</a>{</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:<span class="comment"></span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    /**</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">     * Builds regular equidistant 1d grid</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">     *</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">     * @param left     left boundary</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">     * @param right    right boundary</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">     * @param n_cells  number of cells</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">     */</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="classcfd_1_1Grid1D.html#a1ffe863bc72f9ee89d68289ab9190fc5">Grid1D</a>(<span class="keywordtype">double</span> left, <span class="keywordtype">double</span> right, <span class="keywordtype">size_t</span> <a class="code" href="classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3">n_cells</a>);</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">// overridden methods</span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classcfd_1_1Grid1D.html#a565e832c5b13a167ecaac572b6367f0c">n_points</a>() <span class="keyword">const override</span>;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3">n_cells</a>() <span class="keyword">const override</span>;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552">n_faces</a>() <span class="keyword">const override</span>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classcfd_1_1Point.html">Point</a> <a class="code" href="classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3">point</a>(<span class="keywordtype">size_t</span> ipoint) <span class="keyword">const override</span>;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">private</span>:</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::vector&lt;Point&gt; _points;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="classcfd_1_1Grid1D_html_a565e832c5b13a167ecaac572b6367f0c"><div class="ttname"><a href="classcfd_1_1Grid1D.html#a565e832c5b13a167ecaac572b6367f0c">cfd::Grid1D::n_points</a></div><div class="ttdeci">size_t n_points() const override</div><div class="ttdoc">number of grid points </div></div>
+<div class="ttc" id="classcfd_1_1Grid1D_html_a1ffe863bc72f9ee89d68289ab9190fc5"><div class="ttname"><a href="classcfd_1_1Grid1D.html#a1ffe863bc72f9ee89d68289ab9190fc5">cfd::Grid1D::Grid1D</a></div><div class="ttdeci">Grid1D(double left, double right, size_t n_cells)</div></div>
+<div class="ttc" id="classcfd_1_1Point_html"><div class="ttname"><a href="classcfd_1_1Point.html">cfd::Point</a></div><div class="ttdef"><b>Definition:</b> primitives.hpp:8</div></div>
+<div class="ttc" id="classcfd_1_1Grid1D_html_a9930bc771ee845b2702e78f4ffe91552"><div class="ttname"><a href="classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552">cfd::Grid1D::n_faces</a></div><div class="ttdeci">size_t n_faces() const override</div><div class="ttdoc">number of grid faces </div></div>
+<div class="ttc" id="classcfd_1_1Grid1D_html_af9021b0bfad69b5bf0b843b3d32188e3"><div class="ttname"><a href="classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3">cfd::Grid1D::n_cells</a></div><div class="ttdeci">size_t n_cells() const override</div><div class="ttdoc">number of grid cells </div></div>
+<div class="ttc" id="classcfd_1_1Grid1D_html_a41f8f3e83dacb8cad2df87b9155a82b3"><div class="ttname"><a href="classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3">cfd::Grid1D::point</a></div><div class="ttdeci">Point point(size_t ipoint) const override</div><div class="ttdoc">get point at i-th index </div></div>
+<div class="ttc" id="namespacecfd_html"><div class="ttname"><a href="namespacecfd.html">cfd</a></div><div class="ttdef"><b>Definition:</b> cfd24.hpp:4</div></div>
+<div class="ttc" id="classcfd_1_1Grid1D_html"><div class="ttname"><a href="classcfd_1_1Grid1D.html">cfd::Grid1D</a></div><div class="ttdef"><b>Definition:</b> grid1d.hpp:11</div></div>
+<div class="ttc" id="classcfd_1_1IGrid1D_html"><div class="ttname"><a href="classcfd_1_1IGrid1D.html">cfd::IGrid1D</a></div><div class="ttdef"><b>Definition:</b> i_grid.hpp:36</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>
