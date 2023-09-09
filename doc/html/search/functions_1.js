@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['grid1d',['Grid1D',['../classcfd_1_1Grid1D.html#a1ffe863bc72f9ee89d68289ab9190fc5',1,'cfd::Grid1D']]]
+  ['cols',['cols',['../classcfd_1_1CsrStencil.html#a04c444dc7a6bcf45824d7d3892f8ff2c',1,'cfd::CsrStencil']]]
 ];

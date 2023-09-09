@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cfd24: Класс cfd::LodMatrix</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">cfd24
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacecfd.html">cfd</a></li><li class="navelem"><a class="el" href="classcfd_1_1LodMatrix.html">LodMatrix</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="classcfd_1_1LodMatrix-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle">
+<div class="title">Класс cfd::LodMatrix</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="lodmat_8hpp_source.html">lodmat.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Граф наследования:cfd::LodMatrix:</div>
+<div class="dyncontent">
+<div class="center"><img src="classcfd_1_1LodMatrix__inherit__graph.png" border="0" usemap="#cfd_1_1LodMatrix_inherit__map" alt="Inheritance graph"/></div>
+<map name="cfd_1_1LodMatrix_inherit__map" id="cfd_1_1LodMatrix_inherit__map">
+<area shape="rect" id="node2" href="classcfd_1_1ISparseMatrix.html" title="{cfd::ISparseMatrix\n||+ ~ISparseMatrix()\lи 2 больше...\l}" alt="" coords="5,145,136,237"/>
+<area shape="rect" id="node3" href="classcfd_1_1IMatrix.html" title="{cfd::IMatrix\n||+ ~IMatrix()\lи 2 больше...\l}" alt="" coords="20,5,121,97"/>
+</map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:a6ec2d72892698f2045d9fef03cfd852a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a6ec2d72892698f2045d9fef03cfd852a">LodMatrix</a> (size_t <a class="el" href="classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07">n_rows</a>)</td></tr>
+<tr class="separator:a6ec2d72892698f2045d9fef03cfd852a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad931947dad4c4866d021841b90e047c9"><td class="memItemLeft" align="right" valign="top">const std::map&lt; size_t, double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#ad931947dad4c4866d021841b90e047c9">row</a> (size_t irow)</td></tr>
+<tr class="separator:ad931947dad4c4866d021841b90e047c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a2f0f9d3e8c379263afd89596c1810e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a4a2f0f9d3e8c379263afd89596c1810e">add_to_entry</a> (size_t irow, size_t icol, double <a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">value</a>)</td></tr>
+<tr class="separator:a4a2f0f9d3e8c379263afd89596c1810e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd6ca675eb22b1013fdbd0dc9b680826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826">remove_row</a> (size_t irow)</td></tr>
+<tr class="separator:abd6ca675eb22b1013fdbd0dc9b680826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cf0d2ebc808c3f680c1bcb1ec990d07"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07">n_rows</a> () const override</td></tr>
+<tr class="memdesc:a5cf0d2ebc808c3f680c1bcb1ec990d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of rows  <a href="#a5cf0d2ebc808c3f680c1bcb1ec990d07">Подробнее...</a><br /></td></tr>
+<tr class="separator:a5cf0d2ebc808c3f680c1bcb1ec990d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ff45baca9891d8d56ca54ae0eeed0c7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">value</a> (size_t irow, size_t icol) const override</td></tr>
+<tr class="memdesc:a8ff45baca9891d8d56ca54ae0eeed0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets value at given address  <a href="#a8ff45baca9891d8d56ca54ae0eeed0c7">Подробнее...</a><br /></td></tr>
+<tr class="separator:a8ff45baca9891d8d56ca54ae0eeed0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae87f22d5cf4e2127ee81e0e05c9cb730"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#ae87f22d5cf4e2127ee81e0e05c9cb730">n_nonzeros</a> () const override</td></tr>
+<tr class="separator:ae87f22d5cf4e2127ee81e0e05c9cb730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e31974a4c23509c38e72249c1f20efb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a0e31974a4c23509c38e72249c1f20efb">is_in_stencil</a> (size_t irow, size_t icol) const override</td></tr>
+<tr class="separator:a0e31974a4c23509c38e72249c1f20efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcfd_1_1ISparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1ISparseMatrix')"><img src="closed.png" alt="-"/>&#160;Открытые члены унаследованные от <a class="el" href="classcfd_1_1ISparseMatrix.html">cfd::ISparseMatrix</a></td></tr>
+<tr class="memitem:a7be27b296a6900565765b6e642c7e7f0 inherit pub_methods_classcfd_1_1ISparseMatrix"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0">~ISparseMatrix</a> ()=default</td></tr>
+<tr class="separator:a7be27b296a6900565765b6e642c7e7f0 inherit pub_methods_classcfd_1_1ISparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcfd_1_1IMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1IMatrix')"><img src="closed.png" alt="-"/>&#160;Открытые члены унаследованные от <a class="el" href="classcfd_1_1IMatrix.html">cfd::IMatrix</a></td></tr>
+<tr class="memitem:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca">~IMatrix</a> ()=default</td></tr>
+<tr class="separator:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>List of dictionaries sparse matrix format </p>
+
+<p class="definition">См. определение в файле <a class="el" href="lodmat_8hpp_source.html">lodmat.hpp</a> строка <a class="el" href="lodmat_8hpp_source.html#l00011">11</a></p>
+</div><h2 class="groupheader">Конструктор(ы)</h2>
+<a id="a6ec2d72892698f2045d9fef03cfd852a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ec2d72892698f2045d9fef03cfd852a">&#9670;&nbsp;</a></span>LodMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cfd::LodMatrix::LodMatrix </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_rows</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Construct empty matrix</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n_rows</td><td>number of rows </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Методы</h2>
+<a id="a4a2f0f9d3e8c379263afd89596c1810e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a2f0f9d3e8c379263afd89596c1810e">&#9670;&nbsp;</a></span>add_to_entry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::LodMatrix::add_to_entry </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds value to the given matrix entry</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index </td></tr>
+    <tr><td class="paramname">icol</td><td>column index </td></tr>
+    <tr><td class="paramname">value</td><td>value to be added</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Performs Matrix[i, j] += value operation </p>
+
+</div>
+</div>
+<a id="a0e31974a4c23509c38e72249c1f20efb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e31974a4c23509c38e72249c1f20efb">&#9670;&nbsp;</a></span>is_in_stencil()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cfd::LodMatrix::is_in_stencil </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Checks if entry in non-zero stencil</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index </td></tr>
+    <tr><td class="paramname">icol</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>true if [irow, icol] is in nonzero stencil </dd></dl>
+
+<p>Замещает <a class="el" href="classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372">cfd::ISparseMatrix</a>.</p>
+
+</div>
+</div>
+<a id="ae87f22d5cf4e2127ee81e0e05c9cb730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae87f22d5cf4e2127ee81e0e05c9cb730">&#9670;&nbsp;</a></span>n_nonzeros()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t cfd::LodMatrix::n_nonzeros </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets number of entries in the stencil </p>
+
+<p>Замещает <a class="el" href="classcfd_1_1ISparseMatrix.html#a1533cebf8927d2a2ed05b0b2735bc52c">cfd::ISparseMatrix</a>.</p>
+
+</div>
+</div>
+<a id="a5cf0d2ebc808c3f680c1bcb1ec990d07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cf0d2ebc808c3f680c1bcb1ec990d07">&#9670;&nbsp;</a></span>n_rows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t cfd::LodMatrix::n_rows </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>number of rows </p>
+
+<p>Замещает <a class="el" href="classcfd_1_1IMatrix.html#a242e34768e544a5a81d653d01c4ace93">cfd::IMatrix</a>.</p>
+
+</div>
+</div>
+<a id="abd6ca675eb22b1013fdbd0dc9b680826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd6ca675eb22b1013fdbd0dc9b680826">&#9670;&nbsp;</a></span>remove_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::LodMatrix::remove_row </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removes row from sparse matrix stencil</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>All values at the given row will be equal to zero </p>
+
+</div>
+</div>
+<a id="ad931947dad4c4866d021841b90e047c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad931947dad4c4866d021841b90e047c9">&#9670;&nbsp;</a></span>row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::map&lt;size_t, double&gt;&amp; cfd::LodMatrix::row </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get row values</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>column-&gt;value dictionary </dd></dl>
+
+</div>
+</div>
+<a id="a8ff45baca9891d8d56ca54ae0eeed0c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ff45baca9891d8d56ca54ae0eeed0c7">&#9670;&nbsp;</a></span>value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::LodMatrix::value </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>gets value at given address </p>
+
+<p>Замещает <a class="el" href="classcfd_1_1IMatrix.html#a78b9049b10c8e3456e22594e280187b7">cfd::IMatrix</a>.</p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li><a class="el" href="lodmat_8hpp_source.html">lodmat.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>

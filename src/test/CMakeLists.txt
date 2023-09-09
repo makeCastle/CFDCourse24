@@ -1,6 +1,7 @@
 set (SRC
 	cfd24_test.cpp
 	grid_test.cpp
+	mat_test.cpp
 
 	utils/filesystem.cpp
 )

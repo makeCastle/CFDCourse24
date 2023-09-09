@@ -1,10 +1,8 @@
 #ifndef CFD24_GRID_I_GRID_HPP
 #define CFD24_GRID_I_GRID_HPP
 
+#include "cfd24/cfd_common.hpp"
 #include "cfd24/geom/primitives.hpp"
-#include <vector>
-#include <cstddef>
-#include <string>
 
 namespace cfd{
 
@@ -45,6 +43,7 @@ public:
 
 	/**
 	 * Saves grid to vtk format
+	 *
 	 * @param fname  output filename
 	 */
 	virtual void save_vtk(std::string fname) const = 0;

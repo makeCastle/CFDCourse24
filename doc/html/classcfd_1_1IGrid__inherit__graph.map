@@ -1,6 +1,7 @@
 <map id="cfd::IGrid" name="cfd::IGrid">
-<area shape="rect" id="node2" href="$classcfd_1_1IGrid1D.html" title="{cfd::IGrid1D\n||+ ~IGrid1D()\lи 1 больше...\l}" alt="" coords="5,145,107,237"/>
-<area shape="rect" id="node4" href="$classcfd_1_1IGrid2D.html" title="{cfd::IGrid2D\n||+ ~IGrid2D()\lи 1 больше...\l}" alt="" coords="131,145,232,237"/>
-<area shape="rect" id="node5" href="$classcfd_1_1IGrid3D.html" title="{cfd::IGrid3D\n||+ ~IGrid3D()\lи 1 больше...\l}" alt="" coords="256,145,357,237"/>
-<area shape="rect" id="node3" href="$classcfd_1_1Grid1D.html" title="{cfd::Grid1D\n||+ Grid1D()\lи 4 больше...\l}" alt="" coords="5,285,107,377"/>
+<area shape="rect" id="node2" href="$classcfd_1_1IGrid1D.html" title="{cfd::IGrid1D\n||+ ~IGrid1D()\lи 1 больше...\l}" alt="" coords="9,145,111,237"/>
+<area shape="rect" id="node4" href="$classcfd_1_1IGrid2D.html" title="{cfd::IGrid2D\n||+ ~IGrid2D()\lи 1 больше...\l}" alt="" coords="143,145,244,237"/>
+<area shape="rect" id="node6" href="$classcfd_1_1IGrid3D.html" title="{cfd::IGrid3D\n||+ ~IGrid3D()\lи 1 больше...\l}" alt="" coords="268,145,369,237"/>
+<area shape="rect" id="node3" href="$classcfd_1_1Grid1D.html" title="{cfd::Grid1D\n||+ Grid1D()\lи 7 больше...\l}" alt="" coords="5,285,107,377"/>
+<area shape="rect" id="node5" href="$classcfd_1_1RegularGrid2D.html" title="{cfd::RegularGrid2D\n||+ RegularGrid2D()\lи 7 больше...\l}" alt="" coords="131,285,264,377"/>
 </map>

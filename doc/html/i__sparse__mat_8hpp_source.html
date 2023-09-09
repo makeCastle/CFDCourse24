@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cfd24: Исходный файл i_sparse_mat.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">cfd24
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_574e1ef121e4f5fa53295af008031508.html">cfd24</a></li><li class="navelem"><a class="el" href="dir_d25a4ccefaef9c3c5212ddaf964fc012.html">mat</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">i_sparse_mat.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="i__sparse__mat_8hpp.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef MAT_I_SPARSE_MAT_HPP</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define MAT_I_SPARSE_MAT_HPP</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="i__mat_8hpp.html">cfd24/mat/i_mat.hpp</a>&quot;</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacecfd.html">cfd</a>{</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">/**</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Abstract Sparse Matrix interface</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> */</span></div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classcfd_1_1ISparseMatrix.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classcfd_1_1ISparseMatrix.html">ISparseMatrix</a>: <span class="keyword">public</span> <a class="code" href="classcfd_1_1IMatrix.html">IMatrix</a>{</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0">~ISparseMatrix</a>() = <span class="keywordflow">default</span>;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    /**</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">     * Gets number of entries in the stencil</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">     */</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classcfd_1_1ISparseMatrix.html#a1533cebf8927d2a2ed05b0b2735bc52c">n_nonzeros</a>() <span class="keyword">const</span> = 0;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">    /**</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">     * Checks if entry in non-zero stencil</span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">     *</span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">     * @param irow  row index</span></div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">     * @param icol  column index</span></div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">     * @return true if [irow, icol] is in nonzero stencil</span></div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">     */</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372">is_in_stencil</a>(<span class="keywordtype">size_t</span> irow, <span class="keywordtype">size_t</span> icol) <span class="keyword">const</span> = 0;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="i__mat_8hpp_html"><div class="ttname"><a href="i__mat_8hpp.html">i_mat.hpp</a></div></div>
+<div class="ttc" id="classcfd_1_1IMatrix_html"><div class="ttname"><a href="classcfd_1_1IMatrix.html">cfd::IMatrix</a></div><div class="ttdef"><b>Definition:</b> <a href="i__mat_8hpp_source.html#l00011">i_mat.hpp:11</a></div></div>
+<div class="ttc" id="classcfd_1_1ISparseMatrix_html_a7be27b296a6900565765b6e642c7e7f0"><div class="ttname"><a href="classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0">cfd::ISparseMatrix::~ISparseMatrix</a></div><div class="ttdeci">virtual ~ISparseMatrix()=default</div></div>
+<div class="ttc" id="namespacecfd_html"><div class="ttname"><a href="namespacecfd.html">cfd</a></div><div class="ttdef"><b>Definition:</b> <a href="cfd24_8hpp_source.html#l00007">cfd24.hpp:7</a></div></div>
+<div class="ttc" id="classcfd_1_1ISparseMatrix_html_aed1534338ffab2b264f9c8cace2a0372"><div class="ttname"><a href="classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372">cfd::ISparseMatrix::is_in_stencil</a></div><div class="ttdeci">virtual bool is_in_stencil(size_t irow, size_t icol) const =0</div></div>
+<div class="ttc" id="classcfd_1_1ISparseMatrix_html"><div class="ttname"><a href="classcfd_1_1ISparseMatrix.html">cfd::ISparseMatrix</a></div><div class="ttdef"><b>Definition:</b> <a href="i__sparse__mat_8hpp_source.html#l00011">i_sparse_mat.hpp:11</a></div></div>
+<div class="ttc" id="classcfd_1_1ISparseMatrix_html_a1533cebf8927d2a2ed05b0b2735bc52c"><div class="ttname"><a href="classcfd_1_1ISparseMatrix.html#a1533cebf8927d2a2ed05b0b2735bc52c">cfd::ISparseMatrix::n_nonzeros</a></div><div class="ttdeci">virtual size_t n_nonzeros() const =0</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>

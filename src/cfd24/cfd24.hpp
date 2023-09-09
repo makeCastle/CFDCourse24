@@ -1,6 +1,9 @@
 #ifndef CFD24_HPP
 #define CFD24_HPP
 
+/**
+ * cfd library
+ */
 namespace cfd{
 
 /** 

@@ -18,8 +18,8 @@
   > cd D:/git_repos
 
 6 клонировать репозиторий
-  > git clone https://github.com/kalininei/CFDCourse23
-  В директории (D:/git_repos в примере) появится папка CFDCourse23, которая является корневой папкой проекта
+  > git clone https://github.com/kalininei/CFDCourse24
+  В директории (D:/git_repos в примере) появится папка CFDCourse24, которая является корневой папкой проекта
 
 7 взять необходимые заголовочные библиотеки boost из https://disk.yandex.ru/d/GwTZUvfAqPsZBQ
   и распаковать её рядом с папкой директории CFDCourse23. Чтобы рядом с этой папкой лежала непосредственно пака boost

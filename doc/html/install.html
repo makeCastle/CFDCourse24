@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cfd24: Установка и сборка проекта</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">cfd24
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="index.html">index</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Установка и сборка проекта </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="toc"><h3>Оглавление</h3>
+<ul><li class="level1"><a href="#prep">Подготовка</a></li>
+<li class="level1"><a href="#vs">VisualStudio</a></li>
+<li class="level1"><a href="#vscode">VSCode</a></li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="prep"></a>
+Подготовка</h1>
+<ol type="1">
+<li>Для сборки проекта необходимо установить git и cmake&gt;=3.0<ul>
+<li><p class="startli">В Windows необходимо скачать и установить диструбутивы:</p><ul>
+<li><a href="https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/Git-2.38.1-64-bit.exe">https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/Git-2.38.1-64-bit.exe</a></li>
+<li><a href="https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-windows-x86_64.msi">https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-windows-x86_64.msi</a></li>
+</ul>
+<p class="startli">При установке cmake проследите, что бы путь к cmake.exe сохранился в системных путях. Msi установщик спросит об этом в диалоге.</p>
+</li>
+<li>В линуксе используйте менеджеры пакетов, предоставляемые вашим дистрибутивом. Также проследите чтобы были доступны компиллятор g++ и отладчик gdb.</li>
+</ul>
+</li>
+<li>Создайте папку в системе для репозиториев. Например D:/git_repos/</li>
+<li>Возьмите необходимые заголовочные библиотеки boost из <a href="https://disk.yandex.ru/d/GwTZUvfAqPsZBQ">https://disk.yandex.ru/d/GwTZUvfAqPsZBQ</a> и распакуйте архив в папку для репозиториев (D:/git_repos/boost). Проследите, чтобы внутри папки boost сразу шли папки с кодом (accumulators, algorithm, ...) и заголовочные файлы (align.hpp, aligned_storage.hpp, ...) без дополнительных уровней вложения.</li>
+<li>Откройте терминал (git bash в Windows).</li>
+<li>С помощью команды cd в терминале перейдите в папку для репозиториев <blockquote class="doxtable">
+<p>cd D:/git_repos </p>
+</blockquote>
+</li>
+<li>Клонируйте репозиторий <blockquote class="doxtable">
+<p>git clone <a href="https://github.com/kalininei/CFDCourse24">https://github.com/kalininei/CFDCourse24</a> </p>
+</blockquote>
+В директории (D:/git_repos в примере) появится папка CFDCourse24, которая является корневой папкой проекта</li>
+</ol>
+<h1><a class="anchor" id="vs"></a>
+VisualStudio</h1>
+<ol type="1">
+<li>Cоздайте папку build в корне проекта СFDCourse24</li>
+<li>Скопируйте скрипт winbuild64.bat в папку build. Далее вносить изменения только в скопированном файле.</li>
+<li>Скрипт написан для версии Visual Studio 2019. Если используется другая версия, измените в скрипте значение переменной CMGenerator на соответствующие вашей версии. Значения для разных версий Visual Studio написаны ниже <div class="fragment"><div class="line">SET CMGenerator=&quot;Visual Studio 17 2022&quot;</div><div class="line">SET CMGenerator=&quot;Visual Studio 16 2019&quot;</div><div class="line">SET CMGenerator=&quot;Visual Studio 15 2017&quot;</div><div class="line">SET CMGenerator=&quot;Visual Studio 14 2015&quot;</div></div><!-- fragment --></li>
+<li>Запустите скрипт winbuild64.bat из папки build. Нужен доступ к интернету. В процессе будет скачано около 200Мб пакетов, поэтому первый запуск может занять время</li>
+<li>После сборки в папке build появится проект VisualStudio cfdcourse24.sln. Его нужно открыть в VisualStudio. Дерево решения должно иметь следующий вид. <div class="image">
+<img src="vs_solution_explorer.png" alt="vs_solution_explorer.png"/>
+</div>
+ Проекты:<ul>
+<li>cfd24 - расчётная библиотека</li>
+<li>cfd24_test - модульные тесты для расчётных функций</li>
+</ul>
+</li>
+<li>Проект cfd24_test необходимо назначить запускаемым проектом. Для этого нажать правой кнопкой мыши по проекту и в выпадающем меню выбрать соответствующий пункт. После этого заголовок проекта должен стать жирным.</li>
+<li>Скомпиллировать решение. Несколько способов:<ul>
+<li><code>Ctrl+Shift+B</code>,</li>
+<li><code>Build-&gt;Build Solution</code> в основном меню,</li>
+<li><code>Build Solution</code> в меню решения в дереве решения,</li>
+<li><code>Build</code> в меню проекта cfd24_test.</li>
+</ul>
+</li>
+<li>Запустить тесты (проект cfd24_test) нажав F5 (или кнопку отладки в меню). После отработки должно высветиться сообщение об успешном прохождении всех тестов.</li>
+</ol>
+<h1><a class="anchor" id="vscode"></a>
+VSCode</h1>
+<ol type="1">
+<li>Открыть корневую папку проека через File-&gt;Open Folder</li>
+<li>Установить предлагаемые расширения cmake, c++</li>
+<li>Для настройки отладки создайте конфигурацию launch.json слудующего вида <div class="image">
+<img src="vscode_launch_json.png" alt="vscode_launch_json.png"/>
+</div>
+<ul>
+<li>Для этого перейдите в меню 'Run and Dubug' (Ctrl+Shift+B), нажмите create launch.json, выберите пункт Node.js.</li>
+<li>После этого в корневой папке появится файл .vscode/launch.json.</li>
+<li>Откройте этот файл в vscode, нажмите Add configuration, Launch.</li>
+<li>Далее напишите имя программы как показано на картинке.</li>
+<li>Используйте поле args для установки аргументов запуска.</li>
+<li>Выберите созданную конфигурацию для запуска отладчика по F5 <div class="image">
+<img src="vscode_launch.png" alt="vscode_launch.png"/>
+</div>
+ </li>
+</ul>
+</li>
+</ol>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>

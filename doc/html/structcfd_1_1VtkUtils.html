@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cfd24: Структура cfd::VtkUtils</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="mycss.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">cfd24
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacecfd.html">cfd</a></li><li class="navelem"><a class="el" href="structcfd_1_1VtkUtils.html">VtkUtils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">Открытые статические члены</a> &#124;
+<a href="structcfd_1_1VtkUtils-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle">
+<div class="title">Структура cfd::VtkUtils</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="vtk_8hpp_source.html">vtk.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Открытые статические члены</h2></td></tr>
+<tr class="memitem:a295c4e83c042e2ff53a4a773c187a6ee"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a295c4e83c042e2ff53a4a773c187a6ee">append_header</a> (std::string caption, std::ostream &amp;fs)</td></tr>
+<tr class="memdesc:a295c4e83c042e2ff53a4a773c187a6ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds vtk caption  <a href="#a295c4e83c042e2ff53a4a773c187a6ee">Подробнее...</a><br /></td></tr>
+<tr class="separator:a295c4e83c042e2ff53a4a773c187a6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a896ad169e213a445c7e7c9a1d4411745"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a896ad169e213a445c7e7c9a1d4411745">append_points</a> (const std::vector&lt; <a class="el" href="classcfd_1_1Point.html">Point</a> &gt; &amp;points, std::ostream &amp;fs)</td></tr>
+<tr class="memdesc:a896ad169e213a445c7e7c9a1d4411745"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds point list  <a href="#a896ad169e213a445c7e7c9a1d4411745">Подробнее...</a><br /></td></tr>
+<tr class="separator:a896ad169e213a445c7e7c9a1d4411745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ee8e51f34b9bca24c4991cf99e7ffab"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a8ee8e51f34b9bca24c4991cf99e7ffab">add_cell_data</a> (const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname)</td></tr>
+<tr class="memdesc:a8ee8e51f34b9bca24c4991cf99e7ffab"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds cell data to saved vtk grid  <a href="#a8ee8e51f34b9bca24c4991cf99e7ffab">Подробнее...</a><br /></td></tr>
+<tr class="separator:a8ee8e51f34b9bca24c4991cf99e7ffab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7725cf825e231f8ecb5ce7a945af6ec3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a7725cf825e231f8ecb5ce7a945af6ec3">add_cell_data</a> (const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::ostream &amp;s)</td></tr>
+<tr class="memdesc:a7725cf825e231f8ecb5ce7a945af6ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds cell data to a stream  <a href="#a7725cf825e231f8ecb5ce7a945af6ec3">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7725cf825e231f8ecb5ce7a945af6ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7082f41dd0aa4b847652f69f9988ba9d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a7082f41dd0aa4b847652f69f9988ba9d">append_cell_data_header</a> (size_t data_size, std::ostream &amp;s)</td></tr>
+<tr class="memdesc:a7082f41dd0aa4b847652f69f9988ba9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">froms and saves header of cell data section  <a href="#a7082f41dd0aa4b847652f69f9988ba9d">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7082f41dd0aa4b847652f69f9988ba9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a266e1e09ba59ef7307dbbc86fe28368a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a266e1e09ba59ef7307dbbc86fe28368a">add_point_data</a> (const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname)</td></tr>
+<tr class="memdesc:a266e1e09ba59ef7307dbbc86fe28368a"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds vertex data to saved vtk file  <a href="#a266e1e09ba59ef7307dbbc86fe28368a">Подробнее...</a><br /></td></tr>
+<tr class="separator:a266e1e09ba59ef7307dbbc86fe28368a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf952c6d7fdcae552ef05fa3798890ca"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#adf952c6d7fdcae552ef05fa3798890ca">add_point_data</a> (const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::ostream &amp;s)</td></tr>
+<tr class="memdesc:adf952c6d7fdcae552ef05fa3798890ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds vertex data to a stream  <a href="#adf952c6d7fdcae552ef05fa3798890ca">Подробнее...</a><br /></td></tr>
+<tr class="separator:adf952c6d7fdcae552ef05fa3798890ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01cae61c8f4670791c41a08858f132c1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html#a01cae61c8f4670791c41a08858f132c1">append_point_data_header</a> (size_t data_size, std::ostream &amp;s)</td></tr>
+<tr class="memdesc:a01cae61c8f4670791c41a08858f132c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">froms and saves header of point data section  <a href="#a01cae61c8f4670791c41a08858f132c1">Подробнее...</a><br /></td></tr>
+<tr class="separator:a01cae61c8f4670791c41a08858f132c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock">
+<p class="definition">См. определение в файле <a class="el" href="vtk_8hpp_source.html">vtk.hpp</a> строка <a class="el" href="vtk_8hpp_source.html#l00009">9</a></p>
+</div><h2 class="groupheader">Методы</h2>
+<a id="a8ee8e51f34b9bca24c4991cf99e7ffab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ee8e51f34b9bca24c4991cf99e7ffab">&#9670;&nbsp;</a></span>add_cell_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::add_cell_data </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>data_cap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fname</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds cell data to saved vtk grid </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>data vector </td></tr>
+    <tr><td class="paramname">data_cap</td><td>data caption as it should appear in vtk </td></tr>
+    <tr><td class="paramname">fname</td><td>file name of saved vtk grid </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7725cf825e231f8ecb5ce7a945af6ec3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7725cf825e231f8ecb5ce7a945af6ec3">&#9670;&nbsp;</a></span>add_cell_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::add_cell_data </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>data_cap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds cell data to a stream </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>data vector </td></tr>
+    <tr><td class="paramname">data_cap</td><td>data caption as it should appear in vtk </td></tr>
+    <tr><td class="paramname">s</td><td>an opened stream</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Заметки</dt><dd>this method do not paste header of cell data section and don't care that insertion will be done into correct place </dd></dl>
+
+</div>
+</div>
+<a id="a266e1e09ba59ef7307dbbc86fe28368a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a266e1e09ba59ef7307dbbc86fe28368a">&#9670;&nbsp;</a></span>add_point_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::add_point_data </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>data_cap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fname</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds vertex data to saved vtk file </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>data vector </td></tr>
+    <tr><td class="paramname">data_cap</td><td>data caption as it should appear in vtk </td></tr>
+    <tr><td class="paramname">fname</td><td>saved vtk file name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adf952c6d7fdcae552ef05fa3798890ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf952c6d7fdcae552ef05fa3798890ca">&#9670;&nbsp;</a></span>add_point_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::add_point_data </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>data_cap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds vertex data to a stream </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>data vector </td></tr>
+    <tr><td class="paramname">data_cap</td><td>data caption as it should appear in vtk </td></tr>
+    <tr><td class="paramname">s</td><td>an opened stream</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Заметки</dt><dd>this method do not paste header of point data section and don't care that insertion will be done into correct place </dd></dl>
+
+</div>
+</div>
+<a id="a7082f41dd0aa4b847652f69f9988ba9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7082f41dd0aa4b847652f69f9988ba9d">&#9670;&nbsp;</a></span>append_cell_data_header()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::append_cell_data_header </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>data_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>froms and saves header of cell data section </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_size</td><td>data size which equals cells number </td></tr>
+    <tr><td class="paramname">s</td><td>an opened stream </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a295c4e83c042e2ff53a4a773c187a6ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a295c4e83c042e2ff53a4a773c187a6ee">&#9670;&nbsp;</a></span>append_header()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::append_header </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>caption</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>fs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds vtk caption </p>
+
+</div>
+</div>
+<a id="a01cae61c8f4670791c41a08858f132c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01cae61c8f4670791c41a08858f132c1">&#9670;&nbsp;</a></span>append_point_data_header()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::append_point_data_header </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>data_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>froms and saves header of point data section </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_size</td><td>data size which equals points number </td></tr>
+    <tr><td class="paramname">s</td><td>an opened stream </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a896ad169e213a445c7e7c9a1d4411745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a896ad169e213a445c7e7c9a1d4411745">&#9670;&nbsp;</a></span>append_points()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::VtkUtils::append_points </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classcfd_1_1Point.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>fs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds point list </p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов структуры находятся в файле:<ul>
+<li><a class="el" href="vtk_8hpp_source.html">vtk.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>

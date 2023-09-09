@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['igrid',['IGrid',['../classcfd_1_1IGrid.html',1,'cfd']]],
-  ['igrid1d',['IGrid1D',['../classcfd_1_1IGrid1D.html',1,'cfd']]],
-  ['igrid2d',['IGrid2D',['../classcfd_1_1IGrid2D.html',1,'cfd']]],
-  ['igrid3d',['IGrid3D',['../classcfd_1_1IGrid3D.html',1,'cfd']]]
+  ['csrmatrix',['CsrMatrix',['../classcfd_1_1CsrMatrix.html',1,'cfd']]],
+  ['csrstencil',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
 ];

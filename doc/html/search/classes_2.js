@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['point',['Point',['../classcfd_1_1Point.html',1,'cfd']]]
+  ['grid1d',['Grid1D',['../classcfd_1_1Grid1D.html',1,'cfd']]]
 ];

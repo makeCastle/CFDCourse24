@@ -1,4 +1,4 @@
-#include "slae/matrix_solver.hpp"
+#include "sparse_matrix_solver.hpp"
 
 #include <amgcl/backend/builtin.hpp>
 #include <amgcl/make_solver.hpp>
@@ -7,10 +7,12 @@
 #include <amgcl/relaxation/runtime.hpp>
 #include <amgcl/solver/runtime.hpp>
 
+using namespace cfd;
+
 class AmgcMatrixSolver::Impl{
 public:
 	using param_t = boost::property_tree::ptree;
-	using matrix_t = amgcl::backend::crs<double, int>;
+	using matrix_t = amgcl::backend::crs<double, size_t>;
 	using backend_t = amgcl::backend::builtin<double>;
 	using solver_t = amgcl::make_solver<
 		amgcl::amg<
@@ -57,9 +59,9 @@ void AmgcMatrixSolver::set_matrix(const CsrStencil& stencil, const std::vector<d
 	Impl::matrix_t amgcl_matrix;
 	amgcl_matrix.own_data = false;
 	amgcl_matrix.nrows = amgcl_matrix.ncols = stencil.n_rows();
-	amgcl_matrix.nnz = stencil.n_nonzero();
-	amgcl_matrix.ptr = const_cast<int*>(stencil.addr().data());
-	amgcl_matrix.col = const_cast<int*>(stencil.cols().data());
+	amgcl_matrix.nnz = stencil.n_nonzeros();
+	amgcl_matrix.ptr = const_cast<size_t*>(stencil.addr().data());
+	amgcl_matrix.col = const_cast<size_t*>(stencil.cols().data());
 	amgcl_matrix.val = const_cast<double*>(mat_values.data());
 
 	Impl::param_t prm;
