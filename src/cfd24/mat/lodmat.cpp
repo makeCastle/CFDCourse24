@@ -4,11 +4,11 @@ using namespace cfd;
 
 LodMatrix::LodMatrix(size_t n_rows): _data(n_rows){}
 
-const std::map<size_t, double>& LodMatrix::row(size_t i_row){
+const std::map<size_t, double>& LodMatrix::row(size_t i_row) const{
 	return _data.at(i_row);
 }
 
-void LodMatrix::add_to_entry(size_t irow, size_t icol, double value){
+void LodMatrix::add_value(size_t irow, size_t icol, double value){
 	std::map<size_t, double>& r = _data.at(irow);
 	auto found = r.find(icol);
 	if (found == r.end()){
@@ -47,4 +47,27 @@ size_t LodMatrix::n_nonzeros() const{
 bool LodMatrix::is_in_stencil(size_t irow, size_t icol) const{
 	const std::map<size_t, double>& r = _data.at(irow);
 	return r.find(icol) != r.end();
+}
+
+CsrMatrix LodMatrix::to_csr() const{
+	// build csr arrays
+	std::vector<size_t> addr{0};
+	std::vector<size_t> cols;
+	std::vector<double> vals;
+	for (size_t irow=0; irow<n_rows(); ++irow){
+		const std::map<size_t, double>& r = row(irow);
+		for (const auto& it: r){
+			cols.push_back(it.first);
+			vals.push_back(it.second);
+		}
+		addr.push_back(cols.size());
+	}
+
+	// construct csr matrix
+	CsrMatrix ret;
+	ret.set_stencil(std::move(addr), std::move(cols));
+	ret.set_values(std::move(vals));
+	ret.validate();
+
+	return ret;
 }

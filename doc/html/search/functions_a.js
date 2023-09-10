@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['tab_5fcell_5fpoint',['tab_cell_point',['../classcfd_1_1Grid1D.html#a020522d5c84beff26c14660c1e8d8f5b',1,'cfd::Grid1D::tab_cell_point()'],['../classcfd_1_1IGrid.html#a8ac14c843a8f840fd235ee4325f2fdf3',1,'cfd::IGrid::tab_cell_point()'],['../classcfd_1_1RegularGrid2D.html#ae6b74d5c6d18fefe80c9bb4dffa81120',1,'cfd::RegularGrid2D::tab_cell_point()']]]
+  ['tab_5fcell_5fpoint_0',['tab_cell_point',['../classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c',1,'cfd::Grid1D::tab_cell_point()'],['../classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18',1,'cfd::IGrid::tab_cell_point()'],['../classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416',1,'cfd::RegularGrid2D::tab_cell_point()']]],
+  ['to_5fcsr_1',['to_csr',['../classcfd_1_1LodMatrix.html#a0f0710f7078724f5b8dfc38c6afc69e5',1,'cfd::LodMatrix']]],
+  ['to_5flinear_5fpoint_5findex_2',['to_linear_point_index',['../classcfd_1_1RegularGrid2D.html#a32874bb445e8424591509cca4587ce71',1,'cfd::RegularGrid2D']]],
+  ['to_5fsplit_5fpoint_5findex_3',['to_split_point_index',['../classcfd_1_1RegularGrid2D.html#a8f12dd679684cf9a9f88129f031a4d3f',1,'cfd::RegularGrid2D']]]
 ];

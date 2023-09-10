@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['validate',['validate',['../classcfd_1_1CsrStencil.html#a332ca785c9527bb1d72d2fa333262b73',1,'cfd::CsrStencil::validate()'],['../classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2',1,'cfd::CsrMatrix::validate()']]],
-  ['vals',['vals',['../classcfd_1_1CsrMatrix.html#a66ca4f397341782ce109a1798c2c1e79',1,'cfd::CsrMatrix']]],
-  ['value',['value',['../classcfd_1_1CsrStencil.html#afffa55eedd53c1674b7c23cf11182bae',1,'cfd::CsrStencil::value()'],['../classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb',1,'cfd::CsrMatrix::value()'],['../classcfd_1_1IMatrix.html#a78b9049b10c8e3456e22594e280187b7',1,'cfd::IMatrix::value()'],['../classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7',1,'cfd::LodMatrix::value()']]],
-  ['vtk_2ehpp',['vtk.hpp',['../vtk_8hpp.html',1,'']]],
-  ['vtkutils',['VtkUtils',['../structcfd_1_1VtkUtils.html',1,'cfd']]]
+  ['paraview_0',['Paraview',['../howto.html#paraview',1,'']]],
+  ['ping_1',['ping',['../namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f',1,'cfd']]],
+  ['point_2',['point',['../classcfd_1_1Point.html',1,'cfd::Point'],['../classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3',1,'cfd::Grid1D::point()'],['../classcfd_1_1IGrid.html#ac3dd83357da0cf52de0b7924bb0a1fb6',1,'cfd::IGrid::point()'],['../classcfd_1_1RegularGrid2D.html#a9c12b42472b37b5b2ad2701c8f3d6082',1,'cfd::RegularGrid2D::point()'],['../classcfd_1_1Point.html#a9475aa4f6ea93cf91a706f9bc21834cb',1,'cfd::Point::Point()']]],
+  ['points_3',['points',['../classcfd_1_1Grid1D.html#aa90ba93cb9ea8d3cd17e128a4543de08',1,'cfd::Grid1D::points()'],['../classcfd_1_1IGrid.html#a7eee2ff3211592454ca5d1fb7cf26ab4',1,'cfd::IGrid::points()'],['../classcfd_1_1RegularGrid2D.html#a46446ff8f34962a780a50ff1f6e286b6',1,'cfd::RegularGrid2D::points()']]],
+  ['primitives_2ehpp_4',['primitives.hpp',['../primitives_8hpp.html',1,'']]],
+  ['print_5',['print',['../namespacecfd_1_1dbg.html#a137041b796a2b504bba0ed98ccd66a23',1,'cfd::dbg::print(const ISparseMatrix &amp;mat)'],['../namespacecfd_1_1dbg.html#ac0ea84d6b4ddd4ea730678029d5517a7',1,'cfd::dbg::print(const std::vector&lt; double &gt; &amp;vec)']]],
+  ['printer_2ehpp_6',['printer.hpp',['../printer_8hpp.html',1,'']]]
 ];

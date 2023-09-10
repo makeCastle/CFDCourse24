@@ -6,19 +6,19 @@
 namespace cfd{
 
 /**
- * Abstract Sparse Matrix interface
+ * @brief Abstract Sparse Matrix interface
  */
 class ISparseMatrix: public IMatrix{
 public:
 	virtual ~ISparseMatrix() = default;
 
 	/**
-	 * Gets number of entries in the stencil
+	 * @brief Gets number of entries in the stencil
 	 */
 	virtual size_t n_nonzeros() const = 0;
 
 	/**
-	 * Checks if entry in non-zero stencil
+	 * @brief Checks if entry in non-zero stencil
 	 *
 	 * @param irow  row index
 	 * @param icol  column index

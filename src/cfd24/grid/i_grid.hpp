@@ -7,42 +7,42 @@
 namespace cfd{
 
 /**
- * Any dimension grid interface
+ * @brief Any dimension grid interface
  */
 class IGrid{
 public:
 	virtual ~IGrid() = default;
 
-	/// number of geometric dimensions: 1, 2 or 3
+	/// @brief number of geometric dimensions: 1, 2 or 3
 	virtual size_t dim() const = 0;
 
-	/// number of grid points
+	/// @brief number of grid points
 	virtual size_t n_points() const = 0;
 
-	/// number of grid cells
+	/// @brief number of grid cells
 	virtual size_t n_cells() const = 0;
 
-	/// number of grid faces
+	/// @brief number of grid faces
 	virtual size_t n_faces() const = 0;
 
-	/// get point at i-th index
+	/// @brief get point at i-th index
 	virtual Point point(size_t ipoint) const = 0;
 
-	/// get list of all points
+	/// @brief get list of all points
 	virtual std::vector<Point> points() const = 0;
 
 	/**
-	 * cell->point connectivity table
+	 * @brief cell->point connectivity table
 	 *
 	 * @param icell  cell index
 	 *
-	 * For 1d grid points are ordered by x coordinate 
+	 * For 1d grid points are ordered by x coordinate \n
 	 * For 2d grid points have counter clockwise direction
 	 */
 	virtual std::vector<size_t> tab_cell_point(size_t icell) const = 0;
 
 	/**
-	 * Saves grid to vtk format
+	 * @brief Saves grid to vtk format
 	 *
 	 * @param fname  output filename
 	 */
@@ -51,7 +51,7 @@ public:
 
 
 /**
- * Abstract 1D grid
+ * @brief Abstract 1D grid
  */
 class IGrid1D: public IGrid{
 public:
@@ -61,7 +61,7 @@ public:
 };
 
 /**
- * Abstract 2D grid
+ * @brief Abstract 2D grid
  */
 class IGrid2D: public IGrid{
 public:
@@ -71,7 +71,7 @@ public:
 };
 
 /**
- * Abstract 3D grid
+ * @brief Abstract 3D grid
  */
 class IGrid3D: public IGrid{
 public:

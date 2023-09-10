@@ -1,3 +1,7 @@
 <map id="csrmat.hpp" name="csrmat.hpp">
-<area shape="rect" id="node2" href="$sparse__matrix__solver_8hpp.html" title="sparse_matrix_solver.hpp" alt="" coords="5,80,176,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="81,5,168,31"/>
+<area shape="rect" id="Node000002" href="$lodmat_8hpp.html" title=" " alt="" coords="5,79,92,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,42,63,80,59,76,101,38"/>
+<area shape="rect" id="Node000003" href="$sparse__matrix__solver_8hpp.html" title=" " alt="" coords="117,79,287,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,38,191,76,188,80,145,42"/>
 </map>

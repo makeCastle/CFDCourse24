@@ -11,17 +11,17 @@ TEST_CASE("LodMatrix", "[lodmat]"){
 	CHECK(m.n_nonzeros() == 0);
 
 	// m[0, 1] = 0.12;
-	m.add_to_entry(0, 1, 0.12);
+	m.add_value(0, 1, 0.12);
 	CHECK(m.n_nonzeros() == 1);
 	CHECK(m.value(0, 1) == 0.12);
 
 	// m[0, 1] += 0.12;
-	m.add_to_entry(0, 1, 0.1);
+	m.add_value(0, 1, 0.1);
 	CHECK(m.n_nonzeros() == 1);
 	CHECK(m.value(0, 1) == 0.22);
 
 	//m[1, 1] = -0.5;
-	m.add_to_entry(1, 1, -0.5);
+	m.add_value(1, 1, -0.5);
 	CHECK(m.n_nonzeros() == 2);
 	CHECK(m.value(1, 1) == -0.5);
 

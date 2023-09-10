@@ -6,5 +6,6 @@
 #include <fstream>
 #include "cfd24/cfd24.hpp"
 #include "cfd24/macros.hpp"
+#include "cfd24/debug/printer.hpp"
 
 #endif

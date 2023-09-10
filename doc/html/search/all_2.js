@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['cfd',['cfd',['../namespacecfd.html',1,'']]],
-  ['cfd24_2ehpp',['cfd24.hpp',['../cfd24_8hpp.html',1,'']]],
-  ['cfd_5fcommon_2ehpp',['cfd_common.hpp',['../cfd__common_8hpp.html',1,'']]],
-  ['cols',['cols',['../classcfd_1_1CsrStencil.html#a04c444dc7a6bcf45824d7d3892f8ff2c',1,'cfd::CsrStencil']]],
-  ['csrmat_2ehpp',['csrmat.hpp',['../csrmat_8hpp.html',1,'']]],
-  ['csrmatrix',['CsrMatrix',['../classcfd_1_1CsrMatrix.html',1,'cfd']]],
-  ['csrstencil',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
+  ['2_20уравнение_20пуассона_2009_2009_0',['2. Уравнение Пуассона (09.09)',['../notes.html#autotoc_md10',1,'']]],
+  ['2_2009_2009_1',['Лекция 2 (09.09)',['../tasks.html#autotoc_md18',1,'']]]
 ];

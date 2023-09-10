@@ -6,11 +6,11 @@
 namespace cfd{
 
 /**
- * Compressed sparsed row stencil.
- * A Matrix with filled stencil and zeros values;
+ * @brief 'Compressed sparsed row' stencil
  */
 class CsrStencil: public ISparseMatrix{
 public:
+	virtual ~CsrStencil() = default;
 	/**
 	 * @brief Fills CSR stencil by address and column vectors
 	 *
@@ -30,7 +30,7 @@ public:
 	const std::vector<size_t>& cols() const;
 
 	/**
-	 * Consistency check. Throws if invalid
+	 * @brief Consistency check. Throws if stencil structure is invalid
 	 */
 	virtual void validate() const;
 
@@ -45,7 +45,7 @@ private:
 };
 
 /**
- * Compressed sparsed row matrix format
+ * @brief 'Compressed sparsed row' matrix format
  */
 class CsrMatrix: public CsrStencil{
 public:

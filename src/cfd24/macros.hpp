@@ -4,6 +4,10 @@
 #include <stdexcept>
 #include <sstream>
 
+#if !defined(__PRETTY_FUNCTION__) && !defined(__GNUC__)
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#endif
+
 #define _THROW_NOT_IMP_ \
 {\
 	std::ostringstream oss; \

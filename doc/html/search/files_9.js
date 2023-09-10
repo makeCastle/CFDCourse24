@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sparse_5fmatrix_5fsolver_2ehpp',['sparse_matrix_solver.hpp',['../sparse__matrix__solver_8hpp.html',1,'']]]
+  ['regular_5fgrid2d_2ehpp_0',['regular_grid2d.hpp',['../regular__grid2d_8hpp.html',1,'']]]
 ];

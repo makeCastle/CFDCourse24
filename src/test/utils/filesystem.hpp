@@ -4,7 +4,7 @@
 #include <string>
 
 /**
- * Creates path to the file located in the test_data directory
+ * @brief Creates path to the file located in the test_data directory
  *
  * @param path  relative path to the file in the test data directory
  *

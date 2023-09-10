@@ -1,5 +1,9 @@
 <map id="cfd::CsrStencil" name="cfd::CsrStencil">
-<area shape="rect" id="node4" href="$classcfd_1_1CsrMatrix.html" title="{cfd::CsrMatrix\n||+ set_values()\lи 3 больше...\l}" alt="" coords="18,425,123,517"/>
-<area shape="rect" id="node2" href="$classcfd_1_1ISparseMatrix.html" title="{cfd::ISparseMatrix\n||+ ~ISparseMatrix()\lи 2 больше...\l}" alt="" coords="5,145,136,237"/>
-<area shape="rect" id="node3" href="$classcfd_1_1IMatrix.html" title="{cfd::IMatrix\n||+ ~IMatrix()\lи 2 больше...\l}" alt="" coords="20,5,121,97"/>
+<area shape="rect" id="Node000001" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="15,272,118,357"/>
+<area shape="rect" id="Node000004" href="$classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="15,405,118,491"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="69,371,69,405,64,405,64,371"/>
+<area shape="rect" id="Node000002" href="$classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="5,139,128,224"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,238,69,272,64,272,64,238"/>
+<area shape="rect" id="Node000003" href="$classcfd_1_1IMatrix.html" title="Abstract matrix interface." alt="" coords="15,5,118,91"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="69,104,69,138,64,138,64,104"/>
 </map>

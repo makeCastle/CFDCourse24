@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tasks_2emd',['tasks.md',['../tasks_8md.html',1,'']]],
-  ['themes_2emd',['themes.md',['../themes_8md.html',1,'']]]
+  ['sparse_5fmatrix_5fsolver_2ehpp_0',['sparse_matrix_solver.hpp',['../sparse__matrix__solver_8hpp.html',1,'']]]
 ];

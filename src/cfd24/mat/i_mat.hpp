@@ -6,7 +6,7 @@
 namespace cfd{
 
 /**
- * Abstract matrix interface
+ * @brief Abstract matrix interface
  */
 class IMatrix{
 public:

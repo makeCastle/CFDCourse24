@@ -6,7 +6,7 @@
 namespace cfd{
 
 /**
- * 1D grid with ordered points
+ * @brief 1D grid with ordered points
  */
 class Grid1D: public IGrid1D{
 public:

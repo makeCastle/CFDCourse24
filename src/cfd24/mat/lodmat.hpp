@@ -2,31 +2,32 @@
 #define MAT_LODMAT_HPP
 
 #include "cfd24/mat/i_sparse_mat.hpp"
+#include "cfd24/mat/csrmat.hpp"
 
 namespace cfd{
 
 /**
- * List of dictionaries sparse matrix format
+ * @brief 'List of dictionaries' sparse matrix format
  */
 class LodMatrix: public ISparseMatrix{
 public:
 	/**
-	 * Construct empty matrix
+	 * @brief Construct empty matrix
 	 *
 	 * @param n_rows number of rows
 	 */
 	LodMatrix(size_t n_rows);
 
 	/**
-	 * Get row values
+	 * @brief Get row values
 	 *
 	 * @param irow  row index
 	 * @return column->value dictionary
 	 */
-	const std::map<size_t, double>& row(size_t irow);
+	const std::map<size_t, double>& row(size_t irow) const;
 
 	/**
-	 * Adds value to the given matrix entry
+	 * @brief Adds value to the given matrix entry
 	 *
 	 * @param irow   row index
 	 * @param icol   column index
@@ -34,16 +35,23 @@ public:
 	 *
 	 * Performs Matrix[i, j] += value operation
 	 */
-	void add_to_entry(size_t irow, size_t icol, double value);
+	void add_value(size_t irow, size_t icol, double value);
 
 	/**
-	 * Removes row from sparse matrix stencil
+	 * @brief Removes row from sparse matrix stencil
 	 *
 	 * @param irow  row index
 	 *
 	 * All values at the given row will be equal to zero
 	 */
 	void remove_row(size_t irow);
+
+	/**
+	 * @brief converts to csr matrix format
+	 *
+	 * @return csr matrix
+	 */
+	CsrMatrix to_csr() const;
 
 	// overrides
 	size_t n_rows() const override;

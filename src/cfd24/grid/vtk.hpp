@@ -6,6 +6,9 @@
 
 namespace cfd{
 
+/**
+ * @brief Collection of vtk-writer utilities 
+ */
 struct VtkUtils{
 	/// adds vtk caption
 	static void append_header(std::string caption, std::ostream& fs);
@@ -59,7 +62,7 @@ struct VtkUtils{
 	 * @param s an opened stream
 	 *
 	 * @note this method do not paste header of point data section
-	 * and don't care that insertion will be done into correct place
+	 *       and don't care that insertion will be done into correct place
 	 */
 	static void add_point_data(const std::vector<double>& data, std::string data_cap, std::ostream& s);
 
@@ -70,8 +73,6 @@ struct VtkUtils{
 	 * @param s an opened stream
 	 */
 	static void append_point_data_header(size_t data_size, std::ostream& s);
-
-
 };
 
 }

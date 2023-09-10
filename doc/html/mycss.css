@@ -4,9 +4,9 @@
 div.line {
 	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	background-color: #fcf3cf ;
-	font-size: 12px;
+	font-size: 14px;
 	padding: 3px;
-	padding-left: 80px;
+	padding-left: 60px;
 }
 
 body {
@@ -40,3 +40,14 @@ div.contents {
 	font-size: 16px;
 }
 
+#side-nav {
+  left: 10px;
+}
+
+#nav-tree .label {
+  font: 16px var(--font-family-nav);
+}
+
+span.lineno{
+	background-color: #fcf3cf ;
+}

@@ -2,6 +2,7 @@ set (SRC
 	cfd24_test.cpp
 	grid_test.cpp
 	mat_test.cpp
+	poisson_solve_test.cpp
 
 	utils/filesystem.cpp
 )

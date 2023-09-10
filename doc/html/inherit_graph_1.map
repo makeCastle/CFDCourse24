@@ -1,8 +1,13 @@
-<map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
-<area shape="rect" id="node1" href="$classcfd_1_1IGrid.html" title="cfd::IGrid" alt="" coords="5,56,81,83"/>
-<area shape="rect" id="node2" href="$classcfd_1_1IGrid1D.html" title="cfd::IGrid1D" alt="" coords="129,5,223,32"/>
-<area shape="rect" id="node4" href="$classcfd_1_1IGrid2D.html" title="cfd::IGrid2D" alt="" coords="129,56,223,83"/>
-<area shape="rect" id="node6" href="$classcfd_1_1IGrid3D.html" title="cfd::IGrid3D" alt="" coords="129,107,223,133"/>
-<area shape="rect" id="node3" href="$classcfd_1_1Grid1D.html" title="cfd::Grid1D" alt="" coords="293,5,382,32"/>
-<area shape="rect" id="node5" href="$classcfd_1_1RegularGrid2D.html" title="cfd::RegularGrid2D" alt="" coords="271,56,404,83"/>
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="5,55,81,80"/>
+<area shape="rect" id="Node000001" href="$classcfd_1_1IGrid1D.html" title="Abstract 1D grid." alt="" coords="129,5,223,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="90,47,140,28,142,33,92,52"/>
+<area shape="rect" id="Node000003" href="$classcfd_1_1IGrid2D.html" title="Abstract 2D grid." alt="" coords="129,55,223,80"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="95,65,129,65,129,70,95,70"/>
+<area shape="rect" id="Node000005" href="$classcfd_1_1IGrid3D.html" title="Abstract 3D grid." alt="" coords="129,104,223,129"/>
+<area shape="poly" id="edge5_Node000000_Node000005" title=" " alt="" coords="92,82,142,101,140,106,90,87"/>
+<area shape="rect" id="Node000002" href="$classcfd_1_1Grid1D.html" title="1D grid with ordered points" alt="" coords="293,5,382,31"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="237,15,292,15,292,21,237,21"/>
+<area shape="rect" id="Node000004" href="$classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="271,55,404,80"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="236,65,270,65,270,70,236,70"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="cfd::IGrid2D" name="cfd::IGrid2D">
-<area shape="rect" id="node3" href="$classcfd_1_1RegularGrid2D.html" title="{cfd::RegularGrid2D\n||+ RegularGrid2D()\lи 7 больше...\l}" alt="" coords="5,285,139,377"/>
-<area shape="rect" id="node2" href="$classcfd_1_1IGrid.html" title="{cfd::IGrid\n||+ ~IGrid()\lи 8 больше...\l}" alt="" coords="21,5,123,97"/>
+<area shape="rect" id="Node000001" title="Abstract 2D grid." alt="" coords="17,139,119,224"/>
+<area shape="rect" id="Node000003" href="$classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="5,272,131,357"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="71,238,71,272,65,272,65,238"/>
+<area shape="rect" id="Node000002" href="$classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="17,5,119,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,104,71,138,65,138,65,104"/>
 </map>

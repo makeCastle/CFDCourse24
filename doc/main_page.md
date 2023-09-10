@@ -3,5 +3,5 @@
 - @subpage install
 - @subpage descr
 - @subpage howto
-- @subpage themes
+- @subpage notes
 - @subpage tasks

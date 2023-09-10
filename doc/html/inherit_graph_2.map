@@ -1,7 +1,11 @@
-<map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
-<area shape="rect" id="node1" href="$classcfd_1_1IMatrix.html" title="cfd::IMatrix" alt="" coords="5,31,93,57"/>
-<area shape="rect" id="node2" href="$classcfd_1_1ISparseMatrix.html" title="cfd::ISparseMatrix" alt="" coords="141,31,271,57"/>
-<area shape="rect" id="node3" href="$classcfd_1_1CsrStencil.html" title="cfd::CsrStencil" alt="" coords="319,5,428,32"/>
-<area shape="rect" id="node5" href="$classcfd_1_1LodMatrix.html" title="cfd::LodMatrix" alt="" coords="321,56,426,83"/>
-<area shape="rect" id="node4" href="$classcfd_1_1CsrMatrix.html" title="cfd::CsrMatrix" alt="" coords="476,5,581,32"/>
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcfd_1_1IMatrix.html" title="Abstract matrix interface." alt="" coords="5,31,93,56"/>
+<area shape="rect" id="Node000001" href="$classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="141,31,271,56"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="107,41,141,41,141,46,107,46"/>
+<area shape="rect" id="Node000002" href="$classcfd_1_1CsrStencil.html" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="319,5,428,31"/>
+<area shape="poly" id="edge7_Node000001_Node000002" title=" " alt="" coords="284,29,318,24,319,29,285,34"/>
+<area shape="rect" id="Node000004" href="$classcfd_1_1LodMatrix.html" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="321,55,426,80"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="285,52,321,57,320,62,284,57"/>
+<area shape="rect" id="Node000003" href="$classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="476,5,581,31"/>
+<area shape="poly" id="edge8_Node000002_Node000003" title=" " alt="" coords="442,15,476,15,476,21,442,21"/>
 </map>

@@ -68,3 +68,14 @@ void RegularGrid2D::save_vtk(std::string fname) const{
 		fs << 9 << std::endl;
 
 }
+
+size_t RegularGrid2D::to_linear_point_index(split_index_t point_split_index) const{
+	return point_split_index[0] + _x.size() * point_split_index[1];
+}
+
+auto RegularGrid2D::to_split_point_index(size_t ipoint) const -> split_index_t{
+	return split_index_t{
+		ipoint % _x.size(),
+		ipoint / _x.size()
+	};
+}
