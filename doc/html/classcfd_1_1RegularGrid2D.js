@@ -10,5 +10,5 @@ var classcfd_1_1RegularGrid2D =
     [ "save_vtk", "classcfd_1_1RegularGrid2D.html#a9a150d3282b819b66d900c169cf77fca", null ],
     [ "tab_cell_point", "classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416", null ],
     [ "to_linear_point_index", "classcfd_1_1RegularGrid2D.html#a32874bb445e8424591509cca4587ce71", null ],
-    [ "to_split_point_index", "classcfd_1_1RegularGrid2D.html#a8f12dd679684cf9a9f88129f031a4d3f", null ]
+    [ "to_split_point_index", "classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653", null ]
 ];

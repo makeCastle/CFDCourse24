@@ -114,26 +114,6 @@ $(document).ready(function(){initNavTree('howto.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Работа с инфраструктурой проекта</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#git">Git</a><ul><li class="level2"><a href="#autotoc_md0">Основные команды</a></li>
-<li class="level2"><a href="#autotoc_md1">Порядок работы с репозиторием CFDCourse</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#autotoc_md2">Сборка и запуск</a><ul><li class="level2"><a href="#autotoc_md3">Запуск конкретного теста</a></li>
-<li class="level2"><a href="#release_build">Сборка релизной версии</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#paraview">Paraview</a><ul><li class="level2"><a href="#paraview-1d">Отображение одномерных графиков</a></li>
-<li class="level2"><a href="#autotoc_md4">Отображение изолиний для двумерного поля</a></li>
-<li class="level2"><a href="#autotoc_md5">Отображение двумерного поля в 3D</a></li>
-<li class="level2"><a href="#autotoc_md6">Отображение числовых данных для точек и ячеек</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#autotoc_md7">CMake</a><ul><li class="level2"><a href="#autotoc_md8">Добавление файла в проект</a></li>
-</ul>
-</li>
-</ul>
-</div>
 <div class="textblock"><h1><a class="anchor" id="git"></a>
 Git</h1>
 <h2><a class="anchor" id="autotoc_md0"></a>
@@ -191,8 +171,13 @@ Git</h1>
 Запуск конкретного теста</h2>
 <p>По умолчанию программа cfd_test прогоняет все объявленные в проекте тесты. Иногда может возникнуть необходимость запустить только конкретный тест в целях отладки или проверки. Для этого нужно передать программе аргумент с тегом для этого теста.</p>
 <p>Тег для теста &ndash; это второй аргумент в макросе <code>TEST_CASE</code>, записанный в квадратных скобках. Добавлять нужно вместе со скобками. Например, "[ping]".</p>
-<p>Чтобы добавить аргумент в VisualStudio, необходимо в контекстном меню проекта cfd_test выбрать опции отладки и там в поле Аргументы прописать нужный тэг.</p>
-<p>В VsCode аргументы нужно добавлять в файле <code></code>.vscode/launch.json в поле args (см. картинку с <a class="el" href="install.html#vscode_build">настройками launch.json</a>).</p>
+<p>Чтобы добавить аргумент в VisualStudio, необходимо в контекстном меню проекта cfd_test выбрать опции отладки </p><div class="image">
+<img src="win_debug_args_1.png" alt=""/>
+</div>
+<p> и там в поле Аргументы прописать нужный тэг. </p><div class="image">
+<img src="win_debug_args_2.png" alt=""/>
+</div>
+<p>В VsCode аргументы нужно добавлять в файле <code></code>.vscode/launch.json в поле args в кавычках (см. картинку с <a class="el" href="install.html#vscode_build">настройками launch.json</a>).</p>
 <h2><a class="anchor" id="release_build"></a>
 Сборка релизной версии</h2>
 <p>TODO</p>
@@ -291,7 +276,10 @@ CMake</h1>
 <li>Если файл добавляется в тестовое приложение, то <code>src/test/CMakeLists.txt</code> </li>
 </ul>
 <p>Заголовочные файлы (расширение hpp) прописывать в список <code>HEADERS</code>, компилируемые (расширение cpp) прописывать в <code>SRC</code>.</p>
-<p>При работе с VisualStudio (если он запущен) после изменения cmake-файла необходимо построить проект <code>ZERO_CHECK</code> вызвав контекстное меню и вызвав <code>Build</code> для обновления файлового дерева. В результате должен появится диалог с предложение обновить проект. Надо нажать Reload All (Обновить всё). </p>
+<p>При работе с VisualStudio (если он запущен) после изменения cmake-файла необходимо построить проект <code>ZERO_CHECK</code> вызвав контекстное меню и вызвав <code>Build</code> для обновления файлового дерева. </p><div class="image">
+<img src="win_zero_check_build.png" alt="" width="400"/>
+</div>
+<p> В результате должен появится диалог с предложение обновить проект. Надо нажать Reload All (Обновить всё). </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

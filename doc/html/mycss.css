@@ -28,6 +28,18 @@ div.toc li{
         font-size: 16px;
 }
 
+h1{
+	background-color: #c2cde4;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 4px;
+}
+
+h2{
+	background-color: #e8ecf3;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
 
 div.contents {
 	margin-bottom: 10px;
@@ -41,7 +53,7 @@ div.contents {
 }
 
 #side-nav {
-  left: 10px;
+  left: auto;
 }
 
 #nav-tree .label {

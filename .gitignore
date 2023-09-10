@@ -1,6 +1,7 @@
 build*/
 ~*
 *.swp
-out
+out/
 .vs/
+.vscode/
 .syntastic_cpp_config_file
