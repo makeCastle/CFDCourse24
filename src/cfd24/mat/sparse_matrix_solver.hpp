@@ -22,7 +22,7 @@ public:
 	 *
 	 * @param mat  target matrix
 	 *
-	 * Matrix should not be deleted until this class remains actual
+	 * Matrix will be copied to the internal structure and can be destroyed
 	 */
 	void set_matrix(const CsrMatrix& mat);
 
@@ -32,7 +32,7 @@ public:
 	 * @param mat_stencil  csr matrix stencil
 	 * @param mat_values   matrix values
 	 *
-	 * mat_stencil and mat_values should not be deleted until this class remains actual
+	 * Matrix will be copied to the internal structure and can be destroyed
 	 */
 	void set_matrix(const CsrStencil& mat_stencil, const std::vector<double>& mat_values);
 

@@ -32,6 +32,18 @@ if(NOT amgcl_POPULATED)
 endif()
 include_directories(${amgcl_SOURCE_DIR})
 
+# ------- ghc
+FetchContent_Declare(
+	ghc
+	GIT_REPOSITORY https://github.com/gulrak/filesystem
+	GIT_TAG v1.5.14
+)
+FetchContent_GetProperties(ghc)
+if(NOT ghc_POPULATED)
+	FetchContent_Populate(ghc)
+endif()
+include_directories(${ghc_SOURCE_DIR}/include)
+
 
 # build all binaries to build/bin
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

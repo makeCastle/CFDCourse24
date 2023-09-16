@@ -1,7 +1,11 @@
 #include "vtk.hpp"
 #include <sstream>
+#include <iomanip>
+#include "ghc/filesystem.hpp"
 
 using namespace cfd;
+
+namespace fs = ghc::filesystem;
 
 namespace{
 
@@ -33,7 +37,16 @@ std::ostream& vtk_string(std::ostream& s, const std::vector<double>& v){
 	return s;
 }
 
-
+void create_directory(std::string path, bool purge){
+	if (fs::is_directory(path)){
+		if (purge){
+			fs::remove_all(path);
+		} else {
+			return;
+		}
+	}
+	fs::create_directory(path);
+}
 
 }
 
@@ -119,4 +132,40 @@ void VtkUtils::append_cell_data_header(size_t data_size, std::ostream& os){
 
 void VtkUtils::append_point_data_header(size_t data_size, std::ostream& os){
 	os << "POINT_DATA " << data_size << std::endl;
+}
+
+VtkUtils::TimeDependentWriter::TimeDependentWriter(std::string stem): _stem(stem), _series_fn(stem+".vtk.series"){
+	create_directory(stem, true);
+
+	std::ofstream ofs(_series_fn);
+	if (!ofs) throw std::runtime_error("Failed to open " + _series_fn + " for writing");
+
+	ofs << "{" << std::endl;
+	ofs << "  \"file-series-version\" : \"1.0\"," << std::endl;
+	ofs << "  \"files\" : [" << std::endl;
+	ofs << "  ]" << std::endl;
+	ofs << "}" << std::endl;
+}
+
+std::string VtkUtils::TimeDependentWriter::add(double tm){
+	std::ostringstream fn;
+	fn << std::setfill('0') << std::setw(8) << std::fixed << std::setprecision(4) << tm << ".vtk";
+	std::string ret = (fs::path(_stem) / fs::path(fn.str())).string();
+
+	std::fstream ofs(_series_fn);
+	if (!ofs) throw std::runtime_error("Failed to open " + _series_fn + " for writing");
+	ofs.seekp(0, std::ios_base::end);
+	size_t pos = ofs.tellp();
+	if (_first_entry){
+		ofs.seekp(pos-6, std::ios_base::beg);
+		_first_entry = false;
+	} else {
+		ofs.seekp(pos-7, std::ios_base::beg);
+		ofs << "," << std::endl;
+	}
+	ofs << "    {\"name\": \"" << ret << "\", \"time\": " << tm << "}" << std::endl;
+	ofs << "  ]" << std::endl;
+	ofs << "}" << std::endl;
+
+	return ret;
 }

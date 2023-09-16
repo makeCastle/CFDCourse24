@@ -12,10 +12,10 @@ class IMatrix{
 public:
 	virtual ~IMatrix() = default;
 
-	/// number of rows
+	/// @brief number of rows
 	virtual size_t n_rows() const = 0;
 
-	/// gets value at given address
+	/// @brief gets value at given address
 	virtual double value(size_t irow, size_t icol) const = 0;
 };
 

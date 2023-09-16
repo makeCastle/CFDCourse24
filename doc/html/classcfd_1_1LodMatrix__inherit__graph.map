@@ -1,5 +1,5 @@
 <map id="cfd::LodMatrix" name="cfd::LodMatrix">
-<area shape="rect" id="Node000001" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="15,272,118,357"/>
+<area shape="rect" id="Node000001" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="11,272,122,357"/>
 <area shape="rect" id="Node000002" href="$classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="5,139,128,224"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,238,69,272,64,272,64,238"/>
 <area shape="rect" id="Node000003" href="$classcfd_1_1IMatrix.html" title="Abstract matrix interface." alt="" coords="15,5,118,91"/>
