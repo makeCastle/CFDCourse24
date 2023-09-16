@@ -127,7 +127,7 @@ Inheritance diagram for cfd::LodMatrix:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1LodMatrix__inherit__graph.png" border="0" usemap="#acfd_1_1LodMatrix_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1LodMatrix_inherit__map" id="acfd_1_1LodMatrix_inherit__map">
-<area shape="rect" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="15,272,118,357"/>
+<area shape="rect" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="11,272,122,357"/>
 <area shape="rect" href="classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="5,139,128,224"/>
 <area shape="poly" title=" " alt="" coords="69,238,69,272,64,272,64,238"/>
 <area shape="rect" href="classcfd_1_1IMatrix.html" title="Abstract matrix interface." alt="" coords="15,5,118,91"/>
@@ -146,6 +146,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6032a06bac8abbbcaf2a051706202373" id="r_a6032a06bac8abbbcaf2a051706202373"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a6032a06bac8abbbcaf2a051706202373">add_value</a> (size_t irow, size_t icol, double <a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">value</a>)</td></tr>
 <tr class="memdesc:a6032a06bac8abbbcaf2a051706202373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value to the given matrix entry.  <br /></td></tr>
 <tr class="separator:a6032a06bac8abbbcaf2a051706202373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd829d68f6e6948d4ba2452a345c90dc" id="r_acd829d68f6e6948d4ba2452a345c90dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#acd829d68f6e6948d4ba2452a345c90dc">set_value</a> (size_t irow, size_t icol, double <a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">value</a>)</td></tr>
+<tr class="memdesc:acd829d68f6e6948d4ba2452a345c90dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets value to the given matrix entry.  <br /></td></tr>
+<tr class="separator:acd829d68f6e6948d4ba2452a345c90dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac618b3ab98607fd348d6f1d618fa1a3a" id="r_ac618b3ab98607fd348d6f1d618fa1a3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#ac618b3ab98607fd348d6f1d618fa1a3a">remove_value</a> (size_t irow, size_t icol)</td></tr>
+<tr class="memdesc:ac618b3ab98607fd348d6f1d618fa1a3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes entry from the matrix stencil.  <br /></td></tr>
+<tr class="separator:ac618b3ab98607fd348d6f1d618fa1a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd6ca675eb22b1013fdbd0dc9b680826" id="r_abd6ca675eb22b1013fdbd0dc9b680826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826">remove_row</a> (size_t irow)</td></tr>
 <tr class="memdesc:abd6ca675eb22b1013fdbd0dc9b680826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes row from sparse matrix stencil.  <br /></td></tr>
 <tr class="separator:abd6ca675eb22b1013fdbd0dc9b680826"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -381,6 +387,43 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac618b3ab98607fd348d6f1d618fa1a3a" name="ac618b3ab98607fd348d6f1d618fa1a3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac618b3ab98607fd348d6f1d618fa1a3a">&#9670;&#160;</a></span>remove_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::LodMatrix::remove_value </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes entry from the matrix stencil. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index </td></tr>
+    <tr><td class="paramname">icol</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a34ea6ba28c83770b69880a46819973ed" name="a34ea6ba28c83770b69880a46819973ed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a34ea6ba28c83770b69880a46819973ed">&#9670;&#160;</a></span>row()</h2>
 
@@ -405,6 +448,51 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>column-&gt;value dictionary </dd></dl>
+
+</div>
+</div>
+<a id="acd829d68f6e6948d4ba2452a345c90dc" name="acd829d68f6e6948d4ba2452a345c90dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd829d68f6e6948d4ba2452a345c90dc">&#9670;&#160;</a></span>set_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::LodMatrix::set_value </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets value to the given matrix entry. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>row index </td></tr>
+    <tr><td class="paramname">icol</td><td>column index </td></tr>
+    <tr><td class="paramname">value</td><td>value to be set</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Zero value will not be removed from the stencil. Use <a class="el" href="classcfd_1_1LodMatrix.html#ac618b3ab98607fd348d6f1d618fa1a3a" title="Removes entry from the matrix stencil.">LodMatrix::remove_value()</a> function to remove from the stencil </p>
 
 </div>
 </div>

@@ -3,6 +3,7 @@ set (SRC
 	grid_test.cpp
 	mat_test.cpp
 	poisson_solve_test.cpp
+	transport_solve_test.cpp
 
 	utils/filesystem.cpp
 )

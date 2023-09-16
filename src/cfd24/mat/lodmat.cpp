@@ -18,6 +18,19 @@ void LodMatrix::add_value(size_t irow, size_t icol, double value){
 	}
 }
 
+void LodMatrix::set_value(size_t irow, size_t icol, double value){
+	std::map<size_t, double>& r = _data.at(irow);
+	r[icol] = value;
+}
+
+void LodMatrix::remove_value(size_t irow, size_t icol){
+	std::map<size_t, double>& r = _data.at(irow);
+	auto found = r.find(icol);
+	if (found != r.end()){
+		r.erase(found);
+	}
+}
+
 void LodMatrix::remove_row(size_t irow){
 	_data.at(irow).clear();
 }

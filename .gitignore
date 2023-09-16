@@ -2,6 +2,7 @@ build*/
 ~*
 *.swp
 out/
+a.gdb
 .vs/
 .vscode/
 .syntastic_cpp_config_file
