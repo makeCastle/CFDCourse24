@@ -155,25 +155,28 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
     \end{equation*}
 </p>
 <p> Четрые угловые точки определяются как  </p><p class="formulaDsp">
-\begin{equation}
-        \label{eq:tasks_k2ij}
+\begin{equation*}
         i[k], j[k] = (0, 0), \, (0, n_y), \, (n_x, n_y), \, (n_x, 0)
-    \end{equation}
+    \end{equation*}
 </p>
 <p> Граничные неугловые точки:  </p><p class="formulaDsp">
 \begin{equation*}
-        i[k], j[k] =
-            \left(\overline{\left(1,n_x-1\right)}, 0\right), \,
-            \left(n_x, \overline{\left(1,n_y-1\right)}\right), \,
-            \left(\overline{\left(1, n_x-1\right)}, n_y\right), \,
-            \left(0, \overline{\left(1,n_y-1\right)}\right)
+        \begin{array}{lll}
+            i[k], j[k] =&amp; \overline{1,n_x-1}, 0;    &amp; \text{нижняя сторона},\\
+                        &amp; n_x, \overline{1,n_y-1};  &amp; \text{правая сторона},\\
+                        &amp; \overline{1, n_x-1}, n_y; &amp; \text{верхняя сторона},\\
+                        &amp; 0, \overline{1,n_y-1};    &amp; \text{левая сторона}.
+        \end{array}
     \end{equation*}
 </p>
-<p> Функции, переводящие сквозной индекс в пару \(i,j\) имеют вид  </p><p class="formulaDsp">
-\begin{align*}
-        &amp;i[k] = {\rm mod}\left(k, \left(n_x+1\right)\right), \quad \text{// остаток от деления}.\\
-        &amp;j[k] = \lfloor k / \left(n_x+1\right)\rfloor, \quad \text{// целая часть от деления};\\
-    \end{align*}
+<p> Функции, переводящие сквозной индекс в пару \(i,j\), имеют вид  </p><p class="formulaDsp">
+\begin{equation}
+        \label{eq:tasks_k2ij}
+        \begin{array}{ll}
+            i[k] = {\rm mod}\left(k, \left(n_x+1\right)\right), &amp; \text{// остаток от деления},\\
+            j[k] = \lfloor k / \left(n_x+1\right)\rfloor,       &amp;\text{// целая часть от деления}.\\
+        \end{array}
+    \end{equation}
 </p>
 <p class="startli">Использовать класс <a class="el" href="classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with">cfd::RegularGrid2D</a> для задания сетки. Функции перевода индексов узлов из сквозных в парные и обратно реализованы в классе двумерной регулярной сетки:</p><ul>
 <li><a class="el" href="classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653" title="Converts linear point index to [ix, iy] point index.">cfd::RegularGrid2D::to_split_point_index</a></li>
@@ -218,7 +221,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 </div>
 <p>Точным решением будет функция  </p><p class="formulaDsp">
 \begin{equation*}
-    u^e(x, y, t) = u_0(x-Ut, y)
+    u^e(x, y, t) = u_0(x-t, y)
 \end{equation*}
 </p>
 <p>То есть этот столбик будет двигаться вправо с единичной скоростью и за время 2 полностью покинет расчётную область.</p>
@@ -252,8 +255,8 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 <p>Использовать противопотоковую явную схему:  </p><p class="formulaDsp">
 \begin{equation*}
     \frac{\hat u_k - u_k}{\tau}
-        + U_k \frac{u_k - u_{\upx{k}}}{h_x}
-        + V_k \frac{u_k - u_{\upy{k}}}{h_y} = 0
+        + |U_k| \frac{u_k - u_{\upx{k}}}{h_x}
+        + |V_k| \frac{u_k - u_{\upy{k}}}{h_y} = 0
 \end{equation*}
 </p>
 <p>Здесь \(\upx{k}\), \(\upy{k}\) &ndash; значения индексов, расположенных против потока отностительно узла \(k\) в направлениях \(x\) и \(y\) соответственно.</p>
@@ -270,6 +273,21 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
           k[i, j+1], &amp; \quad V_k &lt; 0.\\
       \end{cases}
 \end{align*}
+</p>
+<p>В схеме скорости переноса взяты по абсолютному значению. Это связано с зависимостью направления конечной разности от знака скорости. Так если \(U_k &gt; 0\), то для дискретизации производной по \(x\) используется разность назад:  </p><p class="formulaDsp">
+\begin{equation*}
+    U\dfr{u}{x} \approx U_k\frac{u_{k[i, j]} - u_{k[i-1, j]}}{h_x}
+    = |U_k|\frac{u_{k[i, j]} - u_{k[i-1, j]}}{h_x}
+    = |U_k|\frac{u_{k[i, j]} - u_\upx{k}}{h_x}
+\end{equation*}
+</p>
+<p> Если же \(U_k &lt; 0\), то используется разность вперёд  </p><p class="formulaDsp">
+\begin{equation*}
+    U\dfr{u}{x} \approx U_k\frac{u_{k[i+1, j]} - u_{k[i, j]}}{h_x}
+    = -U_k\frac{u_{k[i, j]} - u_{k[i+1, j]}}{h_x} 
+    = |U_k|\frac{u_{k[i, j]} - u_{k[i+1, j]}}{h_x} 
+    = |U_k|\frac{u_{k[i, j]} - u_\upx{k}}{h_x} 
+\end{equation*}
 </p>
 <p>На границах использовать условия первого рода. Можно просто нули, поскольку они соответствуют постановке. </p>
 </div></div><!-- contents -->

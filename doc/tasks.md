@@ -35,22 +35,25 @@
         \end{cases}
     \f}
     Четрые угловые точки определяются как
-    \f{equation}{
-        \label{eq:tasks_k2ij}
+    \f{equation*}{
         i[k], j[k] = (0, 0), \, (0, n_y), \, (n_x, n_y), \, (n_x, 0)
     \f}
     Граничные неугловые точки:
     \f{equation*}{
-        i[k], j[k] =
-            \left(\overline{\left(1,n_x-1\right)}, 0\right), \,
-            \left(n_x, \overline{\left(1,n_y-1\right)}\right), \,
-            \left(\overline{\left(1, n_x-1\right)}, n_y\right), \,
-            \left(0, \overline{\left(1,n_y-1\right)}\right)
+        \begin{array}{lll}
+            i[k], j[k] =& \overline{1,n_x-1}, 0;    & \text{нижняя сторона},\\
+                        & n_x, \overline{1,n_y-1};  & \text{правая сторона},\\
+                        & \overline{1, n_x-1}, n_y; & \text{верхняя сторона},\\
+                        & 0, \overline{1,n_y-1};    & \text{левая сторона}.
+        \end{array}
     \f}
-    Функции, переводящие сквозной индекс в пару \f(i,j\f) имеют вид
-    \f{align*}{
-        &i[k] = {\rm mod}\left(k, \left(n_x+1\right)\right), \quad \text{// остаток от деления}.\\
-        &j[k] = \lfloor k / \left(n_x+1\right)\rfloor, \quad \text{// целая часть от деления};\\
+    Функции, переводящие сквозной индекс в пару \f(i,j\f), имеют вид
+    \f{equation}{
+        \label{eq:tasks_k2ij}
+        \begin{array}{ll}
+            i[k] = {\rm mod}\left(k, \left(n_x+1\right)\right), & \text{// остаток от деления},\\
+            j[k] = \lfloor k / \left(n_x+1\right)\rfloor,       &\text{// целая часть от деления}.\\
+        \end{array}
     \f}
 
     Использовать класс cfd::RegularGrid2D для задания сетки.
@@ -102,7 +105,7 @@
 
 Точным решением будет функция
 \f{equation*}{
-    u^e(x, y, t) = u_0(x-Ut, y)
+    u^e(x, y, t) = u_0(x-t, y)
 \f}
 
 То есть этот столбик будет двигаться вправо с единичной
@@ -142,8 +145,8 @@
 Использовать противопотоковую явную схему:
 \f{equation*}{
     \frac{\hat u_k - u_k}{\tau}
-        + U_k \frac{u_k - u_{\upx{k}}}{h_x}
-        + V_k \frac{u_k - u_{\upy{k}}}{h_y} = 0
+        + |U_k| \frac{u_k - u_{\upx{k}}}{h_x}
+        + |V_k| \frac{u_k - u_{\upy{k}}}{h_y} = 0
 \f}
 
 Здесь \f(\upx{k}\f), \f(\upy{k}\f) -- 
@@ -166,6 +169,23 @@
           k[i, j-1], & \quad V_k \geq 0, \\
           k[i, j+1], & \quad V_k < 0.\\
       \end{cases}
+\f}
+
+В схеме скорости переноса взяты по абсолютному значению.
+Это связано с зависимостью направления конечной разности от знака скорости.
+Так если \f(U_k > 0\f), то для дискретизации производной по \f(x\f) используется разность
+назад:
+\f{equation*}{
+    U\dfr{u}{x} \approx U_k\frac{u_{k[i, j]} - u_{k[i-1, j]}}{h_x}
+    = |U_k|\frac{u_{k[i, j]} - u_{k[i-1, j]}}{h_x}
+    = |U_k|\frac{u_{k[i, j]} - u_\upx{k}}{h_x}
+\f}
+Если же \f(U_k < 0\f), то используется разность вперёд
+\f{equation*}{
+    U\dfr{u}{x} \approx U_k\frac{u_{k[i+1, j]} - u_{k[i, j]}}{h_x}
+    = -U_k\frac{u_{k[i, j]} - u_{k[i+1, j]}}{h_x} 
+    = |U_k|\frac{u_{k[i, j]} - u_{k[i+1, j]}}{h_x} 
+    = |U_k|\frac{u_{k[i, j]} - u_\upx{k}}{h_x} 
 \f}
 
 На границах использовать условия первого рода. Можно просто нули, поскольку они соответствуют постановке.
