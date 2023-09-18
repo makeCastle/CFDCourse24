@@ -25,10 +25,14 @@
 4. Откройте терминал (git bash в Windows).
 
 5. С помощью команды cd в терминале перейдите в папку для репозиториев
+   \code
    > cd D:/git_repos
+   \endcode
 
 6. Клонируйте репозиторий
+   \code
    > git clone https://github.com/kalininei/CFDCourse24
+   \endcode
    В директории (D:/git_repos в примере) появится папка CFDCourse24, которая является корневой папкой проекта
 
 

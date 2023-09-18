@@ -30,6 +30,11 @@ MathJax.Hub.Config({
     sfrac: ["{\\left.#1\\middle/#2\\right.}",2],
     dsfr: ["{\\left.\\partial #1\\middle/\\partial#2\\right.}",2],
     FL: ["{#1\\cdot10^{#2}}",2],
+    eps: "{\\varepsilon}",
+    hence: "{\\Rightarrow}",
+    imi: "{\\mathbf{i}}",
+    upx: ["{\\mathrm{upx}\\left[#1\\right]}",1],
+    upy: ["{\\mathrm{upy}\\left[#1\\right]}",1],
   } }
 });
 MathJax.Hub.Config({
@@ -114,10 +119,10 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Задания для самостоятельной работы</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md17"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md37"></a>
 Лекция 1 (02.09)</h1>
 <p>Собрать проет cfd на своей системе и разобраться с его основными принципами</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Лекция 2 (09.09)</h1>
 <ol type="1">
 <li>Построить график, подтверждающий второй порядок точности <a class="el" href="notes.html#poisson1d_fdm">расчётной схемы</a></li>
@@ -134,9 +139,10 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
    \end{equation*}
 </p>
 <p> где  </p><p class="formulaDsp">
-\[
+\begin{equation}
+        \label{eq:tasks_ij2k}
         k[i, j] = i + (n_x+1) j
-   \]
+   \end{equation}
 </p>
 <p> &ndash; функция, переводящая парный \((i,j)\) индекс узла регурярной сетки ( \(i\) для оси x, \(j\) для оси y) в сквозной индекс \(k\) сеточного вектора, \(n_x\) &ndash; количество ячеек сетки в направлении x.</p>
 <p class="startli">При вычислении весов \(w_k\) для вычисления среднеквадратичного отклонения учесть наличие граничных и угловых точек:  </p><p class="formulaDsp">
@@ -149,9 +155,10 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
     \end{equation*}
 </p>
 <p> Четрые угловые точки определяются как  </p><p class="formulaDsp">
-\begin{equation*}
+\begin{equation}
+        \label{eq:tasks_k2ij}
         i[k], j[k] = (0, 0), \, (0, n_y), \, (n_x, n_y), \, (n_x, 0)
-    \end{equation*}
+    \end{equation}
 </p>
 <p> Граничные неугловые точки:  </p><p class="formulaDsp">
 \begin{equation*}
@@ -172,9 +179,99 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 <li><a class="el" href="classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653" title="Converts linear point index to [ix, iy] point index.">cfd::RegularGrid2D::to_split_point_index</a></li>
 <li><a class="el" href="classcfd_1_1RegularGrid2D.html#a32874bb445e8424591509cca4587ce71" title="Converts split [ix, iy] point index to linear point index.">cfd::RegularGrid2D::to_linear_point_index</a></li>
 </ul>
-<p class="startli">В случае, если решатель системы линейных уравнений не решает построенную матрицу, использовать функцию <a class="el" href="namespacecfd_1_1dbg.html#a137041b796a2b504bba0ed98ccd66a23" title="prints sparse matrix to std::cout">cfd::dbg::print</a> для отлаточной печати матрицы в консоль (размерность задачи должна быть небольшой). </p>
+<p class="startli">В случае, если решатель системы линейных уравнений не решает построенную матрицу, использовать функцию <a class="el" href="namespacecfd_1_1dbg.html#a137041b796a2b504bba0ed98ccd66a23" title="prints sparse matrix to std::cout">cfd::dbg::print</a> для отлаточной печати матрицы в консоль (размерность задачи должна быть небольшой).</p>
 </li>
 </ol>
+<h1><a class="anchor" id="autotoc_md39"></a>
+Лекция 3 (16.09)</h1>
+<h2><a class="anchor" id="autotoc_md40"></a>
+Постановка задачи</h2>
+<p>Написать двумерный решатель для уравнения переноса  </p><p class="formulaDsp">
+\begin{equation*}
+    \dfr{u}{t} + U \dfr{u}{x} + V \dfr{u}{y} = 0.
+\end{equation*}
+</p>
+<p>Решение проводить в квадрате \(x,y\in[-1,1]\).</p>
+<p>Требуется</p><ul>
+<li>расчитать и нарисовать в Paraview нестационарное решение (см. <a class="el" href="howto.html#paraview-2d">Отображение двумерного поля в 3D</a>);</li>
+<li>построить график, иллюстрирующий увеличение нормы ошибки с продвижением по времени;</li>
+<li>исследовать устойчивость схемы. Эмпирическим путём выяснить, какое максимально возможный шаг по времени можно брать при фиксированном разбиении по пространству;</li>
+<li>построить график, иллюстрирующий сходимость нормы ошибки при уменьшении шага по времени при фиксированном разбиении по пространству.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md41"></a>
+Тестовый пример 1</h3>
+<p>На этапе первичного тестирования использовать значения скорости  </p><p class="formulaDsp">
+\begin{equation*}
+    U = 1, \quad V = 0.
+\end{equation*}
+</p>
+<p>А в качестве начального решения брать простой "столбик"  </p><p class="formulaDsp">
+\begin{equation*}
+    u(x,y,0) = u_0(x, y) = \begin{cases}
+        1, &amp; \; -1\leq x \leq -0.8, \; -0.1 \leq y \leq 0.1, \\
+        0, &amp; \; \text{иначе}.
+    \end{cases}
+\end{equation*}
+</p>
+<div class="image">
+<img src="transport1_work_01.png" alt="" width="1000"/>
+</div>
+<p>Точным решением будет функция  </p><p class="formulaDsp">
+\begin{equation*}
+    u^e(x, y, t) = u_0(x-Ut, y)
+\end{equation*}
+</p>
+<p>То есть этот столбик будет двигаться вправо с единичной скоростью и за время 2 полностью покинет расчётную область.</p>
+<h3><a class="anchor" id="autotoc_md42"></a>
+Тестовый пример 2</h3>
+<p>После того, как этот тест будет пройден, использовать постановку с непостоянной по пространству скоростью  </p><p class="formulaDsp">
+\begin{equation*}
+    U(x, y) = -y, \quad V(x, y) = x.
+\end{equation*}
+</p>
+<p>и начальным решением вида  </p><p class="formulaDsp">
+\begin{align*}
+    &amp;r_0(x, y) = (x - 0.5)^2 + y^2; \; \sigma = 0.1;\\
+    &amp;u(x, y, 0) = u_0(x, y) = e^{-r_0^2(x, y)/\sigma^2}
+\end{align*}
+</p>
+<div class="image">
+<img src="transport1_work_02.png" alt="" width="1000"/>
+</div>
+<p>В процессе решения этот "холмик" будет двигаться по окружности, описывая полный оборот за время \(t=4\pi\).</p>
+<p>Точное решение на момент времени \(t\) будет иметь вид  </p><p class="formulaDsp">
+\begin{align*}
+    &amp; x_c(t) =  0.5\cos(0.5 t); \\
+    &amp; y_c(t) =  0.5\sin(0.5 t); \\
+    &amp; r(x, y, t) = (x - x_c(t))^2 + (y - y_c(t))^2;  \\
+    &amp; u^e(x, y, t) = e^{-r^2(x, y, t)/\sigma^2}
+\end{align*}
+</p>
+<h2><a class="anchor" id="autotoc_md43"></a>
+Расчётная схема</h2>
+<p>Использовать противопотоковую явную схему:  </p><p class="formulaDsp">
+\begin{equation*}
+    \frac{\hat u_k - u_k}{\tau}
+        + U_k \frac{u_k - u_{\upx{k}}}{h_x}
+        + V_k \frac{u_k - u_{\upy{k}}}{h_y} = 0
+\end{equation*}
+</p>
+<p>Здесь \(\upx{k}\), \(\upy{k}\) &ndash; значения индексов, расположенных против потока отностительно узла \(i\) в направлениях \(x\) и \(y\) соответственно.</p>
+<p>Поскольку скорость в настоящей постановке непостоянная и зависит от точки пространства, то вычислять индекс узла, расположенного против потока приходится в зависимости от значения скорости. С использованием ранее введёных алгоритмов перехода от парных \((i, j)\) индексов к сквозному индексу \(k\) \(\eqref{eq:tasks_ij2k}\) и обратно \(\eqref{eq:tasks_k2ij}\) запишем  </p><p class="formulaDsp">
+\begin{align*}
+    &amp; i = i[k]; \\
+    &amp; j = j[k]; \\
+    &amp; \upx{k} = \begin{cases}
+          k[i-1, j], &amp; \quad U_k \geq 0, \\
+          k[i+1, j], &amp; \quad U_k &lt; 0 ,\\
+      \end{cases} \\
+    &amp; \upy{k} = \begin{cases}
+          k[i, j-1], &amp; \quad V_k \geq 0, \\
+          k[i, j+1], &amp; \quad V_k &lt; 0.\\
+      \end{cases}
+\end{align*}
+</p>
+<p>На границах использовать условия первого рода. Можно просто нули, поскольку они соответствуют постановке. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

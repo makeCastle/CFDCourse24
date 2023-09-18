@@ -81,7 +81,8 @@ struct VtkUtils{
 	private:
 		const std::string _stem;
 		const std::string _series_fn;
-		bool _first_entry = true;
+		std::string _fileslist;
+		void save_series() const;
 	};
 };
 

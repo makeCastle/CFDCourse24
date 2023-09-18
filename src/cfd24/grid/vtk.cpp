@@ -152,20 +152,26 @@ std::string VtkUtils::TimeDependentWriter::add(double tm){
 	fn << std::setfill('0') << std::setw(8) << std::fixed << std::setprecision(4) << tm << ".vtk";
 	std::string ret = (fs::path(_stem) / fs::path(fn.str())).string();
 
-	std::fstream ofs(_series_fn);
-	if (!ofs) throw std::runtime_error("Failed to open " + _series_fn + " for writing");
-	ofs.seekp(0, std::ios_base::end);
-	size_t pos = ofs.tellp();
-	if (_first_entry){
-		ofs.seekp(pos-6, std::ios_base::beg);
-		_first_entry = false;
-	} else {
-		ofs.seekp(pos-7, std::ios_base::beg);
-		ofs << "," << std::endl;
+	std::ostringstream oss;
+	if (!_fileslist.empty()){
+		oss << "," << std::endl;
 	}
-	ofs << "    {\"name\": \"" << ret << "\", \"time\": " << tm << "}" << std::endl;
-	ofs << "  ]" << std::endl;
-	ofs << "}" << std::endl;
+	oss << "    {\"name\": \"" << ret << "\", \"time\": " << tm << "}";
+	_fileslist += oss.str();
+
+	save_series();
 
 	return ret;
+}
+
+void VtkUtils::TimeDependentWriter::save_series() const{
+	std::fstream ofs(_series_fn);
+	if (!ofs) throw std::runtime_error("Failed to open " + _series_fn + " for writing");
+
+	ofs << "{" << std::endl;
+	ofs << "  \"file-series-version\" : \"1.0\"," << std::endl;
+	ofs << "  \"files\" : [" << std::endl;
+	ofs << _fileslist << std::endl;
+	ofs << "  ]" << std::endl;
+	ofs << "}" << std::endl;
 }

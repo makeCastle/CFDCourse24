@@ -26,7 +26,8 @@ public:
 
 	double step(double tau){
 		_time += tau;
-		return impl_step(tau);
+		impl_step(tau);
+		return compute_norm2();
 	}
 
 	void save_vtk(const std::string& filename){
@@ -70,7 +71,7 @@ protected:
 	double _time = 0;
 
 private:
-	virtual double impl_step(double tau) = 0;
+	virtual void impl_step(double tau) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -82,33 +83,41 @@ public:
 	TestTransport1WorkerExplicit(size_t n_cells): ATestTransport1Worker(n_cells){}
 
 private:
-	double impl_step(double tau) override {
+	void impl_step(double tau) override {
 		std::vector<double> u_old(_u);
 		_u[0] = exact_solution(_grid.point(0).x());
 		for (size_t i=1; i<_grid.n_points(); ++i){
-			_u[i] -= tau/_h*(u_old[i] - u_old[i-1]);
+			_u[i] = u_old[i] - tau/_h*(u_old[i] - u_old[i-1]);
 		}
-		return compute_norm2();
 	}
 };
 
 TEST_CASE("Transport 1D solver, explicit", "[transport1-explicit]"){
 	std::cout << std::endl << "--- cfd24_test [transport1-explicit] --- " << std::endl;
+	// parameters
 	const double tend = 0.5;
 	const double V = 1.0;
 	const double L = 1.0;
 	size_t n_cells = 100;
 	double Cu = 0.9;
-
 	double h = L/n_cells;
 	double tau = Cu * h / V;
+
+	// solver
 	TestTransport1WorkerExplicit worker(n_cells);
+
+	// saver
 	VtkUtils::TimeDependentWriter writer("transport1-explicit");
-	double norm;
-	worker.save_vtk(writer.add(0));
+	std::string out_filename = writer.add(0);
+	worker.save_vtk(out_filename);
+
+	double norm = 0;
 	while (worker.current_time() < tend - 1e-6) {
+		// solve problem
 		norm = worker.step(tau);
-		worker.save_vtk(writer.add(worker.current_time()));
+		// export solution to vtk
+		out_filename = writer.add(worker.current_time());
+		worker.save_vtk(out_filename);
 	};
 	std::cout << 1.0/tau << " " << norm << std::endl;
 	CHECK(norm == Approx(0.0138123932).margin(1e-5));
@@ -123,11 +132,10 @@ public:
 	TestTransport1WorkerImplicit(size_t n_cells): ATestTransport1Worker(n_cells){}
 
 private:
-	double impl_step(double tau) override {
+	void impl_step(double tau) override {
 		AmgcMatrixSolver& slv = build_solver(tau);
 		std::vector<double> rhs = build_rhs(tau);
 		slv.solve(rhs, _u);
-		return compute_norm2();
 	}
 
 	AmgcMatrixSolver _solver;

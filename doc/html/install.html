@@ -30,6 +30,11 @@ MathJax.Hub.Config({
     sfrac: ["{\\left.#1\\middle/#2\\right.}",2],
     dsfr: ["{\\left.\\partial #1\\middle/\\partial#2\\right.}",2],
     FL: ["{#1\\cdot10^{#2}}",2],
+    eps: "{\\varepsilon}",
+    hence: "{\\Rightarrow}",
+    imi: "{\\mathbf{i}}",
+    upx: ["{\\mathrm{upx}\\left[#1\\right]}",1],
+    upy: ["{\\mathrm{upy}\\left[#1\\right]}",1],
   } }
 });
 MathJax.Hub.Config({
@@ -137,14 +142,10 @@ $(document).ready(function(){initNavTree('install.html',''); initResizable(); })
 <li>Создайте папку в системе для репозиториев. Например D:/git_repos/</li>
 <li>Возьмите необходимые заголовочные библиотеки boost из <a href="https://disk.yandex.ru/d/GwTZUvfAqPsZBQ">https://disk.yandex.ru/d/GwTZUvfAqPsZBQ</a> и распакуйте архив в папку для репозиториев (D:/git_repos/boost). Проследите, чтобы внутри папки boost сразу шли папки с кодом (accumulators, algorithm, ...) и заголовочные файлы (align.hpp, aligned_storage.hpp, ...) без дополнительных уровней вложения.</li>
 <li>Откройте терминал (git bash в Windows).</li>
-<li>С помощью команды cd в терминале перейдите в папку для репозиториев <blockquote class="doxtable">
-<p>&zwj;cd D:/git_repos </p>
-</blockquote>
-</li>
-<li>Клонируйте репозиторий <blockquote class="doxtable">
-<p>&zwj;git clone <a href="https://github.com/kalininei/CFDCourse24">https://github.com/kalininei/CFDCourse24</a> В директории (D:/git_repos в примере) появится папка CFDCourse24, которая является корневой папкой проекта </p>
-</blockquote>
-</li>
+<li>С помощью команды cd в терминале перейдите в папку для репозиториев <div class="fragment"><div class="line">&gt; cd D:/git_repos</div>
+</div><!-- fragment --></li>
+<li>Клонируйте репозиторий <div class="fragment"><div class="line">&gt; git clone https://github.com/kalininei/CFDCourse24</div>
+</div><!-- fragment --> В директории (D:/git_repos в примере) появится папка CFDCourse24, которая является корневой папкой проекта</li>
 </ol>
 <h1><a class="anchor" id="vs_build"></a>
 VisualStudio</h1>
