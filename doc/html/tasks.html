@@ -231,7 +231,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 </p>
 <p>и начальным решением вида  </p><p class="formulaDsp">
 \begin{align*}
-    &amp;r_0(x, y) = (x - 0.5)^2 + y^2; \; \sigma = 0.1;\\
+    &amp;r_0(x, y) = \sqrt{(x - 0.5)^2 + y^2}; \; \sigma = 0.1;\\
     &amp;u(x, y, 0) = u_0(x, y) = e^{-r_0^2(x, y)/\sigma^2}
 \end{align*}
 </p>
@@ -243,7 +243,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 \begin{align*}
     &amp; x_c(t) =  0.5\cos(0.5 t); \\
     &amp; y_c(t) =  0.5\sin(0.5 t); \\
-    &amp; r(x, y, t) = (x - x_c(t))^2 + (y - y_c(t))^2;  \\
+    &amp; r(x, y, t) = \sqrt{(x - x_c(t))^2 + (y - y_c(t))^2};  \\
     &amp; u^e(x, y, t) = e^{-r^2(x, y, t)/\sigma^2}
 \end{align*}
 </p>
@@ -256,7 +256,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
         + V_k \frac{u_k - u_{\upy{k}}}{h_y} = 0
 \end{equation*}
 </p>
-<p>Здесь \(\upx{k}\), \(\upy{k}\) &ndash; значения индексов, расположенных против потока отностительно узла \(i\) в направлениях \(x\) и \(y\) соответственно.</p>
+<p>Здесь \(\upx{k}\), \(\upy{k}\) &ndash; значения индексов, расположенных против потока отностительно узла \(k\) в направлениях \(x\) и \(y\) соответственно.</p>
 <p>Поскольку скорость в настоящей постановке непостоянная и зависит от точки пространства, то вычислять индекс узла, расположенного против потока приходится в зависимости от значения скорости. С использованием ранее введёных алгоритмов перехода от парных \((i, j)\) индексов к сквозному индексу \(k\) \(\eqref{eq:tasks_ij2k}\) и обратно \(\eqref{eq:tasks_k2ij}\) запишем  </p><p class="formulaDsp">
 \begin{align*}
     &amp; i = i[k]; \\
