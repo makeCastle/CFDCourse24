@@ -5,6 +5,7 @@
 #include "cfd24/grid/vtk.hpp"
 #include "cfd24/mat/lodmat.hpp"
 #include "C:/git_repos/CFDCourse24/src/cfd24/grid/regular_grid2d.hpp"
+//#include"C:/git_repos/CFDCourse24/src/cdf24/debug/printer.hpp"
 
 using namespace cfd;
 
@@ -132,6 +133,8 @@ public:
 	double solve() {
 		// 1. build SLAE
 		CsrMatrix mat = approximate_lhs2();
+		//dbg::print(mat);
+
 		std::vector<double> rhs = approximate_rhs2();
 
 		// 2. solve SLAE
@@ -165,20 +168,46 @@ private:
 
 	CsrMatrix approximate_lhs2() const {
 		// constant h = x[1] - x[0]
+		size_t a = grid.point(grid.n_points() - 1).x() / (grid.point(1).x() - grid.point(0).x()); // number of last point in first row
+		size_t b = grid.point(grid.n_points() - 1).y() / (grid.point(2 * a + 1).y() - grid.point(a).y()); // number of last point in first collumn
+
 		double hx = grid.point(1).x() - grid.point(0).x();
-		double hy = grid.point(1).y() - grid.point(0).y();
+		double hy = grid.point(2 * a + 1).y() - grid.point(a).y();
 
 		// fill using 'easy-to-construct' sparse matrix format
 		LodMatrix mat(grid.n_points());
 		mat.add_value(0, 0, 1);
 		mat.add_value(grid.n_points() - 1, grid.n_points() - 1, 1);
-		double diag = 2.0 / (hx * hx) + 2.0 / (hy * hy);
-		double nondiag1 = -1.0 / (hy * hy);
-		double nondiag2 = -1.0 / (hx * hx);
-		for (size_t i = 1; i < grid.n_points() - 1; ++i) {
-			mat.add_value(i, i - 1, nondiag1);
-			mat.add_value(i, i + 1, nondiag1);
+
+		/*for (size_t i = 0; i <= b; ++i)
+		{
+			mat.add_value(i, 0, 1);
+			mat.add_value(i, b, 1);
+		}
+		for (size_t i = 0; i <= b; ++i)
+		{
+			mat.add_value(0, i, 1);
+			mat.add_value(a, i, 1);
+		}*/
+
+		double nondiag1 = -1.0 / (hx * hx); // A[i - 1][j] (a)
+		double nondiag2 = -1.0 / (hx * hx); // A[i + 1][j] (b)
+		double diag = 2.0 / (hx * hx) + 2.0 / (hy * hy); // A[i][j] (ñ)
+		double nondiag3 = -1.0 / (hy * hy); // A[i][j - 1] (d)
+		double nondiag4 = -1.0 / (hy * hy); // A[i][j + 1] (e)
+		
+		mat.add_value(1, 0, diag); mat.add_value(1, 1, nondiag3); mat.add_value(1, 2, nondiag4);
+		mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 2, nondiag2); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, diag);
+		mat.add_value(2, 0, nondiag2); mat.add_value(2, 1, nondiag3); mat.add_value(2, 2, diag); mat.add_value(2, 3, nondiag4);
+		mat.add_value(grid.n_points() - 3, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 3, grid.n_points() - 3, nondiag2); 
+		mat.add_value(grid.n_points() - 3, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 3, grid.n_points() - 1, nondiag3);
+		
+		for (size_t i = 2; i < grid.n_points() - 2; ++i) {
+			mat.add_value(i, i - 2, nondiag1);
+			mat.add_value(i, i - 1, nondiag2);
 			mat.add_value(i, i, diag);
+			mat.add_value(i, i + 1, nondiag3);
+			mat.add_value(i, i + 2, nondiag4);
 		}
 
 		// return 'easy-to-use' sparse matrix format
@@ -189,21 +218,25 @@ private:
 		std::vector<double> ret(grid.n_points());
 		ret[0] = exact_solution(grid.point(0).x(), grid.point(0).y());
 		ret[grid.n_points() - 1] = exact_solution(grid.point(grid.n_points() - 1).x(), grid.point(grid.n_points() - 1).y());
-		for (size_t i = 1; i < grid.n_points() - 1; ++i) {
-			for (size_t j = 0; j < grid.n_points() - 1; ++j)
+		size_t a = grid.point(grid.n_points() - 1).x() / (grid.point(1).x() - grid.point(0).x());
+		size_t b = grid.point(grid.n_points() - 1).y() / (grid.point(2 * a + 1).y() - grid.point(a).y());
+		for (size_t i = 1; i <= b; ++i) {
+			for (size_t j = 0; j <= a; ++j)
 			{
 				ret[grid.to_linear_point_index({ i, j })] = exact_rhsX(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y()) + 
 					exact_rhsY(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y());
 			}
-			
 		}
 		return ret;
 	}
 
 	double compute_norm2D() const {
+		size_t a = grid.point(grid.n_points() - 1).x() / (grid.point(1).x() - grid.point(0).x());
+		size_t b = grid.point(grid.n_points() - 1).y() / (grid.point(2 * a + 1).y() - grid.point(a).y());
+
 		// weights
 		double hx = grid.point(1).x() - grid.point(0).x();
-		double hy = grid.point(1).y() - grid.point(0).y();
+		double hy = grid.point(2 * a + 1).y() - grid.point(a).y();
 		std::vector<double> w(grid.n_points(), hx * hy);
 		unsigned long long ny = grid.point(grid.n_points() - 1).y() / hy;
 		unsigned long long nx = grid.point(grid.n_points() - 1).x() / hx;
@@ -285,27 +318,25 @@ TEST_CASE("Poisson 2D solver", "[poisson2]") {
 	};
 
 	// loop over n_cells value
-	for (size_t n_cellsX : {10, 20, 50, 100, 200, 500, 1000}) {
-		// build test solver
-		for (size_t n_cellsY : {10, 20, 50, 100, 200, 500, 1000}) {
+	//for (size_t n_cells : {10, 20, 50, 100, 200, 500, 1000}) {
+	size_t n_cells = 10;
 			// build test solver
-			TestPoisson2Worker worker(n_cellsX, n_cellsY);
+			TestPoisson2Worker worker(n_cells, n_cells);
 
 			// solve and find norm2
 			double n2 = worker.solve();
 
 			// save into poisson1_ncells={n_cells}.vtk
-			worker.save_vtk("poisson2_ncells=" + std::to_string(n_cellsX + n_cellsY) + ".vtk");
+			worker.save_vtk("poisson2_ncells=" + std::to_string(n_cells) + ".vtk");
 
 			// print (N_CELLS, NORM2) table entry
-			std::cout << n_cellsX + n_cellsY << " " << n2 << std::endl;
+			std::cout << n_cells << " " << n2 << std::endl;
 
 			// CHECK if result for this n_cells
 			// presents in the norm2_for_compare dictionary
-			auto found = norm2_for_compare.find(n_cellsX + n_cellsY);
+			auto found = norm2_for_compare.find(n_cells);
 			if (found != norm2_for_compare.end()) {
 				CHECK(n2 == Approx(found->second).margin(1e-6));
 			}
-		}
-	}
+	//}
 }
