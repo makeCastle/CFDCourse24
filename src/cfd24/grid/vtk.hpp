@@ -73,6 +73,17 @@ struct VtkUtils{
 	 * @param s an opened stream
 	 */
 	static void append_point_data_header(size_t data_size, std::ostream& s);
+
+	class TimeDependentWriter{
+	public:
+		TimeDependentWriter(std::string stem);
+		std::string add(double tm);
+	private:
+		const std::string _stem;
+		const std::string _series_fn;
+		std::string _fileslist;
+		void save_series() const;
+	};
 };
 
 }

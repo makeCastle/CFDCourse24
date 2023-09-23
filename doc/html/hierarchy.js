@@ -21,5 +21,6 @@ var hierarchy =
         [ "cfd::LodMatrix", "classcfd_1_1LodMatrix.html", null ]
       ] ]
     ] ],
+    [ "cfd::VtkUtils::TimeDependentWriter", "classcfd_1_1VtkUtils_1_1TimeDependentWriter.html", null ],
     [ "cfd::VtkUtils", "structcfd_1_1VtkUtils.html", null ]
 ];

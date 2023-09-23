@@ -30,6 +30,11 @@ MathJax.Hub.Config({
     sfrac: ["{\\left.#1\\middle/#2\\right.}",2],
     dsfr: ["{\\left.\\partial #1\\middle/\\partial#2\\right.}",2],
     FL: ["{#1\\cdot10^{#2}}",2],
+    eps: "{\\varepsilon}",
+    hence: "{\\Rightarrow}",
+    imi: "{\\mathbf{i}}",
+    upx: ["{\\mathrm{upx}\\left[#1\\right]}",1],
+    upy: ["{\\mathrm{upy}\\left[#1\\right]}",1],
   } }
 });
 MathJax.Hub.Config({
@@ -147,6 +152,8 @@ Git</h1>
 </div><!-- fragment --> Обновленная ветка будет доступна по имени origin/{имя ветки}.</li>
 <li><b>Просмотр истории</b> коммитов в текущей ветке (последний коммит будет наверху) <div class="fragment"><div class="line">&gt; git log</div>
 </div><!-- fragment --></li>
+<li><b>Просмотр доступных веток</b> в текущем репозитории <div class="fragment"><div class="line">&gt; git branch</div>
+</div><!-- fragment --></li>
 <li><p class="startli"><b>Просмотр</b> актуального состояние дерева репозитория в gui режиме </p><div class="fragment"><div class="line">&gt; git gui</div>
 </div><!-- fragment --><p> Далее в меню Repository-&gt;Visualize all branch history. В этом же окне можно посмотреть изменения файлов по сравнению с последним коммитом.</p>
 <p class="startli">Альтернативно, при работе в виндоус можно установить программу GitExtensions и работать в ней.</p>
@@ -242,7 +249,7 @@ Paraview</h1>
 <div class="image">
 <img src="howto_paraview_isolines_2.png" alt="" width="800"/>
 </div>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="paraview-2d"></a>
 Отображение двумерного поля в 3D</h2>
 <p>По аналогии с <a class="el" href="howto.html#paraview-1d">одномерным графиком</a>, двумерные поля так же можно отобразить, проектируя данные на геометрическую координату для получения объёмного графика.</p>
 <ol type="1">
@@ -256,7 +263,7 @@ Paraview</h1>
 <div class="image">
 <img src="howto_paraview_2d_as_3d.png" alt="" width="800"/>
 </div>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Отображение числовых данных для точек и ячеек</h2>
 <ol type="1">
 <li>Включить режим выделения точек или ячеек (иконка (1 на рисунке) или горячие клавиши s, d)<br  />
@@ -267,9 +274,9 @@ Paraview</h1>
 <div class="image">
 <img src="howto_paraview_show_labels.png" alt="" width="800"/>
 </div>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 CMake</h1>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Добавление файла в проект</h2>
 <p>Для добавления нового ресурсного файла наобходимо прописать его в соответствующий <code>CMakeLists.txt</code>.</p><ul>
 <li>Если файл добавляется в библиотеку <code>cfd</code>, то <code>src/cfd24/CMakeLists.txt</code> </li>

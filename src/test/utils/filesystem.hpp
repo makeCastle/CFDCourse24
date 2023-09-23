@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace cfd{
+
 /**
  * @brief Creates path to the file located in the test_data directory
  *
@@ -13,4 +15,5 @@
 std::string test_directory(std::string path);
 
 
+}
 #endif

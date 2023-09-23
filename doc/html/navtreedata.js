@@ -43,31 +43,76 @@ var NAVTREE =
       [ "Paraview", "howto.html#paraview", [
         [ "Отображение одномерных графиков", "howto.html#paraview-1d", null ],
         [ "Отображение изолиний для двумерного поля", "howto.html#autotoc_md4", null ],
-        [ "Отображение двумерного поля в 3D", "howto.html#autotoc_md5", null ],
-        [ "Отображение числовых данных для точек и ячеек", "howto.html#autotoc_md6", null ]
+        [ "Отображение двумерного поля в 3D", "howto.html#paraview-2d", null ],
+        [ "Отображение числовых данных для точек и ячеек", "howto.html#autotoc_md5", null ]
       ] ],
-      [ "CMake", "howto.html#autotoc_md7", [
-        [ "Добавление файла в проект", "howto.html#autotoc_md8", null ]
+      [ "CMake", "howto.html#autotoc_md6", [
+        [ "Добавление файла в проект", "howto.html#autotoc_md7", null ]
       ] ]
     ] ],
     [ "Краткое содержание лекций", "notes.html", [
-      [ "1. Введение (02.09)", "notes.html#autotoc_md9", null ],
-      [ "2. Уравнение Пуассона (09.09)", "notes.html#autotoc_md10", [
-        [ "Teма", "notes.html#autotoc_md11", null ],
-        [ "Постановка задачи", "notes.html#autotoc_md12", null ],
-        [ "Метод решения", "notes.html#autotoc_md13", [
+      [ "1. Введение (02.09)", "notes.html#autotoc_md8", null ],
+      [ "2. Уравнение Пуассона (09.09)", "notes.html#autotoc_md9", [
+        [ "Постановка задачи", "notes.html#autotoc_md10", null ],
+        [ "Метод решения", "notes.html#autotoc_md11", [
           [ "Нахождение численного решения", "notes.html#poisson1d_fdm", null ],
-          [ "Практическое определения порядка аппроксимации", "notes.html#autotoc_md14", null ]
+          [ "Практическое определения порядка аппроксимации", "notes.html#autotoc_md12", null ]
         ] ],
         [ "Программная реализация", "notes.html#test_poisson1", [
-          [ "Функция верхнего уровня", "notes.html#autotoc_md15", null ],
-          [ "Детали реализации", "notes.html#autotoc_md16", null ]
+          [ "Функция верхнего уровня", "notes.html#autotoc_md13", null ],
+          [ "Детали реализации", "notes.html#autotoc_md14", null ]
+        ] ]
+      ] ],
+      [ "3. Двухслойные схемы для нестационарных уравнений (16.09)", "notes.html#autotoc_md15", [
+        [ "Определение", "notes.html#autotoc_md16", [
+          [ "Явная схема", "notes.html#autotoc_md17", null ],
+          [ "Неявная схема", "notes.html#autotoc_md18", null ],
+          [ "Схема Кранка–Николсон", "notes.html#autotoc_md19", null ],
+          [ "Обобщённая двухслойная схема", "notes.html#autotoc_md20", null ]
+        ] ],
+        [ "Дискретизация по времени как итерационный процесс", "notes.html#autotoc_md21", [
+          [ "Двухслойный итерационный процесс", "notes.html#autotoc_md22", null ],
+          [ "Устойчивость итерационного процесса", "notes.html#ScalarIter", null ],
+          [ "Источники возмущений", "notes.html#autotoc_md23", null ]
+        ] ],
+        [ "Методы исследования устойчивости расчётных схем", "notes.html#autotoc_md24", [
+          [ "Матричный метод", "notes.html#autotoc_md25", [
+            [ "Явная схема для нестационарного уравнения диффузии", "notes.html#NonstatExpDiff", null ],
+            [ "Неявная схема для нестационарного уравнения диффузии", "notes.html#NonstatImpDiff", null ]
+          ] ],
+          [ "Метод дискретных возмущений", "notes.html#autotoc_md26", [
+            [ "Явная схема против потока для уравнения переноса", "notes.html#NonstatExpTran", null ]
+          ] ],
+          [ "Метод Неймана", "notes.html#autotoc_md27", [
+            [ "Неявная противопотоковая схема для уравнения переноса", "notes.html#NonstatImpConv", null ],
+            [ "Противопотоковая схема Кранка-Николсон для уравнения переноса", "notes.html#NonstatCNConv", null ],
+            [ "Явная схема для уравнения нестационарной конвекции-диффузии", "notes.html#NonstatExpConvDiff", null ],
+            [ "Неявная схема для уравнения нестационарной конвекции-диффузии", "notes.html#NonstatImpConvDiff", null ]
+          ] ],
+          [ "Общие рекомендации к выбору устойчивых расчётных схем", "notes.html#autotoc_md28", null ]
+        ] ],
+        [ "Программная реализация схемы для уравнения переноса", "notes.html#autotoc_md29", [
+          [ "Постановка задачи", "notes.html#autotoc_md30", null ],
+          [ "Функция верхнего уровня", "notes.html#autotoc_md31", null ],
+          [ "Расчётные функции", "notes.html#autotoc_md32", [
+            [ "Явная схема", "notes.html#autotoc_md33", null ],
+            [ "Неявная схема", "notes.html#autotoc_md34", null ],
+            [ "Схема Кранка-Николсон", "notes.html#autotoc_md35", null ]
+          ] ],
+          [ "Анализ результатов работы", "notes.html#autotoc_md36", null ]
         ] ]
       ] ]
     ] ],
     [ "Задания для самостоятельной работы", "tasks.html", [
-      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md17", null ],
-      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md18", null ]
+      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md37", null ],
+      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md38", null ],
+      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md39", [
+        [ "Постановка задачи", "tasks.html#autotoc_md40", [
+          [ "Тестовый пример 1", "tasks.html#autotoc_md41", null ],
+          [ "Тестовый пример 2", "tasks.html#autotoc_md42", null ]
+        ] ],
+        [ "Расчётная схема", "tasks.html#autotoc_md43", null ]
+      ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -99,7 +144,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"primitives_8hpp.html"
+"notes.html#NonstatExpConvDiff"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

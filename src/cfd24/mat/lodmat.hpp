@@ -38,6 +38,26 @@ public:
 	void add_value(size_t irow, size_t icol, double value);
 
 	/**
+	 * @brief Sets value to the given matrix entry
+	 *
+	 * @param irow   row index
+	 * @param icol   column index
+	 * @param value  value to be set
+	 *
+	 * Zero value will not be removed from the stencil.
+	 * Use LodMatrix::remove_value() function to remove from the stencil
+	 */
+	void set_value(size_t irow, size_t icol, double value);
+
+	/**
+	 * @brief Removes entry from the matrix stencil
+	 *
+	 * @param irow   row index
+	 * @param icol   column index
+	 */
+	void remove_value(size_t irow, size_t icol);
+
+	/**
 	 * @brief Removes row from sparse matrix stencil
 	 *
 	 * @param irow  row index

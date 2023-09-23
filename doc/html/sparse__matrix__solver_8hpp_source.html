@@ -30,6 +30,11 @@ MathJax.Hub.Config({
     sfrac: ["{\\left.#1\\middle/#2\\right.}",2],
     dsfr: ["{\\left.\\partial #1\\middle/\\partial#2\\right.}",2],
     FL: ["{#1\\cdot10^{#2}}",2],
+    eps: "{\\varepsilon}",
+    hence: "{\\Rightarrow}",
+    imi: "{\\mathbf{i}}",
+    upx: ["{\\mathrm{upx}\\left[#1\\right]}",1],
+    upy: ["{\\mathrm{upy}\\left[#1\\right]}",1],
   } }
 });
 MathJax.Hub.Config({
@@ -144,7 +149,7 @@ $(document).ready(function(){initNavTree('sparse__matrix__solver_8hpp_source.htm
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">     *</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">     * @param mat  target matrix</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">     * Matrix should not be deleted until this class remains actual</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">     * Matrix will be copied to the internal structure and can be destroyed</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">     */</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classcfd_1_1AmgcMatrixSolver.html#a17b15b066507f1379b0b02804460c5b3">   27</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classcfd_1_1AmgcMatrixSolver.html#a17b15b066507f1379b0b02804460c5b3">set_matrix</a>(<span class="keyword">const</span> <a class="code hl_class" href="classcfd_1_1CsrMatrix.html">CsrMatrix</a>&amp; mat);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"></span> </div>
@@ -154,7 +159,7 @@ $(document).ready(function(){initNavTree('sparse__matrix__solver_8hpp_source.htm
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">     * @param mat_stencil  csr matrix stencil</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">     * @param mat_values   matrix values</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * mat_stencil and mat_values should not be deleted until this class remains actual</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * Matrix will be copied to the internal structure and can be destroyed</span></div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     */</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classcfd_1_1AmgcMatrixSolver.html#a273f3826d6529355ebe0612ed27b382c">   37</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classcfd_1_1AmgcMatrixSolver.html#a273f3826d6529355ebe0612ed27b382c">set_matrix</a>(<span class="keyword">const</span> <a class="code hl_class" href="classcfd_1_1CsrStencil.html">CsrStencil</a>&amp; mat_stencil, <span class="keyword">const</span> std::vector&lt;double&gt;&amp; mat_values);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"></span> </div>
