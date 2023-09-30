@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['введение_2002_2009_0',['1. Введение (02.09)',['../notes.html#autotoc_md8',1,'']]],
-  ['версии_1',['Сборка релизной версии',['../howto.html#release_build',1,'']]],
-  ['верхнего_20уровня_2',['верхнего уровня',['../notes.html#autotoc_md13',1,'Функция верхнего уровня'],['../notes.html#autotoc_md31',1,'Функция верхнего уровня']]],
-  ['возмущений_3',['возмущений',['../notes.html#autotoc_md23',1,'Источники возмущений'],['../notes.html#autotoc_md26',1,'Метод дискретных возмущений']]],
-  ['времени_20как_20итерационный_20процесс_4',['Дискретизация по времени как итерационный процесс',['../notes.html#autotoc_md21',1,'']]],
-  ['выбору_20устойчивых_20расчётных_20схем_5',['Общие рекомендации к выбору устойчивых расчётных схем',['../notes.html#autotoc_md28',1,'']]],
-  ['в_20проект_6',['Добавление файла в проект',['../howto.html#autotoc_md7',1,'']]],
-  ['в_203d_7',['Отображение двумерного поля в 3D',['../howto.html#paraview-2d',1,'']]]
+  ['_7eamgcmatrixsolver_0',['~AmgcMatrixSolver',['../classcfd_1_1AmgcMatrixSolver.html#aad135e9cc3c2b96ea2f76eb5fd15cbbd',1,'cfd::AmgcMatrixSolver']]],
+  ['_7ecsrstencil_1',['~CsrStencil',['../classcfd_1_1CsrStencil.html#ae636c6b80a02c8de4390a7386c2ada21',1,'cfd::CsrStencil']]],
+  ['_7eigrid_2',['~IGrid',['../classcfd_1_1IGrid.html#add11fdadef8e13995e233ce2907c7b49',1,'cfd::IGrid']]],
+  ['_7eigrid1d_3',['~IGrid1D',['../classcfd_1_1IGrid1D.html#adfd08aacd23fa3ca419e757acb0826de',1,'cfd::IGrid1D']]],
+  ['_7eigrid2d_4',['~IGrid2D',['../classcfd_1_1IGrid2D.html#a8c7f9155e0881b3cf78b4d2e1ee18faf',1,'cfd::IGrid2D']]],
+  ['_7eigrid3d_5',['~IGrid3D',['../classcfd_1_1IGrid3D.html#a5846ce42a5c80274cad9cce5e0cac999',1,'cfd::IGrid3D']]],
+  ['_7eimatrix_6',['~IMatrix',['../classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca',1,'cfd::IMatrix']]],
+  ['_7eisparsematrix_7',['~ISparseMatrix',['../classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0',1,'cfd::ISparseMatrix']]]
 ];

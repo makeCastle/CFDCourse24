@@ -4,6 +4,7 @@ set (SRC
 	mat_test.cpp
 	poisson_solve_test.cpp
 	transport_solve_test.cpp
+	cavern_2d_simple_test.cpp
 
 	utils/filesystem.cpp
 )

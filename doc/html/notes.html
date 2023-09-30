@@ -119,13 +119,13 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Краткое содержание лекций</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md8"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md13"></a>
 1. Введение (02.09)</h1>
 <p>Общее описание инфраструктуры проекта для работы по курсу лекций.</p>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 2. Уравнение Пуассона (09.09)</h1>
 <p>Решение одномерной задачи Пуассона с граничными условиями первого рода методом конечных разностей. Понятие о точности аппроксимации сеточной схемы.</p>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Постановка задачи</h2>
 <p>Рассматривается одномерное дифференциальное уравнение вида  </p><p class="formulaDsp">
 \begin{equation}
@@ -146,7 +146,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <li>Запрограммировать расчётную схему для численного решения этого уравнения методом конечных разностей на сетке с постоянным шагом,</li>
 <li>С помощью вычислительных экспериментов подтвердить порядок аппроксимации расчётной схемы.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Метод решения</h2>
 <h3><a class="anchor" id="poisson1d_fdm"></a>
 Нахождение численного решения</h3>
@@ -202,7 +202,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 \end{equation}
 </p>
 <p> Искомый вектор находится путём решения этой системы.</p>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Практическое определения порядка аппроксимации</h3>
 <p>Порядок аппрокцимации показывает скорость приближения численного решения к точному с уменьшением сетки. Поэтому для подтверждения порядка необходимо</p><ul>
 <li>Знать точное решение,</li>
@@ -256,7 +256,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 \end{equation*}
 </p>
 <p> на отрезке \(x\in[0,1]\).</p>
-<h3><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 Функция верхнего уровня</h3>
 <p>объявлена как </p><div class="fragment"><div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>TEST_CASE(<span class="stringliteral">&quot;Poisson 1D solver&quot;</span>, <span class="stringliteral">&quot;[poisson1]&quot;</span>){</div>
 </div><!-- fragment --><p>В программе в цикле по набору разбиений <code>n_cells</code> </p><div class="fragment"><div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> n_cells: {10, 20, 50, 100, 200, 500, 1000}){</div>
@@ -280,7 +280,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="image">
 <img src="poisson1_graph.png" alt="" width="600"/>
 </div>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Детали реализации</h3>
 <p>Основная работа по решению задачи проводится в классе <code>TestPoisson1Worker</code>.</p>
 <p>В его конструкторе происходит инициализация сетки (приватного поля класса) на отрезке \([0, 1]\) с заданным разбиением <code>n_cells:</code>  <div class="fragment"><div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    TestPoisson1Worker(<span class="keywordtype">size_t</span> n_cells): grid(0, 1, n_cells){}</div>
@@ -351,9 +351,9 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
 </div><!-- fragment --> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 3. Двухслойные схемы для нестационарных уравнений (16.09)</h1>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 Определение</h2>
 <p>Рассмотрим дифференциальное уравнение вида</p>
 <p class="formulaDsp">
@@ -383,7 +383,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 \end{equation}
 </p>
 <p>Момент времени \(t\) будем называть текущим временн<b>ы</b>м слоем, момент \(t + \tau\) &ndash; следующим, а момент \(t+\tau/2\) &ndash; промежуточным. Считается, что значение функции на текущий момент времени \(u(t)\) известно, а значение на следующий момент \(u(t+\tau)\) подлежит определению.</p>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md22"></a>
 Явная схема</h3>
 <p>При использовании разности назад уравнение \(\eqref{eq:nonstat_common}\) в полудискретизованном (то есть дискретизованном только по времени, но не по пространству) виде запишется как  </p><p class="formulaDsp">
 \begin{equation*}
@@ -397,7 +397,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 \end{equation}
 </p>
 <p> Здесь \(E\) &ndash; единичный оператор. Схема \(\eqref{eq:nonstat_explicit}\) называется явной схемой и имеет первый порядок точности.</p>
-<h3><a class="anchor" id="autotoc_md18"></a>
+<h3><a class="anchor" id="autotoc_md23"></a>
 Неявная схема</h3>
 <p>Выбрав разность назад из выражения \(\eqref{eq:nonstat_dt_appr}\) полудискретизованная схема для уравнения \(\eqref{eq:nonstat_common}\) примет вид  </p><p class="formulaDsp">
 \begin{equation*}
@@ -410,7 +410,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
     \left(E+\tau L\right) u(x, t+\tau) = u(x, t) + \tau f(x, t + \tau).
 \end{equation}
 </p>
-<h3><a class="anchor" id="autotoc_md19"></a>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Схема Кранка–Николсон</h3>
 <p>Подставим симметричную разность из \(\eqref{eq:nonstat_dt_appr}\) в уравнение \(\eqref{eq:nonstat_common}\). Формально получим  </p><p class="formulaDsp">
 \begin{equation*}
@@ -447,7 +447,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 </p>
 <p> Такая схема называется схемой Кранка&ndash;Николсон и имеет второй порядок аппроксимации по времени.</p>
 <p>В случае, если оператор \(L\) зависит от времени, то в левой части схемы \(\eqref{eq:nonstat_cn}\) его нужно брать на следующем временном слое, а в правой &ndash; на текущем.</p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md25"></a>
 Обобщённая двухслойная схема</h3>
 <p>Выражения \(\eqref{eq:nonstat_explicit}\), \(\eqref{eq:nonstat_implicit}\), \(\eqref{eq:nonstat_cn}\) можно записать в обобщённой форме  </p><p class="formulaDsp">
 \begin{equation}
@@ -461,9 +461,9 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <li>\(\theta = 1/2\) &ndash; схема Кранка&ndash;Николсон \(\eqref{eq:nonstat_cn}\).</li>
 </ul>
 <p>Отметим, что только при \(\theta = 1/2\) схема \(\eqref{eq:nonstat_theta}\) имеет второй порядок точности по времени. Для других значений (в том числе промежуточных) схема будет иметь ошибку первого порядка \(o(\tau)\).</p>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Дискретизация по времени как итерационный процесс</h2>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Двухслойный итерационный процесс</h3>
 <p>Простой двухслойный итерационный процесс определяется как  </p><p class="formulaDsp">
 \begin{equation}
@@ -516,7 +516,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <p>Видно, что процесс \(\rm (I)\) теряет сходимость и стремится к бесконечности, в то время, как процесс \(\rm (II)\) сохраняет свои свойства.</p>
 <p>Свойство итерационных процессов уменьшать малые возмущения называется устойчивостью. В примере выше процесс \(\rm (I)\) является неустойчивым, а процесс \(\rm (II)\) &ndash; устойчивым.</p>
 <p>Нетрудно видеть, что для рассматриваемого скалярного итерационного процесса, условие устойчивости запишется в виде \(|A| \leq 1\).</p>
-<h3><a class="anchor" id="autotoc_md23"></a>
+<h3><a class="anchor" id="autotoc_md28"></a>
 Источники возмущений</h3>
 <p>На практике возникновение возмущений в решениях неизбежно: они могут быть следствием ошибок дискретизации функций и операторов, погрешностей решения СЛАУ, ошибок при проведении арифметических операций на числах с плавающей точкой и т.д. Поэтому любой итерационный процесс, используемый для решений математических задач, должен быть устойчив.</p>
 <p>Возникновение непреднамеренных ошибок вследствии компьютерного округления можно проиллюстрировать на примере программы, в которой рассматривается сходящийся для любого начального условия, но неустойчивый итерационный процесс  </p><p class="formulaDsp">
@@ -532,9 +532,9 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line">std::cout &lt;&lt; u &lt;&lt; std::endl;</div>
 </div><!-- fragment --><p>Если начальное значение может быть точно представлено в числах с плавающей точкой (путём конечной суммы степеней двойки), то арифметическая ошибка не возникает. Так, представленный выше код на выходе печатает ожидаемое \(u=0.625\). Потому что начальное приближение может быть разложено как \(u^0 = 2^{-1} + 2^{-3}\).</p>
 <p>Однако, если заменить начальное приближение на любое число, которое не может быть записано точно во floating-point формате, то процесс быстро уходит в бесконечность. Например, для \(u^0 = 0.626\) бесконечные (непредставимые в машинном формате) значения появляются на 324-ой итерации, а при переключении на работу в числах одинарной точности <code>float</code> &ndash; уже на 46-ой.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Методы исследования устойчивости расчётных схем</h2>
-<h3><a class="anchor" id="autotoc_md25"></a>
+<h3><a class="anchor" id="autotoc_md30"></a>
 Матричный метод</h3>
 <p>Итерационные процессы, возникающие при численном решении дифференциальных уравнений сеточными методами, имеют матричную природу. То есть оператор преобразования \(A\) в выражении \(\eqref{eq:nonstat_common_iter}\) &ndash; это матрица, а функции \(u\) и \(b\) &ndash; векторы-столбцы.</p>
 <p>Как было показано выше, условием устойчивости скалярного итерационного процесса является неравенство \(|A| \leq 1\). Аналогом этого условия для матричного процесса является ограничение на спектральный радиус \(S(A)\):  </p><p class="formulaDsp">
@@ -621,7 +621,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 \end{equation*}
 </p>
 <p> Очевидно, что оно выполняется всегда. Поэтому неявная схема \(\eqref{eq:nonstat_implicit_diff}\) безусловно устойчива.</p>
-<h3><a class="anchor" id="autotoc_md26"></a>
+<h3><a class="anchor" id="autotoc_md31"></a>
 Метод дискретных возмущений</h3>
 <p>Метод дискретных возмущений заключается в использовании в качестве начального приближения нулевого вектора, с возмущением \(\eps\) в одном из узлов:  </p><p class="formulaDsp">
 \begin{equation*}
@@ -665,7 +665,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
     C \leq 1.
 \end{equation*}
 </p>
-<h3><a class="anchor" id="autotoc_md27"></a>
+<h3><a class="anchor" id="autotoc_md32"></a>
 Метод Неймана</h3>
 <p>Запишем обратное преобразование Фурье для функции u(x):  </p><p class="formulaDsp">
 \begin{equation*}
@@ -863,7 +863,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
     C \leq \sqrt{2\gamma}.
 \end{equation*}
 </p>
-<h3><a class="anchor" id="autotoc_md28"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 Общие рекомендации к выбору устойчивых расчётных схем</h3>
 <p>Теоретический анализ условий устойчивости возможен лишь для простейших уравнений с постоянными шагами дискретизации. В практических приложениях, имеющих дело, как правило, с неструктурированными сетками и сложными нелинейными системами уравнений, параметры устойчивого счёта приходится определять эмпирически. Однако, такой теоретический анализ позволяет выделить принципы, которыми следует руководствоваться для построения устойчивых схем.</p>
 <ol type="1">
@@ -879,9 +879,9 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 </ul>
 </li>
 </ol>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Программная реализация схемы для уравнения переноса</h2>
-<h3><a class="anchor" id="autotoc_md30"></a>
+<h3><a class="anchor" id="autotoc_md35"></a>
 Постановка задачи</h3>
 <p>Рассматриваются три схемы по времени для противопотоковой аппроксимации уравнения переноса \(\eqref{eq:nonstat_transport}\):</p><ul>
 <li>явная схема \(\eqref{eq:nonstat_explicit_transport}\) (тест называется <code>[transport1-explicit]</code>),</li>
@@ -902,7 +902,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <p>На каждом шаге по времени функция сохраняется в vtk-формате. В конце выводится значение отклонения от точного решения на конечный момент времени.</p>
 <p>В качестве цели решения обозначим построение решения и визуальное сравнение решений при числе \(C=0.9\) по трём разным схемам. А также построение графика сходимости отклонения точного решения от численного при изменении числа Куранта и фиксированном шаге по пространству (то есть сходимость при уменьшении шага по времени).</p>
 <p>Программы реализованы в файле <code>transport_solve_test.cpp</code>.</p>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md36"></a>
 Функция верхнего уровня</h3>
 <p>Для всех трёх программ функция верхнего уровня имеет один и тот же вид. Рассмотрим на примере первой из них: </p><div class="fragment"><div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>TEST_CASE(<span class="stringliteral">&quot;Transport 1D solver, explicit&quot;</span>, <span class="stringliteral">&quot;[transport1-explicit]&quot;</span>){</div>
 </div><!-- fragment --><p> Вначале происходит установка параметров численной схемы:</p><ul>
@@ -932,7 +932,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 </div><!-- fragment --><p> Потом повторяется процедура сохранения текущего состояния решателя </p><div class="fragment"><div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        out_filename = writer.add(worker.current_time());</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        worker.save_vtk(out_filename);</div>
 </div><!-- fragment --><p> После завершения цикла в консоль печатается установленное разбиение по времени и полученное отклонение от точного решения на конечный момент времени </p><div class="fragment"><div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    std::cout &lt;&lt; 1.0/tau &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; norm &lt;&lt; std::endl;</div>
-</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md37"></a>
 Расчётные функции</h3>
 <p>Три класса-решателя для трёх заявленных задач: <code>TestTransport1WorkerExplicit</code>, <code>TestTransport1WorkerImplicit</code>, <code>TestTransport1WorkerCN</code> наследуются от одного абстрактного класса <code>ATestTransport1Worker</code>. В этом абстрактном классе реализованы все общие для всех решателей функции: создание сетки, сохранение в vtk, расчёт нормы, продвижение по времени.</p>
 <p>Этот класс также хранит в себе параметры, полностью определяющие текущее состояние решения:</p><ul>
@@ -952,7 +952,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">return</span> compute_norm2();</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
 </div><!-- fragment --><p> Функция <code>impl_step</code> уже зависит от конкретной схемы и реализована в производных классах</p>
-<h4><a class="anchor" id="autotoc_md33"></a>
+<h4><a class="anchor" id="autotoc_md38"></a>
 Явная схема</h4>
 <p>Её решатель реализован в классе <code>TestTransport1WorkerExplicit</code>. Рабочая функция по порядку:</p><ul>
 <li>копирует текущий вектор значений во вспомогательный вектор <code>u_old</code>. Этот шаг добавлен сюда для ясности. Вообще говоря, его можно было избежать.</li>
@@ -966,7 +966,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            _u[i] = u_old[i] - tau/_h*(u_old[i] - u_old[i-1]);</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        }</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md39"></a>
 Неявная схема</h4>
 <p>Её решатель реализован в классе <code>TestTransport1WorkerImplicit</code>. Поскольку здесь для нахождения решения требуется решить СЛАУ, то порядок действий включает в себя:</p><ul>
 <li>формирование класса-решателя.</li>
@@ -1006,7 +1006,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        rhs.back() = exact_solution(_grid.point(_grid.n_points()-1).x());</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">return</span> rhs;</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    }</div>
-</div><!-- fragment --> <h4><a class="anchor" id="autotoc_md35"></a>
+</div><!-- fragment --> <h4><a class="anchor" id="autotoc_md40"></a>
 Схема Кранка-Николсон</h4>
 <p>Её решатель реализован в классе <code>TestTransport1WorkerCN</code>.</p>
 <p>По аналогии с предыдущей программой, здесь требуется решить СЛАУ, возникающую из схемы \(\eqref{eq:nonstat_cn_transport}\). Таким образом, вся логика работы этого класса (включая кэширование решателя) повторяет логику работы рассмотренного ранее класса для чисто неявной схемы <code>TestTransport1WorkerImplicit</code>. Отличаются эти классы только реализацией функций построения матрицы и правой части. Поэтому настоящий класс наследуется от <code>TestTransport1WorkerImplicit</code> </p><div class="fragment"><div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="keyword">class </span>TestTransport1WorkerCN: <span class="keyword">public</span> TestTransport1WorkerImplicit{</div>
@@ -1031,7 +1031,7 @@ $(document).ready(function(){initNavTree('notes.html',''); initResizable(); });
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        }</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keywordflow">return</span> rhs;</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    }</div>
-</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md36"></a>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md41"></a>
 Анализ результатов работы</h3>
 <p>Сравнение полученных ответов (по явной и неявной схемам) с точным решением представлено на картинке ниже. </p><div class="image">
 <img src="transport1_solution.png" alt="" width="1000"/>

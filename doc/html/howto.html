@@ -286,7 +286,123 @@ CMake</h1>
 <p>При работе с VisualStudio (если он запущен) после изменения cmake-файла необходимо построить проект <code>ZERO_CHECK</code> вызвав контекстное меню и вызвав <code>Build</code> для обновления файлового дерева. </p><div class="image">
 <img src="win_zero_check_build.png" alt="" width="400"/>
 </div>
-<p> В результате должен появится диалог с предложение обновить проект. Надо нажать Reload All (Обновить всё). </p>
+<p> В результате должен появится диалог с предложение обновить проект. Надо нажать Reload All (Обновить всё).</p>
+<h1><a class="anchor" id="autotoc_md8"></a>
+Построение одномерных графиков в логарифмических осях</h1>
+<p>Рабочие программы, применяемые в курсе, выводят расчётные данные в консоль. И часто возникает необходимость построить по этим данным одномерные графики.</p>
+<p>Например, программа вывела</p>
+<div class="fragment"><div class="line">0.5 100 124</div>
+<div class="line">0.6 200 43.3</div>
+<div class="line">0.7 300 42.3</div>
+</div><!-- fragment --><p>И нужно построить по этой таблице график с двумя кривыми, где по оси x &ndash; первый столбец, а по оси y &ndash; два остальных.</p>
+<p>Если речь идёт о графиках сходимости, то строить нужно в логарифмических координатах.</p>
+<p>Для построения необходимо скопировать эти данные в буфер обмена и далее следовать одной из нижеследующих процедур.</p>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Excel</h2>
+<p>Вставьте текст из буфера обмена.</p>
+<p>Если разделения текста по ячейкам не произошло, выделите необходимые ячейки и вызовите комманду <code>Текст по столбцам</code> из контекстного меню или из вкладки <code>Данные</code></p>
+<div class="image">
+<img src="lingraph_excel2.png" alt="" width="600"/>
+</div>
+<p>Если система не воспринимает точку как десятичный разделитель, запустите алгоритм <code>find and replace</code> нажав <code>Ctrl+H</code> и замените точки на запятые.</p>
+<div class="image">
+<img src="lingraph_excel3.png" alt="" width="500"/>
+</div>
+<p>Когда программа будет воспринимать вставленные числа именно как числа, они будут выровнены по правой стороне ячейки.</p>
+<p>Далее, если необходимо построить логарифмический график, напишите функцию перевода первой ячейки в десятичный логарифм</p>
+<div class="image">
+<img src="lingraph_excel4.png" alt="" width="300"/>
+</div>
+<p>и растяните эту ячейку с формулой вниз и вправо.</p>
+<p>Для построения графика по данным,</p><ol type="1">
+<li>Выберите столбцы, которые необходимо использовать для построения</li>
+<li>На вкладке <code>Вставка</code> выберите Точечную диаграмму с прямыми отрезками и маркерами</li>
+</ol>
+<div class="image">
+<img src="lingraph_excel5.png" alt="" width="600"/>
+</div>
+<h2><a class="anchor" id="autotoc_md10"></a>
+LibreCalc</h2>
+<p>Вставьте текст из буфера обмена.</p>
+<p>Если разделения текста по ячейкам не произошло, выделите необходимые ячейки и вызовите Data/TextToColumns </p><div class="image">
+<img src="lingraph_libre1.png" alt="" width="400"/>
+</div>
+<p>Если система не воспринимает точку как десятичный разделитель, запустите алгоритм <code>find and replace</code> нажав <code>Ctrl+H</code> и замените точки на запятые.</p>
+<p>Когда программа будет воспринимать вставленные числа именно как числа, они будут выровнены по правой стороне ячейки.</p>
+<p>Далее, если необходимо построить логарифмический график, напишите функцию перевода первой ячейки в десятичный логарифм</p>
+<div class="image">
+<img src="lingraph_libre2.png" alt="" width="300"/>
+</div>
+<p>и растяните эту ячейку с формулой вниз и вправо.</p>
+<p>Для построения графика по данным,</p><ol type="1">
+<li>Выберите столбцы, которые необходимо использовать для построения и в меню вызовите <code>Insert/Chart</code>,</li>
+<li>При настройке графика <code>XY (Scatter)</code>,</li>
+<li><code>Points and Lines</code> и нажмите <code>Finish</code>,</li>
+<li>Если необходимо, настройте отображение сетки, интервал и шаг по осям.</li>
+</ol>
+<div class="image">
+<img src="lingraph_libre3.png" alt="" width="600"/>
+</div>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Octave/Matlab</h2>
+<p>В терминал Octave/Matlab скопируйте строчки</p>
+<div class="fragment"><div class="line">function plotmat(m) plot(m(:, 1), m(:, 2:end)) end;</div>
+<div class="line">function plotmat_log(m) plot(log10(m(:, 1)), log10(m(:, 2:end))) end;</div>
+</div><!-- fragment --><p>Потом там же напечатайте </p><div class="fragment"><div class="line">m = [</div>
+</div><!-- fragment --><p> и вставьте из буфера обмена вашу матрицу. После этого закройте скобку <code>]</code> и нажмите enter.</p>
+<p>Далее для построения простого графика введите </p><div class="fragment"><div class="line">plotmat(m)</div>
+</div><!-- fragment --><p> и логарифмического </p><div class="fragment"><div class="line">plotmat_log(m)</div>
+</div><!-- fragment --><p>Чтобы построить другой график, опять определите матрицу </p><div class="fragment"><div class="line">m = [</div>
+</div><!-- fragment --><p> и далее. Повторять первый пункт (если не производился перезапуск сессии) не нужно.</p>
+<h2><a class="anchor" id="autotoc_md12"></a>
+Python</h2>
+<p>Нужен установленный в системе питон и библиотека <code>matplotlib</code>.</p>
+<p>Для установки <code>matplotlib</code> вызовите в консоли</p>
+<div class="fragment"><div class="line">&gt; pip install matplotlib</div>
+</div><!-- fragment --><p>Далее возьмите текст программы ниже и сохраните его в текстовый файл <code>plotmat.py</code>.</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> sys</div>
+<div class="line"><span class="keyword">import</span> math</div>
+<div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div>
+<div class="line"><span class="keyword">import</span> matplotlib</div>
+<div class="line"> </div>
+<div class="line">backends = matplotlib.rcsetup.interactive_bk</div>
+<div class="line"><span class="keywordflow">if</span> matplotlib.backends.backend <span class="keywordflow">not</span> <span class="keywordflow">in</span> backends:</div>
+<div class="line">    <span class="keywordflow">for</span> b <span class="keywordflow">in</span> backends:</div>
+<div class="line">        <span class="keywordflow">try</span>:</div>
+<div class="line">            plt.switch_backend(b)</div>
+<div class="line">            <span class="keywordflow">break</span></div>
+<div class="line">        <span class="keywordflow">except</span> Exception:</div>
+<div class="line">            <span class="keywordflow">continue</span></div>
+<div class="line">    <span class="keywordflow">else</span>:</div>
+<div class="line">        <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&quot;Interactive backends are not available&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">lines = []</div>
+<div class="line"><span class="keywordflow">for</span> line <span class="keywordflow">in</span> sys.stdin:</div>
+<div class="line">    <span class="keywordflow">if</span> len(line.strip()) == 0:</div>
+<div class="line">        <span class="keywordflow">break</span></div>
+<div class="line">    <span class="keywordflow">else</span>:</div>
+<div class="line">        lines.append(line)</div>
+<div class="line"> </div>
+<div class="line">x, y = [], []</div>
+<div class="line"><span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
+<div class="line">    v = [float(it) <span class="keywordflow">for</span> it <span class="keywordflow">in</span> line.split()]</div>
+<div class="line">    <span class="keywordflow">if</span> <span class="stringliteral">&quot;--log&quot;</span> <span class="keywordflow">in</span> sys.argv:</div>
+<div class="line">        v = [math.log10(it) <span class="keywordflow">for</span> it <span class="keywordflow">in</span> v]</div>
+<div class="line">    x.append(v[0])</div>
+<div class="line">    y.append(v[1:])</div>
+<div class="line"> </div>
+<div class="line">numplots = len(y[0])</div>
+<div class="line">fig, ax = plt.subplots()</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">for</span> iplot <span class="keywordflow">in</span> range(numplots):</div>
+<div class="line">    val_y = [it[iplot] <span class="keywordflow">for</span> it <span class="keywordflow">in</span> y]</div>
+<div class="line">    ax.plot(x, val_y, <span class="stringliteral">&#39;o-&#39;</span>)</div>
+<div class="line"> </div>
+<div class="line">ax.grid(<span class="keyword">True</span>)</div>
+<div class="line">plt.show()</div>
+</div><!-- fragment --><p>Из терминала (находясь в папке, где лежит сохранённая вами программа <code>plotmat.py</code>) запустите </p><div class="fragment"><div class="line">&gt; python plotmat.py        # для построения линейного графика</div>
+</div><!-- fragment --><p> или </p><div class="fragment"><div class="line">&gt; python plotmat.py --log  # для построения логарифмического графика</div>
+</div><!-- fragment --><p>Далее вставьте в терминал скопированную в буфер матрицу и нажмите ввод два раза. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

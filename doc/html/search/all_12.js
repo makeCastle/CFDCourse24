@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['validate_0',['validate',['../classcfd_1_1CsrStencil.html#a332ca785c9527bb1d72d2fa333262b73',1,'cfd::CsrStencil::validate()'],['../classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2',1,'cfd::CsrMatrix::validate() const override']]],
-  ['vals_1',['vals',['../classcfd_1_1CsrMatrix.html#aeddff26b1b4c59018105c751885cb024',1,'cfd::CsrMatrix']]],
-  ['value_2',['value',['../classcfd_1_1CsrStencil.html#afffa55eedd53c1674b7c23cf11182bae',1,'cfd::CsrStencil::value()'],['../classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb',1,'cfd::CsrMatrix::value()'],['../classcfd_1_1IMatrix.html#a78b9049b10c8e3456e22594e280187b7',1,'cfd::IMatrix::value()'],['../classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7',1,'cfd::LodMatrix::value()']]],
-  ['visualstudio_3',['VisualStudio',['../install.html#vs_build',1,'']]],
-  ['vscode_4',['VSCode',['../install.html#vscode_build',1,'']]],
-  ['vtk_2ehpp_5',['vtk.hpp',['../vtk_8hpp.html',1,'']]],
-  ['vtkutils_6',['VtkUtils',['../structcfd_1_1VtkUtils.html',1,'cfd']]]
+  ['save_5fvtk_0',['save_vtk',['../classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8',1,'cfd::Grid1D::save_vtk()'],['../classcfd_1_1IGrid.html#adac1537c5dcf351d2b212fcfe9b5bcd4',1,'cfd::IGrid::save_vtk()'],['../classcfd_1_1RegularGrid2D.html#a9a150d3282b819b66d900c169cf77fca',1,'cfd::RegularGrid2D::save_vtk()']]],
+  ['set_5fmatrix_1',['set_matrix',['../classcfd_1_1AmgcMatrixSolver.html#a17b15b066507f1379b0b02804460c5b3',1,'cfd::AmgcMatrixSolver::set_matrix(const CsrMatrix &amp;mat)'],['../classcfd_1_1AmgcMatrixSolver.html#a273f3826d6529355ebe0612ed27b382c',1,'cfd::AmgcMatrixSolver::set_matrix(const CsrStencil &amp;mat_stencil, const std::vector&lt; double &gt; &amp;mat_values)']]],
+  ['set_5fstencil_2',['set_stencil',['../classcfd_1_1CsrStencil.html#acba664eae6d099e1911a749180164e98',1,'cfd::CsrStencil']]],
+  ['set_5fvalue_3',['set_value',['../classcfd_1_1LodMatrix.html#acd829d68f6e6948d4ba2452a345c90dc',1,'cfd::LodMatrix']]],
+  ['set_5fvalues_4',['set_values',['../classcfd_1_1CsrMatrix.html#a2cc46d40d43015be77a09353dc874ed2',1,'cfd::CsrMatrix']]],
+  ['solve_5',['solve',['../classcfd_1_1AmgcMatrixSolver.html#afb077aa960285eeba3fdacc44248413c',1,'cfd::AmgcMatrixSolver']]],
+  ['sparse_5fmatrix_5fsolver_2ehpp_6',['sparse_matrix_solver.hpp',['../sparse__matrix__solver_8hpp.html',1,'']]],
+  ['split_5findex_5ft_7',['split_index_t',['../classcfd_1_1RegularGrid2D.html#a5c20034b411675b04c43f5be75a2b5ca',1,'cfd::RegularGrid2D']]]
 ];

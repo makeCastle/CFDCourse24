@@ -21,7 +21,7 @@ public:
 	using split_index_t = std::array<size_t, 2>;
 
 	/**
-	 * @brief Builds regular equidistant 1d grid
+	 * @brief Builds regular equidistant 2d grid
 	 *
 	 * @param x0  x minimum
 	 * @param x1  x maximum
@@ -31,6 +31,21 @@ public:
 	 * @param ny  number of cells in y direction
 	 */
 	RegularGrid2D(double x0, double x1, double y0, double y1, size_t nx, size_t ny);
+
+	/**
+	 * @brief Builds non-equidistant regular 2d grid
+	 *
+	 * @param x  x-point values
+	 * @param y  y-point values
+	 *
+	 * The resulting number of points in the grid will be `x.size()*y.size()`
+	 */
+	RegularGrid2D(const std::vector<double>& x, const std::vector<double>& y);
+
+	
+	RegularGrid2D cell_centered_grid() const;
+	RegularGrid2D xedge_centered_grid() const;
+	RegularGrid2D yedge_centered_grid() const;
 
 	/**
 	 * @brief Converts split [ix, iy] point index to linear point index
@@ -47,6 +62,20 @@ public:
 	 * @return split point index as the [ix, iy] array
 	 */
 	split_index_t to_split_point_index(size_t ipoint) const;
+
+	size_t cell_centered_grid_index_ip_jp(size_t i, size_t j) const;
+	size_t xedge_grid_index_ip_j(size_t i, size_t j) const;
+	size_t yedge_grid_index_i_jp(size_t i, size_t j) const;
+
+	/**
+	 * @brief Number of cells in x-direction
+	 */
+	size_t nx() const;
+
+	/**
+	 * @brief Number of cells in y-direction
+	 */
+	size_t ny() const;
 
 	// overridden methods
 	size_t n_points() const override;

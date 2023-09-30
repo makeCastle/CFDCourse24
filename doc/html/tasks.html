@@ -119,10 +119,10 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Задания для самостоятельной работы</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md37"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md42"></a>
 Лекция 1 (02.09)</h1>
 <p>Собрать проет cfd на своей системе и разобраться с его основными принципами</p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Лекция 2 (09.09)</h1>
 <ol type="1">
 <li>Построить график, подтверждающий второй порядок точности <a class="el" href="notes.html#poisson1d_fdm">расчётной схемы</a></li>
@@ -185,9 +185,9 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 <p class="startli">В случае, если решатель системы линейных уравнений не решает построенную матрицу, использовать функцию <a class="el" href="namespacecfd_1_1dbg.html#a137041b796a2b504bba0ed98ccd66a23" title="prints sparse matrix to std::cout">cfd::dbg::print</a> для отлаточной печати матрицы в консоль (размерность задачи должна быть небольшой).</p>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Лекция 3 (16.09)</h1>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md45"></a>
 Постановка задачи</h2>
 <p>Написать двумерный решатель для уравнения переноса  </p><p class="formulaDsp">
 \begin{equation*}
@@ -201,7 +201,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 <li>исследовать устойчивость схемы. Эмпирическим путём выяснить, какое максимально возможный шаг по времени можно брать при фиксированном разбиении по пространству;</li>
 <li>построить график, иллюстрирующий сходимость нормы ошибки при уменьшении шага по времени при фиксированном разбиении по пространству.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md41"></a>
+<h3><a class="anchor" id="autotoc_md46"></a>
 Тестовый пример 1</h3>
 <p>На этапе первичного тестирования использовать значения скорости  </p><p class="formulaDsp">
 \begin{equation*}
@@ -225,7 +225,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
 \end{equation*}
 </p>
 <p>То есть этот столбик будет двигаться вправо с единичной скоростью и за время 2 полностью покинет расчётную область.</p>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md47"></a>
 Тестовый пример 2</h3>
 <p>После того, как этот тест будет пройден, использовать постановку с непостоянной по пространству скоростью  </p><p class="formulaDsp">
 \begin{equation*}
@@ -250,7 +250,7 @@ $(document).ready(function(){initNavTree('tasks.html',''); initResizable(); });
     &amp; u^e(x, y, t) = e^{-r^2(x, y, t)/\sigma^2}
 \end{align*}
 </p>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md48"></a>
 Расчётная схема</h2>
 <p>Использовать противопотоковую явную схему:  </p><p class="formulaDsp">
 \begin{equation*}
