@@ -102,10 +102,10 @@ size_t RegularGrid2D::cell_centered_grid_index_ip_jp(size_t i, size_t j) const{
 	return i + j*(_x.size() - 1);
 }
 
-size_t RegularGrid2D::xedge_grid_index_ip_j(size_t i, size_t j) const{
+size_t RegularGrid2D::xface_grid_index_ip_j(size_t i, size_t j) const{
 	if (i >= _x.size()-1 || j >= _y.size()){
 		std::ostringstream oss;
-		oss << "Invalid RegularGrid2d::xedge_grid_index_ip_j() arguments: ";
+		oss << "Invalid RegularGrid2d::xface_grid_index_ip_j() arguments: ";
 		oss << std::endl << "    ";
 		oss << "i=" << i << ", j=" << j;
 		throw std::runtime_error(oss.str());
@@ -113,10 +113,10 @@ size_t RegularGrid2D::xedge_grid_index_ip_j(size_t i, size_t j) const{
 	return i + j*(_x.size() - 1);
 }
 
-size_t RegularGrid2D::yedge_grid_index_i_jp(size_t i, size_t j) const{
+size_t RegularGrid2D::yface_grid_index_i_jp(size_t i, size_t j) const{
 	if (i >= _x.size() || j >= _y.size() - 1){
 		std::ostringstream oss;
-		oss << "Invalid RegularGrid2d::yedge_grid_index_ip_j() arguments: ";
+		oss << "Invalid RegularGrid2d::yface_grid_index_ip_j() arguments: ";
 		oss << std::endl << "    ";
 		oss << "i=" << i << ", j=" << j;
 		throw std::runtime_error(oss.str());
@@ -136,7 +136,7 @@ RegularGrid2D RegularGrid2D::cell_centered_grid() const{
 	return RegularGrid2D(ret_x, ret_y);
 }
 
-RegularGrid2D RegularGrid2D::xedge_centered_grid() const{
+RegularGrid2D RegularGrid2D::xface_centered_grid() const{
 	std::vector<double> ret_x;
 	for (size_t i=0; i<_x.size()-1; ++i){
 		ret_x.push_back((_x[i] + _x[i+1])/2);
@@ -144,7 +144,7 @@ RegularGrid2D RegularGrid2D::xedge_centered_grid() const{
 	return RegularGrid2D(ret_x, _y);
 }
 
-RegularGrid2D RegularGrid2D::yedge_centered_grid() const{
+RegularGrid2D RegularGrid2D::yface_centered_grid() const{
 	std::vector<double> ret_y;
 	for (size_t i=0; i<_y.size()-1; ++i){
 		ret_y.push_back((_y[i] + _y[i+1])/2);

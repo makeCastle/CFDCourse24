@@ -2,7 +2,9 @@ var namespacecfd =
 [
     [ "dbg", "namespacecfd_1_1dbg.html", [
       [ "print", "namespacecfd_1_1dbg.html#a137041b796a2b504bba0ed98ccd66a23", null ],
-      [ "print", "namespacecfd_1_1dbg.html#ac0ea84d6b4ddd4ea730678029d5517a7", null ]
+      [ "print", "namespacecfd_1_1dbg.html#ac0ea84d6b4ddd4ea730678029d5517a7", null ],
+      [ "print", "namespacecfd_1_1dbg.html#ac9f4157be89099f496de5c71a7f62ac9", null ],
+      [ "print_feat", "namespacecfd_1_1dbg.html#a5dd8cd9cb6f159af2bed6c4ff5bd3896", null ]
     ] ],
     [ "AmgcMatrixSolver", "classcfd_1_1AmgcMatrixSolver.html", "classcfd_1_1AmgcMatrixSolver" ],
     [ "CsrMatrix", "classcfd_1_1CsrMatrix.html", "classcfd_1_1CsrMatrix" ],
@@ -18,5 +20,6 @@ var namespacecfd =
     [ "Point", "classcfd_1_1Point.html", "classcfd_1_1Point" ],
     [ "RegularGrid2D", "classcfd_1_1RegularGrid2D.html", "classcfd_1_1RegularGrid2D" ],
     [ "VtkUtils", "structcfd_1_1VtkUtils.html", "structcfd_1_1VtkUtils" ],
+    [ "Vector", "namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0", null ],
     [ "ping", "namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f", null ]
 ];

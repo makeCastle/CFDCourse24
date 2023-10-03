@@ -23,5 +23,13 @@ public:
 	double& z(){ return operator[](2); }
 };
 
+/**
+ * @brief 3D vector
+ *
+ * Alias to cfd::Point.
+ * Access to coordinate values can be achieved via operator[] or x/y/z() functions
+ */
+using Vector = Point;
+
 }
 #endif

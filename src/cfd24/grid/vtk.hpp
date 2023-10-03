@@ -64,7 +64,30 @@ struct VtkUtils{
 	 * @note this method do not paste header of point data section
 	 *       and don't care that insertion will be done into correct place
 	 */
-	static void add_point_data(const std::vector<double>& data, std::string data_cap, std::ostream& s);
+	static void add_point_data(const std::vector<double>& data,
+                                   std::string data_cap,
+                                   std::ostream& s);
+
+	/**
+	 * @brief adds vertex vector data to saved vtk file
+	 * @param data data vector
+	 * @param data_cap data caption as it should appear in vtk
+	 * @param fname saved vtk file name
+	 */
+	static void add_point_vector(const std::vector<Vector>& data,
+	                             std::string data_cap,
+	                             std::string fname);
+
+	/**
+	 * @brief adds vertex vector data to saved vtk file
+	 * @param data data vector
+	 * @param data_cap data caption as it should appear in vtk
+	 * @param s an opened stream
+	 */
+	static void add_point_vector(const std::vector<Vector>& data,
+	                             std::string data_cap,
+	                             std::ostream& s);
+
 
 	/**
 	 * @brief froms and saves header of point data section

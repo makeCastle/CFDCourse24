@@ -123,7 +123,7 @@ $(document).ready(function(){initNavTree('howto.html',''); initResizable(); });
 Git</h1>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Основные команды</h2>
-<p>Все команды выполнять в теримнале (git bash для виндоус), находясь в корневой папке проета CFDCourse24.</p>
+<p>Все команды выполнять в терминале (git bash для виндоус), находясь в корневой папке проета CFDCourse24.</p>
 <ul>
 <li>Для <b>смены директории</b> использовать команду cd. Например, находясь в папке A перейти в папку A/B/C <div class="fragment"><div class="line">&gt; cd B/C</div>
 </div><!-- fragment --></li>
@@ -187,7 +187,29 @@ Git</h1>
 <p>В VsCode аргументы нужно добавлять в файле <code></code>.vscode/launch.json в поле args в кавычках (см. картинку с <a class="el" href="install.html#vscode_build">настройками launch.json</a>).</p>
 <h2><a class="anchor" id="release_build"></a>
 Сборка релизной версии</h2>
-<p>TODO</p>
+<p>Релизная сборка программ даёт многократное увеличение производительности, но при этом отладка приложений в таком режиме невозможна.</p>
+<p><b>Visual Studio</b></p><ol type="1">
+<li>Создать папку <code>build-release</code> рядом с папкой <code>build</code>.</li>
+<li>Скопировать в неё файл <code>winbuild64.bat</code> из папки <code>build</code>.</li>
+<li>В скопированном файле произвести замену Debug на Release <div class="fragment"><div class="line">-DCMAKE_BUILD_TYPE=Release ..</div>
+</div><!-- fragment --></li>
+<li>Запустить <code>winbuild64.bat</code> из новой папки</li>
+<li>Открыть build-release/cfdcourse24.sln в <code>Visual Studio</code></li>
+<li>В проекте студии установить релизную сборку <div class="image">
+<img src="release_build.png" alt="" width="200"/>
+</div>
+</li>
+<li>Это новое решение, не связанное настройками с <code>debug</code>-версией. Поэтому нужно заново настроить запускускаемым проектом <code>cfd_test</code> и, если нужно, настроить аргументы отладки.</li>
+<li>Бинарные файлы будут скомпиллированы в папку <code>CFDCourse24/build_release/bin/Release</code>. В случае работы через отладчик выходная директория &ndash; <code>CFDCourse24/build_release/src/test/</code>.</li>
+</ol>
+<p><b>VSCode</b></p><ol type="1">
+<li>Выбрать релизную сборку в <code>build variant</code></li>
+<li>Нажать <code>Build</code></li>
+<li>Назать <code>Launch</code></li>
+</ol>
+<div class="image">
+<img src="release_build_2.png" alt="" width="400"/>
+</div>
 <h1><a class="anchor" id="paraview"></a>
 Paraview</h1>
 <h2><a class="anchor" id="paraview-1d"></a>
@@ -273,6 +295,42 @@ Paraview</h1>
 </ol>
 <div class="image">
 <img src="howto_paraview_show_labels.png" alt="" width="800"/>
+</div>
+<h2><a class="anchor" id="paraview-glyph"></a>
+Отображение векторов скорости</h2>
+<p>Открыть файл vtk или vtk.series, который содержит векторное поле. Далее</p><ol type="1">
+<li>Создать фильтр Glyph</li>
+<li>Задать двумерный тип стрелки</li>
+<li>Сместить центр стрелки, чтобы она исходила из точки, к которой приписана</li>
+<li>Отметить необходимое векторное поле в качестве ориентации</li>
+<li>Отметить необходимое векторное поле для масштабирования Нажать Apply.</li>
+</ol>
+<div class="image">
+<img src="glyph-1.png" alt="" width="500"/>
+</div>
+<p>Далее</p><ol type="1">
+<li>Выбрать необходимый Glyph-mode. Если сетка небольшая, то можно <code>All Points</code>.</li>
+<li>Установить белый цвет для стрелок Нажать Apply.</li>
+</ol>
+<div class="image">
+<img src="glyph-2.png" alt="" width="400"/>
+</div>
+<p>Если разброс по длинам стрелок слишком велик, его можно подравнять, введя новую функцию \(abs(\vec v)^{0.8}\) - длина вектора в степени меньше единицы. Для этого</p>
+<ol type="1">
+<li>Начиная от загруженного файла создать фильтр Calculator</li>
+<li>Там вбить необходимую формулу</li>
+</ol>
+<div class="image">
+<img src="glyph-3.png" alt="" width="400"/>
+</div>
+<p>Фильтр Glyph создавать уже от Calculator-а.</p>
+<ol type="1">
+<li>В Scale Array фильтра Glyph указать уже результат работы Calculator-a (Result по умолчанию).</li>
+<li>Подтянуть значение Scale Factor до приемлимого</li>
+<li>Не забыть отключить вспомогательное поле Calculator из отображения</li>
+</ol>
+<div class="image">
+<img src="glyph-4.png" alt="" width="600"/>
 </div>
 <h1><a class="anchor" id="autotoc_md6"></a>
 CMake</h1>

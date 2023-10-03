@@ -44,7 +44,8 @@ var NAVTREE =
         [ "Отображение одномерных графиков", "howto.html#paraview-1d", null ],
         [ "Отображение изолиний для двумерного поля", "howto.html#autotoc_md4", null ],
         [ "Отображение двумерного поля в 3D", "howto.html#paraview-2d", null ],
-        [ "Отображение числовых данных для точек и ячеек", "howto.html#autotoc_md5", null ]
+        [ "Отображение числовых данных для точек и ячеек", "howto.html#autotoc_md5", null ],
+        [ "Отображение векторов скорости", "howto.html#paraview-glyph", null ]
       ] ],
       [ "CMake", "howto.html#autotoc_md6", [
         [ "Добавление файла в проект", "howto.html#autotoc_md7", null ]
@@ -107,24 +108,47 @@ var NAVTREE =
           ] ],
           [ "Анализ результатов работы", "notes.html#autotoc_md41", null ]
         ] ]
+      ] ],
+      [ "4. Система Навье-Стокса. Схема SIMPLE (30.09)", "notes.html#autotoc_md42", [
+        [ "Постановка задачи", "notes.html#autotoc_md43", null ],
+        [ "Расчётная схема", "notes.html#autotoc_md44", null ],
+        [ "SIMPLE", "notes.html#simple-algo", null ],
+        [ "Пространственная аппроксимация", "notes.html#autotoc_md45", [
+          [ "Разнесённая сетка", "notes.html#autotoc_md46", null ],
+          [ "Уравнения движения", "notes.html#autotoc_md47", null ],
+          [ "Уравнение для поправки давления", "notes.html#autotoc_md48", null ],
+          [ "Уравнение для поправки скорости", "notes.html#autotoc_md49", null ]
+        ] ],
+        [ "Учёт граничных условий", "notes.html#simple-bc", null ],
+        [ "Программная реализация", "notes.html#autotoc_md50", [
+          [ "Задача о двумерном течении в каверне", "notes.html#autotoc_md51", null ],
+          [ "Функция верхнего уровня", "notes.html#autotoc_md52", null ],
+          [ "Поля класса решателя", "notes.html#autotoc_md53", null ],
+          [ "Инициализация решателя", "notes.html#autotoc_md54", null ],
+          [ "Шаг итерации SIMPLE", "notes.html#autotoc_md55", null ],
+          [ "Сборка системы уравнений для поправки давления", "notes.html#autotoc_md56", null ],
+          [ "Сборка системы уравнений для пробной скорости", "notes.html#autotoc_md57", null ]
+        ] ]
       ] ]
     ] ],
     [ "Задания для самостоятельной работы", "tasks.html", [
-      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md42", null ],
-      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md43", null ],
-      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md44", [
-        [ "Постановка задачи", "tasks.html#autotoc_md45", [
-          [ "Тестовый пример 1", "tasks.html#autotoc_md46", null ],
-          [ "Тестовый пример 2", "tasks.html#autotoc_md47", null ]
+      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md58", null ],
+      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md59", null ],
+      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md60", [
+        [ "Постановка задачи", "tasks.html#autotoc_md61", [
+          [ "Тестовый пример 1", "tasks.html#autotoc_md62", null ],
+          [ "Тестовый пример 2", "tasks.html#autotoc_md63", null ]
         ] ],
-        [ "Расчётная схема", "tasks.html#autotoc_md48", null ]
-      ] ]
+        [ "Расчётная схема", "tasks.html#autotoc_md64", null ]
+      ] ],
+      [ "Лекция 4 (30.09)", "tasks.html#autotoc_md65", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ]
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Typedefs", "namespacemembers_type.html", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -150,7 +174,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"namespacemembers.html"
+"howto.html#autotoc_md9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

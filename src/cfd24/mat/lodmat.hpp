@@ -66,6 +66,8 @@ public:
 	 */
 	void remove_row(size_t irow);
 
+	void set_unit_row(size_t irow);
+
 	/**
 	 * @brief converts to csr matrix format
 	 *

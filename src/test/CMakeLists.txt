@@ -7,12 +7,14 @@ set (SRC
 	cavern_2d_simple_test.cpp
 
 	utils/filesystem.cpp
+	utils/vecmat.cpp
 )
 
 set (HEADERS
 	cfd24_test.hpp
 
 	utils/filesystem.hpp
+	utils/vecmat.hpp
 )
 
 add_executable(cfd24_test ${SRC} ${HEADERS})

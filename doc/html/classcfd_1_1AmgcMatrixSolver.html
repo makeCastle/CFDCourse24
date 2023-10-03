@@ -118,6 +118,7 @@ $(document).ready(function(){initNavTree('classcfd_1_1AmgcMatrixSolver.html','')
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcfd_1_1AmgcMatrixSolver-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">cfd::AmgcMatrixSolver Class Reference</div></div>
 </div><!--header-->
@@ -143,6 +144,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb077aa960285eeba3fdacc44248413c" id="r_afb077aa960285eeba3fdacc44248413c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#afb077aa960285eeba3fdacc44248413c">solve</a> (const std::vector&lt; double &gt; &amp;rhs, std::vector&lt; double &gt; &amp;ret) const</td></tr>
 <tr class="memdesc:afb077aa960285eeba3fdacc44248413c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves slae Ax = rhs.  <br /></td></tr>
 <tr class="separator:afb077aa960285eeba3fdacc44248413c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a954a66a2cefef639ee760eecb3c8dea8" id="r_a954a66a2cefef639ee760eecb3c8dea8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#a954a66a2cefef639ee760eecb3c8dea8">solve_slae</a> (const <a class="el" href="classcfd_1_1CsrMatrix.html">CsrMatrix</a> &amp;mat, const std::vector&lt; double &gt; &amp;rhs, std::vector&lt; double &gt; &amp;x)</td></tr>
+<tr class="separator:a954a66a2cefef639ee760eecb3c8dea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Amgcl Solver for csr matrices. </p>
@@ -302,6 +308,48 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Given values of output vector will be used as the initial values. If it is empty, solution will be initialized with zeros. </p>
+
+</div>
+</div>
+<a id="a954a66a2cefef639ee760eecb3c8dea8" name="a954a66a2cefef639ee760eecb3c8dea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a954a66a2cefef639ee760eecb3c8dea8">&#9670;&#160;</a></span>solve_slae()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void cfd::AmgcMatrixSolver::solve_slae </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcfd_1_1CsrMatrix.html">CsrMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>mat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

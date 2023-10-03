@@ -35,6 +35,10 @@ void LodMatrix::remove_row(size_t irow){
 	_data.at(irow).clear();
 }
 
+void LodMatrix::set_unit_row(size_t irow){
+	_data.at(irow) = std::map<size_t, double> { {irow, 1.0} };
+}
+
 size_t LodMatrix::n_rows() const{
 	return _data.size();
 }

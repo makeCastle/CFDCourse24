@@ -160,6 +160,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd6ca675eb22b1013fdbd0dc9b680826" id="r_abd6ca675eb22b1013fdbd0dc9b680826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826">remove_row</a> (size_t irow)</td></tr>
 <tr class="memdesc:abd6ca675eb22b1013fdbd0dc9b680826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes row from sparse matrix stencil.  <br /></td></tr>
 <tr class="separator:abd6ca675eb22b1013fdbd0dc9b680826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab44a87b8436e07e330a7d83dc6c3ae8d" id="r_ab44a87b8436e07e330a7d83dc6c3ae8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#ab44a87b8436e07e330a7d83dc6c3ae8d">set_unit_row</a> (size_t irow)</td></tr>
+<tr class="separator:ab44a87b8436e07e330a7d83dc6c3ae8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f0710f7078724f5b8dfc38c6afc69e5" id="r_a0f0710f7078724f5b8dfc38c6afc69e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcfd_1_1CsrMatrix.html">CsrMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html#a0f0710f7078724f5b8dfc38c6afc69e5">to_csr</a> () const</td></tr>
 <tr class="memdesc:a0f0710f7078724f5b8dfc38c6afc69e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">converts to csr matrix format  <br /></td></tr>
 <tr class="separator:a0f0710f7078724f5b8dfc38c6afc69e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,6 +183,9 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classcfd_1_1IMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1IMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcfd_1_1IMatrix.html">cfd::IMatrix</a></td></tr>
 <tr class="memitem:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix" id="r_a0cf68abb69b5a84ad0fcabb97a90b5ca"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca">~IMatrix</a> ()=default</td></tr>
 <tr class="separator:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix" id="r_a8235cb665746c6e6661e0bc980ba680f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a8235cb665746c6e6661e0bc980ba680f">diagonal</a> () const</td></tr>
+<tr class="memdesc:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes diagonal vector  <br /></td></tr>
+<tr class="separator:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>'List of dictionaries' sparse matrix format </p>
@@ -453,6 +458,24 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>column-&gt;value dictionary </dd></dl>
+
+</div>
+</div>
+<a id="ab44a87b8436e07e330a7d83dc6c3ae8d" name="ab44a87b8436e07e330a7d83dc6c3ae8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab44a87b8436e07e330a7d83dc6c3ae8d">&#9670;&#160;</a></span>set_unit_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::LodMatrix::set_unit_row </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

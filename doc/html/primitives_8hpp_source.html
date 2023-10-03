@@ -150,9 +150,17 @@ $(document).ready(function(){initNavTree('primitives_8hpp_source.html',''); init
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classcfd_1_1Point.html#a5dd1bb43ec750180c6512ff1ae91fcc2">   23</a></span>    <span class="keywordtype">double</span>&amp; <a class="code hl_function" href="classcfd_1_1Point.html#a5dd1bb43ec750180c6512ff1ae91fcc2">z</a>(){ <span class="keywordflow">return</span> operator[](2); }</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
 </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"></span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * @brief 3D vector</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * Alias to cfd::Point.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * Access to coordinate values can be achieved via operator[] or x/y/z() functions</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">   32</a></span><span class="keyword">using </span><a class="code hl_class" href="classcfd_1_1Point.html">Vector</a> = <a class="code hl_class" href="classcfd_1_1Point.html">Point</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclasscfd_1_1Point_html"><div class="ttname"><a href="classcfd_1_1Point.html">cfd::Point</a></div><div class="ttdoc">3D point</div><div class="ttdef"><b>Definition</b> <a href="primitives_8hpp_source.html#l00013">primitives.hpp:13</a></div></div>
 <div class="ttc" id="aclasscfd_1_1Point_html_a2c39881ee29c72ecad4046fdadcdf5da"><div class="ttname"><a href="classcfd_1_1Point.html#a2c39881ee29c72ecad4046fdadcdf5da">cfd::Point::y</a></div><div class="ttdeci">double &amp; y()</div><div class="ttdef"><b>Definition</b> <a href="primitives_8hpp_source.html#l00022">primitives.hpp:22</a></div></div>
 <div class="ttc" id="aclasscfd_1_1Point_html_a5292e69b51230c9b976234954e897554"><div class="ttname"><a href="classcfd_1_1Point.html#a5292e69b51230c9b976234954e897554">cfd::Point::y</a></div><div class="ttdeci">double y() const</div><div class="ttdef"><b>Definition</b> <a href="primitives_8hpp_source.html#l00018">primitives.hpp:18</a></div></div>
