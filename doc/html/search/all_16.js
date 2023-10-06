@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['_7eamgcmatrixsolver_0',['~AmgcMatrixSolver',['../classcfd_1_1AmgcMatrixSolver.html#aad135e9cc3c2b96ea2f76eb5fd15cbbd',1,'cfd::AmgcMatrixSolver']]],
-  ['_7ecsrstencil_1',['~CsrStencil',['../classcfd_1_1CsrStencil.html#ae636c6b80a02c8de4390a7386c2ada21',1,'cfd::CsrStencil']]],
-  ['_7eigrid_2',['~IGrid',['../classcfd_1_1IGrid.html#add11fdadef8e13995e233ce2907c7b49',1,'cfd::IGrid']]],
-  ['_7eigrid1d_3',['~IGrid1D',['../classcfd_1_1IGrid1D.html#adfd08aacd23fa3ca419e757acb0826de',1,'cfd::IGrid1D']]],
-  ['_7eigrid2d_4',['~IGrid2D',['../classcfd_1_1IGrid2D.html#a8c7f9155e0881b3cf78b4d2e1ee18faf',1,'cfd::IGrid2D']]],
-  ['_7eigrid3d_5',['~IGrid3D',['../classcfd_1_1IGrid3D.html#a5846ce42a5c80274cad9cce5e0cac999',1,'cfd::IGrid3D']]],
-  ['_7eimatrix_6',['~IMatrix',['../classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca',1,'cfd::IMatrix']]],
-  ['_7eisparsematrix_7',['~ISparseMatrix',['../classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0',1,'cfd::ISparseMatrix']]]
+  ['x_0',['x',['../classcfd_1_1Point.html#a9ca9b365a7ab1f19d3bd82efa333e628',1,'cfd::Point::x() const'],['../classcfd_1_1Point.html#a7160ec2ba9057bb94f11ac0337d594e8',1,'cfd::Point::x()']]],
+  ['xface_5fcentered_5fgrid_1',['xface_centered_grid',['../classcfd_1_1RegularGrid2D.html#ab705219175e75d152fe0d8867e788f01',1,'cfd::RegularGrid2D']]],
+  ['xface_5fgrid_5findex_5fip_5fj_2',['xface_grid_index_ip_j',['../classcfd_1_1RegularGrid2D.html#a208b586b51426b39805dddae6b6d0896',1,'cfd::RegularGrid2D']]]
 ];

@@ -83,3 +83,34 @@ double CsrMatrix::value(size_t irow, size_t icol) const{
 	}
 	return 0;
 }
+
+std::vector<double> CsrMatrix::mult_vec(const std::vector<double>& u) const{
+	const std::vector<size_t>& a = addr();
+	const std::vector<size_t>& c = cols();
+	const std::vector<double>& v = vals();
+
+	std::vector<double> ret(n_rows(), 0);
+	for (size_t irow=0; irow<n_rows(); ++irow){
+		size_t start = a[irow];
+		size_t end = a[irow+1];
+		for (size_t i=start; i<end; ++i){
+			ret[irow] += v[i] * u[c[i]];
+		}
+	}
+
+	return ret;
+}
+
+double CsrMatrix::mult_vec(size_t irow, const std::vector<double>& u) const{
+	const std::vector<size_t>& a = addr();
+	const std::vector<size_t>& c = cols();
+	const std::vector<double>& v = vals();
+
+	double ret = 0;
+	size_t start = a.at(irow);
+	size_t end = a.at(irow+1);
+	for (size_t i=start; i<end; ++i){
+		ret += v[i] * u[c[i]];
+	}
+	return ret;
+}

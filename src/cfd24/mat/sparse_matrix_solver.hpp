@@ -46,6 +46,8 @@ public:
 	 * If it is empty, solution will be initialized with zeros.
 	 */
 	void solve(const std::vector<double>& rhs, std::vector<double>& ret) const;
+
+	static void solve_slae(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& x);
 private:
 	int _maxit;
 	double _tolerance;

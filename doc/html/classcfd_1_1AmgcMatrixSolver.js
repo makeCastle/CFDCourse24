@@ -4,5 +4,6 @@ var classcfd_1_1AmgcMatrixSolver =
     [ "~AmgcMatrixSolver", "classcfd_1_1AmgcMatrixSolver.html#aad135e9cc3c2b96ea2f76eb5fd15cbbd", null ],
     [ "set_matrix", "classcfd_1_1AmgcMatrixSolver.html#a17b15b066507f1379b0b02804460c5b3", null ],
     [ "set_matrix", "classcfd_1_1AmgcMatrixSolver.html#a273f3826d6529355ebe0612ed27b382c", null ],
-    [ "solve", "classcfd_1_1AmgcMatrixSolver.html#afb077aa960285eeba3fdacc44248413c", null ]
+    [ "solve", "classcfd_1_1AmgcMatrixSolver.html#afb077aa960285eeba3fdacc44248413c", null ],
+    [ "solve_slae", "classcfd_1_1AmgcMatrixSolver.html#a954a66a2cefef639ee760eecb3c8dea8", null ]
 ];

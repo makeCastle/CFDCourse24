@@ -37,6 +37,13 @@ std::ostream& vtk_string(std::ostream& s, const std::vector<double>& v){
 	return s;
 }
 
+std::ostream& vtk_string(std::ostream& s, const std::vector<Vector>& v){
+	for (Vector d: v){
+		s << d[0] << " " << d[1] << " " << d[2] << std::endl;
+	}
+	return s;
+}
+
 void create_directory(std::string path, bool purge){
 	if (fs::is_directory(path)){
 		if (purge){
@@ -95,16 +102,16 @@ void VtkUtils::add_cell_data(const std::vector<double>& data,
 }
 
 void VtkUtils::add_cell_data(const std::vector<double>& data,
-                                 std::string data_cap,
-                                 std::ostream& fs){
+                             std::string data_cap,
+                             std::ostream& fs){
 	fs << "SCALARS " << data_cap << " double 1" << std::endl;
 	fs << "LOOKUP_TABLE default" << std::endl;
 	vtk_string(fs, data);
 }
 
 void VtkUtils::add_point_data(const std::vector<double>& data,
-                                   std::string data_cap,
-                                   std::string fname){
+                              std::string data_cap,
+                              std::string fname){
 	// find if there are any point data already in file
 	std::vector<size_t> fnd = find_strings_in_stream(fname, {"POINT_DATA"});
 
@@ -119,12 +126,36 @@ void VtkUtils::add_point_data(const std::vector<double>& data,
 }
 
 void VtkUtils::add_point_data(const std::vector<double>& data,
-                                   std::string data_cap,
-                                   std::ostream& fs){
+                              std::string data_cap,
+                              std::ostream& fs){
 	fs << "SCALARS " << data_cap << " double 1" << std::endl;
 	fs << "LOOKUP_TABLE default" << std::endl;
 	vtk_string(fs, data);
 }
+void VtkUtils::add_point_vector(const std::vector<Vector>& data,
+                                std::string data_cap,
+                                std::string fname){
+	// find if there are any point data already in file
+	std::vector<size_t> fnd = find_strings_in_stream(fname, {"POINT_DATA"});
+
+	// vertex data do not exist write caption
+	std::fstream fs(fname, std::ios::app);
+	if (fnd[0] == std::string::npos) append_point_data_header(data.size(), fs);
+
+	// write data
+	add_point_vector(data, data_cap, fs);
+
+	fs.close();
+}
+
+void VtkUtils::add_point_vector(const std::vector<Vector>& data,
+                                std::string data_cap,
+                                std::ostream& fs){
+	fs << "SCALARS " << data_cap << " double 3" << std::endl;
+	fs << "LOOKUP_TABLE default" << std::endl;
+	vtk_string(fs, data);
+}
+
 
 void VtkUtils::append_cell_data_header(size_t data_size, std::ostream& os){
 	os << "CELL_DATA " << data_size << std::endl;
@@ -150,7 +181,7 @@ VtkUtils::TimeDependentWriter::TimeDependentWriter(std::string stem): _stem(stem
 std::string VtkUtils::TimeDependentWriter::add(double tm){
 	std::ostringstream fn;
 	fn << std::setfill('0') << std::setw(8) << std::fixed << std::setprecision(4) << tm << ".vtk";
-	std::string ret = (fs::path(_stem) / fs::path(fn.str())).string();
+	std::string ret = _stem + '/' + fn.str();
 
 	std::ostringstream oss;
 	if (!_fileslist.empty()){

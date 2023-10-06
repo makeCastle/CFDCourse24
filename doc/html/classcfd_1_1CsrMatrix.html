@@ -150,6 +150,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeddff26b1b4c59018105c751885cb024" id="r_aeddff26b1b4c59018105c751885cb024"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrMatrix.html#aeddff26b1b4c59018105c751885cb024">vals</a> () const</td></tr>
 <tr class="memdesc:aeddff26b1b4c59018105c751885cb024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values array getter.  <br /></td></tr>
 <tr class="separator:aeddff26b1b4c59018105c751885cb024"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3952ba067b60d06ecb7cd2a4e9d0357c" id="r_a3952ba067b60d06ecb7cd2a4e9d0357c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrMatrix.html#a3952ba067b60d06ecb7cd2a4e9d0357c">mult_vec</a> (const std::vector&lt; double &gt; &amp;u) const</td></tr>
+<tr class="memdesc:a3952ba067b60d06ecb7cd2a4e9d0357c"><td class="mdescLeft">&#160;</td><td class="mdescRight">matrix-vector product  <br /></td></tr>
+<tr class="separator:a3952ba067b60d06ecb7cd2a4e9d0357c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac66420135679fb73135d0ee9b3f75821" id="r_ac66420135679fb73135d0ee9b3f75821"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrMatrix.html#ac66420135679fb73135d0ee9b3f75821">mult_vec</a> (size_t irow, const std::vector&lt; double &gt; &amp;u) const</td></tr>
+<tr class="memdesc:ac66420135679fb73135d0ee9b3f75821"><td class="mdescLeft">&#160;</td><td class="mdescRight">matrix-vector product for the specified row  <br /></td></tr>
+<tr class="separator:ac66420135679fb73135d0ee9b3f75821"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac79bc108aac116ecbeeb145829de01a2" id="r_ac79bc108aac116ecbeeb145829de01a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">validate</a> () const override</td></tr>
 <tr class="memdesc:ac79bc108aac116ecbeeb145829de01a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consistency check. Throws if stencil structure is invalid.  <br /></td></tr>
 <tr class="separator:ac79bc108aac116ecbeeb145829de01a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,12 +192,80 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classcfd_1_1IMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1IMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcfd_1_1IMatrix.html">cfd::IMatrix</a></td></tr>
 <tr class="memitem:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix" id="r_a0cf68abb69b5a84ad0fcabb97a90b5ca"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca">~IMatrix</a> ()=default</td></tr>
 <tr class="separator:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix" id="r_a8235cb665746c6e6661e0bc980ba680f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a8235cb665746c6e6661e0bc980ba680f">diagonal</a> () const</td></tr>
+<tr class="memdesc:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes diagonal vector  <br /></td></tr>
+<tr class="separator:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>'Compressed sparsed row' matrix format </p>
 
 <p class="definition">Definition at line <a class="el" href="csrmat_8hpp_source.html#l00050">50</a> of file <a class="el" href="csrmat_8hpp_source.html">csrmat.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3952ba067b60d06ecb7cd2a4e9d0357c" name="a3952ba067b60d06ecb7cd2a4e9d0357c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3952ba067b60d06ecb7cd2a4e9d0357c">&#9670;&#160;</a></span>mult_vec() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; cfd::CsrMatrix::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>matrix-vector product </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">u</td><td>vector</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>result of the multiplication </dd></dl>
+
+</div>
+</div>
+<a id="ac66420135679fb73135d0ee9b3f75821" name="ac66420135679fb73135d0ee9b3f75821"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac66420135679fb73135d0ee9b3f75821">&#9670;&#160;</a></span>mult_vec() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::CsrMatrix::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>matrix-vector product for the specified row </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irow</td><td>index of matrix row </td></tr>
+    <tr><td class="paramname">u</td><td>argument vector</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>result of the multiplication for the given row </dd></dl>
+
+</div>
+</div>
 <a id="a2cc46d40d43015be77a09353dc874ed2" name="a2cc46d40d43015be77a09353dc874ed2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cc46d40d43015be77a09353dc874ed2">&#9670;&#160;</a></span>set_values()</h2>
 

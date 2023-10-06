@@ -1,6 +1,7 @@
 build*/
 ~*
 *.swp
+*.swo
 out/
 a.gdb
 .vs/

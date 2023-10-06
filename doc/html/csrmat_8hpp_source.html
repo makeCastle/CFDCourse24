@@ -189,22 +189,43 @@ $(document).ready(function(){initNavTree('csrmat_8hpp_source.html',''); initResi
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">     * @brief Values array getter</span></div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">     */</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#aeddff26b1b4c59018105c751885cb024">   62</a></span>    <span class="keyword">const</span> std::vector&lt;double&gt;&amp; <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#aeddff26b1b4c59018105c751885cb024">vals</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// overrides</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">   65</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">validate</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">   66</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">value</a>(<span class="keywordtype">size_t</span> irow, <span class="keywordtype">size_t</span> icol) <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    std::vector&lt;double&gt; _vals;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment"></span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">     * @brief matrix-vector product</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">     * @param u  vector</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">     * @return result of the multiplication</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#a3952ba067b60d06ecb7cd2a4e9d0357c">   71</a></span>    std::vector&lt;double&gt; <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#a3952ba067b60d06ecb7cd2a4e9d0357c">mult_vec</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; u) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment"></span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">     * @brief matrix-vector product for the specified row</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">     * @param irow  index of matrix row</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="comment">     * @param u     argument vector</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">     *</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="comment">     * @return result of the multiplication for the given row</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#ac66420135679fb73135d0ee9b3f75821">   81</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#ac66420135679fb73135d0ee9b3f75821">mult_vec</a>(<span class="keywordtype">size_t</span> irow, <span class="keyword">const</span> std::vector&lt;double&gt;&amp; u) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// overrides</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">   84</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">validate</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">   85</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">value</a>(<span class="keywordtype">size_t</span> irow, <span class="keywordtype">size_t</span> icol) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::vector&lt;double&gt; _vals;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>};</div>
 </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclasscfd_1_1CsrMatrix_html"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html">cfd::CsrMatrix</a></div><div class="ttdoc">'Compressed sparsed row' matrix format</div><div class="ttdef"><b>Definition</b> <a href="csrmat_8hpp_source.html#l00050">csrmat.hpp:50</a></div></div>
 <div class="ttc" id="aclasscfd_1_1CsrMatrix_html_a2cc46d40d43015be77a09353dc874ed2"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#a2cc46d40d43015be77a09353dc874ed2">cfd::CsrMatrix::set_values</a></div><div class="ttdeci">void set_values(std::vector&lt; double &gt; &amp;&amp;vals)</div><div class="ttdoc">Set matrix values.</div></div>
+<div class="ttc" id="aclasscfd_1_1CsrMatrix_html_a3952ba067b60d06ecb7cd2a4e9d0357c"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#a3952ba067b60d06ecb7cd2a4e9d0357c">cfd::CsrMatrix::mult_vec</a></div><div class="ttdeci">std::vector&lt; double &gt; mult_vec(const std::vector&lt; double &gt; &amp;u) const</div><div class="ttdoc">matrix-vector product</div></div>
 <div class="ttc" id="aclasscfd_1_1CsrMatrix_html_a46e96def1f9c7b61dea763788e4d59fb"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">cfd::CsrMatrix::value</a></div><div class="ttdeci">double value(size_t irow, size_t icol) const override</div><div class="ttdoc">gets value at given address</div></div>
+<div class="ttc" id="aclasscfd_1_1CsrMatrix_html_ac66420135679fb73135d0ee9b3f75821"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#ac66420135679fb73135d0ee9b3f75821">cfd::CsrMatrix::mult_vec</a></div><div class="ttdeci">double mult_vec(size_t irow, const std::vector&lt; double &gt; &amp;u) const</div><div class="ttdoc">matrix-vector product for the specified row</div></div>
 <div class="ttc" id="aclasscfd_1_1CsrMatrix_html_ac79bc108aac116ecbeeb145829de01a2"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#ac79bc108aac116ecbeeb145829de01a2">cfd::CsrMatrix::validate</a></div><div class="ttdeci">void validate() const override</div><div class="ttdoc">Consistency check. Throws if stencil structure is invalid.</div></div>
 <div class="ttc" id="aclasscfd_1_1CsrMatrix_html_aeddff26b1b4c59018105c751885cb024"><div class="ttname"><a href="classcfd_1_1CsrMatrix.html#aeddff26b1b4c59018105c751885cb024">cfd::CsrMatrix::vals</a></div><div class="ttdeci">const std::vector&lt; double &gt; &amp; vals() const</div><div class="ttdoc">Values array getter.</div></div>
 <div class="ttc" id="aclasscfd_1_1CsrStencil_html"><div class="ttname"><a href="classcfd_1_1CsrStencil.html">cfd::CsrStencil</a></div><div class="ttdoc">'Compressed sparsed row' stencil</div><div class="ttdef"><b>Definition</b> <a href="csrmat_8hpp_source.html#l00011">csrmat.hpp:11</a></div></div>
