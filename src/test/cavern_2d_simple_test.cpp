@@ -6,7 +6,11 @@
 #include "cfd24/debug/printer.hpp"
 #include "utils/vecmat.hpp"
 
+#include <fstream>
+
 using namespace cfd;
+
+std::ofstream norms;
 
 struct Cavern2DSimpleWorker{
 	Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p);
@@ -71,6 +75,10 @@ private:
 	double v_ip_jp(size_t i, size_t j) const;
 	double p_ip_jp(size_t i, size_t j) const;
 	std::vector<Vector> build_main_grid_velocity() const;
+
+	////////////////////////////////////////////////////////////////////
+	virtual double get_bottom_velocity() const { return _u[_grid.n_points() - 1]; };
+	////////////////////////////////////////////////////////////////////
 };
 
 Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p):
@@ -107,6 +115,13 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	// residuals
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u)/_tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v)/_tau;
+
+	
+	
+	
+	norms << nrm_u << "		" << nrm_v << std::endl;
+
+	
 
 	return std::max(nrm_u, nrm_v);
 };
@@ -442,8 +457,17 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const{
 	return ret;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct Cavern2DSimpleSymWorker : Cavern2DSimpleWorker {
+public:
+	Cavern2DSimpleSymWorker(double Re, size_t n_cells, double tau, double alpha_p);
+};
+//////////////////////////////////////////////////////////////////////////////////////////
+
 TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 	std::cout << std::endl << "--- cfd24_test [cavern2-simple] --- " << std::endl;
+
+	norms.open("C:/git_repos/CFDCourse24/build/src/test/norms.txt");
 
 	// problem parameters
 	double Re = 100;
@@ -451,18 +475,18 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 	double alpha = 0.8;
 	size_t n_cells = 30;
 	size_t max_it = 1000;
-	double eps = 1e-0;
+	double eps = 1e-1;
 
 	// worker initialization
 	Cavern2DSimpleWorker worker(Re, n_cells, tau, alpha);
-	worker.initialize_saver(false, "cavern2");
+	//worker.initialize_saver(false, "cavern2");
 
 	// initial condition
 	std::vector<double> u_init(worker.u_size(), 0.0);
 	std::vector<double> v_init(worker.v_size(), 0.0);
 	std::vector<double> p_init(worker.p_size(), 0.0);
 	worker.set_uvp(u_init, v_init, p_init);
-	worker.save_current_fields(0);
+	//worker.save_current_fields(0);
 
 	// iterations loop
 	size_t it = 0;
@@ -473,7 +497,7 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
 
 		// export solution to vtk
-		worker.save_current_fields(it);
+		//worker.save_current_fields(it);
 
 		// break if residual is low enough
 		if (nrm < eps){
@@ -481,4 +505,49 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 		}
 	}
 	CHECK(it == 9);
+
+	norms.close();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple-sym]") {
+	std::cout << std::endl << "--- cfd24_test [cavern2-simple-sym] --- " << std::endl;
+
+	// problem parameters
+	double Re = 100;
+	double tau = 0.03;
+	double alpha = 0.8;
+	size_t n_cells = 30;
+	size_t max_it = 1000;
+	double eps = 1e-1;
+
+	// worker initialization
+	Cavern2DSimpleSymWorker worker(Re, n_cells, tau, alpha);
+	//worker.initialize_saver(false, "cavern2");
+
+	// initial condition
+	std::vector<double> u_init(worker.u_size(), 0.0);
+	std::vector<double> v_init(worker.v_size(), 0.0);
+	std::vector<double> p_init(worker.p_size(), 0.0);
+	worker.set_uvp(u_init, v_init, p_init);
+	//worker.save_current_fields(0);
+
+	// iterations loop
+	size_t it = 0;
+	for (it = 1; it < max_it; ++it) {
+		double nrm = worker.step();
+
+		// print norm and pressure value at the top-right corner
+		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
+
+		// export solution to vtk
+		//worker.save_current_fields(it);
+
+		// break if residual is low enough
+		if (nrm < eps) {
+			break;
+		}
+	}
+	CHECK(it == 9);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
