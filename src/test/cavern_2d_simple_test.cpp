@@ -459,9 +459,77 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const{
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct Cavern2DSimpleSymWorker : Cavern2DSimpleWorker {
-public:
-	Cavern2DSimpleSymWorker(double Re, size_t n_cells, double tau, double alpha_p);
+private:
+	void assemble_u_slae();
 };
+
+void Cavern2DSimpleSymWorker::assemble_u_slae() {
+	_rhs_u.resize(get_bottom_velocity().size());
+	std::fill(_rhs_u.begin(), _rhs_u.end(), 0.0);
+	LodMatrix mat(_u.size());
+
+	auto add_to_mat = [&](size_t row_index, std::array<size_t, 2> ij_col, double value) {
+		if (ij_col[1] == _grid.ny()) {
+			// ghost index => top boundary condition: u = 1
+			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1] - 1);
+			mat.add_value(row_index, ind1, -value);
+			_rhs_u[row_index] -= 2.0 * value;
+		}
+		else if (ij_col[1] == (size_t)-1) {
+			// ghost index => bottom boundary condition: u = 0
+			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1] + 1);
+			mat.add_value(row_index, ind1, -value);
+		}
+		else {
+			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]);
+			mat.add_value(row_index, ind1, value);
+		}
+		};
+
+	// left/right boundary: u = 0
+	for (size_t j = 0; j < _grid.ny(); ++j) {
+		size_t index_left = _grid.yface_grid_index_i_jp(0, j);
+		add_to_mat(index_left, { 0, j }, 1.0);
+		_rhs_u[index_left] = 0.0;
+
+		size_t index_right = _grid.yface_grid_index_i_jp(_grid.nx(), j);
+		add_to_mat(index_right, { _grid.nx(), j }, 1.0);
+		_rhs_u[index_right] = 0.0;
+	}
+
+	// internal
+	for (size_t j = 0; j < _grid.ny(); ++j)
+		for (size_t i = 1; i < _grid.nx(); ++i) {
+			size_t row_index = _grid.yface_grid_index_i_jp(i, j);   //[i, j+1/2] linear index in u grid
+
+			double u0_plus = u_ip_jp(i, j);   //_u[i+1/2, j+1/2]
+			double u0_minus = u_ip_jp(i - 1, j); //_u[i-1/2, j+1/2]
+			double v0_plus = v_i_j(i, j + 1);   // _v[i,j+1]
+			double v0_minus = v_i_j(i, j);     // _v[i,j]
+
+			// u_(i,j+1/2)
+			add_to_mat(row_index, { i, j }, 1.0);
+			//     + tau * d(u0*u)/ dx
+			add_to_mat(row_index, { i + 1,j }, _tau / 2.0 / _hx * u0_plus);
+			add_to_mat(row_index, { i - 1,j }, -_tau / 2.0 / _hx * u0_minus);
+			//     + tau * d(v0*u)/dy
+			add_to_mat(row_index, { i, j + 1 }, _tau / 2.0 / _hy * v0_plus);
+			add_to_mat(row_index, { i, j - 1 }, -_tau / 2.0 / _hy * v0_minus);
+			//     - tau / Re * d^2u/dx^2
+			add_to_mat(row_index, { i, j }, 2.0 * _tau / _Re / _hx / _hy);
+			add_to_mat(row_index, { i + 1, j }, -_tau / _Re / _hx / _hx);
+			add_to_mat(row_index, { i - 1, j }, -_tau / _Re / _hy / _hy);
+			//     - tau / Re * d^2u/dy^2
+			add_to_mat(row_index, { i, j }, 2.0 * _tau / _Re / _hy / _hy);
+			add_to_mat(row_index, { i, j + 1 }, -_tau / _Re / _hy / _hy);
+			add_to_mat(row_index, { i, j - 1 }, -_tau / _Re / _hy / _hy);
+			// = u0_(i,j+1/2)
+			_rhs_u[row_index] += _u[row_index];
+			//      - tau * dp/dx
+			_rhs_u[row_index] -= _tau / _hx * (p_ip_jp(i, j) - p_ip_jp(i - 1, j));
+		}
+	_mat_u = mat.to_csr();
+}
 //////////////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
