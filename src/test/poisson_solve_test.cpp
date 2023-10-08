@@ -110,6 +110,7 @@ private:
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class TestPoisson2Worker {
 public:
 	// u(x) = sin(10*x^2)
@@ -198,11 +199,15 @@ private:
 		double nondiag3 = -1.0 / (_hy * _hy); // A[i][j - 1] (d)
 		double nondiag4 = -1.0 / (_hy * _hy); // A[i][j + 1] (e)
 		
+		/*mat.add_value(1, 0, diag); mat.add_value(1, 1, nondiag3); mat.add_value(1, 2, nondiag4);
+		mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 2, nondiag2); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, diag);
+		mat.add_value(2, 0, nondiag2); mat.add_value(2, 1, diag); mat.add_value(2, 2, nondiag3); mat.add_value(2, 3, nondiag4);
+		mat.add_value(grid.n_points() - 3, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 3, grid.n_points() - 3, nondiag2); 
+		mat.add_value(grid.n_points() - 3, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 3, grid.n_points() - 1, nondiag3);*/
+
 		mat.add_value(1, 0, nondiag2); mat.add_value(1, 1, diag); mat.add_value(1, 2, nondiag3); mat.add_value(1, 3, nondiag4);
-		mat.add_value(grid.n_points() - 2, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag2); mat.add_value(grid.n_points() - 2, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, nondiag3);
-		//mat.add_value(2, 0, nondiag2); mat.add_value(2, 1, nondiag3); mat.add_value(2, 2, diag); mat.add_value(2, 3, nondiag4);
-		//mat.add_value(grid.n_points() - 3, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 3, grid.n_points() - 3, nondiag2); 
-		//mat.add_value(grid.n_points() - 3, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 3, grid.n_points() - 1, nondiag3);
+		mat.add_value(grid.n_points() - 2, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag2);
+		mat.add_value(grid.n_points() - 2, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, nondiag3);
 		
 		for (size_t i = 2; i < grid.n_points() - 2; ++i) {
 			mat.add_value(i, i - 2, nondiag1);
@@ -218,18 +223,40 @@ private:
 
 	std::vector<double> approximate_rhs2() const {
 		std::vector<double> ret(grid.n_points());
-		ret[0] = exact_solution(grid.point(0).x(), grid.point(0).y());
-		
+
 		unsigned long a = grid.point(grid.n_points() - 1).x() / _hx;
 		unsigned long b = grid.point(grid.n_points() - 1).y() / _hy;
-		for (size_t i = 1; i <= b; ++i) {
-			for (size_t j = 0; j <= a; ++j)
+
+		//ret[0] = exact_solution(grid.point(0).x(), grid.point(0).y());
+		// boundary left
+		for (size_t i = 0; i <= a; ++i)
+		{
+			ret[grid.to_linear_point_index({ i, 0 })] = exact_solution(grid.point(i).x(), grid.point(0).y());
+		}
+		// boundary right
+		for (size_t i = 0; i <= a; ++i)
+		{
+			ret[grid.to_linear_point_index({ i, b})] = exact_solution(grid.point(i).x(), grid.point(b).y());
+		}
+		// boundary top
+		for (size_t i = 0; i <= b; ++i)
+		{
+			ret[grid.to_linear_point_index({ 0, i })] = exact_solution(grid.point(0).x(), grid.point(i).y());
+		}
+		// boundary bottom
+		for (size_t i = 0; i <= b; ++i)
+		{
+			ret[grid.to_linear_point_index({ a, i })] = exact_solution(grid.point(a).x(), grid.point(i).y());
+		}
+		
+		for (size_t i = 1; i < b; ++i) {
+			for (size_t j = 1; j < a; ++j)
 			{
 				ret[grid.to_linear_point_index({ i, j })] = exact_rhsX(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y()) + 
 					exact_rhsY(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y());
 			}
 		}
-		ret[grid.n_points() - 1] = exact_solution(grid.point(grid.n_points() - 1).x(), grid.point(grid.n_points() - 1).y());
+		//ret[grid.n_points() - 1] = exact_solution(grid.point(grid.n_points() - 1).x(), grid.point(grid.n_points() - 1).y());
 		return ret;
 	}
 
@@ -274,6 +301,7 @@ private:
 		return std::sqrt(sum / (lenX * lenY));
 	}
 };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE("Poisson 1D solver", "[poisson1]"){
 	std::cout << std::endl << "--- cfd24_test [poisson1] --- " << std::endl;
@@ -309,6 +337,7 @@ TEST_CASE("Poisson 1D solver", "[poisson1]"){
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TEST_CASE("Poisson 2D solver", "[poisson2]") {
 	std::cout << std::endl << "--- cfd24_test [poisson2] --- " << std::endl;
 
@@ -343,3 +372,4 @@ TEST_CASE("Poisson 2D solver", "[poisson2]") {
 			}
 	//}
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
