@@ -1837,8 +1837,109 @@ SIMPLE</h2>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>            mat.add_value(row_index, ind1, value);</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        }</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    };</div>
-</div><!-- fragment --><p> Эта лямбда вызывается везде, где нужно добавить в строку <code>row_index</code> и колонку, соответствующую узлу <code>ij_col</code>, значение <code>value</code>. Она перехватывает ситуации с "фиктивным" узлом ( \(j=-1, j=n_y\)) и применяет алгоритм \(\eqref{eq:ns2d_bc2}\). </p>
-</div></div><!-- contents -->
+</div><!-- fragment --><p> Эта лямбда вызывается везде, где нужно добавить в строку <code>row_index</code> и колонку, соответствующую узлу <code>ij_col</code>, значение <code>value</code>. Она перехватывает ситуации с "фиктивным" узлом ( \(j=-1, j=n_y\)) и применяет алгоритм \(\eqref{eq:ns2d_bc2}\).</p>
+<h1><a class="anchor" id="autotoc_md58"></a>
+5. (6.10)</h1>
+<h2><a class="anchor" id="autotoc_md59"></a>
+SIMPLER</h2>
+<p>TODO</p>
+<h2><a class="anchor" id="autotoc_md60"></a>
+Нестационарное уравнение Навье-Стокса</h2>
+<p>TODO</p>
+<h2><a class="anchor" id="autotoc_md61"></a>
+Завихренность и функция тока</h2>
+<p>Для несжимаемых течений ( \(\nabla\cdot\vec u = 0\)) можно ввести векторный потенциал скорости:  </p><p class="formulaDsp">
+\begin{equation*}
+    \nabla\times\vec\Psi = \vec u
+\end{equation*}
+</p>
+<p>Также определим векторное поле завихренности как  </p><p class="formulaDsp">
+\begin{equation*}
+    \vec \Omega = \nabla \times \vec u
+\end{equation*}
+</p>
+<p>Компоненты этого вектора характеризуют вращательную составляющую скорости в плоскостях, перпендикулярных соответствующим базисным векторам. Например, компонента \(\Omega_z\) характеризует вращение в плоскости \(xy\).</p>
+<p>Подставив векторный потенциал в выражение для завихренности, получим связь между двумя введёнными векторными полями  </p><p class="formulaDsp">
+\begin{equation*}
+    \vec \Omega = \nabla \times \left( \nabla \times \vec \Psi \right) = \nabla\left(\nabla\cdot\vec\Psi\right) - \nabla^2\vec\Psi.
+\end{equation*}
+</p>
+<p>Далее рассмотрим двумерные течения в декартовой системе координат. \(z\)-компонента последнего выражения (с учётом \(\partial/\partial z=0\)) сократится до  </p><p class="formulaDsp">
+\begin{equation*}
+    \Omega_z = -\nabla^2\Psi_z
+\end{equation*}
+</p>
+<p> или, введя обозначения \(\Omega_z = \omega\), \(\Psi_z = \psi\):  </p><p class="formulaDsp">
+\begin{align}
+    \nonumber
+     &amp;\dfr{\psi}{y} = u, \\
+    \label{eq:psiw_def}
+    -&amp;\dfr{\psi}{x} = v, \\
+    \nonumber
+     &amp;\omega = \dfr{v}{x} - \dfr{u}{y}
+\end{align}
+</p>
+<p> и расписывая оператор Лапласа покоординатно  </p><p class="formulaDsp">
+\begin{equation}
+    \label{eq:psiw}
+    -\left(\dfrq{\psi}{x} + \dfrq{\psi}{y}\right) = \omega.
+\end{equation}
+</p>
+<p>Скалярное поле \(\psi\) называется функцией тока и его изолинии совпадают с линиями тока течения. Действительно, введём прямоугольную систему координат \((\vec n, \vec s)\) вдоль линии тока (вектор \(\vec s\) &ndash; касательный к линии тока, \(\vec n\) &ndash; нормаль) и перепишем определение \(\eqref{eq:psiw_def}\) в этой системе:  </p><p class="formulaDsp">
+\begin{align}
+    \label{eq:psi_bc}
+     &amp;\dfr{\psi}{s} = u_n, \\
+    \nonumber
+    -&amp;\dfr{\psi}{n} = u_s.
+\end{align}
+</p>
+<p> По определению, вдоль линии тока \(u_n = 0\), отсюда получим \(\psi = \rm{const}\).</p>
+<h2><a class="anchor" id="autotoc_md62"></a>
+Определение завихренности и функции тока на разнесённой сетке</h2>
+<p>Исходя из определения завихренности \(\eqref{eq:psiw_def}\), легко видеть что аппроксимировать вторым порядком точности её проще всего на основной сетке \(ij\). Для внутренних узлов можно записать: <a class="anchor" id="omega_scheme_internal"></a> </p><p class="formulaDsp">
+\begin{equation*}
+    \omega_{i,j} = \frac{v_{i+\tfrac12,j} - v_{i-\tfrac12,j}}{h_x}
+                 - \frac{u_{i, j+\tfrac12} - u_{i, j-\tfrac12}}{h_y}.
+\end{equation*}
+</p>
+<p> Для граничных узлов возможно (при известных значениях скорости на границах) использовать направленные разности. Например, для \(i=0\): <a class="anchor" id="omega_scheme_bc"></a> </p><p class="formulaDsp">
+\begin{equation*}
+    \omega_{0,j} = \frac{v_{\tfrac12,j} - v_{0,j}}{h_x/2}
+                 - \frac{u_{i, j+\tfrac12} - u_{i, j-\tfrac12}}{h_y}.
+\end{equation*}
+</p>
+<p>Получив сеточный вектор для завихрённости \({\omega}\) можно, исходя из \(\eqref{eq:psiw}\) записать разностную схему для определения функции тока во внутренних узлах сетки: <a class="anchor" id="psi_scheme"></a> </p><p class="formulaDsp">
+\begin{equation*}
+    \frac{-\psi_{i-1,j} + 2\psi_{i,j} - \psi_{i+1,j}}{h_x^2} +
+    \frac{-\psi_{i,j-1} + 2\psi_{i,j} - \psi_{i,j+1}}{h_y^2} 
+    = \omega_{i,j}.
+\end{equation*}
+</p>
+<p>На границах необходимо воспользоваться соотношениями \(\eqref{eq:psi_bc}\). Из этих соотношениях функция тока вычисляется с точностью до константы (для каждой границы своей). Одну из этих констант можно положить нулём. Остальные вычисляются прямым интегрированием. Например, рассмотрим течение в области высотой \(Y\) с непротекаемыми горизонтальными границами и двумя препятствиями. </p><div class="image">
+<img src="psi_bc.png" alt="" width="800"/>
+</div>
+<p> Пусть скорость набегающего потока равна единице на всей входной границе. На нижней границе положим \(\psi_A=0\). На входной границе получим  </p><p class="formulaDsp">
+\begin{equation}
+    \dfr{\psi}{y} = 1 \; \hence \; \psi_{in}(y) = y + \psi_A = y.
+\end{equation}
+</p>
+<p> Исходя из значения \(\psi_{in}\) на верхней границе можно записать  </p><p class="formulaDsp">
+\begin{equation*}
+    \psi_D = \psi_{in}(Y) = Y.
+\end{equation*}
+</p>
+<p>Для определения \(\psi\) на первом из двух препятствий рассмотрим траекторию \(AB\):  </p><p class="formulaDsp">
+\begin{equation*}
+    \dfr{\psi}{s} = u_n \; \hence \; \psi_B = \int_A^B u_n ds + \psi_A = Q_{AB},
+\end{equation*}
+</p>
+<p> где \(s\) - касательная к этой траектории, \(n\) &ndash; нормаль к ней, \(Q_{AB}\) &ndash; расход жидкости поперёк траектории \(AB\). Вследствии несжимаемости можно использовать любую из возможных положений точек \(A\), \(B\) на границах и любую из реализаций траектории.</p>
+<p>Аналогично для второго тела можно записать  </p><p class="formulaDsp">
+\begin{equation*}
+    \psi_C = Q_{AC} = Q_{AB} + Q_{BC}.
+\end{equation*}
+</p>
+ </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

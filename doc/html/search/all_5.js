@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_5f_5fpretty_5ffunction_5f_5f_0',['__PRETTY_FUNCTION__',['../macros_8hpp.html#a9c15fe1e91b07ea3280f5239f9841b67',1,'macros.hpp']]],
-  ['_5fthrow_5fnot_5fimp_5f_1',['_THROW_NOT_IMP_',['../macros_8hpp.html#a705a76547c6a06b27aade29a8eaa4eab',1,'macros.hpp']]]
+  ['5_2006_2010_0',['Лекция 5 (06.10)',['../tasks.html#autotoc_md71',1,'']]],
+  ['5_206_2010_1',['5. (6.10)',['../notes.html#autotoc_md58',1,'']]]
 ];

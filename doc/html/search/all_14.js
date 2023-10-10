@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['tab_5fcell_5fpoint_0',['tab_cell_point',['../classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c',1,'cfd::Grid1D::tab_cell_point()'],['../classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18',1,'cfd::IGrid::tab_cell_point()'],['../classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416',1,'cfd::RegularGrid2D::tab_cell_point()']]],
-  ['tasks_2emd_1',['tasks.md',['../tasks_8md.html',1,'']]],
-  ['timedependentwriter_2',['timedependentwriter',['../classcfd_1_1VtkUtils_1_1TimeDependentWriter.html',1,'cfd::VtkUtils::TimeDependentWriter'],['../classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a55457b627a080d7c08c118fc91dc2a56',1,'cfd::VtkUtils::TimeDependentWriter::TimeDependentWriter()']]],
-  ['to_5fcsr_3',['to_csr',['../classcfd_1_1LodMatrix.html#a0f0710f7078724f5b8dfc38c6afc69e5',1,'cfd::LodMatrix']]],
-  ['to_5flinear_5fpoint_5findex_4',['to_linear_point_index',['../classcfd_1_1RegularGrid2D.html#a32874bb445e8424591509cca4587ce71',1,'cfd::RegularGrid2D']]],
-  ['to_5fsplit_5fpoint_5findex_5',['to_split_point_index',['../classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653',1,'cfd::RegularGrid2D']]]
+  ['regular_5fgrid2d_2ehpp_0',['regular_grid2d.hpp',['../regular__grid2d_8hpp.html',1,'']]],
+  ['regulargrid2d_1',['regulargrid2d',['../classcfd_1_1RegularGrid2D.html',1,'cfd::RegularGrid2D'],['../classcfd_1_1RegularGrid2D.html#a886c2689e1b97f504524fd9b57c5d10a',1,'cfd::RegularGrid2D::RegularGrid2D(double x0, double x1, double y0, double y1, size_t nx, size_t ny)'],['../classcfd_1_1RegularGrid2D.html#aa766a3970e357a25f1f9347ea4676b80',1,'cfd::RegularGrid2D::RegularGrid2D(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y)']]],
+  ['remove_5frow_2',['remove_row',['../classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826',1,'cfd::LodMatrix']]],
+  ['remove_5fvalue_3',['remove_value',['../classcfd_1_1LodMatrix.html#ac618b3ab98607fd348d6f1d618fa1a3a',1,'cfd::LodMatrix']]],
+  ['row_4',['row',['../classcfd_1_1LodMatrix.html#a34ea6ba28c83770b69880a46819973ed',1,'cfd::LodMatrix']]]
 ];

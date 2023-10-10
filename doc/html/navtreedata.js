@@ -129,19 +129,26 @@ var NAVTREE =
           [ "Сборка системы уравнений для поправки давления", "notes.html#autotoc_md56", null ],
           [ "Сборка системы уравнений для пробной скорости", "notes.html#autotoc_md57", null ]
         ] ]
+      ] ],
+      [ "5. (6.10)", "notes.html#autotoc_md58", [
+        [ "SIMPLER", "notes.html#autotoc_md59", null ],
+        [ "Нестационарное уравнение Навье-Стокса", "notes.html#autotoc_md60", null ],
+        [ "Завихренность и функция тока", "notes.html#autotoc_md61", null ],
+        [ "Определение завихренности и функции тока на разнесённой сетке", "notes.html#autotoc_md62", null ]
       ] ]
     ] ],
     [ "Задания для самостоятельной работы", "tasks.html", [
-      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md58", null ],
-      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md59", null ],
-      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md60", [
-        [ "Постановка задачи", "tasks.html#autotoc_md61", [
-          [ "Тестовый пример 1", "tasks.html#autotoc_md62", null ],
-          [ "Тестовый пример 2", "tasks.html#autotoc_md63", null ]
+      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md63", null ],
+      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md64", null ],
+      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md65", [
+        [ "Постановка задачи", "tasks.html#autotoc_md66", [
+          [ "Тестовый пример 1", "tasks.html#autotoc_md67", null ],
+          [ "Тестовый пример 2", "tasks.html#autotoc_md68", null ]
         ] ],
-        [ "Расчётная схема", "tasks.html#autotoc_md64", null ]
+        [ "Расчётная схема", "tasks.html#autotoc_md69", null ]
       ] ],
-      [ "Лекция 4 (30.09)", "tasks.html#autotoc_md65", null ]
+      [ "Лекция 4 (30.09)", "tasks.html#autotoc_md70", null ],
+      [ "Лекция 5 (06.10)", "tasks.html#autotoc_md71", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['анализ_20результатов_20работы_0',['Анализ результатов работы',['../notes.html#autotoc_md41',1,'']]],
-  ['аппроксимации_1',['Практическое определения порядка аппроксимации',['../notes.html#autotoc_md17',1,'']]],
-  ['аппроксимация_2',['Пространственная аппроксимация',['../notes.html#autotoc_md45',1,'']]]
+  ['z_0',['z',['../classcfd_1_1Point.html#aa36aaaa015a218ca24108f4e0dda8563',1,'cfd::Point::z() const'],['../classcfd_1_1Point.html#a5dd1bb43ec750180c6512ff1ae91fcc2',1,'cfd::Point::z()']]]
 ];
