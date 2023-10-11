@@ -13,7 +13,7 @@ using namespace cfd;
 std::ofstream norms;
 
 struct Cavern2DSimpleWorker{
-	Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p);
+	Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p, double u_bottom);
 	void initialize_saver(bool save_exact_fields, std::string stem);
 	double set_uvp(const std::vector<double>& u, const std::vector<double>& v, const std::vector<double>& p);
 	double step();
@@ -77,11 +77,12 @@ private:
 	std::vector<Vector> build_main_grid_velocity() const;
 
 	////////////////////////////////////////////////////////////////////
-	virtual double get_bottom_velocity() const { return _u[_grid.n_points() - 1]; };
+	double _u_bottom;
+	virtual double get_bottom_velocity() const { return _u_bottom; };
 	////////////////////////////////////////////////////////////////////
 };
 
-Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p):
+Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p, double u_bottom):
 	_grid(0, 1, 0, 1, n_cells, n_cells),
 	_cc_grid(_grid.cell_centered_grid()),
 	_xf_grid(_grid.xface_centered_grid()),
@@ -90,7 +91,8 @@ Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau
 	_hy(1.0/n_cells),
 	_Re(Re),
 	_tau(tau),
-	_alpha_p(alpha_p)
+	_alpha_p(alpha_p),
+	_u_bottom(u_bottom)
 {
 	_du = 1.0 / (1 + 2.0*_tau/_Re * (1.0/_hx/_hx + 1.0/_hy/_hy));
 	_dv = 1.0 / (1 + 2.0*_tau/_Re * (1.0/_hx/_hx + 1.0/_hy/_hy));
@@ -116,13 +118,15 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u)/_tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v)/_tau;
 
+	//std::vector<double> ru = compute_residual2(_mat_u, _rhs_u, _u);
+	//std::vector<double> rv = compute_residual2(_mat_v, _rhs_v, _v);
+	//
+	//for (size_t i = 0; i < ru.size(); ++i)
+	//{
+	//	norms << ru[i] << "		" << rv[i] << std::endl;
+	//}
+	//norms << std::endl;
 	
-	
-	
-	norms << nrm_u << "		" << nrm_v << std::endl;
-
-	
-
 	return std::max(nrm_u, nrm_v);
 };
 
@@ -225,6 +229,9 @@ void Cavern2DSimpleWorker::assemble_u_slae(){
 			// ghost index => bottom boundary condition: u = 0
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]+1);
 			mat.add_value(row_index, ind1, -value);
+			///////////////////////////////////////////////
+			if (_u_bottom != 0) { _rhs_u[row_index] -= 2.0 * value; }
+			//////////////////////////////////////////////
 		} else {
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]);
 			mat.add_value(row_index, ind1, value);
@@ -437,7 +444,7 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const{
 	for (size_t i = 0; i < _grid.nx()+1; ++i){
 		// bottom boundary
 		size_t ind_bot = _grid.to_linear_point_index({i, 0});
-		ret[ind_bot] = Vector(0, 0);
+		ret[ind_bot] = Vector(get_bottom_velocity(), 0); ////////////////////////////////////// там был 0 //////////////////////////
 		// top boundary
 		size_t ind_top = _grid.to_linear_point_index({i, _grid.ny()});
 		ret[ind_top] = Vector(1, 0);
@@ -457,79 +464,7 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const{
 	return ret;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct Cavern2DSimpleSymWorker : Cavern2DSimpleWorker {
-private:
-	void assemble_u_slae();
-};
 
-void Cavern2DSimpleSymWorker::assemble_u_slae() {
-	_rhs_u.resize(get_bottom_velocity().size());
-	std::fill(_rhs_u.begin(), _rhs_u.end(), 0.0);
-	LodMatrix mat(_u.size());
-
-	auto add_to_mat = [&](size_t row_index, std::array<size_t, 2> ij_col, double value) {
-		if (ij_col[1] == _grid.ny()) {
-			// ghost index => top boundary condition: u = 1
-			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1] - 1);
-			mat.add_value(row_index, ind1, -value);
-			_rhs_u[row_index] -= 2.0 * value;
-		}
-		else if (ij_col[1] == (size_t)-1) {
-			// ghost index => bottom boundary condition: u = 0
-			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1] + 1);
-			mat.add_value(row_index, ind1, -value);
-		}
-		else {
-			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]);
-			mat.add_value(row_index, ind1, value);
-		}
-		};
-
-	// left/right boundary: u = 0
-	for (size_t j = 0; j < _grid.ny(); ++j) {
-		size_t index_left = _grid.yface_grid_index_i_jp(0, j);
-		add_to_mat(index_left, { 0, j }, 1.0);
-		_rhs_u[index_left] = 0.0;
-
-		size_t index_right = _grid.yface_grid_index_i_jp(_grid.nx(), j);
-		add_to_mat(index_right, { _grid.nx(), j }, 1.0);
-		_rhs_u[index_right] = 0.0;
-	}
-
-	// internal
-	for (size_t j = 0; j < _grid.ny(); ++j)
-		for (size_t i = 1; i < _grid.nx(); ++i) {
-			size_t row_index = _grid.yface_grid_index_i_jp(i, j);   //[i, j+1/2] linear index in u grid
-
-			double u0_plus = u_ip_jp(i, j);   //_u[i+1/2, j+1/2]
-			double u0_minus = u_ip_jp(i - 1, j); //_u[i-1/2, j+1/2]
-			double v0_plus = v_i_j(i, j + 1);   // _v[i,j+1]
-			double v0_minus = v_i_j(i, j);     // _v[i,j]
-
-			// u_(i,j+1/2)
-			add_to_mat(row_index, { i, j }, 1.0);
-			//     + tau * d(u0*u)/ dx
-			add_to_mat(row_index, { i + 1,j }, _tau / 2.0 / _hx * u0_plus);
-			add_to_mat(row_index, { i - 1,j }, -_tau / 2.0 / _hx * u0_minus);
-			//     + tau * d(v0*u)/dy
-			add_to_mat(row_index, { i, j + 1 }, _tau / 2.0 / _hy * v0_plus);
-			add_to_mat(row_index, { i, j - 1 }, -_tau / 2.0 / _hy * v0_minus);
-			//     - tau / Re * d^2u/dx^2
-			add_to_mat(row_index, { i, j }, 2.0 * _tau / _Re / _hx / _hy);
-			add_to_mat(row_index, { i + 1, j }, -_tau / _Re / _hx / _hx);
-			add_to_mat(row_index, { i - 1, j }, -_tau / _Re / _hy / _hy);
-			//     - tau / Re * d^2u/dy^2
-			add_to_mat(row_index, { i, j }, 2.0 * _tau / _Re / _hy / _hy);
-			add_to_mat(row_index, { i, j + 1 }, -_tau / _Re / _hy / _hy);
-			add_to_mat(row_index, { i, j - 1 }, -_tau / _Re / _hy / _hy);
-			// = u0_(i,j+1/2)
-			_rhs_u[row_index] += _u[row_index];
-			//      - tau * dp/dx
-			_rhs_u[row_index] -= _tau / _hx * (p_ip_jp(i, j) - p_ip_jp(i - 1, j));
-		}
-	_mat_u = mat.to_csr();
-}
 //////////////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
@@ -544,17 +479,18 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 	size_t n_cells = 30;
 	size_t max_it = 1000;
 	double eps = 1e-1;
+	double u_bottom = 0.0;
 
 	// worker initialization
-	Cavern2DSimpleWorker worker(Re, n_cells, tau, alpha);
-	//worker.initialize_saver(false, "cavern2");
+	Cavern2DSimpleWorker worker(Re, n_cells, tau, alpha, u_bottom);
+	worker.initialize_saver(false, "cavern2");
 
 	// initial condition
 	std::vector<double> u_init(worker.u_size(), 0.0);
 	std::vector<double> v_init(worker.v_size(), 0.0);
 	std::vector<double> p_init(worker.p_size(), 0.0);
 	worker.set_uvp(u_init, v_init, p_init);
-	//worker.save_current_fields(0);
+	worker.save_current_fields(0);
 
 	// iterations loop
 	size_t it = 0;
@@ -565,7 +501,7 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
 
 		// export solution to vtk
-		//worker.save_current_fields(it);
+		worker.save_current_fields(it);
 
 		// break if residual is low enough
 		if (nrm < eps){
@@ -577,8 +513,18 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 	norms.close();
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct Cavern2DSimpleSymWorker : Cavern2DSimpleWorker {
+	Cavern2DSimpleSymWorker(double Re, size_t n_cells, double tau, double alpha_p, double u_bottom) : 
+		Cavern2DSimpleWorker(Re, n_cells, tau, alpha_p, u_bottom) {}
+
+private:
+	//void assemble_u_slae();
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple-sym]") {
+TEST_CASE("Cavern 2D, SIMPLE algorithm sym", "[cavern2-simple-sym]") {
 	std::cout << std::endl << "--- cfd24_test [cavern2-simple-sym] --- " << std::endl;
 
 	// problem parameters
@@ -588,17 +534,18 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple-sym]") {
 	size_t n_cells = 30;
 	size_t max_it = 1000;
 	double eps = 1e-1;
+	double u_bottom = 1.0;
 
 	// worker initialization
-	Cavern2DSimpleSymWorker worker(Re, n_cells, tau, alpha);
-	//worker.initialize_saver(false, "cavern2");
+	Cavern2DSimpleSymWorker worker(Re, n_cells, tau, alpha, u_bottom);
+	worker.initialize_saver(false, "cavern2sym");
 
 	// initial condition
 	std::vector<double> u_init(worker.u_size(), 0.0);
 	std::vector<double> v_init(worker.v_size(), 0.0);
 	std::vector<double> p_init(worker.p_size(), 0.0);
 	worker.set_uvp(u_init, v_init, p_init);
-	//worker.save_current_fields(0);
+	worker.save_current_fields(0);
 
 	// iterations loop
 	size_t it = 0;
@@ -609,7 +556,7 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple-sym]") {
 		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
 
 		// export solution to vtk
-		//worker.save_current_fields(it);
+		worker.save_current_fields(it);
 
 		// break if residual is low enough
 		if (nrm < eps) {

@@ -7,6 +7,9 @@
 // -> max(abs(m*u - rhs))
 double compute_residual(const cfd::CsrMatrix& m, const std::vector<double>& rhs, const std::vector<double>& u);
 
+// -> ru, rv
+std::vector<double> compute_residual2(const cfd::CsrMatrix& m, const std::vector<double>& rhs, const std::vector<double>& u);
+
 // -> v1 + coef*v2
 std::vector<double> vector_sum(
 		const std::vector<double>& v1,

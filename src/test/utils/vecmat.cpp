@@ -9,6 +9,15 @@ double compute_residual(const cfd::CsrMatrix& m, const std::vector<double>& rhs,
 	return nrm;
 }
 
+std::vector<double> compute_residual2(const cfd::CsrMatrix& m, const std::vector<double>& rhs, const std::vector<double>& u) {
+	std::vector<double> mvec = m.mult_vec(u);
+	std::vector<double> nrm;
+	for (size_t irow = 0; irow < m.n_rows(); ++irow) {
+		nrm.push_back(mvec[irow] - rhs[irow]);
+	}
+	return nrm;
+}
+
 std::vector<double> vector_sum(
 		const std::vector<double>& v1,
 		double coef,
