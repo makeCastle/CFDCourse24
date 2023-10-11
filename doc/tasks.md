@@ -216,3 +216,27 @@
    @code{cpp}
    virtual double get_bottom_velocity() const;
    @endcode
+
+# Лекция 5 (06.10)
+
+Для расчитанного ранее течения в каверне расчитать скалярные поля функции тока и завихренности.
+
+- Сначала для вычисления завихренности использовать формулы
+  \ref omega_scheme_internal "для внутренних"
+  и \ref omega_scheme_bc "граничных" узлов.
+- Затем полученную завихренность использовать для вычисления \f(\psi\f).
+  Для этого необходимо собрать и решить систему линейных уравнений, где внутренним узлам
+  будет соответствовать \ref psi_scheme "разностная схема",
+  а для граничных -- условие \f(\psi_{i,j} = 0\f). 
+- Полученные поля сохранить в vtk, добавив
+  строки
+  @code{cpp}
+  VtkUtils::add_point_data(psi, "psi", filepath);      // найденный сеточный вектор psi
+  VtkUtils::add_point_data(omega, "omega", filepath);  // найденный сеточный вектор omega
+  @endcode
+  в функцию сохрания на основной сетке 
+  @code{cpp}
+  void Cavern2DSimpleWorker::save_current_fields(size_t iter){
+      if (_writer_all){
+          ...
+  @endcode
