@@ -135,20 +135,31 @@ var NAVTREE =
         [ "Нестационарное уравнение Навье-Стокса", "notes.html#autotoc_md60", null ],
         [ "Завихренность и функция тока", "notes.html#autotoc_md61", null ],
         [ "Определение завихренности и функции тока на разнесённой сетке", "notes.html#autotoc_md62", null ]
+      ] ],
+      [ "6. (13.10)", "notes.html#autotoc_md63", [
+        [ "Оптимизация методов решения СЛАУ", "notes.html#autotoc_md64", [
+          [ "Метод Якоби", "notes.html#SLAE-Jacobi", null ],
+          [ "Метод Зейделя", "notes.html#SLAE-Seidel", null ],
+          [ "Метод последовательных верхних релаксаций (SOR)", "notes.html#SLAE-SOR", null ],
+          [ "Формат хранения разреженных матриц CSR", "notes.html#autotoc_md65", null ]
+        ] ],
+        [ "Задача об обтекании препятствия", "notes.html#autotoc_md66", null ],
+        [ "Баланс сил в задачах о внешнем обтекании. Коэффициенты сил", "notes.html#autotoc_md67", null ]
       ] ]
     ] ],
     [ "Задания для самостоятельной работы", "tasks.html", [
-      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md63", null ],
-      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md64", null ],
-      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md65", [
-        [ "Постановка задачи", "tasks.html#autotoc_md66", [
-          [ "Тестовый пример 1", "tasks.html#autotoc_md67", null ],
-          [ "Тестовый пример 2", "tasks.html#autotoc_md68", null ]
+      [ "Лекция 1 (02.09)", "tasks.html#autotoc_md68", null ],
+      [ "Лекция 2 (09.09)", "tasks.html#autotoc_md69", null ],
+      [ "Лекция 3 (16.09)", "tasks.html#autotoc_md70", [
+        [ "Постановка задачи", "tasks.html#autotoc_md71", [
+          [ "Тестовый пример 1", "tasks.html#autotoc_md72", null ],
+          [ "Тестовый пример 2", "tasks.html#autotoc_md73", null ]
         ] ],
-        [ "Расчётная схема", "tasks.html#autotoc_md69", null ]
+        [ "Расчётная схема", "tasks.html#autotoc_md74", null ]
       ] ],
-      [ "Лекция 4 (30.09)", "tasks.html#autotoc_md70", null ],
-      [ "Лекция 5 (06.10)", "tasks.html#autotoc_md71", null ]
+      [ "Лекция 4 (30.09)", "tasks.html#autotoc_md75", null ],
+      [ "Лекция 5 (06.10)", "tasks.html#autotoc_md76", null ],
+      [ "Лекция 6 (13.10)", "tasks.html#autotoc_md77", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],

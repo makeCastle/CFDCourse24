@@ -10,7 +10,8 @@ var searchData=
   ['cfdcourse_7',['Порядок работы с репозиторием CFDCourse',['../howto.html#autotoc_md1',1,'']]],
   ['cmake_8',['CMake',['../howto.html#autotoc_md6',1,'']]],
   ['cols_9',['cols',['../classcfd_1_1CsrStencil.html#a1ce02c6f39108e04bbf7f08d960044d3',1,'cfd::CsrStencil']]],
-  ['csrmat_2ehpp_10',['csrmat.hpp',['../csrmat_8hpp.html',1,'']]],
-  ['csrmatrix_11',['CsrMatrix',['../classcfd_1_1CsrMatrix.html',1,'cfd']]],
-  ['csrstencil_12',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
+  ['csr_10',['Формат хранения разреженных матриц CSR',['../notes.html#autotoc_md65',1,'']]],
+  ['csrmat_2ehpp_11',['csrmat.hpp',['../csrmat_8hpp.html',1,'']]],
+  ['csrmatrix_12',['CsrMatrix',['../classcfd_1_1CsrMatrix.html',1,'cfd']]],
+  ['csrstencil_13',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
 ];

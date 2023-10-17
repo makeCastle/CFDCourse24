@@ -10,6 +10,7 @@ set (SRC
 	grid/regular_grid2d.cpp
 
 	debug/printer.cpp
+	debug/tictoc.cpp
 )
 
 set (HEADERS
@@ -31,6 +32,7 @@ set (HEADERS
 	geom/primitives.hpp
 
 	debug/printer.hpp
+	debug/tictoc.hpp
 )
 
 add_library(${CFD24_TARGET} STATIC ${SRC} ${HEADERS})

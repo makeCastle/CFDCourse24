@@ -139,10 +139,52 @@ Functions</h2></td></tr>
 <tr class="memitem:a5dd8cd9cb6f159af2bed6c4ff5bd3896" id="r_a5dd8cd9cb6f159af2bed6c4ff5bd3896"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#a5dd8cd9cb6f159af2bed6c4ff5bd3896">print_feat</a> (const std::vector&lt; double &gt; &amp;vec)</td></tr>
 <tr class="memdesc:a5dd8cd9cb6f159af2bed6c4ff5bd3896"><td class="mdescLeft">&#160;</td><td class="mdescRight">prints vector data features  <br /></td></tr>
 <tr class="separator:a5dd8cd9cb6f159af2bed6c4ff5bd3896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c8501ff7131c442d024e7cda77c15ae" id="r_a1c8501ff7131c442d024e7cda77c15ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#a1c8501ff7131c442d024e7cda77c15ae">Tic</a> (std::string s=&quot;&quot;)</td></tr>
+<tr class="memdesc:a1c8501ff7131c442d024e7cda77c15ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">starts a global timer with string id.  <br /></td></tr>
+<tr class="separator:a1c8501ff7131c442d024e7cda77c15ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082d6ca6df9179d4120a2c56f9b62819" id="r_a082d6ca6df9179d4120a2c56f9b62819"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#a082d6ca6df9179d4120a2c56f9b62819">Tic1</a> (std::string s=&quot;&quot;)</td></tr>
+<tr class="memdesc:a082d6ca6df9179d4120a2c56f9b62819"><td class="mdescLeft">&#160;</td><td class="mdescRight">starts a global timer and stops all others  <br /></td></tr>
+<tr class="separator:a082d6ca6df9179d4120a2c56f9b62819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab26fd3a8881ea43dde8e7a95e2ad7ed" id="r_aab26fd3a8881ea43dde8e7a95e2ad7ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#aab26fd3a8881ea43dde8e7a95e2ad7ed">Toc</a> (std::string s=&quot;&quot;)</td></tr>
+<tr class="memdesc:aab26fd3a8881ea43dde8e7a95e2ad7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">stops global timers  <br /></td></tr>
+<tr class="separator:aab26fd3a8881ea43dde8e7a95e2ad7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f6085a31ff10264ae74a347166b56d" id="r_a52f6085a31ff10264ae74a347166b56d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#a52f6085a31ff10264ae74a347166b56d">Report</a> (std::string s=&quot;&quot;)</td></tr>
+<tr class="memdesc:a52f6085a31ff10264ae74a347166b56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">prints global timer report to std::cout  <br /></td></tr>
+<tr class="separator:a52f6085a31ff10264ae74a347166b56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a4e23a434e58f2ba4401ba07680cae6" id="r_a6a4e23a434e58f2ba4401ba07680cae6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd_1_1dbg.html#a6a4e23a434e58f2ba4401ba07680cae6">FinReport</a> (std::string s=&quot;&quot;)</td></tr>
+<tr class="memdesc:a6a4e23a434e58f2ba4401ba07680cae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">reports and deletes global timer  <br /></td></tr>
+<tr class="separator:a6a4e23a434e58f2ba4401ba07680cae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>debug procedures </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a6a4e23a434e58f2ba4401ba07680cae6" name="a6a4e23a434e58f2ba4401ba07680cae6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a4e23a434e58f2ba4401ba07680cae6">&#9670;&#160;</a></span>FinReport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::dbg::FinReport </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>reports and deletes global timer </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>timer identifer. By default reports and removes all timers</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This procedure is always called by program termination. So there is no need to call it explicitly. </p>
+
+</div>
+</div>
 <a id="a137041b796a2b504bba0ed98ccd66a23" name="a137041b796a2b504bba0ed98ccd66a23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a137041b796a2b504bba0ed98ccd66a23">&#9670;&#160;</a></span>print() <span class="overload">[1/3]</span></h2>
 
@@ -254,6 +296,104 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vec</td><td>input vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a52f6085a31ff10264ae74a347166b56d" name="a52f6085a31ff10264ae74a347166b56d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f6085a31ff10264ae74a347166b56d">&#9670;&#160;</a></span>Report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::dbg::Report </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>prints global timer report to std::cout </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>timer identifier. By default reports all defined timers </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1c8501ff7131c442d024e7cda77c15ae" name="a1c8501ff7131c442d024e7cda77c15ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c8501ff7131c442d024e7cda77c15ae">&#9670;&#160;</a></span>Tic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::dbg::Tic </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>starts a global timer with string id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>string identifier of this timer. Default is "timer1,2,3, etc" </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a082d6ca6df9179d4120a2c56f9b62819" name="a082d6ca6df9179d4120a2c56f9b62819"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a082d6ca6df9179d4120a2c56f9b62819">&#9670;&#160;</a></span>Tic1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::dbg::Tic1 </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>starts a global timer and stops all others </p>
+
+</div>
+</div>
+<a id="aab26fd3a8881ea43dde8e7a95e2ad7ed" name="aab26fd3a8881ea43dde8e7a95e2ad7ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab26fd3a8881ea43dde8e7a95e2ad7ed">&#9670;&#160;</a></span>Toc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::dbg::Toc </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>s</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stops global timers </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>timer idetifier. By default stops all timers </td></tr>
   </table>
   </dd>
 </dl>
