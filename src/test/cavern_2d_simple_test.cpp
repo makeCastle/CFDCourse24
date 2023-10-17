@@ -5,6 +5,7 @@
 #include "cfd24/mat/sparse_matrix_solver.hpp"
 #include "cfd24/debug/printer.hpp"
 #include "utils/vecmat.hpp"
+#include "cfd24/debug/tictoc.hpp"
 
 using namespace cfd;
 
@@ -246,9 +247,9 @@ void Cavern2DSimpleWorker::assemble_u_slae(){
 		add_to_mat(row_index, {i, j+1}, _tau/2.0/_hy*v0_plus);
 		add_to_mat(row_index, {i, j-1}, -_tau/2.0/_hy*v0_minus);
 		//     - tau / Re * d^2u/dx^2
-		add_to_mat(row_index, {i, j}, 2.0*_tau/_Re/_hx/_hy);
+		add_to_mat(row_index, {i, j}, 2.0*_tau/_Re/_hx/_hx);
 		add_to_mat(row_index, {i+1, j}, -_tau/_Re/_hx/_hx);
-		add_to_mat(row_index, {i-1, j}, -_tau/_Re/_hy/_hy);
+		add_to_mat(row_index, {i-1, j}, -_tau/_Re/_hx/_hx);
 		//     - tau / Re * d^2u/dy^2
 		add_to_mat(row_index, {i, j}, 2.0*_tau/_Re/_hy/_hy);
 		add_to_mat(row_index, {i, j+1}, -_tau/_Re/_hy/_hy);
@@ -327,7 +328,6 @@ void Cavern2DSimpleWorker::assemble_v_slae(){
 	}
 	_mat_v = mat.to_csr();
 }
-
 
 std::vector<double> Cavern2DSimpleWorker::compute_u_star(){
 	std::vector<double> u_star(_u);
@@ -447,10 +447,10 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 
 	// problem parameters
 	double Re = 100;
+	size_t n_cells = 30;
 	double tau = 0.03;
 	double alpha = 0.8;
-	size_t n_cells = 30;
-	size_t max_it = 1000;
+	size_t max_it = 10000;
 	double eps = 1e-0;
 
 	// worker initialization

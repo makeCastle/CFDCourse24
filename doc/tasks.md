@@ -240,3 +240,134 @@
       if (_writer_all){
           ...
   @endcode
+
+# Лекция 6 (13.10)
+
+В SIMPLE-решателе для течения вязкой жидкости в каверне `[cavern2-simple]`
+рассмотреть простые итерационные подходы к решению систем уравнений
+для \f(u^*\f), \f(v^*\f):
+- @ref SLAE-Jacobi "метод Якоби",
+- @ref SLAE-Seidel "метод Зейделя",
+- @ref SLAE-SOR    "метод SOR."
+
+Реализовать означенные решатели в виде функций вида:
+@code{cpp}
+// Single Jacobi iteration for mat*u = rhs SLAE. Writes result into u
+void jacobi_step(const cfd::CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u){
+    ...
+};
+@endcode
+которые делают одну итерацию соответствующего метода без проверок на сходимость.
+Аргумент `u` используется как начальное значение искомого сеточного вектора. Туда же пишется 
+итоговый результат.
+
+Эти функции необходимо вызывать вместо
+@code{cpp}
+AmgcMatrixSolver::solve_slae
+@endcode
+в соответствующих решателях
+`Cavern2DSimpleWorker::compute_u_star`,
+`Cavern2DSimpleWorker::compute_v_star`.
+
+Если требуется сделать несколько шагов, то вызывать несколько раз подряд.
+
+
+Все алгоритмы основаны на вычислении выражения вида
+\f{equation*}{
+   \frac{1}{A_{ii}}\left(r_i - \sum_{j=0}^{j<N} A_{ij}{u_j}\right),
+\f}
+поэтому рекомендуется выделить отдельную функцию, которая бы вычисляла это выражение
+и использовалась всеми тремя решателями
+@code{cpp}
+double row_diff(size_t irow, const cfd::CsrMatrix& mat, const std::vector<double>& rhs, const std::vector<double>& u){
+	const std::vector<size_t>& addr = mat.addr();   // массив адресов
+	const std::vector<size_t>& cols = mat.cols();   // массив колонок
+	const std::vector<double>& vals = mat.vals();   // массив значений
+    ...
+}
+@endcode
+
+Использовать параметры решателя:
+\f{equation*}{
+    \Ren = 100, \quad E = 4, \quad n_x = n_y = 50, \quad \eps = 10^{-2}.
+\f}
+
+Сделать замеры времени исполнения:
+- total - общее время работы итераций SIMPLE,
+- assemble - время сборки систем уравнений для \f(u^*\f), \f(v^*\f),
+- p-solver - время решения системы для \f(p'\f),
+- uv-solvers - время решения систем для \f(u^*\f), \f(v^*\f).
+
+Замеры проводить в Release-версии сборки и с отключенными функциями сохранения в vtk.
+
+Для замера времени исполнения участка кода воспользоваться функциями
+- cfd::dbg::Tic  - вызвать до начала участка кода
+- cfd::dbg::Toc  - вызвать после окончания участка кода
+
+Так, чтобы замерить время total, нужно обрамить SIMPLE - цикл следующими вызовами
+@code{cpp}
+// iterations loop
+dbg::Tic("total");   // запустить таймер total
+size_t it = 0;
+for (it=1; it < max_it; ++it){
+    double nrm = worker.step();
+    ...
+}
+dbg::Toc("total");  // остановить таймер total
+@endcode
+
+Замеры времени p-solver и uv-solver делать в функции `Cavern2DSimpleWorker::step`:
+@code{cpp}
+dbg::Tic("uv-solvers");
+std::vector<double> u_star = compute_u_star();
+std::vector<double> v_star = compute_v_star();
+dbg::Toc("uv-solvers");
+dbg::Tic("p-solver");
+std::vector<double> p_stroke = compute_p_stroke(u_star, v_star);
+dbg::Toc("p-solver");
+@endcode
+
+Замеры времени для сборки левых частей СЛАУ -- в функции `Cavern2DSimpleWorker::set_uvp`:
+@code{cpp}
+dbg::Tic("assemble");
+assemble_u_slae();
+assemble_v_slae();
+dbg::Toc("assemble");
+@endcode
+
+При правильном задании функций замеров, по окончанию работы в консоль должен напечататься отчёт о времени исполнения вида:
+@code
+     total:  6.670 sec
+uv-solvers:  5.220 sec
+  assemble:  1.210 sec
+  p-solver:  0.181 sec
+@endcode
+
+Заполнить таблицу
+
+\f{equation*}{
+\begin{array}{l|c|c|c|c|c}
+    Метод & \text{Кол-во итераций} & \text{Кол-во итераций} & \text{total, s} & \text{assemble, s} & \text{p solver, s} & \text{uv solvers, s}\\
+          & \text{решателя СЛАУ}   & \text{SIMPLE}          & & & & \\
+    \hline
+    Amg & - &  &  \\
+    \hline
+    Якоби & 1 &  &  \\
+    \hline
+    Якоби & 2 &  &  \\
+    \hline
+    Якоби & 4 &  &  \\
+    \hline
+    Зейдель & 1 &  &  \\
+    \hline
+    Зейдель & 2 &  &  \\
+    \hline
+    Зейдель & 4 &  &  \\
+    \hline
+    SOR & 1 &  &  \\
+\end{array}
+\f}
+Здесь Amg - исходный решатель.
+
+Сравнить полученное время исполнения со временем, которое занимает исходный метод.
+Подобрать оптимальный с точки зрения времени исполнения метод решения СЛАУ и его настройки (количество внутренних итераций).

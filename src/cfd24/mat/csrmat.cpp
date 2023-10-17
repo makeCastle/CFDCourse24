@@ -74,12 +74,12 @@ void CsrMatrix::validate() const{
 double CsrMatrix::value(size_t irow, size_t icol) const{
 	const std::vector<size_t>& a = addr();
 	const std::vector<size_t>& c = cols();
-	size_t start = a.at(irow);
-	size_t end = a.at(irow+1);
-	for (size_t i=start; i<end; ++i){
-		if (c.at(i) == icol){
-			return _vals[i];
-		}
+	std::vector<size_t>::const_iterator it_start = c.begin() + a.at(irow);
+	std::vector<size_t>::const_iterator it_end = c.begin() + a.at(irow+1);
+	auto fnd = std::lower_bound(it_start, it_end, icol);
+	if (fnd != it_end && *fnd == icol){
+		size_t a = fnd - c.begin();
+		return _vals[a];
 	}
 	return 0;
 }
