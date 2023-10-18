@@ -212,13 +212,13 @@ void TicToc::toc(){
 	}
 }
 
-void TicToc::report() const{
-	std::ostringstream oss;
-	oss << std::setw(10) << _name << ":  "
-	    << std::setprecision(3) << std::setw(5) << std::left << std::setfill('0')
-	    << elapsed() << " sec" << std::endl;
-	std::cout << oss.str();
-}
+//void TicToc::report() const{
+//	std::ostringstream oss;
+//	oss << std::setw(10) << _name << ":  "
+//	    << std::setprecision(3) << std::setw(5) << std::left << std::setfill('0')
+//	    << elapsed() << " sec" << std::endl;
+//	std::cout << oss.str();
+//}
 
 double TicToc::elapsed() const{
 	if (!_is_working) return _dur.count();

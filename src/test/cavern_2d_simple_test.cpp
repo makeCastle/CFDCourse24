@@ -29,10 +29,10 @@ struct Cavern2DSimpleWorker {
 		return _p;
 	}
 private:
-	const RegularGrid2D _grid;
-	const RegularGrid2D _cc_grid;
-	const RegularGrid2D _xf_grid;
-	const RegularGrid2D _yf_grid;
+	const RegularGrid2D _grid; // main grid
+	const RegularGrid2D _cc_grid; // grid for p
+	const RegularGrid2D _xf_grid; // grid for v
+	const RegularGrid2D _yf_grid; // grid for u
 	const double _hx;
 	const double _hy;
 	const double _Re;
@@ -72,6 +72,11 @@ private:
 	double v_ip_jp(size_t i, size_t j) const;
 	double p_ip_jp(size_t i, size_t j) const;
 	std::vector<Vector> build_main_grid_velocity() const;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::vector<double> omega_solver();
+	std::vector<double> psi_solver();
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p) :
@@ -136,6 +141,13 @@ void Cavern2DSimpleWorker::save_current_fields(size_t iter) {
 		_grid.save_vtk(filepath);
 		VtkUtils::add_cell_data(_p, "pressure", filepath);
 		VtkUtils::add_point_vector(build_main_grid_velocity(), "velocity", filepath);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<double> omega = omega_solver();
+		VtkUtils::add_point_data(omega, "omega", filepath);
+		std::vector<double> psi = psi_solver();
+		VtkUtils::add_point_data(psi, "psi", filepath);
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	// pressure
 	if (_writer_p) {
@@ -445,6 +457,104 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const {
 
 	return ret;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::vector<double> Cavern2DSimpleWorker::omega_solver() {
+	std::vector<double> omega;
+
+	size_t x_points = _grid.nx() + 1;
+	size_t y_points = _grid.ny() + 1;
+	// boundary left
+	for (size_t j = 0; j < y_points - 1; ++j)
+	{
+		double v = _v[_grid.to_linear_point_index({ 0, j })];
+		double a;
+		if (j == 29)
+		{
+			a = u_i_j(0, j);
+			std::cout << a << std::endl;
+		}
+		
+		omega.push_back((v_i_j(1, j) - v_ip_jp(1, j)) / (_hx / 2) + (u_i_j(0, j + 1) - u_ip_jp(0, j)) / _hy);
+	}
+	// boundary right
+	for (size_t j = 0; j < y_points; ++j)
+	{
+		omega.push_back((v_ip_jp(j, x_points - 1) - v_i_j(j, x_points - 1)) / (_hx / 2) + (u_ip_jp(j, x_points - 1) - u_i_j(j, x_points - 1)) / _hy);
+	}
+	// boundary top
+	for (size_t i = 0; i < x_points; ++i)
+	{
+		omega.push_back((v_ip_jp(0, i) - v_i_j(0, i)) / _hx + (u_ip_jp(0, i) - u_i_j(0, i)) / (_hy / 2));
+	}
+	// boundary bottom
+	for (size_t i = 0; i < x_points; ++i)
+	{
+		omega.push_back((v_ip_jp(y_points - 1, i) - v_i_j(y_points - 1, i)) / _hx + (u_ip_jp(y_points - 1, i) - u_i_j(y_points - 1, i)) / (_hy / 2));
+	}
+	// internal points
+	for (size_t i = 1; i < x_points - 1; ++i)
+	{
+		for (size_t j = 1; j < y_points - 1; ++j)
+		{
+			omega.push_back((v_ip_jp(i, j) - v_i_j(i, j)) / _hx + (u_ip_jp(i, j) - u_i_j(i, j)) / _hy);
+		}
+	}
+
+	return omega;
+}
+
+std::vector<double> Cavern2DSimpleWorker::psi_solver() {
+	std::vector<double> psi(_grid.n_points(), 0.0);
+	std::vector<double> omega = omega_solver();
+	
+	std::vector<double> rhs(_grid.n_points(), 0.0);
+
+	LodMatrix mat(psi.size());
+
+	size_t x_points = _grid.nx() + 1;
+	size_t y_points = _grid.ny() + 1;
+
+	// boundary left
+	for (size_t i = 1; i < y_points; ++i)
+	{
+		mat.add_value(i, 0, 0);
+	}
+	mat.add_value(1, 0, 1);
+	// boundary right
+	for (size_t i = 0; i < y_points - 1; ++i)
+	{
+		mat.add_value(i, x_points - 1, 0);
+	}
+	mat.add_value(y_points - 1, x_points - 1, 1);
+	// boundary top
+	for (size_t i = 1; i < x_points - 1; ++i)
+	{
+		mat.add_value(0, i, 0);
+	}
+	// boundary bottom
+	for (size_t i = 1; i < x_points - 1; ++i)
+	{
+		mat.add_value(y_points - 1, i, 0);
+	}
+	// internal points
+	for (size_t i = 1; i < x_points - 1; ++i)
+	{
+		for (size_t j = 1; j < y_points - 1; ++j)
+		{
+			mat.add_value(i - 1, j, -1.0 / (_hx * _hx));
+			mat.add_value(i, j, 2.0 / (_hx * _hx) + 2.0 / (_hy * _hy));
+			mat.add_value(i + 1, j, -1.0 / (_hx * _hx));
+			mat.add_value(i, j - 1, -1.0 / (_hy * _hy));
+			mat.add_value(i, j + 1, -1.0 / (_hy * _hy));
+		}
+	}
+
+	AmgcMatrixSolver::solve_slae(mat.to_csr(), omega, psi);
+
+	return psi;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]") {
 	std::cout << std::endl << "--- cfd24_test [cavern2-simple] --- " << std::endl;
