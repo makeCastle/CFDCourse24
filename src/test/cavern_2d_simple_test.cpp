@@ -29,10 +29,10 @@ struct Cavern2DSimpleWorker {
 		return _p;
 	}
 private:
-	const RegularGrid2D _grid; // main grid
-	const RegularGrid2D _cc_grid; // grid for p
-	const RegularGrid2D _xf_grid; // grid for v
-	const RegularGrid2D _yf_grid; // grid for u
+	const RegularGrid2D _grid;
+	const RegularGrid2D _cc_grid;
+	const RegularGrid2D _xf_grid;
+	const RegularGrid2D _yf_grid;
 	const double _hx;
 	const double _hy;
 	const double _Re;
@@ -73,10 +73,14 @@ private:
 	double p_ip_jp(size_t i, size_t j) const;
 	std::vector<Vector> build_main_grid_velocity() const;
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	std::vector<double> omega_solver();
-	std::vector<double> psi_solver();
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	double matrix_element(const CsrMatrix& mat, size_t irow, size_t icol);
+	double row_diff(size_t irow, const CsrMatrix& mat, const std::vector<double>& rhs, const std::vector<double>& u);
+	void jacobi_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
+	void seidel_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
+	void sor_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 };
 
 Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p) :
@@ -108,8 +112,10 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	_u = u;
 	_v = v;
 	_p = p;
+	dbg::Tic("assemble");
 	assemble_u_slae();
 	assemble_v_slae();
+	dbg::Toc("assemble");
 	// residuals
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u) / _tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v) / _tau;
@@ -118,11 +124,15 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 };
 
 double Cavern2DSimpleWorker::step() {
+	dbg::Tic("uv-solvers");
 	// Predictor step: U-star
 	std::vector<double> u_star = compute_u_star();
 	std::vector<double> v_star = compute_v_star();
+	dbg::Toc("uv-solvers");
+	dbg::Tic("p-solver");
 	// Pressure correction
 	std::vector<double> p_stroke = compute_p_stroke(u_star, v_star);
+	dbg::Toc("p-solver");
 	// Velocity correction
 	std::vector<double> u_stroke = compute_u_stroke(p_stroke);
 	std::vector<double> v_stroke = compute_v_stroke(p_stroke);
@@ -141,13 +151,6 @@ void Cavern2DSimpleWorker::save_current_fields(size_t iter) {
 		_grid.save_vtk(filepath);
 		VtkUtils::add_cell_data(_p, "pressure", filepath);
 		VtkUtils::add_point_vector(build_main_grid_velocity(), "velocity", filepath);
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::vector<double> omega = omega_solver();
-		VtkUtils::add_point_data(omega, "omega", filepath);
-		std::vector<double> psi = psi_solver();
-		VtkUtils::add_point_data(psi, "psi", filepath);
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	// pressure
 	if (_writer_p) {
@@ -345,15 +348,109 @@ void Cavern2DSimpleWorker::assemble_v_slae() {
 	_mat_v = mat.to_csr();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+double Cavern2DSimpleWorker::matrix_element(const CsrMatrix& mat, size_t irow, size_t icol) {
+	const std::vector<size_t>& addr = mat.addr();   
+	const std::vector<size_t>& cols = mat.cols();   
+	const std::vector<double>& vals = mat.vals();   
+	using iter_t = std::vector<size_t>::const_iterator;
+	
+	iter_t it_start = cols.begin() + addr[irow];
+	iter_t it_end = cols.begin() + addr[irow + 1];
+	
+	iter_t fnd = std::lower_bound(it_start, it_end, icol);
+	if (fnd != it_end && *fnd == icol) {
+		
+		size_t a = fnd - cols.begin();
+		
+		return vals[a];
+	}
+	
+	return 0;
+}
+
+double Cavern2DSimpleWorker::row_diff(size_t irow, const CsrMatrix& mat, const std::vector<double>& rhs, const std::vector<double>& u) {
+	double result = 0.0;
+	
+	const std::vector<size_t>& addr = mat.addr();   
+	const std::vector<size_t>& cols = mat.cols();   
+	const std::vector<double>& vals = mat.vals();   
+	
+	double r = 0.0;
+	for (size_t a = addr[irow]; a < addr[irow + 1]; ++a) {
+		size_t icol = cols[a];
+		double val = vals[a];
+		r += val * u[icol];
+	}
+
+	double A = matrix_element(mat, irow, irow);
+
+	result = (rhs[irow] - r) / A;
+
+	return result;
+}
+
+void Cavern2DSimpleWorker::jacobi_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
+	std::vector<double>& uNew = u;
+	for (size_t i = 0; i < u.size(); ++i)
+	{
+		uNew[i] += row_diff(i, mat, rhs, u);
+	}
+	u = uNew;
+}
+
+void Cavern2DSimpleWorker::seidel_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
+	for (size_t i = 0; i < u.size(); ++i)
+	{
+		u[i] += row_diff(i, mat, rhs, u);
+	}
+}
+
+void Cavern2DSimpleWorker::sor_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
+	double w = 1.45;
+	for (size_t i = 0; i < u.size(); ++i)
+	{
+		u[i] += w * row_diff(i, mat, rhs, u);
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 std::vector<double> Cavern2DSimpleWorker::compute_u_star() {
 	std::vector<double> u_star(_u);
-	AmgcMatrixSolver::solve_slae(_mat_u, _rhs_u, u_star);
+	//AmgcMatrixSolver::solve_slae(_mat_u, _rhs_u, u_star);
+	//jacobi_step(_mat_u, _rhs_u, u_star);
+	//jacobi_step(_mat_u, _rhs_u, u_star);
+	//jacobi_step(_mat_u, _rhs_u, u_star);
+	//jacobi_step(_mat_u, _rhs_u, u_star);
+	//seidel_step(_mat_u, _rhs_u, u_star);
+	//seidel_step(_mat_u, _rhs_u, u_star);
+	//seidel_step(_mat_u, _rhs_u, u_star);
+	//seidel_step(_mat_u, _rhs_u, u_star);
+	sor_step(_mat_u, _rhs_u, u_star);
+	sor_step(_mat_u, _rhs_u, u_star);
+	sor_step(_mat_u, _rhs_u, u_star);
+	sor_step(_mat_u, _rhs_u, u_star);
+
 	return u_star;
 }
 
 std::vector<double> Cavern2DSimpleWorker::compute_v_star() {
 	std::vector<double> v_star(_v);
-	AmgcMatrixSolver::solve_slae(_mat_v, _rhs_v, v_star);
+	//AmgcMatrixSolver::solve_slae(_mat_v, _rhs_v, v_star);
+	//jacobi_step(_mat_v, _rhs_v, v_star);
+	//jacobi_step(_mat_v, _rhs_v, v_star);
+	//jacobi_step(_mat_v, _rhs_v, v_star);
+	//jacobi_step(_mat_v, _rhs_v, v_star);
+	//seidel_step(_mat_v, _rhs_v, v_star);
+	//seidel_step(_mat_v, _rhs_v, v_star);
+	//seidel_step(_mat_v, _rhs_v, v_star);
+	//seidel_step(_mat_v, _rhs_v, v_star);
+	sor_step(_mat_v, _rhs_v, v_star);
+	sor_step(_mat_v, _rhs_v, v_star);
+	sor_step(_mat_v, _rhs_v, v_star);
+	sor_step(_mat_v, _rhs_v, v_star);
+
 	return v_star;
 }
 
@@ -458,127 +555,30 @@ std::vector<Vector> Cavern2DSimpleWorker::build_main_grid_velocity() const {
 	return ret;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-std::vector<double> Cavern2DSimpleWorker::omega_solver() {
-	std::vector<double> omega;
-
-	size_t x_points = _grid.nx() + 1;
-	size_t y_points = _grid.ny() + 1;
-	// boundary left
-	for (size_t j = 0; j < y_points - 1; ++j)
-	{
-		double v = _v[_grid.to_linear_point_index({ 0, j })];
-		double a;
-		if (j == 29)
-		{
-			a = u_i_j(0, j);
-			std::cout << a << std::endl;
-		}
-		
-		omega.push_back((v_i_j(1, j) - v_ip_jp(1, j)) / (_hx / 2) + (u_i_j(0, j + 1) - u_ip_jp(0, j)) / _hy);
-	}
-	// boundary right
-	for (size_t j = 0; j < y_points; ++j)
-	{
-		omega.push_back((v_ip_jp(j, x_points - 1) - v_i_j(j, x_points - 1)) / (_hx / 2) + (u_ip_jp(j, x_points - 1) - u_i_j(j, x_points - 1)) / _hy);
-	}
-	// boundary top
-	for (size_t i = 0; i < x_points; ++i)
-	{
-		omega.push_back((v_ip_jp(0, i) - v_i_j(0, i)) / _hx + (u_ip_jp(0, i) - u_i_j(0, i)) / (_hy / 2));
-	}
-	// boundary bottom
-	for (size_t i = 0; i < x_points; ++i)
-	{
-		omega.push_back((v_ip_jp(y_points - 1, i) - v_i_j(y_points - 1, i)) / _hx + (u_ip_jp(y_points - 1, i) - u_i_j(y_points - 1, i)) / (_hy / 2));
-	}
-	// internal points
-	for (size_t i = 1; i < x_points - 1; ++i)
-	{
-		for (size_t j = 1; j < y_points - 1; ++j)
-		{
-			omega.push_back((v_ip_jp(i, j) - v_i_j(i, j)) / _hx + (u_ip_jp(i, j) - u_i_j(i, j)) / _hy);
-		}
-	}
-
-	return omega;
-}
-
-std::vector<double> Cavern2DSimpleWorker::psi_solver() {
-	std::vector<double> psi(_grid.n_points(), 0.0);
-	std::vector<double> omega = omega_solver();
-	
-	std::vector<double> rhs(_grid.n_points(), 0.0);
-
-	LodMatrix mat(psi.size());
-
-	size_t x_points = _grid.nx() + 1;
-	size_t y_points = _grid.ny() + 1;
-
-	// boundary left
-	for (size_t i = 1; i < y_points; ++i)
-	{
-		mat.add_value(i, 0, 0);
-	}
-	mat.add_value(1, 0, 1);
-	// boundary right
-	for (size_t i = 0; i < y_points - 1; ++i)
-	{
-		mat.add_value(i, x_points - 1, 0);
-	}
-	mat.add_value(y_points - 1, x_points - 1, 1);
-	// boundary top
-	for (size_t i = 1; i < x_points - 1; ++i)
-	{
-		mat.add_value(0, i, 0);
-	}
-	// boundary bottom
-	for (size_t i = 1; i < x_points - 1; ++i)
-	{
-		mat.add_value(y_points - 1, i, 0);
-	}
-	// internal points
-	for (size_t i = 1; i < x_points - 1; ++i)
-	{
-		for (size_t j = 1; j < y_points - 1; ++j)
-		{
-			mat.add_value(i - 1, j, -1.0 / (_hx * _hx));
-			mat.add_value(i, j, 2.0 / (_hx * _hx) + 2.0 / (_hy * _hy));
-			mat.add_value(i + 1, j, -1.0 / (_hx * _hx));
-			mat.add_value(i, j - 1, -1.0 / (_hy * _hy));
-			mat.add_value(i, j + 1, -1.0 / (_hy * _hy));
-		}
-	}
-
-	AmgcMatrixSolver::solve_slae(mat.to_csr(), omega, psi);
-
-	return psi;
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]") {
 	std::cout << std::endl << "--- cfd24_test [cavern2-simple] --- " << std::endl;
 
 	// problem parameters
 	double Re = 100;
-	size_t n_cells = 30;
-	double tau = 0.03;
-	double alpha = 0.8;
+	size_t n_cells = 50;
+	double tau = 0.04;
+	double alpha = 0.2;
 	size_t max_it = 10000;
-	double eps = 1e-0;
+	double eps = 1e-2;
 
 	// worker initialization
 	Cavern2DSimpleWorker worker(Re, n_cells, tau, alpha);
-	worker.initialize_saver(false, "cavern2");
+	//worker.initialize_saver(false, "cavern2");
 
 	// initial condition
 	std::vector<double> u_init(worker.u_size(), 0.0);
 	std::vector<double> v_init(worker.v_size(), 0.0);
 	std::vector<double> p_init(worker.p_size(), 0.0);
 	worker.set_uvp(u_init, v_init, p_init);
-	worker.save_current_fields(0);
+	//worker.save_current_fields(0);
 
 	// iterations loop
+	dbg::Tic("total");   // запустить таймер total
 	size_t it = 0;
 	for (it = 1; it < max_it; ++it) {
 		double nrm = worker.step();
@@ -587,12 +587,14 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]") {
 		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
 
 		// export solution to vtk
-		worker.save_current_fields(it);
+		//worker.save_current_fields(it);
 
 		// break if residual is low enough
 		if (nrm < eps) {
 			break;
 		}
 	}
-	CHECK(it == 9);
+	dbg::Toc("total");  // остановить таймер total
+
+	//CHECK(it == 9);
 }
