@@ -74,6 +74,8 @@ private:
 	std::vector<Vector> build_main_grid_velocity() const;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::vector<double> _omega;
+	std::vector<double> _psi;
 	std::vector<double> omega_solver();
 	std::vector<double> psi_solver();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +112,12 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	_p = p;
 	assemble_u_slae();
 	assemble_v_slae();
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	_omega = omega_solver();
+	_psi = psi_solver();
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// residuals
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u) / _tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v) / _tau;
@@ -143,10 +151,8 @@ void Cavern2DSimpleWorker::save_current_fields(size_t iter) {
 		VtkUtils::add_point_vector(build_main_grid_velocity(), "velocity", filepath);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::vector<double> omega = omega_solver();
-		VtkUtils::add_point_data(omega, "omega", filepath);
-		std::vector<double> psi = psi_solver();
-		VtkUtils::add_point_data(psi, "psi", filepath);
+		VtkUtils::add_point_data(_omega, "omega", filepath);
+		VtkUtils::add_point_data(_psi, "psi", filepath);
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	// pressure
@@ -467,15 +473,10 @@ std::vector<double> Cavern2DSimpleWorker::omega_solver() {
 	// boundary left
 	for (size_t j = 0; j < y_points - 1; ++j)
 	{
-		double v = _v[_grid.to_linear_point_index({ 0, j })];
-		double a;
-		if (j == 29)
-		{
-			a = u_i_j(0, j);
-			std::cout << a << std::endl;
-		}
+		double v1 = v_ip_jp(j, 1);
+		double u1 = u_ip_jp(j, 1);
 		
-		omega.push_back((v_i_j(1, j) - v_ip_jp(1, j)) / (_hx / 2) + (u_i_j(0, j + 1) - u_ip_jp(0, j)) / _hy);
+		omega.push_back((v1) / (_hx / 2) + (u1) / _hy);
 	}
 	// boundary right
 	for (size_t j = 0; j < y_points; ++j)
