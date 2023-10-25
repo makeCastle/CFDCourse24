@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['1_0',['Тестовый пример 1',['../tasks.html#autotoc_md72',1,'']]],
-  ['1_20введение_2002_2009_1',['1. Введение (02.09)',['../notes.html#autotoc_md13',1,'']]],
-  ['1_2002_2009_2',['Лекция 1 (02.09)',['../tasks.html#autotoc_md68',1,'']]],
-  ['10_3',['10',['../tasks.html#autotoc_md76',1,'Лекция 5 (06.10)'],['../tasks.html#autotoc_md77',1,'Лекция 6 (13.10)'],['../notes.html#autotoc_md58',1,'5. (6.10)'],['../notes.html#autotoc_md63',1,'6. (13.10)']]],
-  ['13_2010_4',['13 10',['../tasks.html#autotoc_md77',1,'Лекция 6 (13.10)'],['../notes.html#autotoc_md63',1,'6. (13.10)']]],
-  ['16_2009_5',['16 09',['../tasks.html#autotoc_md70',1,'Лекция 3 (16.09)'],['../notes.html#autotoc_md20',1,'3. Двухслойные схемы для нестационарных уравнений (16.09)']]]
+  ['_5f_5fpretty_5ffunction_5f_5f_0',['__PRETTY_FUNCTION__',['../macros_8hpp.html#a9c15fe1e91b07ea3280f5239f9841b67',1,'macros.hpp']]],
+  ['_5fthrow_5fnot_5fimp_5f_1',['_THROW_NOT_IMP_',['../macros_8hpp.html#a705a76547c6a06b27aade29a8eaa4eab',1,'macros.hpp']]],
+  ['_5fthrow_5funreachable_5f_2',['_THROW_UNREACHABLE_',['../macros_8hpp.html#afa4cca74d31a0abeab51496a20506e1e',1,'macros.hpp']]]
 ];

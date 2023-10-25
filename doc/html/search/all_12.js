@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['n_5fcells_0',['n_cells',['../classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3',1,'cfd::Grid1D::n_cells()'],['../classcfd_1_1IGrid.html#ab897b0a6b0bd481991895f7eaf8ce69d',1,'cfd::IGrid::n_cells()'],['../classcfd_1_1RegularGrid2D.html#a4382c72d566a0cac990bcf2e490f5476',1,'cfd::RegularGrid2D::n_cells()']]],
-  ['n_5ffaces_1',['n_faces',['../classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552',1,'cfd::Grid1D::n_faces()'],['../classcfd_1_1IGrid.html#af82e6f47721ffc5a0e6deced1b81b2e6',1,'cfd::IGrid::n_faces()'],['../classcfd_1_1RegularGrid2D.html#a6cb07eb72370883c30d9d7e142e65d3f',1,'cfd::RegularGrid2D::n_faces()']]],
-  ['n_5fnonzeros_2',['n_nonzeros',['../classcfd_1_1LodMatrix.html#ae87f22d5cf4e2127ee81e0e05c9cb730',1,'cfd::LodMatrix::n_nonzeros()'],['../classcfd_1_1ISparseMatrix.html#a1533cebf8927d2a2ed05b0b2735bc52c',1,'cfd::ISparseMatrix::n_nonzeros()'],['../classcfd_1_1CsrStencil.html#a95c67151ae0307afe23caa0cfb16166f',1,'cfd::CsrStencil::n_nonzeros()']]],
-  ['n_5fpoints_3',['n_points',['../classcfd_1_1Grid1D.html#a565e832c5b13a167ecaac572b6367f0c',1,'cfd::Grid1D::n_points()'],['../classcfd_1_1IGrid.html#a92b797bad631b219526458c80e46bc09',1,'cfd::IGrid::n_points()'],['../classcfd_1_1RegularGrid2D.html#a3dd4d664c2aa11042697ef4fe311bc23',1,'cfd::RegularGrid2D::n_points()']]],
-  ['n_5frows_4',['n_rows',['../classcfd_1_1CsrStencil.html#abdee62b85403d1bee2afaa3020280b22',1,'cfd::CsrStencil::n_rows()'],['../classcfd_1_1IMatrix.html#a242e34768e544a5a81d653d01c4ace93',1,'cfd::IMatrix::n_rows()'],['../classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07',1,'cfd::LodMatrix::n_rows()']]],
-  ['ndash_20николсон_5',['Схема Кранка&amp;ndash;Николсон',['../notes.html#autotoc_md24',1,'']]],
-  ['notes_2emd_6',['notes.md',['../notes_8md.html',1,'']]],
-  ['nx_7',['nx',['../classcfd_1_1RegularGrid2D.html#a83a35957ed069ae4676856a4baff96fc',1,'cfd::RegularGrid2D']]],
-  ['ny_8',['ny',['../classcfd_1_1RegularGrid2D.html#a61a2fa325d869e7527a16067868f2054',1,'cfd::RegularGrid2D']]]
+  ['tab_5fcell_5fpoint_0',['tab_cell_point',['../classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c',1,'cfd::Grid1D::tab_cell_point()'],['../classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18',1,'cfd::IGrid::tab_cell_point()'],['../classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416',1,'cfd::RegularGrid2D::tab_cell_point()']]],
+  ['tasks_2emd_1',['tasks.md',['../tasks_8md.html',1,'']]],
+  ['tic_2',['Tic',['../namespacecfd_1_1dbg.html#a1c8501ff7131c442d024e7cda77c15ae',1,'cfd::dbg']]],
+  ['tic1_3',['Tic1',['../namespacecfd_1_1dbg.html#a082d6ca6df9179d4120a2c56f9b62819',1,'cfd::dbg']]],
+  ['tictoc_2ehpp_4',['tictoc.hpp',['../tictoc_8hpp.html',1,'']]],
+  ['timedependentwriter_5',['timedependentwriter',['../classcfd_1_1VtkUtils_1_1TimeDependentWriter.html',1,'cfd::VtkUtils::TimeDependentWriter'],['../classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a55457b627a080d7c08c118fc91dc2a56',1,'cfd::VtkUtils::TimeDependentWriter::TimeDependentWriter()']]],
+  ['to_5fcsr_6',['to_csr',['../classcfd_1_1LodMatrix.html#a0f0710f7078724f5b8dfc38c6afc69e5',1,'cfd::LodMatrix']]],
+  ['to_5flinear_5fpoint_5findex_7',['to_linear_point_index',['../classcfd_1_1RegularGrid2D.html#a32874bb445e8424591509cca4587ce71',1,'cfd::RegularGrid2D']]],
+  ['to_5fsplit_5fpoint_5findex_8',['to_split_point_index',['../classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653',1,'cfd::RegularGrid2D']]],
+  ['toc_9',['Toc',['../namespacecfd_1_1dbg.html#aab26fd3a8881ea43dde8e7a95e2ad7ed',1,'cfd::dbg']]]
 ];

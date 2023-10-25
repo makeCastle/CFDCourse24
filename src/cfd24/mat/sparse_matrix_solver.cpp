@@ -81,8 +81,8 @@ void AmgcMatrixSolver::solve(const std::vector<double>& rhs, std::vector<double>
 	_pimpl->solve(rhs, ret);
 }
 
-void AmgcMatrixSolver::solve_slae(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& x){
-	AmgcMatrixSolver slv;
+void AmgcMatrixSolver::solve_slae(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& x, int maxit, double eps){
+	AmgcMatrixSolver slv(maxit, eps);
 	slv.set_matrix(mat);
 	slv.solve(rhs, x);
 }

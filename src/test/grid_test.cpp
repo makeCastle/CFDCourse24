@@ -30,6 +30,10 @@ TEST_CASE("RegularGrid2d", "[reggrid2]"){
 	CHECK(grid.to_linear_point_index({0, 0}) == 0);
 	CHECK(grid.to_linear_point_index({2, 0}) == 2);
 	CHECK(grid.to_linear_point_index({3, 1}) == 7);
+	CHECK(grid.cell_center(0).x() == Approx(0.1666).margin(1e-2));
+	CHECK(grid.cell_center(0).y() == Approx(1.5).margin(1e-2));
+	CHECK(grid.cell_center(4).x() == Approx(0.5).margin(1e-2));
+	CHECK(grid.cell_center(4).y() == Approx(2.5).margin(1e-2));
 
 	grid.save_vtk("out2.vtk");
 	VtkUtils::add_point_data(std::vector<double>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, "data1", "out2.vtk");

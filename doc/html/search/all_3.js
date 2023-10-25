@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['3_20двухслойные_20схемы_20для_20нестационарных_20уравнений_2016_2009_0',['3. Двухслойные схемы для нестационарных уравнений (16.09)',['../notes.html#autotoc_md20',1,'']]],
-  ['3_2016_2009_1',['Лекция 3 (16.09)',['../tasks.html#autotoc_md70',1,'']]],
-  ['30_2009_2',['30 09',['../tasks.html#autotoc_md75',1,'Лекция 4 (30.09)'],['../notes.html#autotoc_md42',1,'4. Система Навье-Стокса. Схема SIMPLE (30.09)']]],
-  ['3d_3',['Отображение двумерного поля в 3D',['../howto.html#paraview-2d',1,'']]]
+  ['boundary_0',['Boundary',['../classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519ae234de581c9c5ef91322f1469a585f9e',1,'cfd::RegularGrid2D']]],
+  ['boundary_5fxfaces_1',['boundary_xfaces',['../classcfd_1_1RegularGrid2D.html#a939cf9a056164cf3ba59a91771da66b7',1,'cfd::RegularGrid2D']]],
+  ['boundary_5fyfaces_2',['boundary_yfaces',['../classcfd_1_1RegularGrid2D.html#a8322e53775827e13747f6528014441f5',1,'cfd::RegularGrid2D']]]
 ];

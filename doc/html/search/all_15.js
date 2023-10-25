@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['regular_5fgrid2d_2ehpp_0',['regular_grid2d.hpp',['../regular__grid2d_8hpp.html',1,'']]],
-  ['regulargrid2d_1',['regulargrid2d',['../classcfd_1_1RegularGrid2D.html',1,'cfd::RegularGrid2D'],['../classcfd_1_1RegularGrid2D.html#a886c2689e1b97f504524fd9b57c5d10a',1,'cfd::RegularGrid2D::RegularGrid2D(double x0, double x1, double y0, double y1, size_t nx, size_t ny)'],['../classcfd_1_1RegularGrid2D.html#aa766a3970e357a25f1f9347ea4676b80',1,'cfd::RegularGrid2D::RegularGrid2D(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y)']]],
-  ['remove_5frow_2',['remove_row',['../classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826',1,'cfd::LodMatrix']]],
-  ['remove_5fvalue_3',['remove_value',['../classcfd_1_1LodMatrix.html#ac618b3ab98607fd348d6f1d618fa1a3a',1,'cfd::LodMatrix']]],
-  ['report_4',['Report',['../namespacecfd_1_1dbg.html#a52f6085a31ff10264ae74a347166b56d',1,'cfd::dbg']]],
-  ['row_5',['row',['../classcfd_1_1LodMatrix.html#a34ea6ba28c83770b69880a46819973ed',1,'cfd::LodMatrix']]]
+  ['y_0',['y',['../classcfd_1_1Point.html#a5292e69b51230c9b976234954e897554',1,'cfd::Point::y() const'],['../classcfd_1_1Point.html#a2c39881ee29c72ecad4046fdadcdf5da',1,'cfd::Point::y()']]],
+  ['yface_5fcentered_5fgrid_1',['yface_centered_grid',['../classcfd_1_1RegularGrid2D.html#ac620cf6a48c0da664f4e1320d36587e4',1,'cfd::RegularGrid2D']]],
+  ['yface_5fgrid_5findex_5fi_5fjp_2',['yface_grid_index_i_jp',['../classcfd_1_1RegularGrid2D.html#a019b0efb1b68f9e4971b6a47cc19dc1f',1,'cfd::RegularGrid2D']]],
+  ['yface_5ftype_3',['yface_type',['../classcfd_1_1RegularGrid2D.html#ae1d8b499e3ca055d9b71772076771ab4',1,'cfd::RegularGrid2D']]]
 ];

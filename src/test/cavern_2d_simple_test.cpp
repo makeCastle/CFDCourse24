@@ -231,12 +231,12 @@ void Cavern2DSimpleWorker::assemble_u_slae(){
 	// internal
 	for (size_t j=0; j < _grid.ny(); ++j)
 	for (size_t i=1; i < _grid.nx(); ++i){
-		size_t row_index = _grid.yface_grid_index_i_jp(i, j);   //[i, j+1/2] linear index in u grid
+		size_t row_index = _grid.yface_grid_index_i_jp(i, j); //[i, j+1/2]
 
 		double u0_plus   = u_ip_jp(i, j);   //_u[i+1/2, j+1/2]
 		double u0_minus  = u_ip_jp(i-1, j); //_u[i-1/2, j+1/2]
-		double v0_plus   = v_i_j(i, j+1);   // _v[i,j+1]
-		double v0_minus  = v_i_j(i, j);     // _v[i,j]
+		double v0_plus   = v_i_j(i, j+1);   //_v[i,j+1]
+		double v0_minus  = v_i_j(i, j);     //_v[i,j]
 
 		// u_(i,j+1/2)
 		add_to_mat(row_index, {i, j}, 1.0);
@@ -447,9 +447,9 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 
 	// problem parameters
 	double Re = 100;
-	size_t n_cells = 30;
 	double tau = 0.03;
 	double alpha = 0.8;
+	size_t n_cells = 30;
 	size_t max_it = 10000;
 	double eps = 1e-0;
 

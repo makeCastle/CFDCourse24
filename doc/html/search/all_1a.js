@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['y_0',['y',['../classcfd_1_1Point.html#a5292e69b51230c9b976234954e897554',1,'cfd::Point::y() const'],['../classcfd_1_1Point.html#a2c39881ee29c72ecad4046fdadcdf5da',1,'cfd::Point::y()']]],
-  ['yface_5fcentered_5fgrid_1',['yface_centered_grid',['../classcfd_1_1RegularGrid2D.html#ac620cf6a48c0da664f4e1320d36587e4',1,'cfd::RegularGrid2D']]],
-  ['yface_5fgrid_5findex_5fi_5fjp_2',['yface_grid_index_i_jp',['../classcfd_1_1RegularGrid2D.html#a019b0efb1b68f9e4971b6a47cc19dc1f',1,'cfd::RegularGrid2D']]]
+  ['данных_20для_20точек_20и_20ячеек_0',['Отображение числовых данных для точек и ячеек',['../howto.html#autotoc_md5',1,'']]],
+  ['двумерного_20поля_1',['Отображение изолиний для двумерного поля',['../howto.html#autotoc_md4',1,'']]],
+  ['двумерного_20поля_20в_203d_2',['Отображение двумерного поля в 3D',['../howto.html#paraview-2d',1,'']]],
+  ['для_20двумерного_20поля_3',['Отображение изолиний для двумерного поля',['../howto.html#autotoc_md4',1,'']]],
+  ['для_20самостоятельной_20работы_4',['Задания для самостоятельной работы',['../tasks.html',1,'index']]],
+  ['для_20точек_20и_20ячеек_5',['Отображение числовых данных для точек и ячеек',['../howto.html#autotoc_md5',1,'']]],
+  ['добавление_20файла_20в_20проект_6',['Добавление файла в проект',['../howto.html#autotoc_md7',1,'']]]
 ];

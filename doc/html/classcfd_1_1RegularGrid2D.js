@@ -1,10 +1,23 @@
 var classcfd_1_1RegularGrid2D =
 [
     [ "split_index_t", "classcfd_1_1RegularGrid2D.html#a5c20034b411675b04c43f5be75a2b5ca", null ],
+    [ "FaceType", "classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519", [
+      [ "Internal", "classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519aafbf0897a5a83fdd873dfb032ec695d3", null ],
+      [ "Boundary", "classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519ae234de581c9c5ef91322f1469a585f9e", null ],
+      [ "Deactivated", "classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519a43c7582c40594c3fe32a6634ef9dcb07", null ]
+    ] ],
     [ "RegularGrid2D", "classcfd_1_1RegularGrid2D.html#a886c2689e1b97f504524fd9b57c5d10a", null ],
     [ "RegularGrid2D", "classcfd_1_1RegularGrid2D.html#aa766a3970e357a25f1f9347ea4676b80", null ],
+    [ "actnum", "classcfd_1_1RegularGrid2D.html#a2b89d8f36702ee24493a85e6eb430fe9", null ],
+    [ "boundary_xfaces", "classcfd_1_1RegularGrid2D.html#a939cf9a056164cf3ba59a91771da66b7", null ],
+    [ "boundary_yfaces", "classcfd_1_1RegularGrid2D.html#a8322e53775827e13747f6528014441f5", null ],
+    [ "cell_center", "classcfd_1_1RegularGrid2D.html#aee7c0bb6d575a5e5d67bc12f1111e2fb", null ],
     [ "cell_centered_grid", "classcfd_1_1RegularGrid2D.html#aac44651aa339608edb17bd5e3f5883ae", null ],
     [ "cell_centered_grid_index_ip_jp", "classcfd_1_1RegularGrid2D.html#a591ad1c101a637ed159a951c56911a6b", null ],
+    [ "deactivate_cells", "classcfd_1_1RegularGrid2D.html#a5d807d67019690420c27b8766c586128", null ],
+    [ "is_active_cell", "classcfd_1_1RegularGrid2D.html#a8d0b6afb8a0dc6edc1e123784ce3250b", null ],
+    [ "Lx", "classcfd_1_1RegularGrid2D.html#a16eca6066d8d779b76a05e8b09beed98", null ],
+    [ "Ly", "classcfd_1_1RegularGrid2D.html#a787c26166b6e4f1a12c60b804571eec3", null ],
     [ "n_cells", "classcfd_1_1RegularGrid2D.html#a4382c72d566a0cac990bcf2e490f5476", null ],
     [ "n_faces", "classcfd_1_1RegularGrid2D.html#a6cb07eb72370883c30d9d7e142e65d3f", null ],
     [ "n_points", "classcfd_1_1RegularGrid2D.html#a3dd4d664c2aa11042697ef4fe311bc23", null ],
@@ -18,6 +31,8 @@ var classcfd_1_1RegularGrid2D =
     [ "to_split_point_index", "classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653", null ],
     [ "xface_centered_grid", "classcfd_1_1RegularGrid2D.html#ab705219175e75d152fe0d8867e788f01", null ],
     [ "xface_grid_index_ip_j", "classcfd_1_1RegularGrid2D.html#a208b586b51426b39805dddae6b6d0896", null ],
+    [ "xface_type", "classcfd_1_1RegularGrid2D.html#a1e1b6f0d8011f99020c65bacae94b5ec", null ],
     [ "yface_centered_grid", "classcfd_1_1RegularGrid2D.html#ac620cf6a48c0da664f4e1320d36587e4", null ],
-    [ "yface_grid_index_i_jp", "classcfd_1_1RegularGrid2D.html#a019b0efb1b68f9e4971b6a47cc19dc1f", null ]
+    [ "yface_grid_index_i_jp", "classcfd_1_1RegularGrid2D.html#a019b0efb1b68f9e4971b6a47cc19dc1f", null ],
+    [ "yface_type", "classcfd_1_1RegularGrid2D.html#ae1d8b499e3ca055d9b71772076771ab4", null ]
 ];
