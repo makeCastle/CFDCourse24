@@ -696,7 +696,7 @@ $$
 а для неактивных -- тривиальное уравнение $T=0$.
 
 Учёт граничных условий осуществляется за счёт фиктивных узлов
-в функции \cref{add_to_mat}
+в функции \cvar{add_to_mat}
 \clisting{to-start}{}
 \clisting{pass}{"ObstacleNonstat2DSimpleWorker::compute_temperature()"}
 \clisting{line}{"add_to_mat"}
@@ -723,15 +723,15 @@ $$
 \clisting{line}{"_grid.boundary_yfaces()"}
 на левой границе обтекаемого тела согласно формуле
 \cref{eq:dtdn_scheme} имеем
-\clisting{line}{"nu ="}
+\clisting{line}{"dtdn ="}
 Здесь \cvar{left_cell} -- индекс ячейки, лежащей слева от рассматриваемого участка границы,
 а $T^\Gamma = 1$ -- значение температуры из граничного условия.
 Аналогичные выражения исользованы для правых
-\clisting{line}{"nu ="}
+\clisting{line}{"dtdn ="}
 нижних
-\clisting{line}{"nu ="}
+\clisting{line}{"dtdn ="}
 и верхних фасок
-\clisting{line}{"nu ="}
+\clisting{line}{"dtdn ="}
 
 После определения нормальной производной по температуре
 она добавляется в интеграл согласно \cref{eq:ns2d_gamma_quadrature}.
@@ -843,9 +843,10 @@ $\Ren = 100$, $\Pen = 100$, $\eps=10^{-1}$, $\dt = 0.1$, $t_{end} = 200$, $n=10$
 \clisting{to-start}{}
 \clisting{pass}{"TEST_CASE"}
 Обтекаемые препятствия следует задавать
-при определении сетки
+при определении сетки. В рассмотренном примере из предыдущего пункта
+это делалось в строке
 \clisting{line}{"deactivate_cells"}
-указав там по очереди две нужные области.
+В настоящей задачи нужно эту функцию вызвать два раза, указав там по очереди обе нужные области.
 
 \paragraph{Задание граничных условий на температуру}
 Поскольку в задаче граничные условия на обтекаемых
@@ -865,9 +866,9 @@ $\Ren = 100$, $\Pen = 100$, $\eps=10^{-1}$, $\dt = 0.1$, $t_{end} = 200$, $n=10$
 \begin{minted}[linenos=false]{c++}
 rhs[row_index] -= 2*value*0.5,
 \end{minted}
-а для второго -- останется такой же.
+а для второго -- останется такой же, как и раньше.
 
-При этом нужно уметь отличать грани \cvar{row_index}, принадлежащие
+При этом нужно уметь отличать грани, принадлежащие
 первому телу от граней, принадлежащих второму.
 Для этого в классе \cvar{ObstacleNonstat2DSimpleWorker} можно
 объявить функцию, которая определяет ближайшую к ячейке границу.
@@ -886,13 +887,18 @@ int ObstacleNonstat2DSimpleWorker::gamma_closest_to_cell(size_t icell){
 \end{minted}
 Тогда можно написать
 \begin{minted}[linenos=false]{c++}
-double t_gamma;
-if (gamma_closest_to_cell(row_index) == 1){
-	t_gamma = 1.0;
-} else {
-	t_gamma = 0.5;
-}
+double t_gamma = (gamma_closest_to_cell(row_index) == 1) ? 0.5 : 1.0;
 rhs[row_index] -= 2*t_gamme*value;
+\end{minted}
+Здесь запись \cvar{double a = (cond) ? 0.5 : 1.0;} есть сокращение от
+
+\begin{minted}[linenos=false]{c++}
+double a;
+if (cond){
+	a = 0.5;
+} else {
+	a = 1.0
+}
 \end{minted}
 
 \paragraph{Вычисление коэффициентов}
@@ -906,19 +912,19 @@ struct Coefficients{
 	double cfy1, cfy2;
 	double cx1, cx2;
 	double cy1, cy2;
-	double dtdn1, dtdn2;
+	double nu1, nu2;
 };
 \end{minted}
-Во-вторых в функции сохранения этих коэффициентов в файл
-в функции \cref{ObstacleNonstat2DSimpleWorker::save_current_fields}
+Во-вторых, в функции сохранения этих коэффициентов в файл
+в функции \cvar{ObstacleNonstat2DSimpleWorker::save_current_fields}
 \begin{minted}[linenos=false]{c++}
 cx_writer << time << " ";
-cx_writer << coefs.cx1 << " " << coefs.cy1 << " " << coefs.dtdn1 << " ";
-cx_writer << coefs.cx2 << " " << coefs.cy2 << " " << coefs.dtdn2 << " ";
+cx_writer << coefs.cx1 << " " << coefs.cy1 << " " << coefs.nu1 << " ";
+cx_writer << coefs.cx2 << " " << coefs.cy2 << " " << coefs.nu2 << std::endl;
 \end{minted}
-Соответственно можно поправить легенду в функции \cref{initialize_saver}.
+Соответственно можно поправить легенду в функции \cvar{initialize_saver()}.
 
-Сами коэффициенты следует вычислять в функции \cref{coefficients()}.
+Сами коэффициенты следует вычислять в функции \cvar{coefficients()}.
 Там нужно завести аггрегаторы на оба тела:
 \begin{minted}[linenos=false]{c++}
 double sum_cpx1 = 0;
@@ -933,18 +939,34 @@ double sum_cfy2 = 0;
 double sum_nu2  = 0;
 \end{minted}
 
-И далее заполнять их в зависимости от близости ячейки. Например для вертикальных граней
+И далее заполнять их в зависимости от близости ячейки.
+Так же следует учесть значение граничной температуры
+при вычислении $\dsfr{T}{n}$ по формуле \cref{eq:dtdn_scheme}
+
+Например, для вертикальных граней
+после определения ячейки \cvar{left_cell}:
 \begin{minted}[linenos=false]{c++}
-if (gamma_closest_to_cell(left_cell) == 1){
+int gamma_i = gamma_closest_to_cell(left_cell);
+double t_gamma = (gamma_i == 1) ? 0.5 : 1.0;
+\end{minted}
+далее учесть при вычислении \cvar{dtdn} (два раза)
+\begin{minted}[linenos=false]{c++}
+dtdn = (t_gamma - _t[left_cell]) / (_hx/2.0);
+\end{minted}
+а также при выборе агрегатора
+\begin{minted}[linenos=false]{c++}
+if (gamma_i == 1){
 	sum_cpx1 += pnx * _hy;
 	sum_cfy1 += dvdn * _hy;
-	sum_nu1 += nu * _hy;
+	sum_nu1 += dtdn * _hy;
 } else {
 	sum_cpx2 += pnx * _hy;
 	sum_cfy2 += dvdn * _hy;
-	sum_nu2 += nu * _hy;
+	sum_nu2 += dtdn * _hy;
 }
 \end{minted}
+
+Аналогичную процедуру следует проделать и для горизонтальных граней.
 
 В конце нужно правильным образом заполнить все поля
 переменной \cvar{coef}.

@@ -790,23 +790,23 @@ ObstacleNonstat2DSimpleWorker::Coefficients ObstacleNonstat2DSimpleWorker::coeff
 		} else if (yface[0] == _grid.nx()){
 			// output => ignore
 		} else {
-			double pnx, dvdn, nu;
+			double pnx, dvdn, dtdn;
 			size_t left_cell = _grid.cell_centered_grid_index_ip_jp(yface[0]-1, yface[1]);
 			size_t right_cell = _grid.cell_centered_grid_index_ip_jp(yface[0], yface[1]);
 			if (_grid.is_active_cell(left_cell)){
 				pnx = _p[left_cell];  
 				dvdn = -v_ip_jp(yface[0]-1, yface[1]) / (_hx/2.0);
-				nu = (1.0 - _t[left_cell]) / (_hx/2.0);
+				dtdn = (1.0 - _t[left_cell]) / (_hx/2.0);
 			} else if (_grid.is_active_cell(right_cell)){
 				pnx = -_p[right_cell];  
 				dvdn = -v_ip_jp(yface[0], yface[1]) / (_hx/2.0);
-				nu = (1.0 - _t[right_cell]) / (_hx/2.0);
+				dtdn = (1.0 - _t[right_cell]) / (_hx/2.0);
 			} else {
 				_THROW_UNREACHABLE_;
 			}
 			sum_cpx += pnx * _hy;
 			sum_cfy += dvdn * _hy;
-			sum_nu += nu * _hy;
+			sum_nu += dtdn * _hy;
 		}
 	}
 
@@ -817,23 +817,23 @@ ObstacleNonstat2DSimpleWorker::Coefficients ObstacleNonstat2DSimpleWorker::coeff
 		} else if (xface[1] == _grid.ny()){
 			// top => ignore
 		} else {
-			double pny, dudn, nu;
+			double pny, dudn, dtdn;
 			size_t bot_cell = _grid.cell_centered_grid_index_ip_jp(xface[0], xface[1]-1);
 			size_t top_cell = _grid.cell_centered_grid_index_ip_jp(xface[0], xface[1]);
 			if (_grid.is_active_cell(bot_cell)){
 				pny = _p[bot_cell];
 				dudn = -u_ip_jp(xface[0], xface[1]-1)/(_hy/2.0);
-				nu = (1.0 - _t[bot_cell]) / (_hy/2.0);
+				dtdn = (1.0 - _t[bot_cell]) / (_hy/2.0);
 			} else if (_grid.is_active_cell(top_cell)){
 				pny = -_p[top_cell];
 				dudn = -u_ip_jp(xface[0], xface[1])/(_hy/2.0);
-				nu = (1.0 - _t[top_cell]) / (_hy/2.0);
+				dtdn = (1.0 - _t[top_cell]) / (_hy/2.0);
 			} else {
 				_THROW_UNREACHABLE_;
 			}
 			sum_cpy += pny * _hx;
 			sum_cfx += dudn * _hx;
-			sum_nu += nu * _hx;
+			sum_nu += dtdn * _hx;
 		}
 	}
 
@@ -897,7 +897,7 @@ TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-sim
 			}
 		}
 		// export solution each 1.0 time units
-		if (std::abs(2*time - 2*round(time)) < 1e-6){
+		if (std::abs(time - round(time)) < 1e-6){
 			worker.save_current_fields(time);
 		}
 		std::cout << convergence_report(time, it);
