@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['z_0',['z',['../classcfd_1_1Point.html#aa36aaaa015a218ca24108f4e0dda8563',1,'cfd::Point::z() const'],['../classcfd_1_1Point.html#a5dd1bb43ec750180c6512ff1ae91fcc2',1,'cfd::Point::z()']]]
+  ['задания_20для_20самостоятельной_20работы_0',['Задания для самостоятельной работы',['../tasks.html',1,'index']]],
+  ['запуск_1',['Сборка и запуск',['../howto.html#autotoc_md2',1,'']]],
+  ['запуск_20конкретного_20теста_2',['Запуск конкретного теста',['../howto.html#autotoc_md3',1,'']]]
 ];

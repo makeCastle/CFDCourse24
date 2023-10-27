@@ -47,7 +47,7 @@ public:
 	 */
 	void solve(const std::vector<double>& rhs, std::vector<double>& ret) const;
 
-	static void solve_slae(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& x);
+	static void solve_slae(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& x, int maxit=1000, double eps=1e-8);
 private:
 	int _maxit;
 	double _tolerance;

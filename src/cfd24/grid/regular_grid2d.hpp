@@ -42,7 +42,9 @@ public:
 	 */
 	RegularGrid2D(const std::vector<double>& x, const std::vector<double>& y);
 
-	
+	double Lx() const;
+	double Ly() const;
+
 	/**
 	 * @brief Builds grid with its points located in the centers of this grid cells
 	 */
@@ -114,17 +116,51 @@ public:
 	 */
 	size_t ny() const;
 
+	/**
+	 * @brief returns acitve status of the cell
+	 */
+	bool is_active_cell(size_t icell) const;
+
+	/**
+	 * @brief deactivates all cells within bot_left, top_right rectangle
+	 */
+	void deactivate_cells(Point bot_left, Point top_right);
+
+	/**
+	 * @brief actnum vector for cells
+	 */
+	const std::vector<char>& actnum() const;
+
+	enum struct FaceType{
+		Internal,
+		Boundary,
+		Deactivated
+	};
+
+	FaceType yface_type(size_t yface_index) const;
+	FaceType xface_type(size_t xface_index) const;
+	const std::vector<split_index_t>& boundary_yfaces() const;
+	const std::vector<split_index_t>& boundary_xfaces() const;
+
 	// overridden methods
 	size_t n_points() const override;
 	size_t n_cells() const override;
 	size_t n_faces() const override;
 	Point point(size_t ipoint) const override;
+	Point cell_center(size_t icell) const;
 	std::vector<Point> points() const override;
 	std::vector<size_t> tab_cell_point(size_t icell) const override;
 	void save_vtk(std::string fname) const override;
 private:
 	std::vector<double> _x;
 	std::vector<double> _y;
+	std::vector<char> _actnum;
+	std::vector<FaceType> _yface_types;
+	std::vector<FaceType> _xface_types;
+	std::vector<split_index_t> _boundary_xfaces;
+	std::vector<split_index_t> _boundary_yfaces;
+
+	void set_face_types();
 };
 
 }

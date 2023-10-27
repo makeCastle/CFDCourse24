@@ -13,4 +13,6 @@ std::vector<double> vector_sum(
 		double coef,
 		const std::vector<double>& v2);
 
+double harmonic_mean(double a, double b);
+
 #endif

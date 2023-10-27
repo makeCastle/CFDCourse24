@@ -14,10 +14,23 @@ RegularGrid2D::RegularGrid2D(double x0, double x1, double y0, double y1, size_t 
 	for (size_t i=0; i<ny; ++i){
 		_y.push_back(_y.back() + hy);
 	}
+	_actnum.resize(n_cells(), 1);
+	set_face_types();
 }
 
 RegularGrid2D::RegularGrid2D(const std::vector<double>& x, const std::vector<double>& y):
-	_x(x), _y(y){ }
+		_x(x), _y(y){
+
+	_actnum.resize(n_cells(), 1);
+}
+
+double RegularGrid2D::Lx() const{
+	return _x.back() - _x[0];
+}
+
+double RegularGrid2D::Ly() const{
+	return _y.back() - _y[0];
+}
 
 size_t RegularGrid2D::nx() const{
 	return _x.size() - 1;
@@ -43,6 +56,13 @@ Point RegularGrid2D::point(size_t ipoint) const{
 	size_t ix = ipoint % _x.size();
 	size_t iy = ipoint / _x.size();
 	return Point(_x[ix], _y[iy]);
+}
+
+Point RegularGrid2D::cell_center(size_t icell) const{
+	size_t ix = icell % (_x.size() - 1);
+	size_t iy = icell / (_x.size() - 1);
+	return Point(0.5*(_x[ix] + _x[ix+1]),
+	             0.5*(_y[iy] + _y[iy+1]));
 }
 
 std::vector<Point> RegularGrid2D::points() const{
@@ -150,4 +170,109 @@ RegularGrid2D RegularGrid2D::yface_centered_grid() const{
 		ret_y.push_back((_y[i] + _y[i+1])/2);
 	}
 	return RegularGrid2D(_x, ret_y);
+}
+
+bool RegularGrid2D::is_active_cell(size_t icell) const{
+	return _actnum[icell];
+}
+
+void RegularGrid2D::deactivate_cells(Point bot_left, Point top_right){
+	std::vector<double> xcenters, ycenters;
+	for (size_t i=0; i<_x.size()-1; ++i){
+		xcenters.push_back((_x[i] + _x[i+1])/2);
+	}
+	for (size_t j=0; j<_y.size()-1; ++j){
+		ycenters.push_back((_y[j] + _y[j+1])/2);
+	}
+	size_t i_begin = std::upper_bound(xcenters.begin(), xcenters.end(), bot_left.x()) - xcenters.begin();
+	size_t i_end = std::upper_bound(xcenters.begin(), xcenters.end(), top_right.x()) - xcenters.begin();
+	size_t j_begin = std::lower_bound(ycenters.begin(), ycenters.end(), bot_left.y()) - ycenters.begin();
+	size_t j_end = std::lower_bound(ycenters.begin(), ycenters.end(), top_right.y()) - ycenters.begin();
+
+	for (size_t i=i_begin; i<i_end; ++i)
+	for (size_t j=j_begin; j<j_end; ++j){
+		_actnum[i + j*nx()] = 0;
+	}
+	set_face_types();
+}
+
+const std::vector<char>& RegularGrid2D::actnum() const{
+	return _actnum;
+}
+
+RegularGrid2D::FaceType RegularGrid2D::yface_type(size_t yface_index) const{
+	return _yface_types[yface_index];
+}
+
+RegularGrid2D::FaceType RegularGrid2D::xface_type(size_t xface_index) const{
+	return _xface_types[xface_index];
+}
+
+const std::vector<RegularGrid2D::split_index_t>& RegularGrid2D::boundary_xfaces() const{
+	return _boundary_xfaces;
+}
+
+const std::vector<RegularGrid2D::split_index_t>& RegularGrid2D::boundary_yfaces() const{
+	return _boundary_yfaces;
+}
+
+void RegularGrid2D::set_face_types(){
+	// ==== yfaces;
+	_yface_types.resize((nx() + 1)*ny(), FaceType::Internal);
+	_boundary_yfaces.clear();
+	// left/right boundary
+	for (size_t j=0; j<ny(); ++j){
+		size_t ind_left = yface_grid_index_i_jp(0, j);
+		size_t ind_right = yface_grid_index_i_jp(nx(), j);
+		_yface_types[ind_left] = FaceType::Boundary;
+		_yface_types[ind_right] = FaceType::Boundary;
+		_boundary_yfaces.push_back({0, j});
+		_boundary_yfaces.push_back({nx(), j});
+	}
+	// internal faces
+	for (size_t i=1; i<nx(); ++i)
+	for (size_t j=0; j<ny(); ++j){
+		size_t face_index = yface_grid_index_i_jp(i, j);
+		size_t cell_left = cell_centered_grid_index_ip_jp(i-1, j);
+		size_t cell_right = cell_centered_grid_index_ip_jp(i, j);
+		bool active_left = is_active_cell(cell_left);
+		bool active_right = is_active_cell(cell_right);
+		if (active_left && active_right){
+			// pass
+		} else if (!active_left && !active_right){
+			_yface_types[face_index] = FaceType::Deactivated;
+		} else {
+			_yface_types[face_index] = FaceType::Boundary;
+			_boundary_yfaces.push_back({i, j});
+		}
+	}
+	// ==== xfaces;
+	_xface_types.resize((ny() + 1)*nx(), FaceType::Internal);
+	_boundary_xfaces.clear();
+	// top/bot boundary
+	for (size_t i=0; i<nx(); ++i){
+		size_t ind_bot = xface_grid_index_ip_j(i, 0);
+		size_t ind_top = xface_grid_index_ip_j(i, ny());
+		_xface_types[ind_bot] = FaceType::Boundary;
+		_xface_types[ind_top] = FaceType::Boundary;
+		_boundary_xfaces.push_back({i, 0});
+		_boundary_xfaces.push_back({i, ny()});
+	}
+	// internal faces
+	for (size_t i=0; i<nx(); ++i)
+	for (size_t j=1; j<ny(); ++j){
+		size_t face_index = xface_grid_index_ip_j(i, j);
+		size_t cell_bot = cell_centered_grid_index_ip_jp(i, j-1);
+		size_t cell_top = cell_centered_grid_index_ip_jp(i, j);
+		bool active_bot = is_active_cell(cell_bot);
+		bool active_top = is_active_cell(cell_top);
+		if (active_bot && active_top){
+			// pass
+		} else if (!active_bot && !active_top){
+			_xface_types[face_index] = FaceType::Deactivated;
+		} else {
+			_xface_types[face_index] = FaceType::Boundary;
+			_boundary_xfaces.push_back({i, j});
+		}
+	}
 }

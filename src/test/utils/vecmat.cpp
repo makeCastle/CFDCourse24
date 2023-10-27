@@ -20,3 +20,7 @@ std::vector<double> vector_sum(
 	}
 	return ret;
 }
+
+double harmonic_mean(double a, double b){
+	return 2*a*b/(a+b);
+}

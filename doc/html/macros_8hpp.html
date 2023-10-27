@@ -175,6 +175,8 @@ Macros</h2></td></tr>
 <tr class="separator:a9c15fe1e91b07ea3280f5239f9841b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a705a76547c6a06b27aade29a8eaa4eab" id="r_a705a76547c6a06b27aade29a8eaa4eab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="macros_8hpp.html#a705a76547c6a06b27aade29a8eaa4eab">_THROW_NOT_IMP_</a></td></tr>
 <tr class="separator:a705a76547c6a06b27aade29a8eaa4eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa4cca74d31a0abeab51496a20506e1e" id="r_afa4cca74d31a0abeab51496a20506e1e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="macros_8hpp.html#afa4cca74d31a0abeab51496a20506e1e">_THROW_UNREACHABLE_</a></td></tr>
+<tr class="separator:afa4cca74d31a0abeab51496a20506e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a9c15fe1e91b07ea3280f5239f9841b67" name="a9c15fe1e91b07ea3280f5239f9841b67"></a>
@@ -215,6 +217,30 @@ Macros</h2></td></tr>
 <div class="ttc" id="amacros_8hpp_html_a9c15fe1e91b07ea3280f5239f9841b67"><div class="ttname"><a href="macros_8hpp.html#a9c15fe1e91b07ea3280f5239f9841b67">__PRETTY_FUNCTION__</a></div><div class="ttdeci">#define __PRETTY_FUNCTION__</div><div class="ttdef"><b>Definition</b> <a href="macros_8hpp_source.html#l00008">macros.hpp:8</a></div></div>
 </div><!-- fragment -->
 <p class="definition">Definition at line <a class="el" href="macros_8hpp_source.html#l00011">11</a> of file <a class="el" href="macros_8hpp_source.html">macros.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afa4cca74d31a0abeab51496a20506e1e" name="afa4cca74d31a0abeab51496a20506e1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa4cca74d31a0abeab51496a20506e1e">&#9670;&#160;</a></span>_THROW_UNREACHABLE_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _THROW_UNREACHABLE_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">{\</div>
+<div class="line">    std::ostringstream oss; \</div>
+<div class="line">    oss &lt;&lt; <span class="stringliteral">&quot;Unreachable code.&quot;</span> &lt;&lt; std::endl; \</div>
+<div class="line">    oss &lt;&lt; <a class="code hl_define" href="macros_8hpp.html#a9c15fe1e91b07ea3280f5239f9841b67">__PRETTY_FUNCTION__</a> &lt;&lt; std::endl; \</div>
+<div class="line">    oss &lt;&lt; <span class="stringliteral">&quot;At&quot;</span> &lt;&lt; std::endl; \</div>
+<div class="line">    oss &lt;&lt; __FILE__ &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; __LINE__ &lt;&lt; std::endl; \</div>
+<div class="line">    <span class="keywordflow">throw</span> std::runtime_error(oss.str()); \</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="macros_8hpp_source.html#l00021">21</a> of file <a class="el" href="macros_8hpp_source.html">macros.hpp</a>.</p>
 
 </div>
 </div>

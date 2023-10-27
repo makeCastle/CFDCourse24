@@ -201,7 +201,7 @@ class TestTransport1WorkerCN: public TestTransport1WorkerImplicit{
 public:
 	TestTransport1WorkerCN(size_t n_cells): TestTransport1WorkerImplicit(n_cells){}
 private:
-	virtual CsrMatrix build_lhs(double tau){
+	CsrMatrix build_lhs(double tau) override{
 		LodMatrix mat(_u.size());
 		mat.set_value(0, 0, 1.0);
 		mat.set_value(_u.size()-1, _u.size()-1, 1.0);
@@ -214,7 +214,7 @@ private:
 		return mat.to_csr();
 	}
 
-	virtual std::vector<double> build_rhs(double tau){
+	std::vector<double> build_rhs(double tau) override{
 		std::vector<double> rhs(_u);
 		rhs[0] = exact_solution(_grid.point(0).x());
 		rhs.back() = exact_solution(_grid.point(_grid.n_points()-1).x());
