@@ -72,15 +72,6 @@ private:
 	double v_ip_jp(size_t i, size_t j) const;
 	double p_ip_jp(size_t i, size_t j) const;
 	std::vector<Vector> build_main_grid_velocity() const;
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	double matrix_element(const CsrMatrix& mat, size_t irow, size_t icol);
-	double row_diff(size_t irow, const CsrMatrix& mat, const std::vector<double>& rhs, const std::vector<double>& u);
-	void jacobi_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
-	void seidel_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
-	void sor_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 };
 
 Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau, double alpha_p) :
@@ -112,10 +103,8 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	_u = u;
 	_v = v;
 	_p = p;
-	dbg::Tic("assemble");
 	assemble_u_slae();
 	assemble_v_slae();
-	dbg::Toc("assemble");
 	// residuals
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u) / _tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v) / _tau;
@@ -124,15 +113,11 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 };
 
 double Cavern2DSimpleWorker::step() {
-	dbg::Tic("uv-solvers");
 	// Predictor step: U-star
 	std::vector<double> u_star = compute_u_star();
 	std::vector<double> v_star = compute_v_star();
-	dbg::Toc("uv-solvers");
-	dbg::Tic("p-solver");
 	// Pressure correction
 	std::vector<double> p_stroke = compute_p_stroke(u_star, v_star);
-	dbg::Toc("p-solver");
 	// Velocity correction
 	std::vector<double> u_stroke = compute_u_stroke(p_stroke);
 	std::vector<double> v_stroke = compute_v_stroke(p_stroke);
@@ -246,25 +231,14 @@ void Cavern2DSimpleWorker::assemble_u_slae() {
 	}
 
 	// internal
-<<<<<<< HEAD
 	for (size_t j = 0; j < _grid.ny(); ++j)
 		for (size_t i = 1; i < _grid.nx(); ++i) {
-			size_t row_index = _grid.yface_grid_index_i_jp(i, j);   //[i, j+1/2] linear index in u grid
+			size_t row_index = _grid.yface_grid_index_i_jp(i, j); //[i, j+1/2]
 
 			double u0_plus = u_ip_jp(i, j);   //_u[i+1/2, j+1/2]
 			double u0_minus = u_ip_jp(i - 1, j); //_u[i-1/2, j+1/2]
-			double v0_plus = v_i_j(i, j + 1);   // _v[i,j+1]
-			double v0_minus = v_i_j(i, j);     // _v[i,j]
-=======
-	for (size_t j=0; j < _grid.ny(); ++j)
-	for (size_t i=1; i < _grid.nx(); ++i){
-		size_t row_index = _grid.yface_grid_index_i_jp(i, j); //[i, j+1/2]
-
-		double u0_plus   = u_ip_jp(i, j);   //_u[i+1/2, j+1/2]
-		double u0_minus  = u_ip_jp(i-1, j); //_u[i-1/2, j+1/2]
-		double v0_plus   = v_i_j(i, j+1);   //_v[i,j+1]
-		double v0_minus  = v_i_j(i, j);     //_v[i,j]
->>>>>>> 459cf4808d1befb82eaa55622cf370cf625e5986
+			double v0_plus = v_i_j(i, j + 1);   //_v[i,j+1]
+			double v0_minus = v_i_j(i, j);     //_v[i,j]
 
 			// u_(i,j+1/2)
 			add_to_mat(row_index, { i, j }, 1.0);
@@ -359,109 +333,15 @@ void Cavern2DSimpleWorker::assemble_v_slae() {
 	_mat_v = mat.to_csr();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-double Cavern2DSimpleWorker::matrix_element(const CsrMatrix& mat, size_t irow, size_t icol) {
-	const std::vector<size_t>& addr = mat.addr();   
-	const std::vector<size_t>& cols = mat.cols();   
-	const std::vector<double>& vals = mat.vals();   
-	using iter_t = std::vector<size_t>::const_iterator;
-	
-	iter_t it_start = cols.begin() + addr[irow];
-	iter_t it_end = cols.begin() + addr[irow + 1];
-	
-	iter_t fnd = std::lower_bound(it_start, it_end, icol);
-	if (fnd != it_end && *fnd == icol) {
-		
-		size_t a = fnd - cols.begin();
-		
-		return vals[a];
-	}
-	
-	return 0;
-}
-
-double Cavern2DSimpleWorker::row_diff(size_t irow, const CsrMatrix& mat, const std::vector<double>& rhs, const std::vector<double>& u) {
-	double result = 0.0;
-	
-	const std::vector<size_t>& addr = mat.addr();   
-	const std::vector<size_t>& cols = mat.cols();   
-	const std::vector<double>& vals = mat.vals();   
-	
-	double r = 0.0;
-	for (size_t a = addr[irow]; a < addr[irow + 1]; ++a) {
-		size_t icol = cols[a];
-		double val = vals[a];
-		r += val * u[icol];
-	}
-
-	double A = matrix_element(mat, irow, irow);
-
-	result = (rhs[irow] - r) / A;
-
-	return result;
-}
-
-void Cavern2DSimpleWorker::jacobi_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
-	std::vector<double>& uNew = u;
-	for (size_t i = 0; i < u.size(); ++i)
-	{
-		uNew[i] += row_diff(i, mat, rhs, u);
-	}
-	u = uNew;
-}
-
-void Cavern2DSimpleWorker::seidel_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
-	for (size_t i = 0; i < u.size(); ++i)
-	{
-		u[i] += row_diff(i, mat, rhs, u);
-	}
-}
-
-void Cavern2DSimpleWorker::sor_step(const CsrMatrix& mat, const std::vector<double>& rhs, std::vector<double>& u) {
-	double w = 1.45;
-	for (size_t i = 0; i < u.size(); ++i)
-	{
-		u[i] += w * row_diff(i, mat, rhs, u);
-	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 std::vector<double> Cavern2DSimpleWorker::compute_u_star() {
 	std::vector<double> u_star(_u);
-	//AmgcMatrixSolver::solve_slae(_mat_u, _rhs_u, u_star);
-	//jacobi_step(_mat_u, _rhs_u, u_star);
-	//jacobi_step(_mat_u, _rhs_u, u_star);
-	//jacobi_step(_mat_u, _rhs_u, u_star);
-	//jacobi_step(_mat_u, _rhs_u, u_star);
-	//seidel_step(_mat_u, _rhs_u, u_star);
-	//seidel_step(_mat_u, _rhs_u, u_star);
-	//seidel_step(_mat_u, _rhs_u, u_star);
-	//seidel_step(_mat_u, _rhs_u, u_star);
-	sor_step(_mat_u, _rhs_u, u_star);
-	sor_step(_mat_u, _rhs_u, u_star);
-	sor_step(_mat_u, _rhs_u, u_star);
-	sor_step(_mat_u, _rhs_u, u_star);
-
+	AmgcMatrixSolver::solve_slae(_mat_u, _rhs_u, u_star);
 	return u_star;
 }
 
 std::vector<double> Cavern2DSimpleWorker::compute_v_star() {
 	std::vector<double> v_star(_v);
-	//AmgcMatrixSolver::solve_slae(_mat_v, _rhs_v, v_star);
-	//jacobi_step(_mat_v, _rhs_v, v_star);
-	//jacobi_step(_mat_v, _rhs_v, v_star);
-	//jacobi_step(_mat_v, _rhs_v, v_star);
-	//jacobi_step(_mat_v, _rhs_v, v_star);
-	//seidel_step(_mat_v, _rhs_v, v_star);
-	//seidel_step(_mat_v, _rhs_v, v_star);
-	//seidel_step(_mat_v, _rhs_v, v_star);
-	//seidel_step(_mat_v, _rhs_v, v_star);
-	sor_step(_mat_v, _rhs_v, v_star);
-	sor_step(_mat_v, _rhs_v, v_star);
-	sor_step(_mat_v, _rhs_v, v_star);
-	sor_step(_mat_v, _rhs_v, v_star);
-
+	AmgcMatrixSolver::solve_slae(_mat_v, _rhs_v, v_star);
 	return v_star;
 }
 
@@ -571,31 +451,24 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]") {
 
 	// problem parameters
 	double Re = 100;
-<<<<<<< HEAD
-	size_t n_cells = 50;
-	double tau = 0.04;
-	double alpha = 0.2;
-=======
 	double tau = 0.03;
 	double alpha = 0.8;
 	size_t n_cells = 30;
->>>>>>> 459cf4808d1befb82eaa55622cf370cf625e5986
 	size_t max_it = 10000;
-	double eps = 1e-2;
+	double eps = 1e-0;
 
 	// worker initialization
 	Cavern2DSimpleWorker worker(Re, n_cells, tau, alpha);
-	//worker.initialize_saver(false, "cavern2");
+	worker.initialize_saver(false, "cavern2");
 
 	// initial condition
 	std::vector<double> u_init(worker.u_size(), 0.0);
 	std::vector<double> v_init(worker.v_size(), 0.0);
 	std::vector<double> p_init(worker.p_size(), 0.0);
 	worker.set_uvp(u_init, v_init, p_init);
-	//worker.save_current_fields(0);
+	worker.save_current_fields(0);
 
 	// iterations loop
-	dbg::Tic("total");   // запустить таймер total
 	size_t it = 0;
 	for (it = 1; it < max_it; ++it) {
 		double nrm = worker.step();
@@ -604,14 +477,12 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]") {
 		std::cout << it << " " << nrm << " " << worker.pressure().back() << std::endl;
 
 		// export solution to vtk
-		//worker.save_current_fields(it);
+		worker.save_current_fields(it);
 
 		// break if residual is low enough
 		if (nrm < eps) {
 			break;
 		}
 	}
-	dbg::Toc("total");  // остановить таймер total
-
-	//CHECK(it == 9);
+	CHECK(it == 9);
 }

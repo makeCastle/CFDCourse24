@@ -36,15 +36,17 @@ struct ObstacleNonstat2DSimpleWorker{
 	double to_next_time_step();
 
 	struct Coefficients{
-		double cpx;
-		double cpy;
-		double cfx;
-		double cfy;
-		double cx;
-		double cy;
-		double nu;
+		double cpx1, cpx2;
+		double cpy1, cpy2;
+		double cfx1, cfx2;
+		double cfy1, cfy2;
+		double cx1, cx2;
+		double cy1, cy2;
+		double nu1, nu2;
 	};
 	Coefficients coefficients() const;
+
+
 private:
 	const RegularGrid2D _grid;
 	const RegularGrid2D _cc_grid;
@@ -98,6 +100,13 @@ private:
 	double v_ip_jp(size_t i, size_t j) const;
 	double p_ip_jp(size_t i, size_t j) const;
 	std::vector<Vector> build_main_grid_velocity() const;
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	int gamma_closest_to_cell(size_t icell) const;
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 };
 
 ObstacleNonstat2DSimpleWorker::ObstacleNonstat2DSimpleWorker(double Re, double Pe, const RegularGrid2D& grid, double E, double time_step):
@@ -228,7 +237,7 @@ void ObstacleNonstat2DSimpleWorker::initialize_saver(bool save_exact_fields, std
 		_writer_p.reset(new VtkUtils::TimeDependentWriter(stem + "-p"));
 	}
 	cx_writer.open("c.txt");
-	cx_writer << "Time Cpx Cfx Cpy Cfy Cx Cy Nu" << std::endl;
+	cx_writer << "Time Cx1 Cy1 Nu1 Cx2 Cy2 Nu2" << std::endl;
 
 };
 
@@ -303,10 +312,9 @@ void ObstacleNonstat2DSimpleWorker::save_current_fields(double time){
 	
 	// write coefficients to file
 	Coefficients coefs = coefficients();
-	cx_writer << time << " " << coefs.cpx << " " << coefs.cfx << " "
-	                         << coefs.cpy << " " << coefs.cfy << " "
-	                         << coefs.cx << " " << coefs.cy << " "
-	                         << coefs.nu << std::endl;
+	cx_writer << time << " ";
+	cx_writer << coefs.cx1 << " " << coefs.cy1 << " " << coefs.nu1 << " ";
+	cx_writer << coefs.cx2 << " " << coefs.cy2 << " " << coefs.nu2 << std::endl;
 }
 
 
@@ -621,6 +629,18 @@ std::vector<double> ObstacleNonstat2DSimpleWorker::compute_v_stroke(const std::v
 	return v_stroke;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int ObstacleNonstat2DSimpleWorker::gamma_closest_to_cell(size_t icell) const {
+	double x = _grid.cell_center(icell).x();
+	if (x < 3.25) { // center between first and second obstacles
+		return 1;
+	}
+	else {
+		return 2;
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<double> ObstacleNonstat2DSimpleWorker::compute_temperature() const{
 	std::vector<double> rhs(_p.size(), 0);
 	LodMatrix mat(_p.size());
@@ -644,7 +664,8 @@ std::vector<double> ObstacleNonstat2DSimpleWorker::compute_temperature() const{
 			} else {
 				// internal boundary: T = 1
 				mat.add_value(row_index, row_index, -value);
-				rhs[row_index] -= 2*value;
+				double t_gamma = (gamma_closest_to_cell(row_index) == 1) ? 0.5 : 1.0;
+				rhs[row_index] -= 2 * t_gamma * value;
 			}
 		}
 	};
@@ -777,11 +798,16 @@ std::vector<Vector> ObstacleNonstat2DSimpleWorker::build_main_grid_velocity() co
 }
 
 ObstacleNonstat2DSimpleWorker::Coefficients ObstacleNonstat2DSimpleWorker::coefficients() const{
-	double sum_cpx = 0;
-	double sum_cpy = 0;
-	double sum_cfx = 0;
-	double sum_cfy = 0;
-	double sum_nu = 0;
+	double sum_cpx1 = 0;
+	double sum_cpy1 = 0;
+	double sum_cfx1 = 0;
+	double sum_cfy1 = 0;
+	double sum_nu1 = 0;
+	double sum_cpx2 = 0;
+	double sum_cpy2 = 0;
+	double sum_cfx2 = 0;
+	double sum_cfy2 = 0;
+	double sum_nu2 = 0;
 
 	// yfaces loop
 	for (const RegularGrid2D::split_index_t& yface: _grid.boundary_yfaces()){
@@ -792,21 +818,38 @@ ObstacleNonstat2DSimpleWorker::Coefficients ObstacleNonstat2DSimpleWorker::coeff
 		} else {
 			double pnx, dvdn, dtdn;
 			size_t left_cell = _grid.cell_centered_grid_index_ip_jp(yface[0]-1, yface[1]);
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			int gamma_i = gamma_closest_to_cell(left_cell);
+			double t_gamma = (gamma_i == 1) ? 0.5 : 1.0;
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 			size_t right_cell = _grid.cell_centered_grid_index_ip_jp(yface[0], yface[1]);
+
 			if (_grid.is_active_cell(left_cell)){
 				pnx = _p[left_cell];  
 				dvdn = -v_ip_jp(yface[0]-1, yface[1]) / (_hx/2.0);
-				dtdn = (1.0 - _t[left_cell]) / (_hx/2.0);
+				dtdn = (t_gamma - _t[left_cell]) / (_hx / 2.0);
 			} else if (_grid.is_active_cell(right_cell)){
 				pnx = -_p[right_cell];  
 				dvdn = -v_ip_jp(yface[0], yface[1]) / (_hx/2.0);
-				dtdn = (1.0 - _t[right_cell]) / (_hx/2.0);
+				dtdn = (t_gamma - _t[right_cell]) / (_hx / 2.0);
 			} else {
 				_THROW_UNREACHABLE_;
 			}
-			sum_cpx += pnx * _hy;
-			sum_cfy += dvdn * _hy;
-			sum_nu += dtdn * _hy;
+
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if (gamma_i == 1) {
+				sum_cpx1 += pnx * _hy;
+				sum_cfy1 += dvdn * _hy;
+				sum_nu1 += dtdn * _hy;
+			}
+			else {
+				sum_cpx2 += pnx * _hy;
+				sum_cfy2 += dvdn * _hy;
+				sum_nu2 += dtdn * _hy;
+			}
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 	}
 
@@ -819,32 +862,54 @@ ObstacleNonstat2DSimpleWorker::Coefficients ObstacleNonstat2DSimpleWorker::coeff
 		} else {
 			double pny, dudn, dtdn;
 			size_t bot_cell = _grid.cell_centered_grid_index_ip_jp(xface[0], xface[1]-1);
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			int gamma_i = gamma_closest_to_cell(bot_cell);
+			double t_gamma = (gamma_i == 1) ? 0.5 : 1.0;
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 			size_t top_cell = _grid.cell_centered_grid_index_ip_jp(xface[0], xface[1]);
 			if (_grid.is_active_cell(bot_cell)){
 				pny = _p[bot_cell];
 				dudn = -u_ip_jp(xface[0], xface[1]-1)/(_hy/2.0);
-				dtdn = (1.0 - _t[bot_cell]) / (_hy/2.0);
+				dtdn = (t_gamma - _t[bot_cell]) / (_hy / 2.0);
 			} else if (_grid.is_active_cell(top_cell)){
 				pny = -_p[top_cell];
 				dudn = -u_ip_jp(xface[0], xface[1])/(_hy/2.0);
-				dtdn = (1.0 - _t[top_cell]) / (_hy/2.0);
+				dtdn = (t_gamma - _t[top_cell]) / (_hy / 2.0);
 			} else {
 				_THROW_UNREACHABLE_;
 			}
-			sum_cpy += pny * _hx;
-			sum_cfx += dudn * _hx;
-			sum_nu += dtdn * _hx;
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if (gamma_i == 1) {
+				sum_cpx1 += pny * _hx;
+				sum_cfy1 += dudn * _hx;
+				sum_nu1 += dtdn * _hx;
+			}
+			else {
+				sum_cpx2 += pny * _hx;
+				sum_cfy2 += dudn * _hx;
+				sum_nu2 += dtdn * _hx;
+			}
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 	}
 
 	Coefficients coefs;
-	coefs.cpx = 2.0*sum_cpx;
-	coefs.cpy = 2.0*sum_cpy;
-	coefs.cfx = -2.0/_Re*sum_cfx;
-	coefs.cfy = -2.0/_Re*sum_cfy;
-	coefs.cx = coefs.cpx + coefs.cfx;
-	coefs.cy = coefs.cpy + coefs.cfy;
-	coefs.nu = sum_nu;
+	coefs.cpx1 = 2.0*sum_cpx1;
+	coefs.cpx2 = 2.0 * sum_cpx2;
+	coefs.cpy1 = 2.0*sum_cpy1;
+	coefs.cpy2 = 2.0 * sum_cpy2;
+	coefs.cfx1 = -2.0/_Re*sum_cfx1;
+	coefs.cfx2 = -2.0 / _Re * sum_cfx2;
+	coefs.cfy1 = -2.0/_Re*sum_cfy1;
+	coefs.cfy2 = -2.0 / _Re * sum_cfy2;
+	coefs.cx1 = coefs.cpx1 + coefs.cfx1;
+	coefs.cx2 = coefs.cpx2 + coefs.cfx2;
+	coefs.cy1 = coefs.cpy1 + coefs.cfy1;
+	coefs.cy2 = coefs.cpy2 + coefs.cfy2;
+	coefs.nu1 = sum_nu1;
+	coefs.nu2 = sum_nu2;
 	return coefs;
 }
 
@@ -859,45 +924,99 @@ std::string convergence_report(double time, int it){
 
 }
 
-TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-simple]"){
-	std::cout << std::endl << "--- cfd24_test [obstacle2-nonstat-simple] --- " << std::endl;
+
+
+//TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-simple]"){
+//	std::cout << std::endl << "--- cfd24_test [obstacle2-nonstat-simple] --- " << std::endl;
+//
+//	// problem parameters
+//	double Re = 100;
+//	double Pe = 100;
+//	size_t n_unit = 10;  // partition per unit length
+//	double time_step = 0.25;
+//	double end_time = 5;
+//	double E = 4.0;
+//	size_t max_it = 10000;
+//	double eps = 1e-0;
+//
+//	// worker initialization
+//	RegularGrid2D grid(0, 12, -2, 2, 12*n_unit, 4*n_unit);
+//	grid.deactivate_cells({2, -0.5}, {3, 0.5});
+//	ObstacleNonstat2DSimpleWorker worker(Re, Pe, grid, E, time_step);
+//	worker.initialize_saver(false, "obstacle2-nonstat");
+//
+//	// initial condition
+//	worker.initialize();
+//	worker.save_current_fields(0);
+//
+//	// iterations loop
+//	for (double time=time_step; time<end_time+1e-6; time+=time_step){
+//		size_t it = 0;
+//		for (it=1; it < max_it; ++it){
+//			double nrm = worker.step();
+//
+//			// break inner iterations if residual is low enough
+//			if (nrm < eps){
+//				break;
+//			} else if (it == max_it -1) {
+//				std::cout << "WARNING: internal SIMPLE interations not converged with nrm = "
+//				          << nrm << std::endl;
+//			}
+//		}
+//		// export solution each 1.0 time units
+//		if (std::abs(time - round(time)) < 1e-6){
+//			worker.save_current_fields(time);
+//		}
+//		std::cout << convergence_report(time, it);
+//
+//		// uvp_old = uvp
+//		worker.to_next_time_step();
+//	}
+//
+//	CHECK(worker.coefficients().cx == Approx(2.27).margin(1e-2));
+//}
+
+TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-simple-2obstacles]") {
+	std::cout << std::endl << "--- cfd24_test [obstacle2-nonstat-simple-2obstacles] --- " << std::endl;
 
 	// problem parameters
 	double Re = 100;
 	double Pe = 100;
-	size_t n_unit = 10;  // partition per unit length
-	double time_step = 0.25;
-	double end_time = 5;
+	size_t n_unit = 20;  // partition per unit length
+	double time_step = 0.1;
+	double end_time = 200;
 	double E = 4.0;
 	size_t max_it = 10000;
-	double eps = 1e-0;
+	double eps = 1e-1;
 
 	// worker initialization
-	RegularGrid2D grid(0, 12, -2, 2, 12*n_unit, 4*n_unit);
-	grid.deactivate_cells({2, -0.5}, {3, 0.5});
+	RegularGrid2D grid(0, 12, -2, 2, 12 * n_unit, 4 * n_unit);
+	grid.deactivate_cells({ 2, -0.7 }, { 2.5, 0.3 });
+	grid.deactivate_cells({ 4, -0.3 }, { 4.5, 0.7 });
 	ObstacleNonstat2DSimpleWorker worker(Re, Pe, grid, E, time_step);
-	worker.initialize_saver(false, "obstacle2-nonstat");
+	worker.initialize_saver(false, "obstacle2-nonstat-2");
 
 	// initial condition
 	worker.initialize();
 	worker.save_current_fields(0);
 
 	// iterations loop
-	for (double time=time_step; time<end_time+1e-6; time+=time_step){
+	for (double time = time_step; time < end_time + 1e-6; time += time_step) {
 		size_t it = 0;
-		for (it=1; it < max_it; ++it){
+		for (it = 1; it < max_it; ++it) {
 			double nrm = worker.step();
 
 			// break inner iterations if residual is low enough
-			if (nrm < eps){
+			if (nrm < eps) {
 				break;
-			} else if (it == max_it -1) {
+			}
+			else if (it == max_it - 1) {
 				std::cout << "WARNING: internal SIMPLE interations not converged with nrm = "
-				          << nrm << std::endl;
+					<< nrm << std::endl;
 			}
 		}
 		// export solution each 1.0 time units
-		if (std::abs(time - round(time)) < 1e-6){
+		if (std::abs(time - round(time)) < 1e-6) {
 			worker.save_current_fields(time);
 		}
 		std::cout << convergence_report(time, it);
@@ -906,5 +1025,5 @@ TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-sim
 		worker.to_next_time_step();
 	}
 
-	CHECK(worker.coefficients().cx == Approx(2.27).margin(1e-2));
+	//CHECK(worker.coefficients().cx == Approx(2.27).margin(1e-2));
 }
