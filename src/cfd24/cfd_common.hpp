@@ -13,4 +13,8 @@
 #include <sstream>
 #include "macros.hpp"
 
+namespace cfd{
+
+}
+
 #endif

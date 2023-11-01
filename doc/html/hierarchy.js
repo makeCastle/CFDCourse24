@@ -9,7 +9,8 @@ var hierarchy =
         [ "cfd::Grid1D", "classcfd_1_1Grid1D.html", null ]
       ] ],
       [ "cfd::IGrid2D", "classcfd_1_1IGrid2D.html", [
-        [ "cfd::RegularGrid2D", "classcfd_1_1RegularGrid2D.html", null ]
+        [ "cfd::RegularGrid2D", "classcfd_1_1RegularGrid2D.html", null ],
+        [ "cfd::UnstructuredGrid2D", "classcfd_1_1UnstructuredGrid2D.html", null ]
       ] ],
       [ "cfd::IGrid3D", "classcfd_1_1IGrid3D.html", null ]
     ] ],

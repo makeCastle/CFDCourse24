@@ -66,6 +66,9 @@ public:
 	 */
 	void remove_row(size_t irow);
 
+	/**
+	 * @brief sets unit diagonal and zero non-diagonal values for the specified row
+	 */
 	void set_unit_row(size_t irow);
 
 	/**

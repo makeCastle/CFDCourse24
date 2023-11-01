@@ -24,7 +24,13 @@ var namespacecfd =
     [ "LodMatrix", "classcfd_1_1LodMatrix.html", "classcfd_1_1LodMatrix" ],
     [ "Point", "classcfd_1_1Point.html", "classcfd_1_1Point" ],
     [ "RegularGrid2D", "classcfd_1_1RegularGrid2D.html", "classcfd_1_1RegularGrid2D" ],
+    [ "UnstructuredGrid2D", "classcfd_1_1UnstructuredGrid2D.html", "classcfd_1_1UnstructuredGrid2D" ],
     [ "VtkUtils", "structcfd_1_1VtkUtils.html", "structcfd_1_1VtkUtils" ],
     [ "Vector", "namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0", null ],
-    [ "ping", "namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f", null ]
+    [ "dot_product", "namespacecfd.html#a2f424542c1f593009304c5d57d298f7e", null ],
+    [ "ping", "namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f", null ],
+    [ "triangle_area", "namespacecfd.html#afbc6cd545711891692a5f483d91fd239", null ],
+    [ "vector_abs", "namespacecfd.html#a7a46ff3070a0be188c76cfd5d7e09a11", null ],
+    [ "vector_meas", "namespacecfd.html#aec83b647c5cac94e794e79d1f960921a", null ],
+    [ "INVALID_INDEX", "namespacecfd.html#a714689f45d40f0b37d8c3829f1684b8d", null ]
 ];

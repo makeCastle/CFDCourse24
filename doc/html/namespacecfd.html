@@ -120,7 +120,8 @@ $(document).ready(function(){initNavTree('namespacecfd.html',''); initResizable(
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">cfd Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -172,6 +173,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1RegularGrid2D.html">RegularGrid2D</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">structured 2D quadraliteral grid with  <a href="classcfd_1_1RegularGrid2D.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1UnstructuredGrid2D.html">UnstructuredGrid2D</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1VtkUtils.html">VtkUtils</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of vtk-writer utilities.  <a href="structcfd_1_1VtkUtils.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +189,24 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a46a26444edc10aa083efe9c2348f2d4f" id="r_a46a26444edc10aa083efe9c2348f2d4f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f">ping</a> ()</td></tr>
 <tr class="separator:a46a26444edc10aa083efe9c2348f2d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f424542c1f593009304c5d57d298f7e" id="r_a2f424542c1f593009304c5d57d298f7e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a2f424542c1f593009304c5d57d298f7e">dot_product</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v1, const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v2)</td></tr>
+<tr class="memdesc:a2f424542c1f593009304c5d57d298f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">dot product of two vectors  <br /></td></tr>
+<tr class="separator:a2f424542c1f593009304c5d57d298f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a46ff3070a0be188c76cfd5d7e09a11" id="r_a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a7a46ff3070a0be188c76cfd5d7e09a11">vector_abs</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector length  <br /></td></tr>
+<tr class="separator:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec83b647c5cac94e794e79d1f960921a" id="r_aec83b647c5cac94e794e79d1f960921a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#aec83b647c5cac94e794e79d1f960921a">vector_meas</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:aec83b647c5cac94e794e79d1f960921a"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector squared length  <br /></td></tr>
+<tr class="separator:aec83b647c5cac94e794e79d1f960921a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc6cd545711891692a5f483d91fd239" id="r_afbc6cd545711891692a5f483d91fd239"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#afbc6cd545711891692a5f483d91fd239">triangle_area</a> (<a class="el" href="classcfd_1_1Point.html">Point</a> p0, <a class="el" href="classcfd_1_1Point.html">Point</a> p1, <a class="el" href="classcfd_1_1Point.html">Point</a> p2)</td></tr>
+<tr class="memdesc:afbc6cd545711891692a5f483d91fd239"><td class="mdescLeft">&#160;</td><td class="mdescRight">signed triangle area  <br /></td></tr>
+<tr class="separator:afbc6cd545711891692a5f483d91fd239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a714689f45d40f0b37d8c3829f1684b8d" id="r_a714689f45d40f0b37d8c3829f1684b8d"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a714689f45d40f0b37d8c3829f1684b8d">INVALID_INDEX</a> = (size_t)-1</td></tr>
+<tr class="memdesc:a714689f45d40f0b37d8c3829f1684b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">invalid index  <br /></td></tr>
+<tr class="separator:a714689f45d40f0b37d8c3829f1684b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>cfd library </p>
@@ -203,13 +224,53 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>3D vector </p>
-<p>Alias to <a class="el" href="classcfd_1_1Point.html" title="3D point">cfd::Point</a>. Access to coordinate values can be achieved via operator[] or x/y/z() functions </p>
+<p>Alias to <a class="el" href="classcfd_1_1Point.html" title="3D point">cfd::Point</a>. Access to coordinate values can be achieved via operator[] or x/y/z() methods </p>
 
-<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00032">32</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00090">90</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a2f424542c1f593009304c5d57d298f7e" name="a2f424542c1f593009304c5d57d298f7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f424542c1f593009304c5d57d298f7e">&#9670;&#160;</a></span>dot_product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::dot_product </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>dot product of two vectors </p>
+
+<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00095">95</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a46a26444edc10aa083efe9c2348f2d4f" name="a46a26444edc10aa083efe9c2348f2d4f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46a26444edc10aa083efe9c2348f2d4f">&#9670;&#160;</a></span>ping()</h2>
 
@@ -226,6 +287,130 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Library ping function</p>
 <dl class="section return"><dt>Returns</dt><dd>1 </dd></dl>
+
+</div>
+</div>
+<a id="afbc6cd545711891692a5f483d91fd239" name="afbc6cd545711891692a5f483d91fd239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbc6cd545711891692a5f483d91fd239">&#9670;&#160;</a></span>triangle_area()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::triangle_area </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td>
+          <td class="paramname"><em>p0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td>
+          <td class="paramname"><em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td>
+          <td class="paramname"><em>p2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>signed triangle area </p>
+
+</div>
+</div>
+<a id="a7a46ff3070a0be188c76cfd5d7e09a11" name="a7a46ff3070a0be188c76cfd5d7e09a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a46ff3070a0be188c76cfd5d7e09a11">&#9670;&#160;</a></span>vector_abs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::vector_abs </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>vector length </p>
+
+<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00102">102</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aec83b647c5cac94e794e79d1f960921a" name="aec83b647c5cac94e794e79d1f960921a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec83b647c5cac94e794e79d1f960921a">&#9670;&#160;</a></span>vector_meas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::vector_meas </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>vector squared length </p>
+
+<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00109">109</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a714689f45d40f0b37d8c3829f1684b8d" name="a714689f45d40f0b37d8c3829f1684b8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a714689f45d40f0b37d8c3829f1684b8d">&#9670;&#160;</a></span>INVALID_INDEX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t cfd::INVALID_INDEX = (size_t)-1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>invalid index </p>
+<p>Used in grid connectivity tables to define blank connection </p>
+
+<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00014">14</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
 
 </div>
 </div>

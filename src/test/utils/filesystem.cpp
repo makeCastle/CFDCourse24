@@ -5,7 +5,7 @@
 #define TEST_DIRECTORY "./"
 #endif
 
-std::string test_directory(std::string path){
+std::string cfd::test_directory_file(std::string path){
 	return TEST_DIRECTORY + path;
 }
 

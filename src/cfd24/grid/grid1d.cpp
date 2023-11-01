@@ -23,6 +23,26 @@ size_t Grid1D::n_faces() const{
 	return _points.size();
 }
 
+Point Grid1D::cell_center(size_t icell) const{
+	return (_points.at(icell) + _points.at(icell+1))/2.0;
+}
+
+double Grid1D::cell_volume(size_t icell) const{
+	return _points.at(icell+1).x() - _points.at(icell).x();
+}
+
+Vector Grid1D::face_normal(size_t iface) const{
+	return Vector(1.0, 0.0, 0.0);
+}
+
+double Grid1D::face_area(size_t iface) const{
+	return 1.0;
+}
+
+Point Grid1D::face_center(size_t iface) const{
+	return _points.at(iface);
+}
+
 Point Grid1D::point(size_t ipoint) const{
 	return _points.at(ipoint);
 }
@@ -33,6 +53,16 @@ std::vector<Point> Grid1D::points() const{
 
 std::vector<size_t> Grid1D::tab_cell_point(size_t icell) const{
 	return {icell, icell+1};
+}
+
+std::array<size_t, 2> Grid1D::tab_face_cell(size_t iface) const{
+	if (iface == 0){
+		return {INVALID_INDEX, 0};
+	} else if (iface == _points.size()-1){
+		return {iface, INVALID_INDEX};
+	} else {
+		return {iface, iface+1};
+	}
 }
 
 void Grid1D::save_vtk(std::string fname) const{

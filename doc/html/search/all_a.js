@@ -10,7 +10,8 @@ var searchData=
   ['imatrix_7',['IMatrix',['../classcfd_1_1IMatrix.html',1,'cfd']]],
   ['install_2emd_8',['install.md',['../install_8md.html',1,'']]],
   ['internal_9',['Internal',['../classcfd_1_1RegularGrid2D.html#a5411cd353b526abd3d7f6796eefe2519aafbf0897a5a83fdd873dfb032ec695d3',1,'cfd::RegularGrid2D']]],
-  ['is_5factive_5fcell_10',['is_active_cell',['../classcfd_1_1RegularGrid2D.html#a8d0b6afb8a0dc6edc1e123784ce3250b',1,'cfd::RegularGrid2D']]],
-  ['is_5fin_5fstencil_11',['is_in_stencil',['../classcfd_1_1CsrStencil.html#a86a8839f126ab0a20fd395371cc5c16c',1,'cfd::CsrStencil::is_in_stencil()'],['../classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372',1,'cfd::ISparseMatrix::is_in_stencil()'],['../classcfd_1_1LodMatrix.html#a0e31974a4c23509c38e72249c1f20efb',1,'cfd::LodMatrix::is_in_stencil()']]],
-  ['isparsematrix_12',['ISparseMatrix',['../classcfd_1_1ISparseMatrix.html',1,'cfd']]]
+  ['invalid_5findex_10',['INVALID_INDEX',['../namespacecfd.html#a714689f45d40f0b37d8c3829f1684b8d',1,'cfd']]],
+  ['is_5factive_5fcell_11',['is_active_cell',['../classcfd_1_1RegularGrid2D.html#a8d0b6afb8a0dc6edc1e123784ce3250b',1,'cfd::RegularGrid2D']]],
+  ['is_5fin_5fstencil_12',['is_in_stencil',['../classcfd_1_1CsrStencil.html#a86a8839f126ab0a20fd395371cc5c16c',1,'cfd::CsrStencil::is_in_stencil()'],['../classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372',1,'cfd::ISparseMatrix::is_in_stencil()'],['../classcfd_1_1LodMatrix.html#a0e31974a4c23509c38e72249c1f20efb',1,'cfd::LodMatrix::is_in_stencil()']]],
+  ['isparsematrix_13',['ISparseMatrix',['../classcfd_1_1ISparseMatrix.html',1,'cfd']]]
 ];
