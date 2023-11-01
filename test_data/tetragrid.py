@@ -1,7 +1,7 @@
 from hybmeshpack import hmscript as hm
 import math
 
-N = 100000
+N = 1000
 output_name = "tetragrid.vtk"
 
 step = math.sqrt(1.5/N)

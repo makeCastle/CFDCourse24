@@ -47,9 +47,7 @@
 нужно закомментировать все строки в диапазоне
 \begin{minted}[linenos=false]{text}
 # ========================== Python check
-
 ....
-
 # ========================== Windows installer options
 \end{minted}
 а в файле \ename{HybMesh/src/CMakeLists.txt} последнюю строку
@@ -61,7 +59,7 @@
 \begin{shelloutput}
 > mkdir build
 > cd build
-> cmake .. -DCMAKE_BUILD_TYPE=Relese
+> cmake .. -DCMAKE_BUILD_TYPE=Release
 > make -j8
 > sudo make install
 \end{shelloutput}
@@ -69,8 +67,7 @@
 Для запуска скриптов нужно создать скрипт-прокладку
 \begin{minted}[linenos=false]{python}
 import sys
-sys.path.append("/path/to/HybMesh/src/py/")  # вставить полный путь
-                                             # к репозиторию Hybmesh/src/py
+sys.path.append("/path/to/HybMesh/src/py/")  # вставить полный путь к Hybmesh/src/py
 execfile(sys.argv[1])
 \end{minted}
 и сохранить его в любое место. Например в \ename{path/to/HybMesh/hybmesh.py}.
