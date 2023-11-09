@@ -1,7 +1,9 @@
 <map id="cfd::IGrid2D" name="cfd::IGrid2D">
-<area shape="rect" id="Node000001" title="Abstract 2D grid." alt="" coords="17,139,119,224"/>
-<area shape="rect" id="Node000003" href="$classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="5,272,131,357"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="71,238,71,272,65,272,65,238"/>
-<area shape="rect" id="Node000002" href="$classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="17,5,119,91"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,104,71,138,65,138,65,104"/>
+<area shape="rect" id="Node000001" title="Abstract 2D grid." alt="" coords="99,139,202,224"/>
+<area shape="rect" id="Node000003" href="$classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="5,282,131,367"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,237,95,283,90,280,117,235"/>
+<area shape="rect" id="Node000004" href="$classcfd_1_1UnstructuredGrid2D.html" title=" " alt="" coords="155,272,311,377"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,234,205,270,201,273,179,237"/>
+<area shape="rect" id="Node000002" href="$classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="95,5,206,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,104,153,138,148,138,148,104"/>
 </map>

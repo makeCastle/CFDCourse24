@@ -9,6 +9,7 @@ set (SRC
 	obstacle_nonstat_2d_simple_test.cpp
 	poiseuille_2d_simple_test.cpp
 	linear_2d_simple_test.cpp
+	poisson_fvm_solve_test.cpp
 
 	utils/filesystem.cpp
 	utils/vecmat.cpp

@@ -119,19 +119,23 @@ $(document).ready(function(){initNavTree('primitives_8hpp.html',''); initResizab
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">primitives.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for primitives.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="primitives_8hpp__incl.png" border="0" usemap="#aprimitives_8hpp" alt=""/></div>
 <map name="aprimitives_8hpp" id="aprimitives_8hpp">
-<area shape="rect" title=" " alt="" coords="5,5,108,31"/>
-<area shape="rect" title=" " alt="" coords="31,79,82,104"/>
-<area shape="poly" title=" " alt="" coords="59,31,59,65,54,65,54,31"/>
+<area shape="rect" title=" " alt="" coords="18,5,121,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,56,104"/>
+<area shape="poly" title=" " alt="" coords="65,32,46,68,41,65,61,30"/>
+<area shape="rect" title=" " alt="" coords="80,79,139,104"/>
+<area shape="poly" title=" " alt="" coords="78,30,98,65,94,68,74,32"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -139,15 +143,19 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="primitives_8hpp__dep__incl.png" border="0" usemap="#aprimitives_8hppdep" alt=""/></div>
 <map name="aprimitives_8hppdep" id="aprimitives_8hppdep">
-<area shape="rect" title=" " alt="" coords="125,5,227,31"/>
-<area shape="rect" href="i__grid_8hpp.html" title=" " alt="" coords="137,79,215,104"/>
-<area shape="poly" title=" " alt="" coords="179,44,179,79,173,79,173,44"/>
+<area shape="rect" title=" " alt="" coords="263,5,366,31"/>
+<area shape="rect" href="i__grid_8hpp.html" title=" " alt="" coords="221,79,299,104"/>
+<area shape="poly" title=" " alt="" coords="299,43,271,80,267,77,295,40"/>
+<area shape="rect" href="simplex_8hpp.html" title=" " alt="" coords="323,79,415,104"/>
+<area shape="poly" title=" " alt="" coords="334,40,363,77,358,80,330,43"/>
 <area shape="rect" href="grid1d_8hpp.html" title=" " alt="" coords="5,152,88,177"/>
-<area shape="poly" title=" " alt="" coords="144,113,69,154,67,149,142,108"/>
+<area shape="poly" title=" " alt="" coords="214,111,82,154,80,149,212,106"/>
 <area shape="rect" href="regular__grid2d_8hpp.html" title=" " alt="" coords="112,152,240,177"/>
-<area shape="poly" title=" " alt="" coords="179,118,179,152,173,152,173,118"/>
-<area shape="rect" href="vtk_8hpp.html" title=" " alt="" coords="265,152,330,177"/>
-<area shape="poly" title=" " alt="" coords="209,109,279,149,276,154,206,113"/>
+<area shape="poly" title=" " alt="" coords="238,115,191,154,188,150,234,111"/>
+<area shape="rect" href="unstructured__grid2d_8hpp.html" title=" " alt="" coords="265,152,426,177"/>
+<area shape="poly" title=" " alt="" coords="286,110,333,150,330,154,282,115"/>
+<area shape="rect" href="vtk_8hpp.html" title=" " alt="" coords="450,152,515,177"/>
+<area shape="poly" title=" " alt="" coords="310,106,451,150,449,155,308,111"/>
 </map>
 </div>
 </div>
@@ -169,6 +177,18 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a89f8b8312cbe2502f8834dc4c644fcf0" id="r_a89f8b8312cbe2502f8834dc4c644fcf0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">cfd::Vector</a> = <a class="el" href="classcfd_1_1Point.html">Point</a></td></tr>
 <tr class="memdesc:a89f8b8312cbe2502f8834dc4c644fcf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D vector  <br /></td></tr>
 <tr class="separator:a89f8b8312cbe2502f8834dc4c644fcf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a2f424542c1f593009304c5d57d298f7e" id="r_a2f424542c1f593009304c5d57d298f7e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a2f424542c1f593009304c5d57d298f7e">cfd::dot_product</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v1, const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v2)</td></tr>
+<tr class="memdesc:a2f424542c1f593009304c5d57d298f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">dot product of two vectors  <br /></td></tr>
+<tr class="separator:a2f424542c1f593009304c5d57d298f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a46ff3070a0be188c76cfd5d7e09a11" id="r_a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a7a46ff3070a0be188c76cfd5d7e09a11">cfd::vector_abs</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector length  <br /></td></tr>
+<tr class="separator:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec83b647c5cac94e794e79d1f960921a" id="r_aec83b647c5cac94e794e79d1f960921a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#aec83b647c5cac94e794e79d1f960921a">cfd::vector_meas</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:aec83b647c5cac94e794e79d1f960921a"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector squared length  <br /></td></tr>
+<tr class="separator:aec83b647c5cac94e794e79d1f960921a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

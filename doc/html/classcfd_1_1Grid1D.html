@@ -132,11 +132,11 @@ Inheritance diagram for cfd::Grid1D:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1Grid1D__inherit__graph.png" border="0" usemap="#acfd_1_1Grid1D_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1Grid1D_inherit__map" id="acfd_1_1Grid1D_inherit__map">
-<area shape="rect" title="1D grid with ordered points" alt="" coords="5,272,108,357"/>
-<area shape="rect" href="classcfd_1_1IGrid1D.html" title="Abstract 1D grid." alt="" coords="5,139,108,224"/>
-<area shape="poly" title=" " alt="" coords="59,238,59,272,54,272,54,238"/>
-<area shape="rect" href="classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="5,5,108,91"/>
-<area shape="poly" title=" " alt="" coords="59,104,59,138,54,138,54,104"/>
+<area shape="rect" title="1D grid with ordered points" alt="" coords="5,272,116,357"/>
+<area shape="rect" href="classcfd_1_1IGrid1D.html" title="Abstract 1D grid." alt="" coords="9,139,112,224"/>
+<area shape="poly" title=" " alt="" coords="63,238,63,272,58,272,58,238"/>
+<area shape="rect" href="classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="5,5,116,91"/>
+<area shape="poly" title=" " alt="" coords="63,104,63,138,58,138,58,104"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -153,6 +153,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9930bc771ee845b2702e78f4ffe91552" id="r_a9930bc771ee845b2702e78f4ffe91552"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552">n_faces</a> () const override</td></tr>
 <tr class="memdesc:a9930bc771ee845b2702e78f4ffe91552"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of grid faces  <br /></td></tr>
 <tr class="separator:a9930bc771ee845b2702e78f4ffe91552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a64e04acbf3444dd016b8bb44fafb80" id="r_a8a64e04acbf3444dd016b8bb44fafb80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a8a64e04acbf3444dd016b8bb44fafb80">cell_center</a> (size_t icell) const override</td></tr>
+<tr class="memdesc:a8a64e04acbf3444dd016b8bb44fafb80"><td class="mdescLeft">&#160;</td><td class="mdescRight">get cell center  <br /></td></tr>
+<tr class="separator:a8a64e04acbf3444dd016b8bb44fafb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a505c5012b179ff528cd19970e8578ca2" id="r_a505c5012b179ff528cd19970e8578ca2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a505c5012b179ff528cd19970e8578ca2">cell_volume</a> (size_t icell) const override</td></tr>
+<tr class="memdesc:a505c5012b179ff528cd19970e8578ca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell volume  <br /></td></tr>
+<tr class="separator:a505c5012b179ff528cd19970e8578ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acafd4262f0cb8d29a09de2cc887957df" id="r_acafd4262f0cb8d29a09de2cc887957df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#acafd4262f0cb8d29a09de2cc887957df">face_normal</a> (size_t iface) const override</td></tr>
+<tr class="memdesc:acafd4262f0cb8d29a09de2cc887957df"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face unit normal  <br /></td></tr>
+<tr class="separator:acafd4262f0cb8d29a09de2cc887957df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6baa7419ecd4b59ffba7be0c7a799aea" id="r_a6baa7419ecd4b59ffba7be0c7a799aea"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a6baa7419ecd4b59ffba7be0c7a799aea">face_area</a> (size_t iface) const override</td></tr>
+<tr class="memdesc:a6baa7419ecd4b59ffba7be0c7a799aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face area  <br /></td></tr>
+<tr class="separator:a6baa7419ecd4b59ffba7be0c7a799aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a118b2edcafbf41742d87eb8ff6e66cad" id="r_a118b2edcafbf41742d87eb8ff6e66cad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a118b2edcafbf41742d87eb8ff6e66cad">face_center</a> (size_t iface) const override</td></tr>
+<tr class="memdesc:a118b2edcafbf41742d87eb8ff6e66cad"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face center  <br /></td></tr>
+<tr class="separator:a118b2edcafbf41742d87eb8ff6e66cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41f8f3e83dacb8cad2df87b9155a82b3" id="r_a41f8f3e83dacb8cad2df87b9155a82b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3">point</a> (size_t ipoint) const override</td></tr>
 <tr class="memdesc:a41f8f3e83dacb8cad2df87b9155a82b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">get point at i-th index  <br /></td></tr>
 <tr class="separator:a41f8f3e83dacb8cad2df87b9155a82b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +177,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a331eea95024ac45fe2a910b251baaa4c" id="r_a331eea95024ac45fe2a910b251baaa4c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c">tab_cell_point</a> (size_t icell) const override</td></tr>
 <tr class="memdesc:a331eea95024ac45fe2a910b251baaa4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell-&gt;point connectivity table  <br /></td></tr>
 <tr class="separator:a331eea95024ac45fe2a910b251baaa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6987be70ed5c14c0a51d47029c36af0" id="r_af6987be70ed5c14c0a51d47029c36af0"><td class="memItemLeft" align="right" valign="top">std::array&lt; size_t, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#af6987be70ed5c14c0a51d47029c36af0">tab_face_cell</a> (size_t iface) const override</td></tr>
+<tr class="memdesc:af6987be70ed5c14c0a51d47029c36af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">face-&gt;cell connectivity table  <br /></td></tr>
+<tr class="separator:af6987be70ed5c14c0a51d47029c36af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82eb53eb7bd65dc3af6124203d8380f8" id="r_a82eb53eb7bd65dc3af6124203d8380f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8">save_vtk</a> (std::string fname) const override</td></tr>
 <tr class="memdesc:a82eb53eb7bd65dc3af6124203d8380f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves grid to vtk format.  <br /></td></tr>
 <tr class="separator:a82eb53eb7bd65dc3af6124203d8380f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +242,156 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8a64e04acbf3444dd016b8bb44fafb80" name="a8a64e04acbf3444dd016b8bb44fafb80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a64e04acbf3444dd016b8bb44fafb80">&#9670;&#160;</a></span>cell_center()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcfd_1_1Point.html">Point</a> cfd::Grid1D::cell_center </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icell</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get cell center </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a9ac75b5894654b003c3bb143f9f64b80">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="a505c5012b179ff528cd19970e8578ca2" name="a505c5012b179ff528cd19970e8578ca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a505c5012b179ff528cd19970e8578ca2">&#9670;&#160;</a></span>cell_volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::Grid1D::cell_volume </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icell</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>cell volume </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a876882fe503acf95f17d78d5f9cbc7c7">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="a6baa7419ecd4b59ffba7be0c7a799aea" name="a6baa7419ecd4b59ffba7be0c7a799aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6baa7419ecd4b59ffba7be0c7a799aea">&#9670;&#160;</a></span>face_area()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::Grid1D::face_area </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face area </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#aa543f0e8706145aa212c89a1ebadf1a1">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="a118b2edcafbf41742d87eb8ff6e66cad" name="a118b2edcafbf41742d87eb8ff6e66cad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a118b2edcafbf41742d87eb8ff6e66cad">&#9670;&#160;</a></span>face_center()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcfd_1_1Point.html">Point</a> cfd::Grid1D::face_center </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face center </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a42a5363c662d921e44a626e7bdbbec1f">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="acafd4262f0cb8d29a09de2cc887957df" name="acafd4262f0cb8d29a09de2cc887957df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acafd4262f0cb8d29a09de2cc887957df">&#9670;&#160;</a></span>face_normal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::Grid1D::face_normal </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face unit normal </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a3941741286347b1caa1b0ba8f51fb1ca">cfd::IGrid</a>.</p>
+
+</div>
+</div>
 <a id="af9021b0bfad69b5bf0b843b3d32188e3" name="af9021b0bfad69b5bf0b843b3d32188e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af9021b0bfad69b5bf0b843b3d32188e3">&#9670;&#160;</a></span>n_cells()</h2>
 
@@ -438,9 +606,49 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>For 1d grid points are ordered by x coordinate <br  />
-For 2d grid points have counter clockwise direction </p>
+For 2d grid points have counter clockwise direction<br  />
+3d grids have no special points ordering </p>
 
 <p>Implements <a class="el" href="classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="af6987be70ed5c14c0a51d47029c36af0" name="af6987be70ed5c14c0a51d47029c36af0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6987be70ed5c14c0a51d47029c36af0">&#9670;&#160;</a></span>tab_face_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; size_t, 2 &gt; cfd::Grid1D::tab_face_cell </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>face-&gt;cell connectivity table </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iface</td><td>face index</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair of cell indexes adjacent to given cell</dd></dl>
+<p>The first returned cell index corresponds to negative face side, and the second - to positive. Positive face side lies towards face normal.</p>
+<p>If this is a boundary face then the respective cell index will be equal to INVALID_INDEX. </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a2bef21f9893d502cc44cd59d31d3695e">cfd::IGrid</a>.</p>
 
 </div>
 </div>

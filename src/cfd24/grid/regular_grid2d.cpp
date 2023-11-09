@@ -49,7 +49,7 @@ size_t RegularGrid2D::n_cells() const{
 }
 
 size_t RegularGrid2D::n_faces() const{
-	_THROW_NOT_IMP_;
+	return (nx()+1)*ny() + nx()*(ny()+1);
 }
 
 Point RegularGrid2D::point(size_t ipoint) const{
@@ -63,6 +63,45 @@ Point RegularGrid2D::cell_center(size_t icell) const{
 	size_t iy = icell / (_x.size() - 1);
 	return Point(0.5*(_x[ix] + _x[ix+1]),
 	             0.5*(_y[iy] + _y[iy+1]));
+}
+
+double RegularGrid2D::cell_volume(size_t icell) const{
+	size_t ix = icell % (_x.size() - 1);
+	size_t iy = icell / (_x.size() - 1);
+	return (_x[ix+1] - _x[ix])*(_y[iy+1] - _y[iy]);
+}
+
+Vector RegularGrid2D::face_normal(size_t iface) const{
+	size_t n_xfaces = (ny() + 1)*nx();
+	if (iface < n_xfaces){
+		return Vector(0.0, 1.0);
+	} else {
+		return Vector(1.0, 0.0);
+	}
+}
+
+double RegularGrid2D::face_area(size_t iface) const{
+	size_t n_xfaces = (ny() + 1)*nx();
+	if (iface < n_xfaces){
+		size_t ix = iface % nx();
+		return _x[ix+1] - _x[ix];
+	} else {
+		size_t iy = (iface - n_xfaces) / (nx() + 1);
+		return _y[iy+1] - _y[iy];
+	}
+}
+
+Point RegularGrid2D::face_center(size_t iface) const{
+	size_t n_xfaces = (ny() + 1)*nx();
+	if (iface < n_xfaces){
+		size_t ix = iface % nx();
+		size_t iy = iface / nx();
+		return {0.5*(_x[ix+1] + _x[ix]), _y[iy]};
+	} else {
+		size_t ix = (iface - n_xfaces) % (nx() + 1);
+		size_t iy = (iface - n_xfaces) / (nx() + 1);
+		return {_x[ix], 0.5*(_y[iy+1] + _y[iy])};
+	}
 }
 
 std::vector<Point> RegularGrid2D::points() const{
@@ -82,6 +121,31 @@ std::vector<size_t> RegularGrid2D::tab_cell_point(size_t icell) const{
 	size_t n2 = ix + 1 + (iy + 1) * _x.size();
 	size_t n3 = ix + (iy + 1) * _x.size();
 	return {n0, n1, n2, n3};
+}
+
+std::array<size_t, 2> RegularGrid2D::tab_face_cell(size_t iface) const{
+	size_t n_xfaces = (ny() + 1)*nx();
+	if (iface < n_xfaces){
+		size_t ix = iface % nx();
+		size_t iy = iface / nx();
+		if (iy == 0){
+			return {INVALID_INDEX, iy*nx() + ix};
+		} else if (iy == ny()){
+			return {(iy-1)*nx() + ix, INVALID_INDEX};
+		} else {
+			return {(iy-1)*nx() + ix, iy*nx() + ix};
+		}
+	} else {
+		size_t ix = (iface - n_xfaces) % (nx() + 1);
+		size_t iy = (iface - n_xfaces) / (nx() + 1);
+		if (ix == 0){
+			return {INVALID_INDEX, iy*nx() + ix};
+		} else if (ix == nx()){
+			return {iy*nx() + ix-1, INVALID_INDEX};
+		} else {
+			return {iy*nx() + ix-1, iy*nx() + ix};
+		}
+	}
 }
 
 void RegularGrid2D::save_vtk(std::string fname) const{

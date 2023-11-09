@@ -12,7 +12,7 @@ namespace cfd{
  *
  * @return      full path
  */
-std::string test_directory(std::string path);
+std::string test_directory_file(std::string path);
 
 
 }

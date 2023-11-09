@@ -14,6 +14,7 @@ var annotated_dup =
       [ "LodMatrix", "classcfd_1_1LodMatrix.html", "classcfd_1_1LodMatrix" ],
       [ "Point", "classcfd_1_1Point.html", "classcfd_1_1Point" ],
       [ "RegularGrid2D", "classcfd_1_1RegularGrid2D.html", "classcfd_1_1RegularGrid2D" ],
+      [ "UnstructuredGrid2D", "classcfd_1_1UnstructuredGrid2D.html", "classcfd_1_1UnstructuredGrid2D" ],
       [ "VtkUtils", "structcfd_1_1VtkUtils.html", "structcfd_1_1VtkUtils" ]
     ] ]
 ];

@@ -5,9 +5,12 @@ set (SRC
 	mat/lodmat.cpp
 	mat/sparse_matrix_solver.cpp
 
+	geom/simplex.cpp
+
 	grid/vtk.cpp
 	grid/grid1d.cpp
 	grid/regular_grid2d.cpp
+	grid/unstructured_grid2d.cpp
 
 	debug/printer.cpp
 	debug/tictoc.cpp
@@ -24,12 +27,14 @@ set (HEADERS
 	mat/lodmat.hpp
 	mat/sparse_matrix_solver.hpp
 
+	geom/primitives.hpp
+	geom/simplex.hpp
+
 	grid/vtk.hpp
 	grid/i_grid.hpp
 	grid/grid1d.hpp
 	grid/regular_grid2d.hpp
-
-	geom/primitives.hpp
+	grid/unstructured_grid2d.hpp
 
 	debug/printer.hpp
 	debug/tictoc.hpp

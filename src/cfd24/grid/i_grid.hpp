@@ -7,6 +7,13 @@
 namespace cfd{
 
 /**
+ * @brief invalid index
+ *
+ * Used in grid connectivity tables to define blank connection
+ */
+constexpr size_t INVALID_INDEX = (size_t)-1;
+
+/**
  * @brief Any dimension grid interface
  */
 class IGrid{
@@ -28,6 +35,21 @@ public:
 	/// @brief get point at i-th index
 	virtual Point point(size_t ipoint) const = 0;
 
+	/// @brief get cell center
+	virtual Point cell_center(size_t icell) const = 0;
+
+	/// @brief cell volume
+	virtual double cell_volume(size_t icell) const = 0;
+
+	/// @brief get face unit normal
+	virtual Vector face_normal(size_t iface) const = 0;
+
+	/// @brief get face area
+	virtual double face_area(size_t iface) const = 0;
+
+	/// @brief get face center
+	virtual Point face_center(size_t iface) const = 0;
+
 	/// @brief get list of all points
 	virtual std::vector<Point> points() const = 0;
 
@@ -37,9 +59,24 @@ public:
 	 * @param icell  cell index
 	 *
 	 * For 1d grid points are ordered by x coordinate \n
-	 * For 2d grid points have counter clockwise direction
+	 * For 2d grid points have counter clockwise direction\n
+	 * 3d grids have no special points ordering
 	 */
 	virtual std::vector<size_t> tab_cell_point(size_t icell) const = 0;
+
+	/**
+	 * @brief face->cell connectivity table
+	 *
+	 * @param iface  face index
+	 *
+	 * @return pair of cell indexes adjacent to given cell
+	 *
+	 * The first returned cell index corresponds to negative face side, and 
+	 * the second - to positive. Positive face side lies towards face normal.
+	 *
+	 * If this is a boundary face then the respective cell index will be equal to INVALID_INDEX.
+	 */
+	virtual std::array<size_t, 2> tab_face_cell(size_t iface) const = 0;
 
 	/**
 	 * @brief Saves grid to vtk format
@@ -48,7 +85,6 @@ public:
 	 */
 	virtual void save_vtk(std::string fname) const = 0;
 };
-
 
 /**
  * @brief Abstract 1D grid
@@ -79,7 +115,6 @@ public:
 
 	size_t dim() const override { return 3; }
 };
-
 
 }
 #endif

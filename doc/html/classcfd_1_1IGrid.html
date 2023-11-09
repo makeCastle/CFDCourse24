@@ -132,17 +132,19 @@ Inheritance diagram for cfd::IGrid:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1IGrid__inherit__graph.png" border="0" usemap="#acfd_1_1IGrid_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1IGrid_inherit__map" id="acfd_1_1IGrid_inherit__map">
-<area shape="rect" title="Any dimension grid interface." alt="" coords="140,5,243,91"/>
-<area shape="rect" href="classcfd_1_1IGrid1D.html" title="Abstract 1D grid." alt="" coords="11,139,113,224"/>
-<area shape="poly" title=" " alt="" coords="143,102,105,140,101,137,139,98"/>
-<area shape="rect" href="classcfd_1_1IGrid2D.html" title="Abstract 2D grid." alt="" coords="140,139,243,224"/>
-<area shape="poly" title=" " alt="" coords="194,104,194,138,189,138,189,104"/>
-<area shape="rect" href="classcfd_1_1IGrid3D.html" title="Abstract 3D grid." alt="" coords="267,139,369,224"/>
-<area shape="poly" title=" " alt="" coords="243,99,280,137,276,140,239,102"/>
-<area shape="rect" href="classcfd_1_1Grid1D.html" title="1D grid with ordered points" alt="" coords="5,272,108,357"/>
-<area shape="poly" title=" " alt="" coords="62,238,61,272,56,272,57,238"/>
-<area shape="rect" href="classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="133,272,258,357"/>
-<area shape="poly" title=" " alt="" coords="196,238,197,272,191,272,190,238"/>
+<area shape="rect" title="Any dimension grid interface." alt="" coords="148,5,259,91"/>
+<area shape="rect" href="classcfd_1_1IGrid1D.html" title="Abstract 1D grid." alt="" coords="17,139,120,224"/>
+<area shape="poly" title=" " alt="" coords="153,102,113,140,110,137,149,98"/>
+<area shape="rect" href="classcfd_1_1IGrid2D.html" title="Abstract 2D grid." alt="" coords="152,139,255,224"/>
+<area shape="poly" title=" " alt="" coords="206,104,206,138,201,138,201,104"/>
+<area shape="rect" href="classcfd_1_1IGrid3D.html" title="Abstract 3D grid." alt="" coords="279,139,381,224"/>
+<area shape="poly" title=" " alt="" coords="255,99,292,137,288,140,251,102"/>
+<area shape="rect" href="classcfd_1_1Grid1D.html" title="1D grid with ordered points" alt="" coords="5,282,116,367"/>
+<area shape="poly" title=" " alt="" coords="68,238,66,282,60,282,63,238"/>
+<area shape="rect" href="classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="141,282,266,367"/>
+<area shape="poly" title=" " alt="" coords="206,238,206,282,201,282,201,238"/>
+<area shape="rect" href="classcfd_1_1UnstructuredGrid2D.html" title=" " alt="" coords="291,272,447,377"/>
+<area shape="poly" title=" " alt="" coords="264,231,310,270,306,274,261,235"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -165,12 +167,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3dd83357da0cf52de0b7924bb0a1fb6" id="r_ac3dd83357da0cf52de0b7924bb0a1fb6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#ac3dd83357da0cf52de0b7924bb0a1fb6">point</a> (size_t ipoint) const =0</td></tr>
 <tr class="memdesc:ac3dd83357da0cf52de0b7924bb0a1fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">get point at i-th index  <br /></td></tr>
 <tr class="separator:ac3dd83357da0cf52de0b7924bb0a1fb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac75b5894654b003c3bb143f9f64b80" id="r_a9ac75b5894654b003c3bb143f9f64b80"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a9ac75b5894654b003c3bb143f9f64b80">cell_center</a> (size_t icell) const =0</td></tr>
+<tr class="memdesc:a9ac75b5894654b003c3bb143f9f64b80"><td class="mdescLeft">&#160;</td><td class="mdescRight">get cell center  <br /></td></tr>
+<tr class="separator:a9ac75b5894654b003c3bb143f9f64b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876882fe503acf95f17d78d5f9cbc7c7" id="r_a876882fe503acf95f17d78d5f9cbc7c7"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a876882fe503acf95f17d78d5f9cbc7c7">cell_volume</a> (size_t icell) const =0</td></tr>
+<tr class="memdesc:a876882fe503acf95f17d78d5f9cbc7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell volume  <br /></td></tr>
+<tr class="separator:a876882fe503acf95f17d78d5f9cbc7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3941741286347b1caa1b0ba8f51fb1ca" id="r_a3941741286347b1caa1b0ba8f51fb1ca"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a3941741286347b1caa1b0ba8f51fb1ca">face_normal</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a3941741286347b1caa1b0ba8f51fb1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face unit normal  <br /></td></tr>
+<tr class="separator:a3941741286347b1caa1b0ba8f51fb1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa543f0e8706145aa212c89a1ebadf1a1" id="r_aa543f0e8706145aa212c89a1ebadf1a1"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#aa543f0e8706145aa212c89a1ebadf1a1">face_area</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:aa543f0e8706145aa212c89a1ebadf1a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face area  <br /></td></tr>
+<tr class="separator:aa543f0e8706145aa212c89a1ebadf1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a5363c662d921e44a626e7bdbbec1f" id="r_a42a5363c662d921e44a626e7bdbbec1f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a42a5363c662d921e44a626e7bdbbec1f">face_center</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a42a5363c662d921e44a626e7bdbbec1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face center  <br /></td></tr>
+<tr class="separator:a42a5363c662d921e44a626e7bdbbec1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7eee2ff3211592454ca5d1fb7cf26ab4" id="r_a7eee2ff3211592454ca5d1fb7cf26ab4"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="classcfd_1_1Point.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a7eee2ff3211592454ca5d1fb7cf26ab4">points</a> () const =0</td></tr>
 <tr class="memdesc:a7eee2ff3211592454ca5d1fb7cf26ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">get list of all points  <br /></td></tr>
 <tr class="separator:a7eee2ff3211592454ca5d1fb7cf26ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f17316d19a4ae48024d88fc1fd7af18" id="r_a9f17316d19a4ae48024d88fc1fd7af18"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18">tab_cell_point</a> (size_t icell) const =0</td></tr>
 <tr class="memdesc:a9f17316d19a4ae48024d88fc1fd7af18"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell-&gt;point connectivity table  <br /></td></tr>
 <tr class="separator:a9f17316d19a4ae48024d88fc1fd7af18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bef21f9893d502cc44cd59d31d3695e" id="r_a2bef21f9893d502cc44cd59d31d3695e"><td class="memItemLeft" align="right" valign="top">virtual std::array&lt; size_t, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a2bef21f9893d502cc44cd59d31d3695e">tab_face_cell</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a2bef21f9893d502cc44cd59d31d3695e"><td class="mdescLeft">&#160;</td><td class="mdescRight">face-&gt;cell connectivity table  <br /></td></tr>
+<tr class="separator:a2bef21f9893d502cc44cd59d31d3695e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adac1537c5dcf351d2b212fcfe9b5bcd4" id="r_adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#adac1537c5dcf351d2b212fcfe9b5bcd4">save_vtk</a> (std::string fname) const =0</td></tr>
 <tr class="memdesc:adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves grid to vtk format.  <br /></td></tr>
 <tr class="separator:adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,7 +198,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Any dimension grid interface. </p>
 
-<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00012">12</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00019">19</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="add11fdadef8e13995e233ce2907c7b49" name="add11fdadef8e13995e233ce2907c7b49"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add11fdadef8e13995e233ce2907c7b49">&#9670;&#160;</a></span>~IGrid()</h2>
@@ -206,6 +226,66 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9ac75b5894654b003c3bb143f9f64b80" name="a9ac75b5894654b003c3bb143f9f64b80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ac75b5894654b003c3bb143f9f64b80">&#9670;&#160;</a></span>cell_center()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classcfd_1_1Point.html">Point</a> cfd::IGrid::cell_center </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icell</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get cell center </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a8a64e04acbf3444dd016b8bb44fafb80">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a7573181a8650b2494e148fe76c48803b">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a54be8ecc8346300feb30148855209deb">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
+<a id="a876882fe503acf95f17d78d5f9cbc7c7" name="a876882fe503acf95f17d78d5f9cbc7c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a876882fe503acf95f17d78d5f9cbc7c7">&#9670;&#160;</a></span>cell_volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double cfd::IGrid::cell_volume </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icell</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>cell volume </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a505c5012b179ff528cd19970e8578ca2">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#ac75a8d4b83ffc52af02fad57d435273f">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#ae5d7e29d00013d2b7570e520224000c0">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
 <a id="a90269fe849be663314ed86dc5fed5e1e" name="a90269fe849be663314ed86dc5fed5e1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90269fe849be663314ed86dc5fed5e1e">&#9670;&#160;</a></span>dim()</h2>
 
@@ -235,6 +315,96 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa543f0e8706145aa212c89a1ebadf1a1" name="aa543f0e8706145aa212c89a1ebadf1a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa543f0e8706145aa212c89a1ebadf1a1">&#9670;&#160;</a></span>face_area()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double cfd::IGrid::face_area </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face area </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a6baa7419ecd4b59ffba7be0c7a799aea">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a0481aa8cd536117477d04ca467387c3a">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a0078951451154748b572c815383096b3">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
+<a id="a42a5363c662d921e44a626e7bdbbec1f" name="a42a5363c662d921e44a626e7bdbbec1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42a5363c662d921e44a626e7bdbbec1f">&#9670;&#160;</a></span>face_center()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classcfd_1_1Point.html">Point</a> cfd::IGrid::face_center </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face center </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a118b2edcafbf41742d87eb8ff6e66cad">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a6741ad76eccc78342325a34a501c2c75">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#ac64c2953b100bab2616b4beba902d298">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
+<a id="a3941741286347b1caa1b0ba8f51fb1ca" name="a3941741286347b1caa1b0ba8f51fb1ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3941741286347b1caa1b0ba8f51fb1ca">&#9670;&#160;</a></span>face_normal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::IGrid::face_normal </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get face unit normal </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#acafd4262f0cb8d29a09de2cc887957df">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#abb9eb37e9ded8ac842de44965f46880e">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a048b551be6b340344b1ee3a8b9ef3891">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
 <a id="ab897b0a6b0bd481991895f7eaf8ce69d" name="ab897b0a6b0bd481991895f7eaf8ce69d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab897b0a6b0bd481991895f7eaf8ce69d">&#9670;&#160;</a></span>n_cells()</h2>
 
@@ -260,7 +430,7 @@ Public Member Functions</h2></td></tr>
 
 <p>number of grid cells </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a4382c72d566a0cac990bcf2e490f5476">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#af9021b0bfad69b5bf0b843b3d32188e3">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a4382c72d566a0cac990bcf2e490f5476">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#af2018a80dfe192cb08cd3b7478cb1d34">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -289,7 +459,7 @@ Public Member Functions</h2></td></tr>
 
 <p>number of grid faces </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a6cb07eb72370883c30d9d7e142e65d3f">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a9930bc771ee845b2702e78f4ffe91552">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a6cb07eb72370883c30d9d7e142e65d3f">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a60b170f9db9261ec1a692d848b770554">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -318,7 +488,7 @@ Public Member Functions</h2></td></tr>
 
 <p>number of grid points </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a565e832c5b13a167ecaac572b6367f0c">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a3dd4d664c2aa11042697ef4fe311bc23">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a565e832c5b13a167ecaac572b6367f0c">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a3dd4d664c2aa11042697ef4fe311bc23">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a12c043c18fb983cdf662043dbeb6a045">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -348,7 +518,7 @@ Public Member Functions</h2></td></tr>
 
 <p>get point at i-th index </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a9c12b42472b37b5b2ad2701c8f3d6082">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a9c12b42472b37b5b2ad2701c8f3d6082">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a8758e73411a7cdb4e7b49553b2c5b5c5">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -377,7 +547,7 @@ Public Member Functions</h2></td></tr>
 
 <p>get list of all points </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#aa90ba93cb9ea8d3cd17e128a4543de08">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a46446ff8f34962a780a50ff1f6e286b6">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#aa90ba93cb9ea8d3cd17e128a4543de08">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a46446ff8f34962a780a50ff1f6e286b6">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a24a7e246f61b101e8b878d2a7a972cb8">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -413,7 +583,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a9a150d3282b819b66d900c169cf77fca">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a9a150d3282b819b66d900c169cf77fca">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a554134459a688de35b21754303f1ab3a">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>
@@ -449,9 +619,49 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>For 1d grid points are ordered by x coordinate <br  />
-For 2d grid points have counter clockwise direction </p>
+For 2d grid points have counter clockwise direction<br  />
+3d grids have no special points ordering </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c">cfd::Grid1D</a>, and <a class="el" href="classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416">cfd::RegularGrid2D</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#a8fcedf11bd5b7dff74553ec1a8c1b416">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#add701585c057c8ffc17b4655c0e8f612">cfd::UnstructuredGrid2D</a>.</p>
+
+</div>
+</div>
+<a id="a2bef21f9893d502cc44cd59d31d3695e" name="a2bef21f9893d502cc44cd59d31d3695e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bef21f9893d502cc44cd59d31d3695e">&#9670;&#160;</a></span>tab_face_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::array&lt; size_t, 2 &gt; cfd::IGrid::tab_face_cell </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>face-&gt;cell connectivity table </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iface</td><td>face index</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair of cell indexes adjacent to given cell</dd></dl>
+<p>The first returned cell index corresponds to negative face side, and the second - to positive. Positive face side lies towards face normal.</p>
+<p>If this is a boundary face then the respective cell index will be equal to INVALID_INDEX. </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1Grid1D.html#af6987be70ed5c14c0a51d47029c36af0">cfd::Grid1D</a>, <a class="el" href="classcfd_1_1RegularGrid2D.html#ae420bef8f9fa094d4ed2a9438ed98e67">cfd::RegularGrid2D</a>, and <a class="el" href="classcfd_1_1UnstructuredGrid2D.html#a43294e37063a3c9c076ea529deaf414a">cfd::UnstructuredGrid2D</a>.</p>
 
 </div>
 </div>

@@ -132,11 +132,13 @@ Inheritance diagram for cfd::IGrid2D:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1IGrid2D__inherit__graph.png" border="0" usemap="#acfd_1_1IGrid2D_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1IGrid2D_inherit__map" id="acfd_1_1IGrid2D_inherit__map">
-<area shape="rect" title="Abstract 2D grid." alt="" coords="17,139,119,224"/>
-<area shape="rect" href="classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="5,272,131,357"/>
-<area shape="poly" title=" " alt="" coords="71,238,71,272,65,272,65,238"/>
-<area shape="rect" href="classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="17,5,119,91"/>
-<area shape="poly" title=" " alt="" coords="71,104,71,138,65,138,65,104"/>
+<area shape="rect" title="Abstract 2D grid." alt="" coords="99,139,202,224"/>
+<area shape="rect" href="classcfd_1_1RegularGrid2D.html" title="structured 2D quadraliteral grid with" alt="" coords="5,282,131,367"/>
+<area shape="poly" title=" " alt="" coords="122,237,95,283,90,280,117,235"/>
+<area shape="rect" href="classcfd_1_1UnstructuredGrid2D.html" title=" " alt="" coords="155,272,311,377"/>
+<area shape="poly" title=" " alt="" coords="184,234,205,270,201,273,179,237"/>
+<area shape="rect" href="classcfd_1_1IGrid.html" title="Any dimension grid interface." alt="" coords="95,5,206,91"/>
+<area shape="poly" title=" " alt="" coords="153,104,153,138,148,138,148,104"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -162,12 +164,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3dd83357da0cf52de0b7924bb0a1fb6 inherit pub_methods_classcfd_1_1IGrid" id="r_ac3dd83357da0cf52de0b7924bb0a1fb6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#ac3dd83357da0cf52de0b7924bb0a1fb6">point</a> (size_t ipoint) const =0</td></tr>
 <tr class="memdesc:ac3dd83357da0cf52de0b7924bb0a1fb6 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get point at i-th index  <br /></td></tr>
 <tr class="separator:ac3dd83357da0cf52de0b7924bb0a1fb6 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac75b5894654b003c3bb143f9f64b80 inherit pub_methods_classcfd_1_1IGrid" id="r_a9ac75b5894654b003c3bb143f9f64b80"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a9ac75b5894654b003c3bb143f9f64b80">cell_center</a> (size_t icell) const =0</td></tr>
+<tr class="memdesc:a9ac75b5894654b003c3bb143f9f64b80 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get cell center  <br /></td></tr>
+<tr class="separator:a9ac75b5894654b003c3bb143f9f64b80 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876882fe503acf95f17d78d5f9cbc7c7 inherit pub_methods_classcfd_1_1IGrid" id="r_a876882fe503acf95f17d78d5f9cbc7c7"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a876882fe503acf95f17d78d5f9cbc7c7">cell_volume</a> (size_t icell) const =0</td></tr>
+<tr class="memdesc:a876882fe503acf95f17d78d5f9cbc7c7 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell volume  <br /></td></tr>
+<tr class="separator:a876882fe503acf95f17d78d5f9cbc7c7 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3941741286347b1caa1b0ba8f51fb1ca inherit pub_methods_classcfd_1_1IGrid" id="r_a3941741286347b1caa1b0ba8f51fb1ca"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a3941741286347b1caa1b0ba8f51fb1ca">face_normal</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a3941741286347b1caa1b0ba8f51fb1ca inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face unit normal  <br /></td></tr>
+<tr class="separator:a3941741286347b1caa1b0ba8f51fb1ca inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa543f0e8706145aa212c89a1ebadf1a1 inherit pub_methods_classcfd_1_1IGrid" id="r_aa543f0e8706145aa212c89a1ebadf1a1"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#aa543f0e8706145aa212c89a1ebadf1a1">face_area</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:aa543f0e8706145aa212c89a1ebadf1a1 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face area  <br /></td></tr>
+<tr class="separator:aa543f0e8706145aa212c89a1ebadf1a1 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a5363c662d921e44a626e7bdbbec1f inherit pub_methods_classcfd_1_1IGrid" id="r_a42a5363c662d921e44a626e7bdbbec1f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcfd_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a42a5363c662d921e44a626e7bdbbec1f">face_center</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a42a5363c662d921e44a626e7bdbbec1f inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get face center  <br /></td></tr>
+<tr class="separator:a42a5363c662d921e44a626e7bdbbec1f inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7eee2ff3211592454ca5d1fb7cf26ab4 inherit pub_methods_classcfd_1_1IGrid" id="r_a7eee2ff3211592454ca5d1fb7cf26ab4"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="classcfd_1_1Point.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a7eee2ff3211592454ca5d1fb7cf26ab4">points</a> () const =0</td></tr>
 <tr class="memdesc:a7eee2ff3211592454ca5d1fb7cf26ab4 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">get list of all points  <br /></td></tr>
 <tr class="separator:a7eee2ff3211592454ca5d1fb7cf26ab4 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f17316d19a4ae48024d88fc1fd7af18 inherit pub_methods_classcfd_1_1IGrid" id="r_a9f17316d19a4ae48024d88fc1fd7af18"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a9f17316d19a4ae48024d88fc1fd7af18">tab_cell_point</a> (size_t icell) const =0</td></tr>
 <tr class="memdesc:a9f17316d19a4ae48024d88fc1fd7af18 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell-&gt;point connectivity table  <br /></td></tr>
 <tr class="separator:a9f17316d19a4ae48024d88fc1fd7af18 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bef21f9893d502cc44cd59d31d3695e inherit pub_methods_classcfd_1_1IGrid" id="r_a2bef21f9893d502cc44cd59d31d3695e"><td class="memItemLeft" align="right" valign="top">virtual std::array&lt; size_t, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a2bef21f9893d502cc44cd59d31d3695e">tab_face_cell</a> (size_t iface) const =0</td></tr>
+<tr class="memdesc:a2bef21f9893d502cc44cd59d31d3695e inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">face-&gt;cell connectivity table  <br /></td></tr>
+<tr class="separator:a2bef21f9893d502cc44cd59d31d3695e inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adac1537c5dcf351d2b212fcfe9b5bcd4 inherit pub_methods_classcfd_1_1IGrid" id="r_adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#adac1537c5dcf351d2b212fcfe9b5bcd4">save_vtk</a> (std::string fname) const =0</td></tr>
 <tr class="memdesc:adac1537c5dcf351d2b212fcfe9b5bcd4 inherit pub_methods_classcfd_1_1IGrid"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves grid to vtk format.  <br /></td></tr>
 <tr class="separator:adac1537c5dcf351d2b212fcfe9b5bcd4 inherit pub_methods_classcfd_1_1IGrid"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,7 +195,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract 2D grid. </p>
 
-<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00066">66</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00102">102</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8c7f9155e0881b3cf78b4d2e1ee18faf" name="a8c7f9155e0881b3cf78b4d2e1ee18faf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c7f9155e0881b3cf78b4d2e1ee18faf">&#9670;&#160;</a></span>~IGrid2D()</h2>
@@ -230,7 +250,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classcfd_1_1IGrid.html#a90269fe849be663314ed86dc5fed5e1e">cfd::IGrid</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00070">70</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00106">106</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,5 @@
 <map id="cfd::Point" name="cfd::Point">
-<area shape="rect" id="Node000001" title="3D point" alt="" coords="27,119,130,204"/>
+<area shape="rect" id="Node000001" title="3D point" alt="" coords="23,119,134,204"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,5,152,71"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,85,81,119,76,119,76,85"/>
 </map>
