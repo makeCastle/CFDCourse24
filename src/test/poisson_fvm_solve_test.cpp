@@ -164,7 +164,7 @@ double TestPoisson2FvmWorker::compute_norm2() const{
 TEST_CASE("Poisson-fvm 2D solver", "[poisson2-fvm]"){
 	std::cout << std::endl << "--- cfd24_test [poisson2-fvm] --- " << std::endl;
 
-	size_t nx = 20;
+	size_t nx = 150;
 	RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
 	TestPoisson2FvmWorker worker(grid);
 	double nrm = worker.solve();
@@ -172,4 +172,38 @@ TEST_CASE("Poisson-fvm 2D solver", "[poisson2-fvm]"){
 	std::cout << grid.n_cells() << " " << nrm << std::endl;
 
 	CHECK(nrm == Approx(0.04371).margin(1e-4));
+}
+
+TEST_CASE("Poisson-fvm 2D solver pebigrid", "[poisson2-fvm-pebigrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-pebigrid] --- " << std::endl;
+
+	std::string fn = test_directory_file("pebigrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	TestPoisson2FvmWorker worker(grid);
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fvm_pebigrid.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+	CHECK(nrm == Approx(0.04371).margin(1e-4));
+}
+
+TEST_CASE("Poisson-fvm 2D solver tetragrid", "[poisson2-fvm-tetragrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-tetragrid] --- " << std::endl;
+
+	std::string fn = test_directory_file("tetragrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	TestPoisson2FvmWorker worker(grid);
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fvm_tetragrid.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+	//CHECK(nrm == Approx(0.04371).margin(1e-4));
 }
