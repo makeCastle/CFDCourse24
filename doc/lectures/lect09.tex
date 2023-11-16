@@ -1,0 +1,106 @@
+\section{Лекция 9 (11.11)}
+
+\subsection{Решение системы Уравнений Навье-Стокса методом конечных объёмов}
+TODO
+
+\subsubsection{Схема SIMPLE}
+TODO
+
+\subsubsection{Вычисление градиента давления методом наименьших квадратов}
+TODO
+
+\subsubsection{Интерполяция Rhie-Chow нормальной компоненты скорости} 
+TODO
+
+\subsubsection{Порядок вычисления на итерации}
+TODO
+
+\subsection{Пример расчётной программы. Течение в каверне}
+Представлена в файле \ename{cavern_2d_fvm_simple_test.cpp}
+в тесте \ename{[cavern2-fvm-simple]}
+
+TODO
+
+\subsection{Задание для самостоятельной работы}
+На основе теста \ename{[cavern2-fvm-simple]} из файла \ename{cavern_2d_fvm_simple_test.cpp}
+сравнить результат решения задачи
+о течении в каверне на
+структурированной, pebi и произвольной сетках.
+Использовать количество элементов $N\approx2000$.
+Построение и чтение сеток проводить по аналогии с п.\ref{seq:fvm_poisson_hw}.
+
+\begin{enumerate}
+\item
+Нарисовать результат решения (давление и векторы скорости)
+на различных итерациях для всех использованных сеток.
+Отметить количество требуемых итераций до сходимости с $\eps=10^{-2}$.
+
+\item
+На основе полученного решения построить и сохранить
+в выходной vtk файл дивергенцию скорости и невязку решения.
+
+\item
+Построить графики сходимости невязки (печатается в консоль при итерациях) от номера итерации для трёх сеток.
+\end{enumerate}
+
+\paragraph{Вычисление дивиргенции скорости}
+Распишем значения дивергенции скорости
+в ячейке $E_i$ как среднеинтегральное и далее воспользуемся формулой Гаусса-Остроградского \cref{eq:partint_div}:
+$$
+\left(\nabla \cdot \vec u\right)_i \approx
+\frac{1}{|E_i|}\arint{\nabla \cdot \vec u}{E_i}{\vec x} =
+\frac{1}{|E_i|}\sum_j \arint{u_n}{\gamma_{ij}}{s} \approx
+\frac{1}{|E_i|}\sum_j \left(u_n\right)_{ij} |\gamma_{ij}|,
+$$
+где $\gamma_{ij}$ -- все грани ячейки $E_i$, а $(u_n)_{ij}$ -- значение нормальной (внешней нормали по отношению к ячейке $E_i$) скорости
+на этой грани.
+Расчёт по этой формуле нужно вести в цикле по граням, определяя
+для каждой грани пару соседних ячеек.
+\begin{equation*}
+\begin{array}{ll}
+d = \{0, ...\}                                       & \textrm{-- массив дивергенций. Длина равна количеству ячеек} \\
+\textbf{for } s=\overline{0, N_f-1}                  & \textrm{-- цикл по всем граням} \\
+\qquad i, j = \textrm{nei\_cells(s)}                 & \textrm{-- ячейки, соседние с гранью: против и по нормали} \\
+\qquad c = (u_n)_s |\gamma_s|                        & \\
+\qquad \textbf{if } (i \neq \textrm{INVALID\_INDEX}) & \textrm{-- если слева от грани есть ячейка}\\
+\qquad \qquad d_i \pluseq  \sfrac{c}{|E_i|}          & \textrm{-- добавляем, так как нормаль внешняя для ячейки i}\\
+\qquad \textbf{endif}                                & \\
+\qquad \textbf{if } (j \neq \textrm{INVALID\_INDEX}) & \textrm{-- если справа от грани есть ячейка}\\
+\qquad \qquad d_j \minuseq \sfrac{c}{|E_j|}          & \textrm{-- вычитаем, так как нормаль внутренняя для ячейки j} \\
+\qquad \textbf{endif}                                & \\
+\textbf{endfor}
+\end{array}
+\end{equation*}
+Массив нормальных скоростей к граням сетки доступен как поле рабочего класса \cvar{Cavern2DFvmSimpleWorker::_un_face}.
+Методы сетки \cvar{IGrid}, необходимые для программирования этой формулы:
+\begin{itemize}
+\item \cvar{IGrid::n_cells()}, \cvar{IGrid::n_faces()} -- количество ячеек и граней сетки,
+\item \cvar{IGrid::tab_face_cell(iface)} -- индексы пары соседних с гранью ячеек. Первая -- против нормали, вторая -- по.
+Для граничных граней один из возвращаемых индексов равен \cvar{INVALID_INDEX}.
+\item \cvar{IGrid::cell_volume(icell)} -- объём ячейки $E_i$,
+\item \cvar{IGrid::face_area(iface)} -- площадь грани $\gamma_s$.
+\end{itemize}
+Вычисление массива дивиргенций можно производить
+непосредственно в процедуре перед сохраненим
+решения
+\cvar{Cavern2DFvmSimpleWorker::save_current_fields} с тем, чтобы
+сразу сохранить полученный массив дивергениций в файл вызовом
+\cvar{VtkUtils::add_cell_data(d, "div", filepath);}
+
+
+\paragraph{Вычисление массива невязок}
+происходит в функции установки текущих значение решения \cvar{set_uvp}:
+\clisting{open}{"test/cavern_2d_fvm_simple_test.cpp"}
+\clisting{block}{"std::vector<double> res_u = "}
+
+Для его сохранения в файл нужно либо повторить эту процедуру в функции сохранения,
+а лучше сделать \cvar{rhs_u}, \cvar{rhs_v} полями рабочего класса,
+чтобы иметь к ним доступ в методах класса.
+Для их сохранения нужно в процедуре сохранения \cvar{save_current_fields}
+вызвать
+\begin{cppcode}
+VtkUtils::add_cell_data(res_u, "res_u", filepath);
+VtkUtils::add_cell_data(res_v, "res_v", filepath);
+\end{cppcode}
+
+

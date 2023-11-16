@@ -32,6 +32,8 @@ public:
 	std::vector<Point> points() const override;
 	std::vector<size_t> tab_cell_point(size_t icell) const override;
 	std::array<size_t, 2> tab_face_cell(size_t iface) const override;
+	std::vector<size_t> tab_face_point(size_t iface) const override;
+	std::vector<size_t> tab_cell_face(size_t icell) const override;
 	void save_vtk(std::string fname) const override;
 private:
 	std::vector<Point> _points;

@@ -55,6 +55,10 @@ std::vector<size_t> Grid1D::tab_cell_point(size_t icell) const{
 	return {icell, icell+1};
 }
 
+std::vector<size_t> Grid1D::tab_face_point(size_t iface) const{
+	return {iface};
+}
+
 std::array<size_t, 2> Grid1D::tab_face_cell(size_t iface) const{
 	if (iface == 0){
 		return {INVALID_INDEX, 0};
@@ -63,6 +67,10 @@ std::array<size_t, 2> Grid1D::tab_face_cell(size_t iface) const{
 	} else {
 		return {iface, iface+1};
 	}
+}
+
+std::vector<size_t> Grid1D::tab_cell_face(size_t icell) const{
+	return {icell, icell+1};
 }
 
 void Grid1D::save_vtk(std::string fname) const{

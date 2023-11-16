@@ -61,14 +61,6 @@ public:
 	 */
 	const std::vector<double>& vals() const;
 
-	/**
-	 * @brief matrix-vector product
-	 *
-	 * @param u  vector
-	 *
-	 * @return result of the multiplication
-	 */
-	std::vector<double> mult_vec(const std::vector<double>& u) const;
 
 	/**
 	 * @brief matrix-vector product for the specified row
@@ -83,6 +75,7 @@ public:
 	// overrides
 	void validate() const override;
 	double value(size_t irow, size_t icol) const override;
+	std::vector<double> mult_vec(const std::vector<double>& u) const override;
 private:
 	std::vector<double> _vals;
 };
