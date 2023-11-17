@@ -6,9 +6,15 @@
 #include "cfd24/mat/lodmat.hpp"
 #include "cfd24/mat/sparse_matrix_solver.hpp"
 #include "cfd24/debug/printer.hpp"
+#include "cfd24/debug/tictoc.hpp"
 #include "test/utils/filesystem.hpp"
+#include "cfd24/fvm/fvm_assembler.hpp"
 
 using namespace cfd;
+
+///////////////////////////////////////////////////////////////////////////////
+// Fvm
+///////////////////////////////////////////////////////////////////////////////
 
 struct TestPoisson2FvmWorker{
 	static double exact_solution(Point p){
@@ -27,7 +33,7 @@ struct TestPoisson2FvmWorker{
 	TestPoisson2FvmWorker(const IGrid& grid);
 	double solve();
 	void save_vtk(const std::string& filename) const;
-private:
+protected:
 	const IGrid& _grid;
 	std::vector<size_t> _internal_faces;
 	struct DirichletFace{
@@ -39,8 +45,8 @@ private:
 	std::vector<DirichletFace> _dirichlet_faces;
 	std::vector<double> _u;
 
-	CsrMatrix approximate_lhs() const;
-	std::vector<double> approximate_rhs() const;
+	virtual CsrMatrix approximate_lhs() const;
+	virtual std::vector<double> approximate_rhs() const;
 	double compute_norm2() const;
 };
 
@@ -87,7 +93,8 @@ void TestPoisson2FvmWorker::save_vtk(const std::string& filename) const{
 	_grid.save_vtk(filename);
 	
 	// save numerical solution
-	VtkUtils::add_cell_data(_u, "numerical", filename);
+	std::vector<double> ucells(_u.begin(), _u.begin() + _grid.n_cells());
+	VtkUtils::add_cell_data(ucells, "numerical", filename);
 
 	// save exact solution
 	std::vector<double> exact(_grid.n_cells());
@@ -172,6 +179,77 @@ TEST_CASE("Poisson-fvm 2D solver", "[poisson2-fvm]"){
 	std::cout << grid.n_cells() << " " << nrm << std::endl;
 
 	CHECK(nrm == Approx(0.04371).margin(1e-4));
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+// SkewFvm
+///////////////////////////////////////////////////////////////////////////////
+
+struct TestPoisson2SkewFvmWorker: public TestPoisson2FvmWorker{
+	TestPoisson2SkewFvmWorker(const IGrid& grid) : TestPoisson2FvmWorker(grid), _collocations(grid){ }
+private:
+	FvmExtendedCollocations _collocations;
+	CsrMatrix approximate_lhs() const override;
+	std::vector<double> approximate_rhs() const override;
+};
+
+CsrMatrix TestPoisson2SkewFvmWorker::approximate_lhs() const{
+	LodMatrix mat(_collocations.size());
+	LodMatrix dudn = assemble_fvm_faces_dudn(_grid, _collocations);
+
+	// internal
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface){
+		size_t negative_colocation = _collocations.tab_face_colloc[iface].negative_side;
+		size_t positive_colocation = _collocations.tab_face_colloc[iface].positive_side;
+		double area = _grid.face_area(iface);
+
+		for (const std::pair<const size_t, double>& iter: dudn.row(iface)){
+			size_t column = iter.first;
+			double coef = area * iter.second;
+			mat.add_value(positive_colocation, column, coef);
+			mat.add_value(negative_colocation, column, -coef);
+		}
+	}
+
+	// dirichlet bc
+	for (const FvmExtendedCollocations::IndexConnect& con: _collocations.face_collocations){
+		mat.set_unit_row(con.colloc_index);
+	}
+
+	return mat.to_csr();
+}
+
+
+std::vector<double> TestPoisson2SkewFvmWorker::approximate_rhs() const{
+	std::vector<double> rhs(_collocations.size(), 0.0);
+
+	// f
+	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
+		double value = exact_rhs(_grid.cell_center(icell));
+		double volume = _grid.cell_volume(icell);
+		rhs[icell] = value * volume;
+	}
+
+	// dirichlet bc
+	for (const FvmExtendedCollocations::IndexConnect& con: _collocations.face_collocations){
+		rhs[con.colloc_index] = exact_solution(_collocations.points[con.colloc_index]);
+	}
+
+	return rhs;
+}
+
+TEST_CASE("Poisson-fvm 2D solver, skewgrid", "[poisson2-fvm-skew]"){
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-skew] --- " << std::endl;
+
+	std::string grid_fn = test_directory_file("tetragrid_500.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+	TestPoisson2SkewFvmWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fvm_skew.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+	CHECK(nrm == Approx(0.0404256).margin(1e-4));
 }
 
 TEST_CASE("Poisson-fvm 2D solver pebigrid", "[poisson2-fvm-pebigrid]") {

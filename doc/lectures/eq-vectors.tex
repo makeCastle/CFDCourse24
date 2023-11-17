@@ -1,0 +1,104 @@
+\subsection{Векторы}
+
+\subsubsection{Обозначение}
+
+Геометрические вектора обозначаются жирным шрифтом $\vec v$.
+Скалярные координаты вектора -- через нижний индекс с обозначением
+оси координат: $\left(v_x, v_y, v_z\right)$.
+Если вектор $\vec u$ -- вектор скорости, то его декартовые координаты
+имеют специальное обозначение $\vec u = \left(u, v, w\right)$.
+Операции в векторами имеют следующее обозначение (расписывая в декартовых координатах):
+\begin{itemize}
+\item
+Умножение на скалярную функцию
+\begin{equation}
+\label{eq:vec_scalar}
+f \vec u = (f u_x)\vec i + (f u_y)\vec j + (f u_z)\vec k;
+\end{equation}
+\item
+Скалярное произведение
+\begin{equation}
+\label{eq:vec_dot}
+\vec u \cdot \vec v = u_x v_x + u_y v_y + u_z v_z;
+\end{equation}
+\item
+Векторное произведение
+\begin{equation}
+\label{eq:vec_cross}
+\vec u\times\vec v = 
+\left|
+\begin{array}{ccc}
+\vec i & \vec j & \vec k \\
+u_x & u_y & u_z \\
+v_x & v_y & v_z
+\end{array}
+\right| = 
+\left(u_y v_z - u_z v_y\right)\vec i -
+\left(u_x v_z - u_z v_x\right)\vec j +
+\left(u_x v_y - u_y v_x\right)\vec k.
+\end{equation}
+
+\end{itemize}
+
+
+\subsubsection{Набла--нотация}
+
+Символ $\nabla$ -- есть псевдовектор, который выражает
+покоординатные производные.
+Для декартовой системы координат $(x, y, z)$ он запишется в виде
+$$
+\nabla = \left( \dfr{}{x}, \; \dfr{}{y}, \; \dfr{}{z} \right).
+$$
+В радиальной $(r, \phi, z)$:
+$$
+\nabla = \left( \dfr{}{r}, \; \frac{1}{r}\dfr{}{\phi}, \; \dfr{}{z} \right).
+$$
+В цилиндрической $(r, \theta, \phi)$:
+$$
+\nabla = \left( \dfr{}{r}, \; \frac{1}{r}\dfr{}{\theta}, \; \frac{1}{r\sin\theta}\dfr{}{\phi} \right).
+$$
+Удобство записи дифференциальных выражений с использованием $\nabla$ заключается в независимости записи от
+вида системы координат.
+Но если требуется обозначить производную по конкретной координате,
+то, по аналогии с обычными векторами, это делается через нижний индекс:
+$$
+\nabla_n f = \dfr{f}{n}.
+$$
+
+Для этого символа справедливы все векторные операции, описанные ранее.
+Так, применение $\nabla$ к скалярной функции аналогично умножению вектора
+на скаляр \cref{eq:vec_scalar} (здесь и далее приводятся покоординатные выражения для декартовой системы):
+\begin{equation}
+\label{eq:del_grad}
+\nabla f  = \left(\nabla_x f, \; \nabla_y f, \; \nabla_z f\right) = \dfr{f}{x}\vec i + \dfr{f}{y}\vec j + \dfr{f}{z}\vec k.
+\end{equation}
+Результатом этой операции является вектор.
+
+Скалярное умножение $\nabla$ на вектор $\vec v$ по аналогии с \cref{eq:vec_dot} -- есть дивергенция:
+\begin{equation}
+\label{eq:del_div}
+\nabla \cdot \vec v  = \dfr{v_x}{x} + \dfr{v_y}{y} + \dfr{v_z}{z}
+\end{equation}
+результат которой -- скалярная функция.
+
+Двойное применение $\nabla$ к скалярной функции -- это оператор Лапласа:
+\begin{equation}
+\label{eq:del_laplace}
+\nabla \cdot \nabla f  = \nabla^2 f = \dfrq{f}{x} + \dfrq{f}{y} + \dfrq{f}{z}
+\end{equation}
+
+Ротор -- аналог векторного умножнения \cref{eq:vec_cross}:
+\begin{equation}
+\label{eq:del_rotor}
+\nabla\times\vec v = 
+\left|
+\begin{array}{ccc}
+\vec i & \vec j & \vec k \\
+\nabla_x & \nabla_y & \nabla_z \\
+v_x & v_y & v_z
+\end{array}
+\right| = 
+\left(\dfr{v_z}{y} - \dfr{v_y}{z}\right)\vec i -
+\left(\dfr{v_z}{x} - \dfr{v_x}{z}\right)\vec j +
+\left(\dfr{v_y}{x} - \dfr{v_x}{y}\right)\vec k.
+\end{equation}

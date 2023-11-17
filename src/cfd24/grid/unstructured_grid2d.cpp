@@ -16,6 +16,7 @@ void UnstructuredGrid2D::Cache::clear(){
 	cell_volumes.clear();
 	face_normals.clear();
 	face_areas.clear();
+	tab_cell_face.clear();
 }
 
 void UnstructuredGrid2D::Cache::need_cell_centers(const UnstructuredGrid2D& grid){
@@ -68,6 +69,21 @@ void UnstructuredGrid2D::Cache::need_face_areas(const UnstructuredGrid2D& grid){
 		Point p1 = grid.point(grid._face_points[iface][1]);
 		double d = vector_abs(p1 - p0);
 		face_areas.push_back(d);
+	}
+}
+
+void UnstructuredGrid2D::Cache::need_tab_cell_face(const UnstructuredGrid2D& grid){
+	if (tab_cell_face.size() > 0){
+		return;
+	}
+	for (size_t iface=0; iface < grid.n_faces(); ++iface){
+		std::array<size_t, 2> cells = grid.tab_face_cell(iface);
+		if (cells[0] != INVALID_INDEX){
+			tab_cell_face[cells[0]].push_back(iface);
+		}
+		if (cells[1] != INVALID_INDEX){
+			tab_cell_face[cells[1]].push_back(iface);
+		}
 	}
 }
 
@@ -206,6 +222,15 @@ std::array<size_t, 2> UnstructuredGrid2D::tab_face_cell(size_t iface) const{
 	return _face_cells[iface];
 }
 
+std::vector<size_t> UnstructuredGrid2D::tab_face_point(size_t iface) const{
+	return std::vector<size_t>(_face_points[iface].begin(), _face_points[iface].end());
+}
+
+std::vector<size_t> UnstructuredGrid2D::tab_cell_face(size_t icell) const{
+	_cache.need_tab_cell_face(*this);
+	return _cache.tab_cell_face[icell];
+}
+
 void UnstructuredGrid2D::save_vtk(std::string fname) const{
 	std::ofstream fs(fname);
 	VtkUtils::append_header("Grid2", fs);
@@ -247,8 +272,8 @@ std::string get_line_by_start(std::string start, std::istream& is){
 }
 
 }
-UnstructuredGrid2D UnstructuredGrid2D::vtk_read(std::string filename){
-	std::cout << "Reading grid from " << filename << std::endl;
+UnstructuredGrid2D UnstructuredGrid2D::vtk_read(std::string filename, bool silent){
+	if (!silent) std::cout << "Reading grid from " << filename << std::endl;
 	
 	std::ifstream ifs(filename);
 	if (!ifs){
@@ -273,7 +298,7 @@ UnstructuredGrid2D UnstructuredGrid2D::vtk_read(std::string filename){
 			throw std::runtime_error("Z-coordinate for 2d grids should be zero");
 		}
 	}
-	std::cout << "-- " << n_points << " points" << std::endl;
+	if (!silent) std::cout << "-- " << n_points << " points" << std::endl;
 
 	// cells
 	int n_totals, n_cells;
@@ -321,7 +346,7 @@ UnstructuredGrid2D UnstructuredGrid2D::vtk_read(std::string filename){
 
 		cursor += len;
 	}
-	std::cout << "-- " << cell_points.size() << " 2d cells" << std::endl;
+	if (!silent) std::cout << "-- " << cell_points.size() << " 2d cells" << std::endl;
 
 	UnstructuredGrid2D ret(points, cell_points);
 	
@@ -335,7 +360,7 @@ UnstructuredGrid2D UnstructuredGrid2D::vtk_read(std::string filename){
 		}
 	}
 	if (bad_dir > 0){
-		std::cout << "-- " << bad_dir << " cells are reversed" << std::endl;
+		if (!silent) std::cout << "-- " << bad_dir << " cells are reversed" << std::endl;
 		return UnstructuredGrid2D(points, cell_points);
 	} else {
 		return ret;

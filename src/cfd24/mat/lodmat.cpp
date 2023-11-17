@@ -88,3 +88,17 @@ CsrMatrix LodMatrix::to_csr() const{
 
 	return ret;
 }
+
+std::vector<double> LodMatrix::mult_vec(const std::vector<double>& u) const{
+	std::vector<double> ret(n_rows(), 0);
+
+	for (size_t i=0; i < n_rows(); ++i){
+		for (const auto& it: _data[i]){
+			size_t j = it.first;
+			double aij = it.second;
+			ret[i] += aij * u[j];
+		}
+	}
+
+	return ret;
+}

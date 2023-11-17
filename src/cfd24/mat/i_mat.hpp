@@ -17,7 +17,9 @@ public:
 
 	/// @brief gets value at given address
 	virtual double value(size_t irow, size_t icol) const = 0;
-
+	
+	/// @brief matrix-vector multiplication
+	virtual std::vector<double> mult_vec(const std::vector<double>& u) const = 0;
 
 	/// @brief computes diagonal vector
 	std::vector<double> diagonal() const{

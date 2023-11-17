@@ -2,14 +2,17 @@ set (SRC
 	cfd24_test.cpp
 	grid_test.cpp
 	mat_test.cpp
+	geom_test.cpp
 	poisson_solve_test.cpp
 	transport_solve_test.cpp
 	cavern_2d_simple_test.cpp
+	cavern_2d_fvm_simple_test.cpp
 	obstacle_2d_simple_test.cpp
 	obstacle_nonstat_2d_simple_test.cpp
 	poiseuille_2d_simple_test.cpp
 	linear_2d_simple_test.cpp
 	poisson_fvm_solve_test.cpp
+	fvm_gradient_test.cpp
 
 	utils/filesystem.cpp
 	utils/vecmat.cpp

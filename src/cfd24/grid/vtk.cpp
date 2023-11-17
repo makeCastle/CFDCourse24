@@ -155,6 +155,37 @@ void VtkUtils::add_point_vector(const std::vector<Vector>& data,
 	fs << "LOOKUP_TABLE default" << std::endl;
 	vtk_string(fs, data);
 }
+void VtkUtils::add_cell_vector(const std::vector<Vector>& data,
+                               std::string data_cap, std::string fname){
+	// find CELL_DATA, POINT_DATA which already present
+	std::vector<size_t> fnd = find_strings_in_stream(fname, {"CELL_DATA", "POINT_DATA"});
+	std::ostringstream fs;
+	// cell data do not exist write caption
+	if (fnd[0] == std::string::npos) append_cell_data_header(data.size(), fs);
+
+	// write data
+	add_cell_vector(data, data_cap, fs);
+
+	if (fnd[1] != std::string::npos){
+		// if point data exist write data before it
+		std::ifstream f1(fname);
+		std::string out(std::istreambuf_iterator<char>{f1}, std::istreambuf_iterator<char>{});
+		f1.close();
+		std::ofstream f2(fname);
+		f2 << out.substr(0, fnd[1]) << fs.str() << out.substr(fnd[1], out.npos);
+	} else {
+		// if not, simply append
+		std::ofstream f2(fname, std::ios::app);
+		f2 << fs.str();
+	}
+}
+
+void VtkUtils::add_cell_vector(const std::vector<Vector>& data,
+                               std::string data_cap, std::ostream& fs){
+	fs << "SCALARS " << data_cap << " double 3" << std::endl;
+	fs << "LOOKUP_TABLE default" << std::endl;
+	vtk_string(fs, data);
+}
 
 
 void VtkUtils::append_cell_data_header(size_t data_size, std::ostream& os){

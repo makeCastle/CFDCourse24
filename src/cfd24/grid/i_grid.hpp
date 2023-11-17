@@ -78,6 +78,9 @@ public:
 	 */
 	virtual std::array<size_t, 2> tab_face_cell(size_t iface) const = 0;
 
+	virtual std::vector<size_t> tab_face_point(size_t iface) const = 0;
+	virtual std::vector<size_t> tab_cell_face(size_t icell) const = 0;
+
 	/**
 	 * @brief Saves grid to vtk format
 	 *

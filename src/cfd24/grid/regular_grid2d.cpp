@@ -148,6 +148,30 @@ std::array<size_t, 2> RegularGrid2D::tab_face_cell(size_t iface) const{
 	}
 }
 
+std::vector<size_t> RegularGrid2D::tab_face_point(size_t iface) const{
+	size_t n_xfaces = (ny() + 1)*nx();
+	if (iface < n_xfaces){
+		size_t ix = iface % nx();
+		size_t iy = iface / nx();
+		return {iy*(nx()+1) + ix+1, iy*(nx()+1) + ix}; 
+	} else {
+		size_t ix = (iface - n_xfaces) % (nx() + 1);
+		size_t iy = (iface - n_xfaces) / (nx() + 1);
+		return {iy*(nx()+1) + ix, (iy+1)*(nx()+1) + ix}; 
+	}
+}
+
+std::vector<size_t> RegularGrid2D::tab_cell_face(size_t icell) const{
+	size_t ix = icell % (_x.size() - 1);
+	size_t iy = icell / (_x.size() - 1);
+	size_t n_xfaces = (ny() + 1)*nx();
+
+	return {iy * nx() + ix,
+	        n_xfaces + iy * (nx()+1) + ix + 1,
+	        (iy+1)*nx() + ix,
+	        n_xfaces + iy*(nx()+1) + ix};
+}
+
 void RegularGrid2D::save_vtk(std::string fname) const{
 	std::ofstream fs(fname);
 	VtkUtils::append_header("Grid2", fs);

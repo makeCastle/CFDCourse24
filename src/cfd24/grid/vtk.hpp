@@ -88,6 +88,13 @@ struct VtkUtils{
 	                             std::string data_cap,
 	                             std::ostream& s);
 
+	static void add_cell_vector(const std::vector<Vector>& data,
+	                            std::string data_cap,
+	                            std::string fname);
+
+	static void add_cell_vector(const std::vector<Vector>& data,
+	                            std::string data_cap,
+	                            std::ostream& s);
 
 	/**
 	 * @brief froms and saves header of point data section

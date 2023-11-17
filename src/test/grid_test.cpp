@@ -95,7 +95,7 @@ TEST_CASE("UnstructuredGrid2d", "[unstructured-grid2]"){
 }
 
 TEST_CASE("UnstructuredGrid2d, read from vtk", "[unstructured2-vtk]"){
-	std::string fn = test_directory_file("hexagrid_1.vtk");
+	std::string fn = test_directory_file("hexagrid_50.vtk");
 	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
 
 	CHECK(grid.n_points() == 106);
