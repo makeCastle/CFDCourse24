@@ -58,10 +58,10 @@ private:
 	std::vector<double> _rhs_u;
 	std::vector<double> _rhs_v;
 
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_u;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_v;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_p;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_all;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_u;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_v;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_p;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_all;
 
 	void assemble_p_stroke_solver();
 	void assemble_u_slae();
@@ -176,11 +176,11 @@ void Poiseuille2DSimpleWorker::initialize(){
 };
 
 void Poiseuille2DSimpleWorker::initialize_saver(bool save_exact_fields, std::string stem){
-	_writer_all.reset(new VtkUtils::TimeDependentWriter(stem));
+	_writer_all.reset(new VtkUtils::TimeSeriesWriter(stem));
 	if (save_exact_fields){
-		_writer_u.reset(new VtkUtils::TimeDependentWriter(stem + "-u"));
-		_writer_v.reset(new VtkUtils::TimeDependentWriter(stem + "-v"));
-		_writer_p.reset(new VtkUtils::TimeDependentWriter(stem + "-p"));
+		_writer_u.reset(new VtkUtils::TimeSeriesWriter(stem + "-u"));
+		_writer_v.reset(new VtkUtils::TimeSeriesWriter(stem + "-v"));
+		_writer_p.reset(new VtkUtils::TimeSeriesWriter(stem + "-p"));
 	}
 };
 

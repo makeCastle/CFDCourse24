@@ -71,3 +71,7 @@ double DenseMatrix::value(size_t irow, size_t icol) const{
 std::vector<double> DenseMatrix::mult_vec(const std::vector<double>& u) const{
 	_THROW_NOT_IMP_;
 }
+
+double DenseMatrix::mult_vec(size_t irow, const std::vector<double>& u) const{
+	_THROW_NOT_IMP_;
+}

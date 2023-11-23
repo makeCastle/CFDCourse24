@@ -112,3 +112,8 @@ TEST_CASE("UnstructuredGrid2d, read from vtk", "[unstructured2-vtk]"){
 
 	CHECK_NOTHROW(grid.save_vtk("hexa.vtk"));
 }
+
+TEST_CASE("Load grid from windows build", "[unstructured2-win]"){
+	auto grid = UnstructuredGrid2D::vtk_read(test_directory_file("pebigrid_from_win.vtk"));
+	CHECK(grid.n_cells() == 1022);
+}

@@ -107,7 +107,7 @@ TEST_CASE("Transport 1D solver, explicit", "[transport1-explicit]"){
 	TestTransport1WorkerExplicit worker(n_cells);
 
 	// saver
-	VtkUtils::TimeDependentWriter writer("transport1-explicit");
+	VtkUtils::TimeSeriesWriter writer("transport1-explicit");
 	std::string out_filename = writer.add(0);
 	worker.save_vtk(out_filename);
 
@@ -182,7 +182,7 @@ TEST_CASE("Transport 1D solver, implicit", "[transport1-implicit]"){
 	double h = L/n_cells;
 	double tau = Cu * h / V;
 	TestTransport1WorkerImplicit worker(n_cells);
-	VtkUtils::TimeDependentWriter writer("transport1-implicit");
+	VtkUtils::TimeSeriesWriter writer("transport1-implicit");
 	double norm;
 	worker.save_vtk(writer.add(0));
 	while (worker.current_time() < tend - 1e-6) {
@@ -236,7 +236,7 @@ TEST_CASE("Transport 1D solver, Crank-Nicolson", "[transport1-cn]"){
 	double h = L/n_cells;
 	double tau = Cu * h / V;
 	TestTransport1WorkerCN worker(n_cells);
-	VtkUtils::TimeDependentWriter writer("transport1-cn");
+	VtkUtils::TimeSeriesWriter writer("transport1-cn");
 	double norm;
 	worker.save_vtk(writer.add(0));
 	while (worker.current_time() < tend - 1e-6) {

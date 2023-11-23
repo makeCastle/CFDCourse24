@@ -102,3 +102,13 @@ std::vector<double> LodMatrix::mult_vec(const std::vector<double>& u) const{
 
 	return ret;
 }
+
+double LodMatrix::mult_vec(size_t irow, const std::vector<double>& u) const{
+	double ret = 0;
+	for (const auto& it: _data[irow]){
+		size_t j = it.first;
+		double aij = it.second;
+		ret += aij * u[j];
+	}
+	return ret;
+}

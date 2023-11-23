@@ -196,25 +196,25 @@ private:
 
 CsrMatrix TestPoisson2SkewFvmWorker::approximate_lhs() const{
 	LodMatrix mat(_collocations.size());
-	LodMatrix dudn = assemble_fvm_faces_dudn(_grid, _collocations);
+	FvmFacesDn dudn(_grid, _collocations);
 
 	// internal
 	for (size_t iface = 0; iface < _grid.n_faces(); ++iface){
-		size_t negative_colocation = _collocations.tab_face_colloc[iface].negative_side;
-		size_t positive_colocation = _collocations.tab_face_colloc[iface].positive_side;
+		size_t negative_colloc = _collocations.tab_face_colloc(iface)[0];
+		size_t positive_colloc = _collocations.tab_face_colloc(iface)[1];
 		double area = _grid.face_area(iface);
 
-		for (const std::pair<const size_t, double>& iter: dudn.row(iface)){
+		for (const std::pair<const size_t, double>& iter: dudn.linear_combination(iface)){
 			size_t column = iter.first;
 			double coef = area * iter.second;
-			mat.add_value(positive_colocation, column, coef);
-			mat.add_value(negative_colocation, column, -coef);
+			mat.add_value(positive_colloc, column, coef);
+			mat.add_value(negative_colloc, column, -coef);
 		}
 	}
 
 	// dirichlet bc
-	for (const FvmExtendedCollocations::IndexConnect& con: _collocations.face_collocations){
-		mat.set_unit_row(con.colloc_index);
+	for (size_t icolloc: _collocations.face_collocations){
+		mat.set_unit_row(icolloc);
 	}
 
 	return mat.to_csr();
@@ -232,8 +232,8 @@ std::vector<double> TestPoisson2SkewFvmWorker::approximate_rhs() const{
 	}
 
 	// dirichlet bc
-	for (const FvmExtendedCollocations::IndexConnect& con: _collocations.face_collocations){
-		rhs[con.colloc_index] = exact_solution(_collocations.points[con.colloc_index]);
+	for (size_t icolloc: _collocations.face_collocations){
+		rhs[icolloc] = exact_solution(_collocations.points[icolloc]);
 	}
 
 	return rhs;
@@ -249,5 +249,5 @@ TEST_CASE("Poisson-fvm 2D solver, skewgrid", "[poisson2-fvm-skew]"){
 	worker.save_vtk("poisson2_fvm_skew.vtk");
 	std::cout << grid.n_cells() << " " << nrm << std::endl;
 
-	CHECK(nrm == Approx(0.0404256).margin(1e-4));
+	CHECK(nrm == Approx(0.0422449151).margin(1e-4));
 }

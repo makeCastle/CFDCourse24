@@ -15,6 +15,7 @@ var hierarchy =
       [ "cfd::IGrid3D", "classcfd_1_1IGrid3D.html", null ]
     ] ],
     [ "cfd::IMatrix", "classcfd_1_1IMatrix.html", [
+      [ "cfd::DenseMatrix", "classcfd_1_1DenseMatrix.html", null ],
       [ "cfd::ISparseMatrix", "classcfd_1_1ISparseMatrix.html", [
         [ "cfd::CsrStencil", "classcfd_1_1CsrStencil.html", [
           [ "cfd::CsrMatrix", "classcfd_1_1CsrMatrix.html", null ]
@@ -22,6 +23,7 @@ var hierarchy =
         [ "cfd::LodMatrix", "classcfd_1_1LodMatrix.html", null ]
       ] ]
     ] ],
-    [ "cfd::VtkUtils::TimeDependentWriter", "classcfd_1_1VtkUtils_1_1TimeDependentWriter.html", null ],
+    [ "cfd::PointSearcher< Dim >", "classcfd_1_1PointSearcher.html", null ],
+    [ "cfd::VtkUtils::TimeSeriesWriter", "classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html", null ],
     [ "cfd::VtkUtils", "structcfd_1_1VtkUtils.html", null ]
 ];

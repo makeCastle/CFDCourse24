@@ -76,6 +76,7 @@ void UnstructuredGrid2D::Cache::need_tab_cell_face(const UnstructuredGrid2D& gri
 	if (tab_cell_face.size() > 0){
 		return;
 	}
+	tab_cell_face.resize(grid.n_cells());
 	for (size_t iface=0; iface < grid.n_faces(); ++iface){
 		std::array<size_t, 2> cells = grid.tab_face_cell(iface);
 		if (cells[0] != INVALID_INDEX){
@@ -264,6 +265,9 @@ std::string get_line_by_start(std::string start, std::istream& is){
 	std::string line;
 	while (is){
 		std::getline(is, line);
+		if (!line.empty() && line.back() == '\r'){
+			line.resize(line.size()-1);
+		}
 		if (line.substr(0, start.size()) == start){
 			return line;
 		}

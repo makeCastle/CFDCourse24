@@ -132,15 +132,17 @@ Inheritance diagram for cfd::IMatrix:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1IMatrix__inherit__graph.png" border="0" usemap="#acfd_1_1IMatrix_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1IMatrix_inherit__map" id="acfd_1_1IMatrix_inherit__map">
-<area shape="rect" title="Abstract matrix interface." alt="" coords="71,5,173,91"/>
-<area shape="rect" href="classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="61,139,183,224"/>
-<area shape="poly" title=" " alt="" coords="125,104,125,138,119,138,119,104"/>
-<area shape="rect" href="classcfd_1_1CsrStencil.html" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="5,272,108,357"/>
-<area shape="poly" title=" " alt="" coords="98,237,80,273,75,271,93,235"/>
-<area shape="rect" href="classcfd_1_1LodMatrix.html" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="132,272,243,357"/>
-<area shape="poly" title=" " alt="" coords="151,235,169,271,164,273,146,237"/>
-<area shape="rect" href="classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="5,405,108,491"/>
-<area shape="poly" title=" " alt="" coords="59,371,59,405,54,405,54,371"/>
+<area shape="rect" title="Abstract matrix interface." alt="" coords="82,5,185,91"/>
+<area shape="rect" href="classcfd_1_1DenseMatrix.html" title=" " alt="" coords="5,139,120,224"/>
+<area shape="poly" title=" " alt="" coords="107,104,87,140,83,137,102,101"/>
+<area shape="rect" href="classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="144,139,267,224"/>
+<area shape="poly" title=" " alt="" coords="165,101,185,137,180,140,160,104"/>
+<area shape="rect" href="classcfd_1_1CsrStencil.html" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="89,272,191,357"/>
+<area shape="poly" title=" " alt="" coords="181,237,163,273,158,271,176,235"/>
+<area shape="rect" href="classcfd_1_1LodMatrix.html" title="&#39;List of dictionaries&#39; sparse matrix format" alt="" coords="215,272,326,357"/>
+<area shape="poly" title=" " alt="" coords="234,235,252,271,248,273,230,237"/>
+<area shape="rect" href="classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="89,405,191,491"/>
+<area shape="poly" title=" " alt="" coords="143,371,143,405,137,405,137,371"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -154,6 +156,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a78b9049b10c8e3456e22594e280187b7" id="r_a78b9049b10c8e3456e22594e280187b7"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a78b9049b10c8e3456e22594e280187b7">value</a> (size_t irow, size_t icol) const =0</td></tr>
 <tr class="memdesc:a78b9049b10c8e3456e22594e280187b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets value at given address  <br /></td></tr>
 <tr class="separator:a78b9049b10c8e3456e22594e280187b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad89bf7e8992820267b0fff370849b029" id="r_ad89bf7e8992820267b0fff370849b029"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#ad89bf7e8992820267b0fff370849b029">mult_vec</a> (const std::vector&lt; double &gt; &amp;u) const =0</td></tr>
+<tr class="memdesc:ad89bf7e8992820267b0fff370849b029"><td class="mdescLeft">&#160;</td><td class="mdescRight">matrix-vector multiplication  <br /></td></tr>
+<tr class="separator:ad89bf7e8992820267b0fff370849b029"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a128a317f0200cdd4e11dfdd65c002ea6" id="r_a128a317f0200cdd4e11dfdd65c002ea6"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a128a317f0200cdd4e11dfdd65c002ea6">mult_vec</a> (size_t irow, const std::vector&lt; double &gt; &amp;u) const =0</td></tr>
+<tr class="memdesc:a128a317f0200cdd4e11dfdd65c002ea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">@brif matrix-vector multiplication for the specified row  <br /></td></tr>
+<tr class="separator:a128a317f0200cdd4e11dfdd65c002ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8235cb665746c6e6661e0bc980ba680f" id="r_a8235cb665746c6e6661e0bc980ba680f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a8235cb665746c6e6661e0bc980ba680f">diagonal</a> () const</td></tr>
 <tr class="memdesc:a8235cb665746c6e6661e0bc980ba680f"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes diagonal vector  <br /></td></tr>
 <tr class="separator:a8235cb665746c6e6661e0bc980ba680f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,7 +222,77 @@ Public Member Functions</h2></td></tr>
 
 <p>computes diagonal vector </p>
 
-<p class="definition">Definition at line <a class="el" href="i__mat_8hpp_source.html#l00023">23</a> of file <a class="el" href="i__mat_8hpp_source.html">i_mat.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="i__mat_8hpp_source.html#l00028">28</a> of file <a class="el" href="i__mat_8hpp_source.html">i_mat.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad89bf7e8992820267b0fff370849b029" name="ad89bf7e8992820267b0fff370849b029"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad89bf7e8992820267b0fff370849b029">&#9670;&#160;</a></span>mult_vec() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; double &gt; cfd::IMatrix::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>matrix-vector multiplication </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1CsrMatrix.html#a2797bf04223048447a4fe5df012c0b33">cfd::CsrMatrix</a>, <a class="el" href="classcfd_1_1DenseMatrix.html#aa8096827d8d8924607a2ea2831001fd4">cfd::DenseMatrix</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a02d0e9d976b1f33a362b9951b1cd44c0">cfd::LodMatrix</a>.</p>
+
+</div>
+</div>
+<a id="a128a317f0200cdd4e11dfdd65c002ea6" name="a128a317f0200cdd4e11dfdd65c002ea6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128a317f0200cdd4e11dfdd65c002ea6">&#9670;&#160;</a></span>mult_vec() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double cfd::IMatrix::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>@brif matrix-vector multiplication for the specified row </p>
+
+<p>Implemented in <a class="el" href="classcfd_1_1CsrMatrix.html#a630fcc0f51d7f5c43b20a89326cd995c">cfd::CsrMatrix</a>, <a class="el" href="classcfd_1_1DenseMatrix.html#aca570a80a58268182ae7e85ad5f23801">cfd::DenseMatrix</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a3ca27f86d192a9d852f3f51e4f65a58f">cfd::LodMatrix</a>.</p>
 
 </div>
 </div>
@@ -243,7 +321,7 @@ Public Member Functions</h2></td></tr>
 
 <p>number of rows </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1CsrStencil.html#abdee62b85403d1bee2afaa3020280b22">cfd::CsrStencil</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07">cfd::LodMatrix</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1CsrStencil.html#abdee62b85403d1bee2afaa3020280b22">cfd::CsrStencil</a>, <a class="el" href="classcfd_1_1DenseMatrix.html#af431fa091aa4c90efc24712a3ed6edc8">cfd::DenseMatrix</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07">cfd::LodMatrix</a>.</p>
 
 </div>
 </div>
@@ -283,7 +361,7 @@ Public Member Functions</h2></td></tr>
 
 <p>gets value at given address </p>
 
-<p>Implemented in <a class="el" href="classcfd_1_1CsrStencil.html#afffa55eedd53c1674b7c23cf11182bae">cfd::CsrStencil</a>, <a class="el" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">cfd::CsrMatrix</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">cfd::LodMatrix</a>.</p>
+<p>Implemented in <a class="el" href="classcfd_1_1CsrStencil.html#afffa55eedd53c1674b7c23cf11182bae">cfd::CsrStencil</a>, <a class="el" href="classcfd_1_1CsrMatrix.html#a46e96def1f9c7b61dea763788e4d59fb">cfd::CsrMatrix</a>, <a class="el" href="classcfd_1_1DenseMatrix.html#af8ea854df9a3f2bad68e9f0af600da09">cfd::DenseMatrix</a>, and <a class="el" href="classcfd_1_1LodMatrix.html#a8ff45baca9891d8d56ca54ae0eeed0c7">cfd::LodMatrix</a>.</p>
 
 </div>
 </div>

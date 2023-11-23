@@ -180,6 +180,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af6987be70ed5c14c0a51d47029c36af0" id="r_af6987be70ed5c14c0a51d47029c36af0"><td class="memItemLeft" align="right" valign="top">std::array&lt; size_t, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#af6987be70ed5c14c0a51d47029c36af0">tab_face_cell</a> (size_t iface) const override</td></tr>
 <tr class="memdesc:af6987be70ed5c14c0a51d47029c36af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">face-&gt;cell connectivity table  <br /></td></tr>
 <tr class="separator:af6987be70ed5c14c0a51d47029c36af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18516cfbc45907c4edbe78636667cea" id="r_ae18516cfbc45907c4edbe78636667cea"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#ae18516cfbc45907c4edbe78636667cea">tab_face_point</a> (size_t iface) const override</td></tr>
+<tr class="separator:ae18516cfbc45907c4edbe78636667cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f1594c4677b8c9b7b42a11f8ef0cb22" id="r_a7f1594c4677b8c9b7b42a11f8ef0cb22"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a7f1594c4677b8c9b7b42a11f8ef0cb22">tab_cell_face</a> (size_t icell) const override</td></tr>
+<tr class="separator:a7f1594c4677b8c9b7b42a11f8ef0cb22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82eb53eb7bd65dc3af6124203d8380f8" id="r_a82eb53eb7bd65dc3af6124203d8380f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8">save_vtk</a> (std::string fname) const override</td></tr>
 <tr class="memdesc:a82eb53eb7bd65dc3af6124203d8380f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves grid to vtk format.  <br /></td></tr>
 <tr class="separator:a82eb53eb7bd65dc3af6124203d8380f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -574,6 +578,34 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7f1594c4677b8c9b7b42a11f8ef0cb22" name="a7f1594c4677b8c9b7b42a11f8ef0cb22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f1594c4677b8c9b7b42a11f8ef0cb22">&#9670;&#160;</a></span>tab_cell_face()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; size_t &gt; cfd::Grid1D::tab_cell_face </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icell</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#ae27159d88038664443a99120061c2e13">cfd::IGrid</a>.</p>
+
+</div>
+</div>
 <a id="a331eea95024ac45fe2a910b251baaa4c" name="a331eea95024ac45fe2a910b251baaa4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a331eea95024ac45fe2a910b251baaa4c">&#9670;&#160;</a></span>tab_cell_point()</h2>
 
@@ -649,6 +681,34 @@ For 2d grid points have counter clockwise direction<br  />
 <p>If this is a boundary face then the respective cell index will be equal to INVALID_INDEX. </p>
 
 <p>Implements <a class="el" href="classcfd_1_1IGrid.html#a2bef21f9893d502cc44cd59d31d3695e">cfd::IGrid</a>.</p>
+
+</div>
+</div>
+<a id="ae18516cfbc45907c4edbe78636667cea" name="ae18516cfbc45907c4edbe78636667cea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18516cfbc45907c4edbe78636667cea">&#9670;&#160;</a></span>tab_face_point()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; size_t &gt; cfd::Grid1D::tab_face_point </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classcfd_1_1IGrid.html#a4e4d42bc8e891285bec01f1ab6a7c594">cfd::IGrid</a>.</p>
 
 </div>
 </div>

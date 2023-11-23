@@ -12,18 +12,25 @@ struct PointSearcher<Dim>::Impl{
 	using point_t = bg::model::point<double, Dim, bg::cs::cartesian>;
 	using value_t = std::pair<point_t, size_t>;
 
+	static point_t build_point_t(Point p){
+		if constexpr (Dim == 1){
+			return point_t{p.x()};
+		} else if constexpr (Dim == 2){
+			return point_t{p.x(), p.y()};
+		} else {
+			return point_t{p.x(), p.y(), p.z()};
+		}
+	}
+
 	void add(const std::vector<Point>& points){
 		for (size_t i=0; i<points.size(); ++i){
-			double x = points[i].x();
-			double y = points[i].y();
-			double z = points[i].z();
-			_rtree.insert(std::make_pair(point_t(x, y, z), i));
+			_rtree.insert(std::make_pair(build_point_t(points[i]), i));
 		}
 	}
 
 	std::vector<size_t> nearest(const Point& p, size_t n) const{
 		std::vector<value_t> vals;
-		point_t point(p.x(), p.y(), p.z());
+		point_t point = build_point_t(p);
 		_rtree.query(bg::index::nearest(point, n), std::back_inserter(vals));
 		std::vector<size_t> ret;
 		for (const auto& v: vals){

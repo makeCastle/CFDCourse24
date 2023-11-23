@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 Project(cfdcourse24)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Catch framework
 include(FetchContent)
 FetchContent_Declare(

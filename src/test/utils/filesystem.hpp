@@ -14,6 +14,8 @@ namespace cfd{
  */
 std::string test_directory_file(std::string path);
 
+std::string tmp_directory_file(std::string path);
+
 
 }
 #endif

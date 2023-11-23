@@ -15,7 +15,7 @@ FvmExtendedCollocations::FvmExtendedCollocations(const IGrid& grid){
 	for (size_t icell=0; icell<grid.n_cells(); ++icell){
 		// collocations at the cell center
 		points.push_back(grid.cell_center(icell));
-		cell_collocations.push_back({points.size()-1, icell});
+		cell_collocations.push_back(icell);
 	}
 
 	// face loop
@@ -23,31 +23,56 @@ FvmExtendedCollocations::FvmExtendedCollocations(const IGrid& grid){
 		std::array<size_t, 2> cells = grid.tab_face_cell(iface);
 
 		// face -> collocation-points connectivity
-		tab_face_colloc.push_back({cells[0], cells[1]});
+		_tab_face_colloc.push_back({cells[0], cells[1]});
 
 		// collocations at the boundary faces
 		if (cells[0] == INVALID_INDEX || cells[1] == INVALID_INDEX){
 			points.push_back(grid.face_center(iface));
-			face_collocations.push_back({points.size()-1, iface});
+			face_collocations.push_back(points.size()-1);
+			_face_indices.push_back(iface);
 
 			if (cells[0] == INVALID_INDEX){
-				tab_face_colloc.back().negative_side = points.size()-1;
+				_tab_face_colloc.back()[0] = points.size()-1;
 			} else {
-				tab_face_colloc.back().positive_side = points.size()-1;
+				_tab_face_colloc.back()[1] = points.size()-1;
 			}
 		}
 	}
 
 	// collocations connectivity
-	tab_colloc_colloc.resize(points.size());
-	for (const FaceConnect& fc: tab_face_colloc){
-		tab_colloc_colloc[fc.positive_side].push_back(fc.negative_side);
-		tab_colloc_colloc[fc.negative_side].push_back(fc.positive_side);
+	_tab_colloc_colloc.resize(points.size());
+	for (const std::array<size_t, 2>& fc: _tab_face_colloc){
+		_tab_colloc_colloc[fc[1]].push_back(fc[0]);
+		_tab_colloc_colloc[fc[0]].push_back(fc[1]);
 	}
 }
 
 size_t FvmExtendedCollocations::size() const{
 	return points.size();
+}
+
+size_t FvmExtendedCollocations::face_index(size_t icolloc) const{
+	if (icolloc < cell_collocations.size()){
+		_THROW_INTERNAL_ERROR_;
+	} else {
+		return _face_indices[icolloc - cell_collocations.size()];
+	}
+}
+
+size_t FvmExtendedCollocations::cell_index(size_t icolloc) const{
+	if (icolloc >= cell_collocations.size()){
+		_THROW_INTERNAL_ERROR_;
+	} else {
+		return icolloc;
+	}
+}
+
+std::array<size_t, 2> FvmExtendedCollocations::tab_face_colloc(size_t iface) const{
+	return _tab_face_colloc[iface];
+}
+
+std::vector<size_t> FvmExtendedCollocations::tab_colloc_colloc(size_t icolloc) const{
+	return _tab_colloc_colloc[icolloc];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,7 +95,7 @@ std::array<CsrMatrix, 3> assemble_fvm_cell_gradient_2d(const IGrid& grid, const 
 	LodMatrix grad_y(grid.n_cells());
 
 	for (size_t icell = 0; icell < grid.n_cells(); ++icell){
-		const std::vector<size_t>& collocs = colloc.tab_colloc_colloc[icell];
+		const std::vector<size_t>& collocs = colloc.tab_colloc_colloc(icell);
 
 		DenseMatrix amat(collocs.size(), 2);
 		for (size_t i=0; i<collocs.size(); ++i){
@@ -138,23 +163,35 @@ namespace {
 LodMatrix assemble_faces_dudn_2d(const IGrid& grid, const FvmExtendedCollocations& colloc){
 	LodMatrix mat(grid.n_faces());
 
-	std::vector<std::array<size_t, 3>> closest_points;
+	std::vector<std::vector<size_t>> tab_point_colloc(grid.n_points());
 	{
-		PointSearcher<2> searcher(colloc.points);
-		for (size_t ipoint=0; ipoint < grid.n_points(); ++ipoint){
-			std::vector<size_t> found = searcher.nearest(grid.point(ipoint), 3);
-			closest_points.push_back({found[0], found[1], found[2]});
+		for (size_t icolloc: colloc.cell_collocations){
+			size_t icell = colloc.cell_index(icolloc);
+			for (size_t ipoint: grid.tab_cell_point(icell)){
+				tab_point_colloc[ipoint].push_back(icolloc);
+			}
+		}
+		for (size_t icolloc: colloc.face_collocations){
+			size_t iface = colloc.face_index(icolloc);
+			for (size_t ipoint: grid.tab_face_point(iface)){
+				tab_point_colloc[ipoint].push_back(icolloc);
+			}
 		}
 	}
-	auto find_closest_collocation = [&closest_points](size_t grid_point, size_t excl0, size_t excl1){
-		const std::array<size_t, 3>& found = closest_points[grid_point];
-		if (found[0] != excl0 && found[0] != excl1){
-			return found[0];
-		} else if (found[1] != excl0 && found[1] != excl1){
-			return found[1];
-		} else {
-			return found[2];
+	auto find_closest_collocation = [&](size_t grid_point, size_t excl0, size_t excl1){
+		size_t ret = INVALID_INDEX;
+		double min_meas = 1e100;
+		Point p0 = grid.point(grid_point);
+		for (size_t icolloc: tab_point_colloc[grid_point]){
+			if (icolloc != excl0 && icolloc != excl1){
+				double meas = vector_meas(p0 - colloc.points[icolloc]);
+				if (meas < min_meas){
+					min_meas = meas;
+					ret = icolloc;
+				}
+			}
 		}
+		return ret;
 	};
 
 	auto add_ds_entry = [&](const Vector& normal, const Vector& c, size_t col0, size_t col1, size_t col2, size_t iface){
@@ -185,8 +222,8 @@ LodMatrix assemble_faces_dudn_2d(const IGrid& grid, const FvmExtendedCollocation
 
 	for (size_t iface = 0; iface < grid.n_faces(); ++iface){
 		Vector normal = grid.face_normal(iface);
-		size_t negative_collocation = colloc.tab_face_colloc[iface].negative_side;
-		size_t positive_collocation = colloc.tab_face_colloc[iface].positive_side;
+		size_t negative_collocation = colloc.tab_face_colloc(iface)[0];
+		size_t positive_collocation = colloc.tab_face_colloc(iface)[1];
 		Point ci = colloc.points[negative_collocation];
 		Point cj = colloc.points[positive_collocation];
 	
@@ -214,9 +251,7 @@ LodMatrix assemble_faces_dudn_2d(const IGrid& grid, const FvmExtendedCollocation
 	return mat;
 }
 
-}
-
-LodMatrix cfd::assemble_fvm_faces_dudn(const IGrid& grid, const FvmExtendedCollocations& colloc){
+LodMatrix build_dfdn_matrix(const IGrid& grid, const FvmExtendedCollocations& colloc){
 	if (grid.dim() == 2){
 		return assemble_faces_dudn_2d(grid, colloc);
 	} else {
@@ -224,3 +259,18 @@ LodMatrix cfd::assemble_fvm_faces_dudn(const IGrid& grid, const FvmExtendedCollo
 	}
 }
 
+}
+
+FvmFacesDn::FvmFacesDn(const IGrid& grid, const FvmExtendedCollocations& colloc): _dfdn(build_dfdn_matrix(grid, colloc)){}
+
+std::vector<double> FvmFacesDn::compute(const std::vector<double>& f) const{
+	return _dfdn.mult_vec(f);
+}
+
+double FvmFacesDn::compute(size_t iface, const std::vector<double>& f) const{
+	return _dfdn.mult_vec(iface, f);
+}
+
+const std::map<size_t, double>& FvmFacesDn::linear_combination(size_t iface) const{
+	return _dfdn.row(iface);
+}

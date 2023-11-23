@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vtkutils_0',['VtkUtils',['../structcfd_1_1VtkUtils.html',1,'cfd']]]
+  ['unstructuredgrid2d_0',['UnstructuredGrid2D',['../classcfd_1_1UnstructuredGrid2D.html',1,'cfd']]]
 ];

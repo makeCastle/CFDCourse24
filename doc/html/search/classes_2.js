@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['grid1d_0',['Grid1D',['../classcfd_1_1Grid1D.html',1,'cfd']]]
+  ['densematrix_0',['DenseMatrix',['../classcfd_1_1DenseMatrix.html',1,'cfd']]]
 ];
