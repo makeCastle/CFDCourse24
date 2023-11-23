@@ -384,20 +384,20 @@ std::vector<double> Cavern2DFvmSimpleWorker::compute_v_stroke(const std::vector<
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::vector<double> Cavern2DFvmSimpleWorker::compute_d() {
 	std::vector<double> d(_grid.n_cells(), 0.0);
-	for (size_t s = 0; s < _grid.n_faces(); ++s)
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface)
 	{
-		/*std::vector<size_t> ij(2, 0.0);
-		ij = _grid.tab_cell_face(s);
-		double c = _un_face[s] * abs(_grid.face_area(s));
+		//std::vector<size_t> ij(2, 0);
+		std::array<size_t, 2> icells = _grid.tab_face_cell(iface);
+		double c = _un_face[iface] * abs(_grid.face_area(iface));
 
-		if (ij[0] != INVALID_INDEX)
+		if (icells[0] != INVALID_INDEX)
 		{
-			d[ij[0]] += c / abs(_grid.cell_volume(ij[0]));
+			d[icells[0]] += c / abs(_grid.cell_volume(icells[0]));
 		}
-		if (ij[1] != INVALID_INDEX)
+		if (icells[1] != INVALID_INDEX)
 		{
-			d[ij[1]] += c / abs(_grid.cell_volume(ij[1]));
-		}*/
+			d[icells[1]] += c / abs(_grid.cell_volume(icells[1]));
+		}
 	}
 
 	return d;
