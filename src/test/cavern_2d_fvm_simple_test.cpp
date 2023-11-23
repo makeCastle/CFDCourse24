@@ -16,6 +16,7 @@ using namespace cfd;
 
 struct Cavern2DFvmSimpleWorker{
 	Cavern2DFvmSimpleWorker(const IGrid& grid, double Re, double E);
+
 	void initialize_saver(std::string stem);
 	double set_uvp(const std::vector<double>& u,
 	               const std::vector<double>& v,
@@ -28,6 +29,7 @@ struct Cavern2DFvmSimpleWorker{
 	size_t vec_size() const{
 		return _collocations.size();
 	}
+
 private:
 	const IGrid& _grid;
 	const double _Re;
@@ -73,6 +75,10 @@ private:
 	std::vector<double> compute_v_stroke(const std::vector<Vector>& grad_p_stroke);
 
 	static double compute_tau(const IGrid& grid, double Re, double E);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::vector<double> compute_d();
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 double Cavern2DFvmSimpleWorker::compute_tau(const IGrid& grid, double Re, double E){
@@ -190,6 +196,23 @@ void Cavern2DFvmSimpleWorker::save_current_fields(size_t iter){
 		_grid.save_vtk(filepath);
 		VtkUtils::add_cell_data(pressure, "pressure", filepath);
 		VtkUtils::add_cell_vector(velocity, "velocity", filepath);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<double> d = compute_d();
+		VtkUtils::add_cell_data(d, "div", filepath);
+
+		std::vector<double> res_u = compute_residual_vec(_mat_uv, _rhs_u, _u);
+		std::vector<double> res_v = compute_residual_vec(_mat_uv, _rhs_v, _v);
+		res_u.resize(_grid.n_cells());
+		res_v.resize(_grid.n_cells());
+		for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
+			double coef = 1.0 / _tau / _grid.cell_volume(icell);
+			res_u[icell] *= coef;
+			res_v[icell] *= coef;
+		}
+		VtkUtils::add_cell_data(res_u, "res_u", filepath);
+		VtkUtils::add_cell_data(res_v, "res_v", filepath);
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }
 
@@ -358,12 +381,35 @@ std::vector<double> Cavern2DFvmSimpleWorker::compute_v_stroke(const std::vector<
 	return v_stroke;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::vector<double> Cavern2DFvmSimpleWorker::compute_d() {
+	std::vector<double> d(_grid.n_cells(), 0.0);
+	for (size_t s = 0; s < _grid.n_faces(); ++s)
+	{
+		/*std::vector<size_t> ij(2, 0.0);
+		ij = _grid.tab_cell_face(s);
+		double c = _un_face[s] * abs(_grid.face_area(s));
+
+		if (ij[0] != INVALID_INDEX)
+		{
+			d[ij[0]] += c / abs(_grid.cell_volume(ij[0]));
+		}
+		if (ij[1] != INVALID_INDEX)
+		{
+			d[ij[1]] += c / abs(_grid.cell_volume(ij[1]));
+		}*/
+	}
+
+	return d;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 TEST_CASE("Cavern 2D, FVM-SIMPLE algorithm", "[cavern2-fvm-simple]"){
 	std::cout << std::endl << "--- cfd24_test [cavern2-fvm-simple] --- " << std::endl;
 
 	// problem parameters
 	double Re = 100;
-	size_t max_it = 10'000;
+	size_t max_it = 10000;
 	double eps = 1e-0;
 	double E = 2.0;
 
@@ -396,4 +442,132 @@ TEST_CASE("Cavern 2D, FVM-SIMPLE algorithm", "[cavern2-fvm-simple]"){
 		}
 	}
 	CHECK(it == 6);
+}
+
+TEST_CASE("Cavern 2D, FVM-SIMPLE algorithm pebigrid", "[cavern2-fvm-simple-pebigrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-simple-pebigrid] --- " << std::endl;
+
+	double Re = 100;
+	size_t max_it = 10000;
+	double eps = 1e-2;
+	double E = 2.0;
+
+	std::string fn = test_directory_file("pebigrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	Cavern2DFvmSimpleWorker worker(grid, Re, E);
+	worker.initialize_saver("cavern2-fvm-pebigrid");
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	// initial condition
+	std::vector<double> u_init(worker.vec_size(), 0.0);
+	std::vector<double> v_init(worker.vec_size(), 0.0);
+	std::vector<double> p_init(worker.vec_size(), 0.0);
+
+	worker.set_uvp(u_init, v_init, p_init);
+	worker.save_current_fields(0);
+
+	// iterations loop
+	size_t it = 0;
+	for (it = 1; it < max_it; ++it) {
+		double nrm = worker.step();
+
+		// print norm and pressure value at the top-right corner
+		std::cout << it << " " << nrm << std::endl;
+
+		// export solution to vtk
+		worker.save_current_fields(it);
+
+		// break if residual is low enough
+		if (nrm < eps) {
+			break;
+		}
+	}
+}
+
+TEST_CASE("Cavern 2D, FVM-SIMPLE algorithm tetragrid", "[poisson2-fvm-simple-tetragrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-simple-tetragrid] --- " << std::endl;
+
+	double Re = 100;
+	size_t max_it = 10000;
+	double eps = 1e-1;
+	double E = 2.0;
+
+	std::string fn = test_directory_file("tetragrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	Cavern2DFvmSimpleWorker worker(grid, Re, E);
+	worker.initialize_saver("cavern2-fvm-tetragrid");
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	// initial condition
+	std::vector<double> u_init(worker.vec_size(), 0.0);
+	std::vector<double> v_init(worker.vec_size(), 0.0);
+	std::vector<double> p_init(worker.vec_size(), 0.0);
+	worker.set_uvp(u_init, v_init, p_init);
+	worker.save_current_fields(0);
+
+	// iterations loop
+	size_t it = 0;
+	for (it = 1; it < max_it; ++it) {
+		double nrm = worker.step();
+
+		// print norm and pressure value at the top-right corner
+		std::cout << it << " " << nrm << std::endl;
+
+		// export solution to vtk
+		worker.save_current_fields(it);
+
+		// break if residual is low enough
+		if (nrm < eps) {
+			break;
+		}
+	}
+
+	//CHECK(nrm == Approx(0.04371).margin(1e-4));
+}
+
+TEST_CASE("Cavern 2D, FVM-SIMPLE algorithm hexagrid", "[poisson2-fvm-simple-hexagrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-simple-hexagrid] --- " << std::endl;
+
+	double Re = 100;
+	size_t max_it = 10000;
+	double eps = 1e-0;
+	double E = 2.0;
+
+	std::string fn = test_directory_file("hexagrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	Cavern2DFvmSimpleWorker worker(grid, Re, E);
+	worker.initialize_saver("cavern2-fvm-hexagrid");
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	// initial condition
+	std::vector<double> u_init(worker.vec_size(), 0.0);
+	std::vector<double> v_init(worker.vec_size(), 0.0);
+	std::vector<double> p_init(worker.vec_size(), 0.0);
+	worker.set_uvp(u_init, v_init, p_init);
+	worker.save_current_fields(0);
+
+	// iterations loop
+	size_t it = 0;
+	for (it = 1; it < max_it; ++it) {
+		double nrm = worker.step();
+
+		// print norm and pressure value at the top-right corner
+		std::cout << it << " " << nrm << std::endl;
+
+		// export solution to vtk
+		worker.save_current_fields(it);
+
+		// break if residual is low enough
+		if (nrm < eps) {
+			break;
+		}
+	}
+
+	//CHECK(nrm == Approx(0.04371).margin(1e-4));
 }

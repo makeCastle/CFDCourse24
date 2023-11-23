@@ -1,7 +1,7 @@
 from hybmeshpack import hmscript as hm
 import math
 
-N = 5000
+N = 2000
 output_name = "pebigrid.vtk"
 
 step = math.sqrt(1.4/N)

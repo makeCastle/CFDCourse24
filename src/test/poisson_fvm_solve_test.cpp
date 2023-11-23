@@ -285,3 +285,20 @@ TEST_CASE("Poisson-fvm 2D solver tetragrid", "[poisson2-fvm-tetragrid]") {
 
 	//CHECK(nrm == Approx(0.04371).margin(1e-4));
 }
+
+TEST_CASE("Poisson-fvm 2D solver hexagrid", "[poisson2-fvm-hexagrid]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fvm-hexagrid] --- " << std::endl;
+
+	std::string fn = test_directory_file("hexagrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(fn);
+	TestPoisson2FvmWorker worker(grid);
+
+	//size_t nx = 20;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, nx, nx);
+	//TestPoisson2FvmWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fvm_hexagrid.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+	//CHECK(nrm == Approx(0.04371).margin(1e-4));
+}

@@ -1,7 +1,7 @@
 from hybmeshpack import hmscript as hm
 import math
 
-N = 1000
+N = 2000
 output_name = "hexagrid.vtk"
 
 step = 2*math.sqrt(1.0/6/math.sqrt(3)/N)
