@@ -13,6 +13,7 @@ set (SRC
 	linear_2d_simple_test.cpp
 	poisson_fvm_solve_test.cpp
 	fvm_gradient_test.cpp
+	cylinder_fvm_simple_test.cpp
 
 	utils/filesystem.cpp
 	utils/vecmat.cpp

@@ -1,14 +1,16 @@
 <map id="i_mat.hpp" name="i_mat.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="91,5,169,31"/>
-<area shape="rect" id="Node000002" href="$i__sparse__mat_8hpp.html" title=" " alt="" coords="67,79,193,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,44,133,79,127,79,127,44"/>
-<area shape="rect" id="Node000003" href="$csrmat_8hpp.html" title=" " alt="" coords="87,152,173,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="133,118,133,152,127,152,127,118"/>
-<area shape="rect" id="Node000004" href="$lodmat_8hpp.html" title=" " alt="" coords="5,225,92,251"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="108,115,91,133,76,153,61,192,53,226,48,224,56,190,72,151,87,130,104,112"/>
-<area shape="rect" id="Node000006" href="$printer_8hpp.html" title=" " alt="" coords="198,152,281,177"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="160,109,223,150,220,154,158,114"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="108,188,64,227,60,223,105,184"/>
-<area shape="rect" id="Node000005" href="$sparse__matrix__solver_8hpp.html" title=" " alt="" coords="117,225,287,251"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="154,185,192,223,188,227,150,189"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="87,5,166,31"/>
+<area shape="rect" id="Node000002" href="$densemat_8hpp.html" title=" " alt="" coords="5,79,109,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,43,70,80,67,77,104,39"/>
+<area shape="rect" id="Node000003" href="$i__sparse__mat_8hpp.html" title=" " alt="" coords="133,79,259,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,39,187,77,183,80,146,43"/>
+<area shape="rect" id="Node000004" href="$csrmat_8hpp.html" title=" " alt="" coords="153,152,239,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="199,118,199,152,193,152,193,118"/>
+<area shape="rect" id="Node000005" href="$lodmat_8hpp.html" title=" " alt="" coords="71,225,158,251"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="174,115,157,133,142,153,127,192,119,226,114,224,122,190,138,151,153,130,170,112"/>
+<area shape="rect" id="Node000007" href="$printer_8hpp.html" title=" " alt="" coords="264,152,347,177"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="226,109,289,150,286,154,224,114"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="174,188,130,227,126,223,171,184"/>
+<area shape="rect" id="Node000006" href="$sparse__matrix__solver_8hpp.html" title=" " alt="" coords="183,225,353,251"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="220,185,258,223,254,227,216,189"/>
 </map>

@@ -12,6 +12,8 @@ var classcfd_1_1Grid1D =
     [ "point", "classcfd_1_1Grid1D.html#a41f8f3e83dacb8cad2df87b9155a82b3", null ],
     [ "points", "classcfd_1_1Grid1D.html#aa90ba93cb9ea8d3cd17e128a4543de08", null ],
     [ "save_vtk", "classcfd_1_1Grid1D.html#a82eb53eb7bd65dc3af6124203d8380f8", null ],
+    [ "tab_cell_face", "classcfd_1_1Grid1D.html#a7f1594c4677b8c9b7b42a11f8ef0cb22", null ],
     [ "tab_cell_point", "classcfd_1_1Grid1D.html#a331eea95024ac45fe2a910b251baaa4c", null ],
-    [ "tab_face_cell", "classcfd_1_1Grid1D.html#af6987be70ed5c14c0a51d47029c36af0", null ]
+    [ "tab_face_cell", "classcfd_1_1Grid1D.html#af6987be70ed5c14c0a51d47029c36af0", null ],
+    [ "tab_face_point", "classcfd_1_1Grid1D.html#ae18516cfbc45907c4edbe78636667cea", null ]
 ];

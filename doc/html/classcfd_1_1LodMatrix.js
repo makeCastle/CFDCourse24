@@ -3,6 +3,8 @@ var classcfd_1_1LodMatrix =
     [ "LodMatrix", "classcfd_1_1LodMatrix.html#a6ec2d72892698f2045d9fef03cfd852a", null ],
     [ "add_value", "classcfd_1_1LodMatrix.html#a6032a06bac8abbbcaf2a051706202373", null ],
     [ "is_in_stencil", "classcfd_1_1LodMatrix.html#a0e31974a4c23509c38e72249c1f20efb", null ],
+    [ "mult_vec", "classcfd_1_1LodMatrix.html#a02d0e9d976b1f33a362b9951b1cd44c0", null ],
+    [ "mult_vec", "classcfd_1_1LodMatrix.html#a3ca27f86d192a9d852f3f51e4f65a58f", null ],
     [ "n_nonzeros", "classcfd_1_1LodMatrix.html#ae87f22d5cf4e2127ee81e0e05c9cb730", null ],
     [ "n_rows", "classcfd_1_1LodMatrix.html#a5cf0d2ebc808c3f680c1bcb1ec990d07", null ],
     [ "remove_row", "classcfd_1_1LodMatrix.html#abd6ca675eb22b1013fdbd0dc9b680826", null ],

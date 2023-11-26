@@ -52,10 +52,10 @@ private:
 	std::vector<double> _rhs_u;
 	std::vector<double> _rhs_v;
 
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_u;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_v;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_p;
-	std::shared_ptr<VtkUtils::TimeDependentWriter> _writer_all;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_u;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_v;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_p;
+	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer_all;
 
 	void assemble_p_stroke_solver();
 	void assemble_u_slae();
@@ -91,11 +91,11 @@ Cavern2DSimpleWorker::Cavern2DSimpleWorker(double Re, size_t n_cells, double tau
 }
 
 void Cavern2DSimpleWorker::initialize_saver(bool save_exact_fields, std::string stem){
-	_writer_all.reset(new VtkUtils::TimeDependentWriter(stem));
+	_writer_all.reset(new VtkUtils::TimeSeriesWriter(stem));
 	if (save_exact_fields){
-		_writer_u.reset(new VtkUtils::TimeDependentWriter(stem + "-u"));
-		_writer_v.reset(new VtkUtils::TimeDependentWriter(stem + "-v"));
-		_writer_p.reset(new VtkUtils::TimeDependentWriter(stem + "-p"));
+		_writer_u.reset(new VtkUtils::TimeSeriesWriter(stem + "-u"));
+		_writer_v.reset(new VtkUtils::TimeSeriesWriter(stem + "-v"));
+		_writer_p.reset(new VtkUtils::TimeSeriesWriter(stem + "-p"));
 	}
 };
 
@@ -211,6 +211,7 @@ void Cavern2DSimpleWorker::assemble_u_slae(){
 			// ghost index => bottom boundary condition: u = 0
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]+1);
 			mat.add_value(row_index, ind1, -value);
+			_rhs_u[row_index] -= 2.0*value;
 		} else {
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]);
 			mat.add_value(row_index, ind1, value);

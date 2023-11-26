@@ -70,7 +70,7 @@ public:
 	 *
 	 * @return result of the multiplication for the given row
 	 */
-	double mult_vec(size_t irow, const std::vector<double>& u) const;
+	double mult_vec(size_t irow, const std::vector<double>& u) const override;
 
 	// overrides
 	void validate() const override;

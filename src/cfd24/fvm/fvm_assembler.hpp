@@ -11,26 +11,30 @@ namespace cfd{
 ///////////////////////////////////////////////////////////////////////////////
 
 struct FvmExtendedCollocations{
+public:
 	FvmExtendedCollocations(const IGrid& grid);
 
 	std::vector<Point> points;
+	std::vector<size_t> cell_collocations;
+	std::vector<size_t> face_collocations;
 
+	/// number of collocations
 	size_t size() const;
 
-	struct FaceConnect{
-		size_t negative_side;
-		size_t positive_side;
-	};
-	std::vector<FaceConnect> tab_face_colloc;
+	/// index of a cell for the given collocation. Throws if icolloc is not a cell collocation
+	size_t cell_index(size_t icolloc) const;
 
-	struct IndexConnect{
-		size_t colloc_index;
-		size_t grid_index;
-	};
-	std::vector<IndexConnect> cell_collocations;
-	std::vector<IndexConnect> face_collocations;
+	/// index of a face for the given collocation. Throws if icolloc is not a face collocation
+	size_t face_index(size_t icolloc) const;
+	
+	std::array<size_t, 2> tab_face_colloc(size_t iface) const;
 
-	std::vector<std::vector<size_t>> tab_colloc_colloc;
+	std::vector<size_t> tab_colloc_colloc(size_t icolloc) const;
+
+private:
+	std::vector<std::array<size_t, 2>> _tab_face_colloc;
+	std::vector<std::vector<size_t>> _tab_colloc_colloc;
+	std::vector<size_t> _face_indices;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,10 +50,24 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// DuDn on faces
+// DfDn on faces
 ///////////////////////////////////////////////////////////////////////////////
 
-LodMatrix assemble_fvm_faces_dudn(const IGrid& grid, const FvmExtendedCollocations& colloc);
+/// DfDn on faces computer
+struct FvmFacesDn{
+	FvmFacesDn(const IGrid& grid, const FvmExtendedCollocations& colloc);
+
+	/// computes dfdn for each grid face
+	std::vector<double> compute(const std::vector<double>& f) const;
+
+	/// computes dfdn for the given grid face
+	double compute(size_t iface, const std::vector<double>& f) const;
+
+	/// returns dfdn as a linear combination of collocation values
+	const std::map<size_t, double>& linear_combination(size_t iface) const;
+private:
+	LodMatrix _dfdn;
+};
 
 }
 #endif

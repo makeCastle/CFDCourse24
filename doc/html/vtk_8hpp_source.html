@@ -124,8 +124,8 @@ $(document).ready(function(){initNavTree('vtk_8hpp_source.html',''); initResizab
   <div class="headertitle"><div class="title">vtk.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="vtk_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CFD24_GEOM_VTK_HPP</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CFD24_GEOM_VTK_HPP</span></div>
+<a href="vtk_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef __CFD24_GEOM_VTK_HPP__</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define __CFD24_GEOM_VTK_HPP__</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="i__grid_8hpp.html">cfd24/grid/i_grid.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;fstream&gt;</span></div>
@@ -145,119 +145,184 @@ $(document).ready(function(){initNavTree('vtk_8hpp_source.html',''); initResizab
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"></span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">    /**</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">     * @brief adds cell data to saved vtk grid</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">     * @param fname file name of saved vtk grid</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a8ee8e51f34b9bca24c4991cf99e7ffab">   25</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a8ee8e51f34b9bca24c4991cf99e7ffab">add_cell_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data, std::string data_cap, std::string fname);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"></span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">     * @brief adds cell data to a stream</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">     * @param s an opened stream</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">     * @note this method do not paste header of cell data section</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * and don&#39;t care that insertion will be done into correct place</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a7725cf825e231f8ecb5ce7a945af6ec3">   37</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a7725cf825e231f8ecb5ce7a945af6ec3">add_cell_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data, std::string data_cap, std::ostream&amp; s);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment"></span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">     * @brief froms and saves header of cell data section</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">     * @param data_size data size which equals cells number</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">     * @param s an opened stream</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a7082f41dd0aa4b847652f69f9988ba9d">   45</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a7082f41dd0aa4b847652f69f9988ba9d">append_cell_data_header</a>(<span class="keywordtype">size_t</span> data_size, std::ostream&amp; s);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment"></span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">     * @brief adds vertex data to saved vtk file</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">     * @param fname saved vtk file name</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a266e1e09ba59ef7307dbbc86fe28368a">   53</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a266e1e09ba59ef7307dbbc86fe28368a">add_point_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                               std::string data_cap,</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                               std::string fname);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">     * @param data      data vector</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">     * @param fname     file name of saved vtk grid</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">     * @param ndata     length of data vector. If =0 uses data.size() as its length</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#aa182329bbcf29df184f1009696be7601">   26</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#aa182329bbcf29df184f1009696be7601">add_cell_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                              std::string data_cap,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                              std::string fname,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                              <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"></span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">     * @brief adds cell vector data to saved vtk file</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">     * @param data      data vector</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     * @param ndata     length of data vector. If =0 uses data.size() as its length</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a47e56944a2a2384d3d54d516813aaca2">   38</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a47e56944a2a2384d3d54d516813aaca2">add_cell_vector</a>(<span class="keyword">const</span> std::vector&lt;Vector&gt;&amp; data,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                                std::string data_cap,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                                std::string fname,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                                <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment"></span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">     * @brief adds 2d cell vector data to saved vtk file</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">     * @param ux        vector x coordinates</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">     * @param uy        vector y coordinates</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">     * @param ndata     length of data vector. If =0 uses ux.size() as its length</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a39b4d74b57e544577ac32087912b5b35">   51</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a39b4d74b57e544577ac32087912b5b35">add_cell_vector</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; ux,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uy,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                std::string data_cap,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                                std::string fname,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                                <span class="keywordtype">size_t</span> ndata=0);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment"></span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">     * @brief adds vertex data to a stream</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">     * @param s an opened stream</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">     * @note this method do not paste header of point data section</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">     *       and don&#39;t care that insertion will be done into correct place</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#adf952c6d7fdcae552ef05fa3798890ca">   67</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#adf952c6d7fdcae552ef05fa3798890ca">add_point_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                   std::string data_cap,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                   std::ostream&amp; s);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment"></span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">     * @brief adds vertex vector data to saved vtk file</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">     * @param fname saved vtk file name</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a5e9e8ba93041c8270702f8074d9fb0b4">   77</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a5e9e8ba93041c8270702f8074d9fb0b4">add_point_vector</a>(<span class="keyword">const</span> std::vector&lt;Vector&gt;&amp; data,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                                 std::string data_cap,</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                                 std::string fname);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment"></span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">     * @brief adds vertex vector data to saved vtk file</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="comment">     * @param data data vector</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment">     * @param data_cap data caption as it should appear in vtk</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">     * @param s an opened stream</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a6154942f96ba029d05bd9362f238dbc7">   87</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a6154942f96ba029d05bd9362f238dbc7">add_point_vector</a>(<span class="keyword">const</span> std::vector&lt;Vector&gt;&amp; data,</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                 std::string data_cap,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                 std::ostream&amp; s);</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment"></span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">     * @brief froms and saves header of point data section</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">     * @param data_size data size which equals points number</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment">     * @param s an opened stream</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">     */</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a01cae61c8f4670791c41a08858f132c1">   98</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a01cae61c8f4670791c41a08858f132c1">append_point_data_header</a>(<span class="keywordtype">size_t</span> data_size, std::ostream&amp; s);</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="foldopen" id="foldopen00100" data-start="{" data-end="};">
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html">  100</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html">TimeDependentWriter</a>{</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a55457b627a080d7c08c118fc91dc2a56">  102</a></span>        <a class="code hl_function" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a55457b627a080d7c08c118fc91dc2a56">TimeDependentWriter</a>(std::string stem);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a422c269f6d4168aa04faa50449adbde8">  103</a></span>        std::string <a class="code hl_function" href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a422c269f6d4168aa04faa50449adbde8">add</a>(<span class="keywordtype">double</span> tm);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">const</span> std::string _stem;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keyword">const</span> std::string _series_fn;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        std::string _fileslist;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordtype">void</span> save_series() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    };</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">     * @brief adds 3d cell vector data to saved vtk file</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">     * @param ux        vector x coordinates</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">     * @param uy        vector y coordinates</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">     * @param uz        vector z coordinates</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">     * @param ndata     length of data vector. If =0 uses ux.size() as its length</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a219cf8a95e8550da3282b02f5cf66040">   66</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a219cf8a95e8550da3282b02f5cf66040">add_cell_vector</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; ux,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                                <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uy,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uz,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                std::string data_cap,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                                std::string fname,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                                <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment"></span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">     * @brief adds vertex data to the saved vtk file</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">     * @param data      data vector</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">     * @param ndata     length of data vector. If =0 uses data.size() as its length</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a38c1e68c53118e3196f1b2ab6430090a">   80</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a38c1e68c53118e3196f1b2ab6430090a">add_point_data</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                               std::string data_cap,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                               std::string fname,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                               <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment"></span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">     * @brief adds vertex vector data to saved vtk file</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">     * @param data      data vector</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">     * @param ndata     length of data vector. If =0 uses data.size() as its length</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a8d00517171447dd8a550a571ed1d9a7d">   92</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a8d00517171447dd8a550a571ed1d9a7d">add_point_vector</a>(<span class="keyword">const</span> std::vector&lt;Vector&gt;&amp; data,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                 std::string data_cap,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                                 std::string fname,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                                 <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment"></span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment">     * @brief adds 2d point vector data to saved vtk file</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">     * @param ux        vector x coordinates</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">     * @param uy        vector y coordinates</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">     * @param ndata     length of data vector. If =0 uses ux.size() as its length</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a9b800b70b37d6d68e56832cd4f59abe6">  105</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a9b800b70b37d6d68e56832cd4f59abe6">add_point_vector</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; ux,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                                 <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uy,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                                 std::string data_cap,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                                 std::string fname,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                                 <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="comment"></span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">     * @brief adds 3d point vector data to saved vtk file</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">     * @param ux        vector x coordinates</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">     * @param uy        vector y coordinates</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">     * @param uz        vector z coordinates</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">     * @param data_cap  data caption as it should appear in vtk</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">     * @param fname     saved vtk file name</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="comment">     * @param ndata     length of data vector. If =0 uses ux.size() as its length</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="structcfd_1_1VtkUtils.html#a7f99889df5b8cb8a7ab45b88da06db6c">  120</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="structcfd_1_1VtkUtils.html#a7f99889df5b8cb8a7ab45b88da06db6c">add_point_vector</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; ux,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                                 <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uy,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                                 <span class="keyword">const</span> std::vector&lt;double&gt;&amp; uz,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                                 std::string data_cap,</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                                 std::string fname,</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                                 <span class="keywordtype">size_t</span> ndata=0);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment"></span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">     * @brief Writes data for increasing time points into the .vtk.series file</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">     */</span></div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="};">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html">  130</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html">TimeSeriesWriter</a>{</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keyword">public</span>:<span class="comment"></span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment">        /**</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">         * @brief constructor</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment">         * @param stem file name stem</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment">         *</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment">         * This creates the series file named &quot;&lt;stem&gt;.vtk.series&quot;.</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment">         * Vtk files with instant data will be saved into the &quot;&lt;stem&gt;&quot; directory.</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment">         * If this directory already exists it will be purged.</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">         */</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a2c2cb1b5a739ac541131ab88af6f1511">  140</a></span>        <a class="code hl_function" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a2c2cb1b5a739ac541131ab88af6f1511">TimeSeriesWriter</a>(std::string stem);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment"></span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment">        /**</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">         * @brief adds new time point to the series file</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">         * @param   tm time point value</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment">         * @returns file name in &lt;stem&gt; directory or empty string if the given time point is</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">         *          not valid for save due to the time step condition</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">         *</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">         * This function only makes a record in the series file but does not create vtk file with</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">         * instant data in the &quot;&lt;stem&gt;&quot; directory. The latter should be done manually using</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">         * the returned filename.</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">         */</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a7cbb22fad30dced5e6d32e1cfbd8b4c0">  152</a></span>        std::string <a class="code hl_function" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a7cbb22fad30dced5e6d32e1cfbd8b4c0">add</a>(<span class="keywordtype">double</span> tm);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment"></span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="comment">        /**</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="comment">         * @breif set saving time step</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="comment">         * @param tm_step step value</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="comment">         *</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">         * Default step value is zero, that will make saving for each time point.</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="comment">         * If non zero value is set as a step then time save points will be calculated </span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="comment">         * only a single time point will be chosen for [N*tm_step-eps, (N+1)*tm_step] time period.</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="comment">         * TimeDependentWriter::add() calls with ignored time points will return empty strings.</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="comment">         */</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a5563992be445f89ffa4a76a4a68680ff">  163</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a5563992be445f89ffa4a76a4a68680ff">set_time_step</a>(<span class="keywordtype">double</span> tm_step, <span class="keywordtype">double</span> eps = 1e-6);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keyword">const</span> std::string _stem;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keyword">const</span> std::string _series_fn;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        std::string _fileslist;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordtype">double</span> _step = 0;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordtype">double</span> _step_eps = 0;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keywordtype">int</span> _last_saved_point = -1;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordtype">void</span> save_series() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordtype">int</span> get_time_point_index(<span class="keywordtype">double</span> tm) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    };</div>
 </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>};</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>};</div>
 </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeDependentWriter_html"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html">cfd::VtkUtils::TimeDependentWriter</a></div><div class="ttdef"><b>Definition</b> <a href="vtk_8hpp_source.html#l00100">vtk.hpp:100</a></div></div>
-<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeDependentWriter_html_a422c269f6d4168aa04faa50449adbde8"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a422c269f6d4168aa04faa50449adbde8">cfd::VtkUtils::TimeDependentWriter::add</a></div><div class="ttdeci">std::string add(double tm)</div></div>
-<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeDependentWriter_html_a55457b627a080d7c08c118fc91dc2a56"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeDependentWriter.html#a55457b627a080d7c08c118fc91dc2a56">cfd::VtkUtils::TimeDependentWriter::TimeDependentWriter</a></div><div class="ttdeci">TimeDependentWriter(std::string stem)</div></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeSeriesWriter_html"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html">cfd::VtkUtils::TimeSeriesWriter</a></div><div class="ttdoc">Writes data for increasing time points into the .vtk.series file.</div><div class="ttdef"><b>Definition</b> <a href="vtk_8hpp_source.html#l00130">vtk.hpp:130</a></div></div>
+<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeSeriesWriter_html_a2c2cb1b5a739ac541131ab88af6f1511"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a2c2cb1b5a739ac541131ab88af6f1511">cfd::VtkUtils::TimeSeriesWriter::TimeSeriesWriter</a></div><div class="ttdeci">TimeSeriesWriter(std::string stem)</div><div class="ttdoc">constructor</div></div>
+<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeSeriesWriter_html_a5563992be445f89ffa4a76a4a68680ff"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a5563992be445f89ffa4a76a4a68680ff">cfd::VtkUtils::TimeSeriesWriter::set_time_step</a></div><div class="ttdeci">void set_time_step(double tm_step, double eps=1e-6)</div></div>
+<div class="ttc" id="aclasscfd_1_1VtkUtils_1_1TimeSeriesWriter_html_a7cbb22fad30dced5e6d32e1cfbd8b4c0"><div class="ttname"><a href="classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html#a7cbb22fad30dced5e6d32e1cfbd8b4c0">cfd::VtkUtils::TimeSeriesWriter::add</a></div><div class="ttdeci">std::string add(double tm)</div><div class="ttdoc">adds new time point to the series file</div></div>
 <div class="ttc" id="ai__grid_8hpp_html"><div class="ttname"><a href="i__grid_8hpp.html">i_grid.hpp</a></div></div>
 <div class="ttc" id="anamespacecfd_html"><div class="ttname"><a href="namespacecfd.html">cfd</a></div><div class="ttdef"><b>Definition</b> <a href="cfd24_8hpp_source.html#l00007">cfd24.hpp:7</a></div></div>
 <div class="ttc" id="astructcfd_1_1VtkUtils_html"><div class="ttname"><a href="structcfd_1_1VtkUtils.html">cfd::VtkUtils</a></div><div class="ttdoc">Collection of vtk-writer utilities.</div><div class="ttdef"><b>Definition</b> <a href="vtk_8hpp_source.html#l00012">vtk.hpp:12</a></div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a01cae61c8f4670791c41a08858f132c1"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a01cae61c8f4670791c41a08858f132c1">cfd::VtkUtils::append_point_data_header</a></div><div class="ttdeci">static void append_point_data_header(size_t data_size, std::ostream &amp;s)</div><div class="ttdoc">froms and saves header of point data section</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a266e1e09ba59ef7307dbbc86fe28368a"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a266e1e09ba59ef7307dbbc86fe28368a">cfd::VtkUtils::add_point_data</a></div><div class="ttdeci">static void add_point_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname)</div><div class="ttdoc">adds vertex data to saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a219cf8a95e8550da3282b02f5cf66040"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a219cf8a95e8550da3282b02f5cf66040">cfd::VtkUtils::add_cell_vector</a></div><div class="ttdeci">static void add_cell_vector(const std::vector&lt; double &gt; &amp;ux, const std::vector&lt; double &gt; &amp;uy, const std::vector&lt; double &gt; &amp;uz, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds 3d cell vector data to saved vtk file</div></div>
 <div class="ttc" id="astructcfd_1_1VtkUtils_html_a295c4e83c042e2ff53a4a773c187a6ee"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a295c4e83c042e2ff53a4a773c187a6ee">cfd::VtkUtils::append_header</a></div><div class="ttdeci">static void append_header(std::string caption, std::ostream &amp;fs)</div><div class="ttdoc">adds vtk caption</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a5e9e8ba93041c8270702f8074d9fb0b4"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a5e9e8ba93041c8270702f8074d9fb0b4">cfd::VtkUtils::add_point_vector</a></div><div class="ttdeci">static void add_point_vector(const std::vector&lt; Vector &gt; &amp;data, std::string data_cap, std::string fname)</div><div class="ttdoc">adds vertex vector data to saved vtk file</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a6154942f96ba029d05bd9362f238dbc7"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a6154942f96ba029d05bd9362f238dbc7">cfd::VtkUtils::add_point_vector</a></div><div class="ttdeci">static void add_point_vector(const std::vector&lt; Vector &gt; &amp;data, std::string data_cap, std::ostream &amp;s)</div><div class="ttdoc">adds vertex vector data to saved vtk file</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a7082f41dd0aa4b847652f69f9988ba9d"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a7082f41dd0aa4b847652f69f9988ba9d">cfd::VtkUtils::append_cell_data_header</a></div><div class="ttdeci">static void append_cell_data_header(size_t data_size, std::ostream &amp;s)</div><div class="ttdoc">froms and saves header of cell data section</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a7725cf825e231f8ecb5ce7a945af6ec3"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a7725cf825e231f8ecb5ce7a945af6ec3">cfd::VtkUtils::add_cell_data</a></div><div class="ttdeci">static void add_cell_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::ostream &amp;s)</div><div class="ttdoc">adds cell data to a stream</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a38c1e68c53118e3196f1b2ab6430090a"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a38c1e68c53118e3196f1b2ab6430090a">cfd::VtkUtils::add_point_data</a></div><div class="ttdeci">static void add_point_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds vertex data to the saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a39b4d74b57e544577ac32087912b5b35"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a39b4d74b57e544577ac32087912b5b35">cfd::VtkUtils::add_cell_vector</a></div><div class="ttdeci">static void add_cell_vector(const std::vector&lt; double &gt; &amp;ux, const std::vector&lt; double &gt; &amp;uy, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds 2d cell vector data to saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a47e56944a2a2384d3d54d516813aaca2"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a47e56944a2a2384d3d54d516813aaca2">cfd::VtkUtils::add_cell_vector</a></div><div class="ttdeci">static void add_cell_vector(const std::vector&lt; Vector &gt; &amp;data, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds cell vector data to saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a7f99889df5b8cb8a7ab45b88da06db6c"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a7f99889df5b8cb8a7ab45b88da06db6c">cfd::VtkUtils::add_point_vector</a></div><div class="ttdeci">static void add_point_vector(const std::vector&lt; double &gt; &amp;ux, const std::vector&lt; double &gt; &amp;uy, const std::vector&lt; double &gt; &amp;uz, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds 3d point vector data to saved vtk file</div></div>
 <div class="ttc" id="astructcfd_1_1VtkUtils_html_a896ad169e213a445c7e7c9a1d4411745"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a896ad169e213a445c7e7c9a1d4411745">cfd::VtkUtils::append_points</a></div><div class="ttdeci">static void append_points(const std::vector&lt; Point &gt; &amp;points, std::ostream &amp;fs)</div><div class="ttdoc">adds point list</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_a8ee8e51f34b9bca24c4991cf99e7ffab"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a8ee8e51f34b9bca24c4991cf99e7ffab">cfd::VtkUtils::add_cell_data</a></div><div class="ttdeci">static void add_cell_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname)</div><div class="ttdoc">adds cell data to saved vtk grid</div></div>
-<div class="ttc" id="astructcfd_1_1VtkUtils_html_adf952c6d7fdcae552ef05fa3798890ca"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#adf952c6d7fdcae552ef05fa3798890ca">cfd::VtkUtils::add_point_data</a></div><div class="ttdeci">static void add_point_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::ostream &amp;s)</div><div class="ttdoc">adds vertex data to a stream</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a8d00517171447dd8a550a571ed1d9a7d"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a8d00517171447dd8a550a571ed1d9a7d">cfd::VtkUtils::add_point_vector</a></div><div class="ttdeci">static void add_point_vector(const std::vector&lt; Vector &gt; &amp;data, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds vertex vector data to saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_a9b800b70b37d6d68e56832cd4f59abe6"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#a9b800b70b37d6d68e56832cd4f59abe6">cfd::VtkUtils::add_point_vector</a></div><div class="ttdeci">static void add_point_vector(const std::vector&lt; double &gt; &amp;ux, const std::vector&lt; double &gt; &amp;uy, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds 2d point vector data to saved vtk file</div></div>
+<div class="ttc" id="astructcfd_1_1VtkUtils_html_aa182329bbcf29df184f1009696be7601"><div class="ttname"><a href="structcfd_1_1VtkUtils.html#aa182329bbcf29df184f1009696be7601">cfd::VtkUtils::add_cell_data</a></div><div class="ttdeci">static void add_cell_data(const std::vector&lt; double &gt; &amp;data, std::string data_cap, std::string fname, size_t ndata=0)</div><div class="ttdoc">adds cell data to saved vtk grid</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

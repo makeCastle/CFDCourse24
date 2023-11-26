@@ -15,6 +15,7 @@ set (SRC
 	grid/unstructured_grid2d.cpp
 
 	fvm/fvm_assembler.cpp
+	fvm/fvm_dpdn_boundary.cpp
 
 	debug/printer.cpp
 	debug/saver.cpp
@@ -44,6 +45,7 @@ set (HEADERS
 	grid/unstructured_grid2d.hpp
 
 	fvm/fvm_assembler.hpp
+	fvm/fvm_dpdn_boundary.hpp
 
 	debug/printer.hpp
 	debug/saver.hpp

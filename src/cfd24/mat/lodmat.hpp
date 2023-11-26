@@ -84,6 +84,7 @@ public:
 	size_t n_nonzeros() const override;
 	bool is_in_stencil(size_t irow, size_t icol) const override;
 	std::vector<double> mult_vec(const std::vector<double>& u) const override;
+	double mult_vec(size_t irow, const std::vector<double>& u) const override;
 private:
 	std::vector<std::map<size_t, double>> _data;
 };
