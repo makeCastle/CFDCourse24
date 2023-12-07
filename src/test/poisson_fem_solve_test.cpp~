@@ -1,0 +1,259 @@
+#include "cfd24_test.hpp"
+#include "test/utils/filesystem.hpp"
+#include "cfd24/grid/unstructured_grid2d.hpp"
+#include "cfd24/grid/grid1d.hpp"
+#include "cfd24/mat/csrmat.hpp"
+#include "cfd24/mat/sparse_matrix_solver.hpp"
+#include "cfd24/fem/fem_assembler.hpp"
+#include "cfd24/fem/elem2d/triangle_linear.hpp"
+#include "cfd24/fem/elem1d/segment_linear.hpp"
+#include "cfd24/grid/vtk.hpp"
+#include "cfd24/debug/printer.hpp"
+
+using namespace cfd;
+
+///////////////////////////////////////////////////////////////////////////////
+// ITestPoissonFemWorker
+///////////////////////////////////////////////////////////////////////////////
+struct ITestPoissonFemWorker{
+	virtual double exact_solution(Point p) const = 0;
+	virtual Point exact_gradient(Point p) const = 0;
+	virtual double exact_rhs(Point p) const = 0;
+
+	ITestPoissonFemWorker(const IGrid& grid, FemAssembler fem);
+	double solve();
+	void save_vtk(const std::string& filename) const;
+
+	static FemAssembler build_fem(const IGrid& grid);
+private:
+	const IGrid& _grid;
+	FemAssembler _fem;
+	std::vector<size_t> _dirichlet_faces;
+	std::vector<size_t> _neumann_faces;
+	std::vector<double> _u;
+
+	CsrMatrix approximate_lhs() const;
+	std::vector<double> approximate_rhs() const;
+	double compute_norm2() const;
+};
+
+ITestPoissonFemWorker::ITestPoissonFemWorker(const IGrid& grid, FemAssembler fem): _grid(grid), _fem(fem){
+	_dirichlet_faces = _grid.boundary_faces();
+}
+
+double ITestPoissonFemWorker::solve(){
+	// 1. build SLAE
+	CsrMatrix mat = approximate_lhs();
+	std::vector<double> rhs = approximate_rhs();
+	// 2. solve SLAE
+	AmgcMatrixSolver solver;
+	solver.set_matrix(mat);
+	solver.solve(rhs, _u);
+	// 3. compute norm2
+	return compute_norm2();
+}
+
+void ITestPoissonFemWorker::save_vtk(const std::string& filename) const{
+	// save grid
+	_grid.save_vtk(filename);
+	// save numerical solution
+	VtkUtils::add_point_data(_u, "numerical", filename);
+	// save exact solution
+	std::vector<double> exact(_grid.n_points());
+	for (size_t i=0; i<_grid.n_points(); ++i){
+		exact[i] = exact_solution(_grid.point(i));
+	}
+	VtkUtils::add_point_data(exact, "exact", filename);
+}
+
+CsrMatrix ITestPoissonFemWorker::approximate_lhs() const{
+	CsrMatrix ret(_fem.stencil());
+	// internal
+	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+		const IElement* elem = _fem.element(ielem);
+		std::vector<double> local_stiff = elem->stiff_matrix();
+		_fem.add_to_global_matrix(ielem, local_stiff, ret.vals());
+	}
+	// boundary dirichlet
+	for (size_t iface: _dirichlet_faces){
+		for (size_t ibas: _fem.tab_face_nodal_bases(iface)){
+			ret.set_unit_row(ibas);
+		}
+	}
+	return ret;
+}
+
+std::vector<double> ITestPoissonFemWorker::approximate_rhs() const{
+	// mass matrix
+	CsrMatrix mass(_fem.stencil());
+	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+		const IElement* elem = _fem.element(ielem);
+		std::vector<double> local_mass = elem->mass_matrix();
+		_fem.add_to_global_matrix(ielem, local_mass, mass.vals());
+	}
+	// internal rhs
+	std::vector<double> fvec(_fem.n_bases());
+	for (size_t ipoint=0; ipoint < _grid.n_points(); ++ipoint){
+		fvec[ipoint] = exact_rhs(_grid.point(ipoint));
+	}
+	std::vector<double> rhs = mass.mult_vec(fvec);
+
+	// boundary neumann
+	for (size_t iface: _neumann_faces){
+		const IElement* elem;
+		size_t iface_local;
+		
+		std::vector<Point> ref_points;
+		std::vector<double> bnd_vals;
+		std::vector<double> bnd_mass = elem->boundary_mass_matrix(iface_local);
+
+		_fem.add_to_global_vector(ielem, bnd_vec, bnd_vals, rhs);
+	}
+	// boundary dirichlet
+	for (size_t iface: _dirichlet_faces){
+		for (size_t ibas: _fem.tab_face_nodal_bases(iface)){
+			Point p = _fem.basis_reference_point(ibas);
+			ret[ibas] = exact_solution(p);
+		}
+	}
+	return rhs;
+}
+
+double ITestPoissonFemWorker::compute_norm2() const{
+	std::vector<double> force_vec(_fem.n_bases(), 0);
+	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+		const IElement* elem = _fem.element(ielem);
+		std::vector<double> v = elem->load_vector();
+		_fem.add_to_global_vector(ielem, v, force_vec);
+	}
+	double integral = 0;
+	double full_area = 0;
+	for (size_t ipoint=0; ipoint<_grid.n_points(); ++ipoint){
+		double diff = _u[ipoint] - exact_solution(_grid.point(ipoint));
+		integral += force_vec[ipoint] * (diff * diff);
+		full_area += force_vec[ipoint];
+	}
+	return std::sqrt(integral/full_area);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// TestPoisson1FemWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoisson1FemWorker: public ITestPoissonFemWorker{
+	double exact_solution(Point p) const override{
+		double x = p.x();
+		return sin(10*x*x);
+	}
+	double exact_rhs(Point p) const override{
+		double x = p.x();
+		return 400*x*x*sin(10*x*x) - 20*cos(10*x*x);
+	}
+	Point exact_gradient(Point p) const override{
+		double x = p.x();
+		return Point(cos(10*x*x)*20*x);
+	};
+	static FemAssembler build_fem(const IGrid& grid);
+
+	TestPoisson1FemWorker(const IGrid& grid): ITestPoissonFemWorker(grid, build_fem(grid)){ }
+};
+
+FemAssembler TestPoisson1FemWorker::build_fem(const IGrid& grid){
+	size_t n_bases = grid.n_points();
+	std::vector<std::shared_ptr<IElement>> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis(grid.n_cells());
+
+	// elements
+	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+		std::array<Point, 2> points;
+		size_t k = 0;
+		for (size_t ipoint: grid.tab_cell_point(icell)){
+			points[k++] = grid.point(ipoint);
+			tab_elem_basis[icell].push_back(ipoint);
+		}
+		elements.emplace_back(new ElementSegmentLinear(points));
+	}
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
+TEST_CASE("Poisson-fem 1D solver, segments", "[poisson1-fem-segm]"){
+	std::cout << std::endl << "--- cfd24_test [poisson1-fem-segm] --- " << std::endl;
+	Grid1D grid(0, 1, 10);
+	TestPoisson1FemWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson1_fem.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+	CHECK(nrm == Approx(0.138156).margin(1e-6));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// TestPoisson2FemWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoisson2FemWorker: public ITestPoissonFemWorker{
+	double exact_solution(Point p) const override{
+		double x = p.x();
+		double y = p.y();
+		return cos(10*x*x)*sin(10*y) + sin(10*x*x)*cos(10*x);
+	}
+	Point exact_gradient(Point p) const override{
+		double x = p.x();
+		double y = p.y();
+		return Point(
+			-20*x*sin(10*x*x)*sin(10*y)-10*sin(10*x)*sin(10*x*x)+20*x*cos(10*x)*cos(10*x*x),
+			10*cos(10*x*x)*cos(10*y));
+	};
+	double exact_rhs(Point p) const override{
+		double x = p.x();
+		double y = p.y();
+		return (20*sin(10*x*x)+(400*x*x+100)*cos(10*x*x))*sin(10*y)
+				+(400*x*x+100)*cos(10*x)*sin(10*x*x)
+				+(400*x*sin(10*x)-20*cos(10*x))*cos(10*x*x);
+	}
+
+	static FemAssembler build_fem(const IGrid& grid);
+
+	TestPoisson2FemWorker(const IGrid& grid): ITestPoissonFemWorker(grid, build_fem(grid)){ }
+};
+
+FemAssembler TestPoisson2FemWorker::build_fem(const IGrid& grid){
+	size_t n_bases = grid.n_points();
+	std::vector<std::shared_ptr<IElement>> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis(grid.n_cells());
+
+	// elements
+	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+		std::array<Point, 3> points;
+		size_t k = 0;
+		for (size_t ipoint: grid.tab_cell_point(icell)){
+			points[k++] = grid.point(ipoint);
+			tab_elem_basis[icell].push_back(ipoint);
+		}
+		elements.emplace_back(new ElementTriangleLinear(points));
+	}
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
+TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri-dir]"){
+	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri] --- " << std::endl;
+	std::string grid_fn = test_directory_file("trigrid_500.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+	TestPoisson2FemWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fem.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
+}
+
+//TEST_CASE("Poisson-fem 2D solver, triangles, neumann", "[poisson2-fem-tri-neu]"){
+//        std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri-neu] --- " << std::endl;
+//        std::string grid_fn = test_directory_file("trigrid_500.vtk");
+//        UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+//        TestPoisson2FemWorker worker(grid);
+//        double nrm = worker.solve();
+//        worker.save_vtk("poisson2_fem.vtk");
+//        std::cout << grid.n_cells() << " " << nrm << std::endl;
+
+//        CHECK(nrm == Approx(0.0638327072).margin(1e-6));
+//}

@@ -1,5 +1,5 @@
 <map id="cfd::CsrStencil" name="cfd::CsrStencil">
-<area shape="rect" id="Node000001" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="15,272,118,357"/>
+<area shape="rect" id="Node000001" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="11,272,122,357"/>
 <area shape="rect" id="Node000004" href="$classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="15,405,118,491"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="69,371,69,405,64,405,64,371"/>
 <area shape="rect" id="Node000002" href="$classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="5,139,128,224"/>

@@ -23,6 +23,7 @@ var hierarchy =
         [ "cfd::LodMatrix", "classcfd_1_1LodMatrix.html", null ]
       ] ]
     ] ],
+    [ "cfd::JacobiMatrix", "structcfd_1_1JacobiMatrix.html", null ],
     [ "cfd::PointSearcher< Dim >", "classcfd_1_1PointSearcher.html", null ],
     [ "cfd::VtkUtils::TimeSeriesWriter", "classcfd_1_1VtkUtils_1_1TimeSeriesWriter.html", null ],
     [ "cfd::VtkUtils", "structcfd_1_1VtkUtils.html", null ]

@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "cfd24/mat/csrmat.hpp"
-#include "cfd24/geom/primitives.hpp"
+#include "cfd24/geom/point.hpp"
 
 // -> abs(m*u - rhs)
 std::vector<double> compute_residual_vec(const cfd::CsrMatrix& m, const std::vector<double>& rhs, const std::vector<double>& u);

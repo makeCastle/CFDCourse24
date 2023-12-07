@@ -2,16 +2,9 @@
 #define CFD24_GRID_I_GRID_HPP
 
 #include "cfd24/cfd_common.hpp"
-#include "cfd24/geom/primitives.hpp"
+#include "cfd24/geom/point.hpp"
 
 namespace cfd{
-
-/**
- * @brief invalid index
- *
- * Used in grid connectivity tables to define blank connection
- */
-constexpr size_t INVALID_INDEX = (size_t)-1;
 
 /**
  * @brief Any dimension grid interface
@@ -81,12 +74,26 @@ public:
 	virtual std::vector<size_t> tab_face_point(size_t iface) const = 0;
 	virtual std::vector<size_t> tab_cell_face(size_t icell) const = 0;
 
+	virtual std::vector<size_t> boundary_faces() const;
+	virtual std::vector<size_t> boundary_points() const;
+
 	/**
 	 * @brief Saves grid to vtk format
 	 *
 	 * @param fname  output filename
 	 */
 	virtual void save_vtk(std::string fname) const = 0;
+
+private:
+	struct Cache{
+		std::vector<size_t> boundary_faces;
+		std::vector<size_t> boundary_points;
+
+		void clear();
+		void need_boundary_faces(const IGrid& grid);
+		void need_boundary_points(const IGrid& grid);
+	};
+	mutable Cache _cache;
 };
 
 /**

@@ -132,7 +132,7 @@ Inheritance diagram for cfd::CsrStencil:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcfd_1_1CsrStencil__inherit__graph.png" border="0" usemap="#acfd_1_1CsrStencil_inherit__map" alt="Inheritance graph"/></div>
 <map name="acfd_1_1CsrStencil_inherit__map" id="acfd_1_1CsrStencil_inherit__map">
-<area shape="rect" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="15,272,118,357"/>
+<area shape="rect" title="&#39;Compressed sparsed row&#39; stencil" alt="" coords="11,272,122,357"/>
 <area shape="rect" href="classcfd_1_1CsrMatrix.html" title="&#39;Compressed sparsed row&#39; matrix format" alt="" coords="15,405,118,491"/>
 <area shape="poly" title=" " alt="" coords="69,371,69,405,64,405,64,371"/>
 <area shape="rect" href="classcfd_1_1ISparseMatrix.html" title="Abstract Sparse Matrix interface." alt="" coords="5,139,128,224"/>
@@ -149,6 +149,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acba664eae6d099e1911a749180164e98" id="r_acba664eae6d099e1911a749180164e98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#acba664eae6d099e1911a749180164e98">set_stencil</a> (std::vector&lt; size_t &gt; &amp;&amp;<a class="el" href="classcfd_1_1CsrStencil.html#add76eff1acef1e130f42d8eaebf736f6">addr</a>, std::vector&lt; size_t &gt; &amp;&amp;<a class="el" href="classcfd_1_1CsrStencil.html#a1ce02c6f39108e04bbf7f08d960044d3">cols</a>)</td></tr>
 <tr class="memdesc:acba664eae6d099e1911a749180164e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills CSR stencil by address and column vectors.  <br /></td></tr>
 <tr class="separator:acba664eae6d099e1911a749180164e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adebeabbb4605e9e1de658c6ae13cfc41" id="r_adebeabbb4605e9e1de658c6ae13cfc41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#adebeabbb4605e9e1de658c6ae13cfc41">set_stencil</a> (const std::vector&lt; std::set&lt; size_t &gt; &gt; &amp;stencil_set)</td></tr>
+<tr class="separator:adebeabbb4605e9e1de658c6ae13cfc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add76eff1acef1e130f42d8eaebf736f6" id="r_add76eff1acef1e130f42d8eaebf736f6"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; size_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#add76eff1acef1e130f42d8eaebf736f6">addr</a> () const</td></tr>
 <tr class="memdesc:add76eff1acef1e130f42d8eaebf736f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address array getter.  <br /></td></tr>
 <tr class="separator:add76eff1acef1e130f42d8eaebf736f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,6 +160,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a332ca785c9527bb1d72d2fa333262b73" id="r_a332ca785c9527bb1d72d2fa333262b73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#a332ca785c9527bb1d72d2fa333262b73">validate</a> () const</td></tr>
 <tr class="memdesc:a332ca785c9527bb1d72d2fa333262b73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consistency check. Throws if stencil structure is invalid.  <br /></td></tr>
 <tr class="separator:a332ca785c9527bb1d72d2fa333262b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf7702264ac73658902beb0274033715" id="r_acf7702264ac73658902beb0274033715"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#acf7702264ac73658902beb0274033715">get_address</a> (size_t irow, size_t icol) const</td></tr>
+<tr class="separator:acf7702264ac73658902beb0274033715"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdee62b85403d1bee2afaa3020280b22" id="r_abdee62b85403d1bee2afaa3020280b22"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#abdee62b85403d1bee2afaa3020280b22">n_rows</a> () const override</td></tr>
 <tr class="memdesc:abdee62b85403d1bee2afaa3020280b22"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of rows  <br /></td></tr>
 <tr class="separator:abdee62b85403d1bee2afaa3020280b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,18 +174,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afffa55eedd53c1674b7c23cf11182bae" id="r_afffa55eedd53c1674b7c23cf11182bae"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#afffa55eedd53c1674b7c23cf11182bae">value</a> (size_t irow, size_t icol) const override</td></tr>
 <tr class="memdesc:afffa55eedd53c1674b7c23cf11182bae"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets value at given address  <br /></td></tr>
 <tr class="separator:afffa55eedd53c1674b7c23cf11182bae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a140e401e5e654b0f2c7d737db06e2552" id="r_a140e401e5e654b0f2c7d737db06e2552"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#a140e401e5e654b0f2c7d737db06e2552">mult_vec</a> (const std::vector&lt; double &gt; &amp;u) const override</td></tr>
+<tr class="memdesc:a140e401e5e654b0f2c7d737db06e2552"><td class="mdescLeft">&#160;</td><td class="mdescRight">matrix-vector multiplication  <br /></td></tr>
+<tr class="separator:a140e401e5e654b0f2c7d737db06e2552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3febd1661d40b2ce360bfdd23b84ad74" id="r_a3febd1661d40b2ce360bfdd23b84ad74"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1CsrStencil.html#a3febd1661d40b2ce360bfdd23b84ad74">mult_vec</a> (size_t irow, const std::vector&lt; double &gt; &amp;u) const override</td></tr>
+<tr class="memdesc:a3febd1661d40b2ce360bfdd23b84ad74"><td class="mdescLeft">&#160;</td><td class="mdescRight">@brif matrix-vector multiplication for the specified row  <br /></td></tr>
+<tr class="separator:a3febd1661d40b2ce360bfdd23b84ad74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcfd_1_1ISparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1ISparseMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcfd_1_1ISparseMatrix.html">cfd::ISparseMatrix</a></td></tr>
 <tr class="memitem:a7be27b296a6900565765b6e642c7e7f0 inherit pub_methods_classcfd_1_1ISparseMatrix" id="r_a7be27b296a6900565765b6e642c7e7f0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0">~ISparseMatrix</a> ()=default</td></tr>
 <tr class="separator:a7be27b296a6900565765b6e642c7e7f0 inherit pub_methods_classcfd_1_1ISparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcfd_1_1IMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcfd_1_1IMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcfd_1_1IMatrix.html">cfd::IMatrix</a></td></tr>
 <tr class="memitem:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix" id="r_a0cf68abb69b5a84ad0fcabb97a90b5ca"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca">~IMatrix</a> ()=default</td></tr>
 <tr class="separator:a0cf68abb69b5a84ad0fcabb97a90b5ca inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad89bf7e8992820267b0fff370849b029 inherit pub_methods_classcfd_1_1IMatrix" id="r_ad89bf7e8992820267b0fff370849b029"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#ad89bf7e8992820267b0fff370849b029">mult_vec</a> (const std::vector&lt; double &gt; &amp;u) const =0</td></tr>
-<tr class="memdesc:ad89bf7e8992820267b0fff370849b029 inherit pub_methods_classcfd_1_1IMatrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">matrix-vector multiplication  <br /></td></tr>
-<tr class="separator:ad89bf7e8992820267b0fff370849b029 inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a128a317f0200cdd4e11dfdd65c002ea6 inherit pub_methods_classcfd_1_1IMatrix" id="r_a128a317f0200cdd4e11dfdd65c002ea6"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a128a317f0200cdd4e11dfdd65c002ea6">mult_vec</a> (size_t irow, const std::vector&lt; double &gt; &amp;u) const =0</td></tr>
-<tr class="memdesc:a128a317f0200cdd4e11dfdd65c002ea6 inherit pub_methods_classcfd_1_1IMatrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">@brif matrix-vector multiplication for the specified row  <br /></td></tr>
-<tr class="separator:a128a317f0200cdd4e11dfdd65c002ea6 inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix" id="r_a8235cb665746c6e6661e0bc980ba680f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IMatrix.html#a8235cb665746c6e6661e0bc980ba680f">diagonal</a> () const</td></tr>
 <tr class="memdesc:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes diagonal vector  <br /></td></tr>
 <tr class="separator:a8235cb665746c6e6661e0bc980ba680f inherit pub_methods_classcfd_1_1IMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,6 +259,34 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="acf7702264ac73658902beb0274033715" name="acf7702264ac73658902beb0274033715"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf7702264ac73658902beb0274033715">&#9670;&#160;</a></span>get_address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t cfd::CsrStencil::get_address </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>icol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a86a8839f126ab0a20fd395371cc5c16c" name="a86a8839f126ab0a20fd395371cc5c16c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a86a8839f126ab0a20fd395371cc5c16c">&#9670;&#160;</a></span>is_in_stencil()</h2>
 
@@ -300,6 +332,76 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if [irow, icol] is in nonzero stencil </dd></dl>
 
 <p>Implements <a class="el" href="classcfd_1_1ISparseMatrix.html#aed1534338ffab2b264f9c8cace2a0372">cfd::ISparseMatrix</a>.</p>
+
+</div>
+</div>
+<a id="a140e401e5e654b0f2c7d737db06e2552" name="a140e401e5e654b0f2c7d737db06e2552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a140e401e5e654b0f2c7d737db06e2552">&#9670;&#160;</a></span>mult_vec() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; cfd::CsrStencil::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>matrix-vector multiplication </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IMatrix.html#ad89bf7e8992820267b0fff370849b029">cfd::IMatrix</a>.</p>
+
+</div>
+</div>
+<a id="a3febd1661d40b2ce360bfdd23b84ad74" name="a3febd1661d40b2ce360bfdd23b84ad74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3febd1661d40b2ce360bfdd23b84ad74">&#9670;&#160;</a></span>mult_vec() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::CsrStencil::mult_vec </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>irow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>u</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>@brif matrix-vector multiplication for the specified row </p>
+
+<p>Implements <a class="el" href="classcfd_1_1IMatrix.html#a128a317f0200cdd4e11dfdd65c002ea6">cfd::IMatrix</a>.</p>
 
 </div>
 </div>
@@ -361,8 +463,26 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="adebeabbb4605e9e1de658c6ae13cfc41" name="adebeabbb4605e9e1de658c6ae13cfc41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adebeabbb4605e9e1de658c6ae13cfc41">&#9670;&#160;</a></span>set_stencil() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::CsrStencil::set_stencil </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::set&lt; size_t &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>stencil_set</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="acba664eae6d099e1911a749180164e98" name="acba664eae6d099e1911a749180164e98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acba664eae6d099e1911a749180164e98">&#9670;&#160;</a></span>set_stencil()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acba664eae6d099e1911a749180164e98">&#9670;&#160;</a></span>set_stencil() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

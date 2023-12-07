@@ -1,5 +1,6 @@
 var printer_8hpp =
 [
+    [ "ping_printer_cpp", "printer_8hpp.html#a81e9f6db42f8e85908815b589994afb5", null ],
     [ "print", "printer_8hpp.html#a137041b796a2b504bba0ed98ccd66a23", null ],
     [ "print", "printer_8hpp.html#ac0ea84d6b4ddd4ea730678029d5517a7", null ],
     [ "print", "printer_8hpp.html#ac9f4157be89099f496de5c71a7f62ac9", null ],

@@ -1,9 +1,11 @@
 #define CATCH_CONFIG_RUNNER
 #include "cfd24_test.hpp"
 #include "cfd24/debug/saver.hpp"
+#include "cfd24/debug/printer.hpp"
 
 TEST_CASE("Ping", "[ping]"){
 	cfd::dbg::ping_saver_cpp();
+	cfd::dbg::ping_printer_cpp();
 	CHECK(cfd::ping() == 1);
 }
 

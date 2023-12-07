@@ -12,7 +12,9 @@ var searchData=
   ['cfdcourse_9',['Порядок работы с репозиторием CFDCourse',['../howto.html#autotoc_md1',1,'']]],
   ['cmake_10',['CMake',['../howto.html#autotoc_md6',1,'']]],
   ['cols_11',['cols',['../classcfd_1_1CsrStencil.html#a1ce02c6f39108e04bbf7f08d960044d3',1,'cfd::CsrStencil']]],
-  ['csrmat_2ehpp_12',['csrmat.hpp',['../csrmat_8hpp.html',1,'']]],
-  ['csrmatrix_13',['CsrMatrix',['../classcfd_1_1CsrMatrix.html',1,'cfd']]],
-  ['csrstencil_14',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
+  ['cross_5fproduct_12',['cross_product',['../namespacecfd.html#a4d996f0423c69e74c57da9ffc0bb9f02',1,'cfd']]],
+  ['cross_5fproduct_5f2d_13',['cross_product_2d',['../namespacecfd.html#ade463badf95b937de7972124c2436e5f',1,'cfd']]],
+  ['csrmat_2ehpp_14',['csrmat.hpp',['../csrmat_8hpp.html',1,'']]],
+  ['csrmatrix_15',['csrmatrix',['../classcfd_1_1CsrMatrix.html#af5ffd3f70e8d2ffe35fb692f4dc6cbd3',1,'cfd::CsrMatrix::CsrMatrix()=default'],['../classcfd_1_1CsrMatrix.html#a22fde9ee53fcb773dfc735f88c995882',1,'cfd::CsrMatrix::CsrMatrix(const CsrStencil &amp;stencil)'],['../classcfd_1_1CsrMatrix.html',1,'cfd::CsrMatrix']]],
+  ['csrstencil_16',['CsrStencil',['../classcfd_1_1CsrStencil.html',1,'cfd']]]
 ];

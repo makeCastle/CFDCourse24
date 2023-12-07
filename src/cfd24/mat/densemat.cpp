@@ -60,6 +60,10 @@ size_t DenseMatrix::n_cols() const{
 	return _ncols;
 }
 
+const std::vector<double>& DenseMatrix::vals() const{
+	return _data;
+}
+
 size_t DenseMatrix::n_rows() const{
 	return _nrows;
 }

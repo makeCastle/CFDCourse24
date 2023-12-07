@@ -166,6 +166,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1ISparseMatrix.html">ISparseMatrix</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract Sparse Matrix interface.  <a href="classcfd_1_1ISparseMatrix.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1LodMatrix.html">LodMatrix</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">'List of dictionaries' sparse matrix format  <a href="classcfd_1_1LodMatrix.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,9 +195,33 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a46a26444edc10aa083efe9c2348f2d4f" id="r_a46a26444edc10aa083efe9c2348f2d4f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a46a26444edc10aa083efe9c2348f2d4f">ping</a> ()</td></tr>
 <tr class="separator:a46a26444edc10aa083efe9c2348f2d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6bb9de48e2e2b46cb6c8635e62795ea" id="r_ab6bb9de48e2e2b46cb6c8635e62795ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#ab6bb9de48e2e2b46cb6c8635e62795ea">fill_jacobi_modj</a> (<a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac)</td></tr>
+<tr class="separator:ab6bb9de48e2e2b46cb6c8635e62795ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad38c0bb361a7769c3f299a7b93159804" id="r_ad38c0bb361a7769c3f299a7b93159804"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#ad38c0bb361a7769c3f299a7b93159804">fill_jacobi_modj_1d</a> (<a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac)</td></tr>
+<tr class="separator:ad38c0bb361a7769c3f299a7b93159804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32cb8dfe8b9c2da2ba5af5d2c40467e3" id="r_a32cb8dfe8b9c2da2ba5af5d2c40467e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a32cb8dfe8b9c2da2ba5af5d2c40467e3">fill_jacobi_modj_2d</a> (<a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac)</td></tr>
+<tr class="separator:a32cb8dfe8b9c2da2ba5af5d2c40467e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5531229943e923ebf4d1269ca480cbe1" id="r_a5531229943e923ebf4d1269ca480cbe1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a5531229943e923ebf4d1269ca480cbe1">gradient_to_parametric</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_x)</td></tr>
+<tr class="separator:a5531229943e923ebf4d1269ca480cbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee5806bebe57c4cc70bfa531c7b29f09" id="r_aee5806bebe57c4cc70bfa531c7b29f09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#aee5806bebe57c4cc70bfa531c7b29f09">gradient_to_parametric_1d</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_x)</td></tr>
+<tr class="separator:aee5806bebe57c4cc70bfa531c7b29f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87356d5af79df84ee4f17cc20a22787a" id="r_a87356d5af79df84ee4f17cc20a22787a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a87356d5af79df84ee4f17cc20a22787a">gradient_to_parametric_2d</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_x)</td></tr>
+<tr class="separator:a87356d5af79df84ee4f17cc20a22787a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefdf8591eea37050fbbd1e449594563a" id="r_aefdf8591eea37050fbbd1e449594563a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#aefdf8591eea37050fbbd1e449594563a">gradient_to_physical</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_xi)</td></tr>
+<tr class="separator:aefdf8591eea37050fbbd1e449594563a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e646ee961c74319441d084d98210eeb" id="r_a4e646ee961c74319441d084d98210eeb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a4e646ee961c74319441d084d98210eeb">gradient_to_physical_1d</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_xi)</td></tr>
+<tr class="separator:a4e646ee961c74319441d084d98210eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ebf0550f7f87e912a03f0c64d33290f" id="r_a2ebf0550f7f87e912a03f0c64d33290f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a2ebf0550f7f87e912a03f0c64d33290f">gradient_to_physical_2d</a> (const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;jac, <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> grad_xi)</td></tr>
+<tr class="separator:a2ebf0550f7f87e912a03f0c64d33290f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f424542c1f593009304c5d57d298f7e" id="r_a2f424542c1f593009304c5d57d298f7e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a2f424542c1f593009304c5d57d298f7e">dot_product</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v1, const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v2)</td></tr>
 <tr class="memdesc:a2f424542c1f593009304c5d57d298f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">dot product of two vectors  <br /></td></tr>
 <tr class="separator:a2f424542c1f593009304c5d57d298f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d996f0423c69e74c57da9ffc0bb9f02" id="r_a4d996f0423c69e74c57da9ffc0bb9f02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a4d996f0423c69e74c57da9ffc0bb9f02">cross_product</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v1, const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v2)</td></tr>
+<tr class="memdesc:a4d996f0423c69e74c57da9ffc0bb9f02"><td class="mdescLeft">&#160;</td><td class="mdescRight">cross product of two vectors;  <br /></td></tr>
+<tr class="separator:a4d996f0423c69e74c57da9ffc0bb9f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade463badf95b937de7972124c2436e5f" id="r_ade463badf95b937de7972124c2436e5f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#ade463badf95b937de7972124c2436e5f">cross_product_2d</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v1, const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v2)</td></tr>
+<tr class="memdesc:ade463badf95b937de7972124c2436e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">z component of the vector cross product  <br /></td></tr>
+<tr class="separator:ade463badf95b937de7972124c2436e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a46ff3070a0be188c76cfd5d7e09a11" id="r_a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecfd.html#a7a46ff3070a0be188c76cfd5d7e09a11">vector_abs</a> (const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;v)</td></tr>
 <tr class="memdesc:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector length  <br /></td></tr>
 <tr class="separator:a7a46ff3070a0be188c76cfd5d7e09a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,11 +256,91 @@ Variables</h2></td></tr>
 <p>3D vector </p>
 <p>Alias to <a class="el" href="classcfd_1_1Point.html" title="3D point">cfd::Point</a>. Access to coordinate values can be achieved via operator[] or x/y/z() methods </p>
 
-<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00090">90</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00090">90</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a4d996f0423c69e74c57da9ffc0bb9f02" name="a4d996f0423c69e74c57da9ffc0bb9f02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d996f0423c69e74c57da9ffc0bb9f02">&#9670;&#160;</a></span>cross_product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::cross_product </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>cross product of two vectors; </p>
+
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00102">102</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ade463badf95b937de7972124c2436e5f" name="ade463badf95b937de7972124c2436e5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade463badf95b937de7972124c2436e5f">&#9670;&#160;</a></span>cross_product_2d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double cfd::cross_product_2d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>z component of the vector cross product </p>
+
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00112">112</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a2f424542c1f593009304c5d57d298f7e" name="a2f424542c1f593009304c5d57d298f7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2f424542c1f593009304c5d57d298f7e">&#9670;&#160;</a></span>dot_product()</h2>
 
@@ -271,7 +377,229 @@ Variables</h2></td></tr>
 
 <p>dot product of two vectors </p>
 
-<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00095">95</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00095">95</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab6bb9de48e2e2b46cb6c8635e62795ea" name="ab6bb9de48e2e2b46cb6c8635e62795ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6bb9de48e2e2b46cb6c8635e62795ea">&#9670;&#160;</a></span>fill_jacobi_modj()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::fill_jacobi_modj </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad38c0bb361a7769c3f299a7b93159804" name="ad38c0bb361a7769c3f299a7b93159804"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad38c0bb361a7769c3f299a7b93159804">&#9670;&#160;</a></span>fill_jacobi_modj_1d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::fill_jacobi_modj_1d </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32cb8dfe8b9c2da2ba5af5d2c40467e3" name="a32cb8dfe8b9c2da2ba5af5d2c40467e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32cb8dfe8b9c2da2ba5af5d2c40467e3">&#9670;&#160;</a></span>fill_jacobi_modj_2d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfd::fill_jacobi_modj_2d </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5531229943e923ebf4d1269ca480cbe1" name="a5531229943e923ebf4d1269ca480cbe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5531229943e923ebf4d1269ca480cbe1">&#9670;&#160;</a></span>gradient_to_parametric()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_parametric </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee5806bebe57c4cc70bfa531c7b29f09" name="aee5806bebe57c4cc70bfa531c7b29f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee5806bebe57c4cc70bfa531c7b29f09">&#9670;&#160;</a></span>gradient_to_parametric_1d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_parametric_1d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a87356d5af79df84ee4f17cc20a22787a" name="a87356d5af79df84ee4f17cc20a22787a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87356d5af79df84ee4f17cc20a22787a">&#9670;&#160;</a></span>gradient_to_parametric_2d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_parametric_2d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefdf8591eea37050fbbd1e449594563a" name="aefdf8591eea37050fbbd1e449594563a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefdf8591eea37050fbbd1e449594563a">&#9670;&#160;</a></span>gradient_to_physical()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_physical </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_xi</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e646ee961c74319441d084d98210eeb" name="a4e646ee961c74319441d084d98210eeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e646ee961c74319441d084d98210eeb">&#9670;&#160;</a></span>gradient_to_physical_1d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_physical_1d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_xi</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ebf0550f7f87e912a03f0c64d33290f" name="a2ebf0550f7f87e912a03f0c64d33290f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ebf0550f7f87e912a03f0c64d33290f">&#9670;&#160;</a></span>gradient_to_physical_2d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a> cfd::gradient_to_physical_2d </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcfd_1_1JacobiMatrix.html">JacobiMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>jac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecfd.html#a89f8b8312cbe2502f8834dc4c644fcf0">Vector</a>&#160;</td>
+          <td class="paramname"><em>grad_xi</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -356,7 +684,7 @@ Variables</h2></td></tr>
 
 <p>vector length </p>
 
-<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00102">102</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00119">119</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
 
 </div>
 </div>
@@ -386,7 +714,7 @@ Variables</h2></td></tr>
 
 <p>vector squared length </p>
 
-<p class="definition">Definition at line <a class="el" href="primitives_8hpp_source.html#l00109">109</a> of file <a class="el" href="primitives_8hpp_source.html">primitives.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="point_8hpp_source.html#l00126">126</a> of file <a class="el" href="point_8hpp_source.html">point.hpp</a>.</p>
 
 </div>
 </div>
@@ -414,7 +742,7 @@ Variables</h2></td></tr>
 <p>invalid index </p>
 <p>Used in grid connectivity tables to define blank connection </p>
 
-<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00014">14</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cfd__common_8hpp_source.html#l00023">23</a> of file <a class="el" href="cfd__common_8hpp_source.html">cfd_common.hpp</a>.</p>
 
 </div>
 </div>

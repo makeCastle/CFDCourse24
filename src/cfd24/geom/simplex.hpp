@@ -1,7 +1,7 @@
 #ifndef CFD_SIMPLEX_HPP
 #define CFD_SIMPLEX_HPP
 
-#include "cfd24/geom/primitives.hpp"
+#include "cfd24/geom/point.hpp"
 
 namespace cfd{
 

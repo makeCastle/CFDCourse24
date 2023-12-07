@@ -12,6 +12,7 @@ var annotated_dup =
       [ "IGrid3D", "classcfd_1_1IGrid3D.html", "classcfd_1_1IGrid3D" ],
       [ "IMatrix", "classcfd_1_1IMatrix.html", "classcfd_1_1IMatrix" ],
       [ "ISparseMatrix", "classcfd_1_1ISparseMatrix.html", "classcfd_1_1ISparseMatrix" ],
+      [ "JacobiMatrix", "structcfd_1_1JacobiMatrix.html", "structcfd_1_1JacobiMatrix" ],
       [ "LodMatrix", "classcfd_1_1LodMatrix.html", "classcfd_1_1LodMatrix" ],
       [ "Point", "classcfd_1_1Point.html", "classcfd_1_1Point" ],
       [ "PointSearcher", "classcfd_1_1PointSearcher.html", "classcfd_1_1PointSearcher" ],

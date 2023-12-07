@@ -117,6 +117,7 @@ $(document).ready(function(){initNavTree('classcfd_1_1IGrid.html',''); initResiz
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classcfd_1_1IGrid-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">cfd::IGrid Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
@@ -195,6 +196,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4e4d42bc8e891285bec01f1ab6a7c594"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae27159d88038664443a99120061c2e13" id="r_ae27159d88038664443a99120061c2e13"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#ae27159d88038664443a99120061c2e13">tab_cell_face</a> (size_t icell) const =0</td></tr>
 <tr class="separator:ae27159d88038664443a99120061c2e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f575d681294f1ab5ae84f129c81c2b" id="r_a03f575d681294f1ab5ae84f129c81c2b"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a03f575d681294f1ab5ae84f129c81c2b">boundary_faces</a> () const</td></tr>
+<tr class="separator:a03f575d681294f1ab5ae84f129c81c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a689696bca79e67e86adc5c793d340c21" id="r_a689696bca79e67e86adc5c793d340c21"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#a689696bca79e67e86adc5c793d340c21">boundary_points</a> () const</td></tr>
+<tr class="separator:a689696bca79e67e86adc5c793d340c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adac1537c5dcf351d2b212fcfe9b5bcd4" id="r_adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1IGrid.html#adac1537c5dcf351d2b212fcfe9b5bcd4">save_vtk</a> (std::string fname) const =0</td></tr>
 <tr class="memdesc:adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves grid to vtk format.  <br /></td></tr>
 <tr class="separator:adac1537c5dcf351d2b212fcfe9b5bcd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +207,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Any dimension grid interface. </p>
 
-<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00019">19</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="i__grid_8hpp_source.html#l00012">12</a> of file <a class="el" href="i__grid_8hpp_source.html">i_grid.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="add11fdadef8e13995e233ce2907c7b49" name="add11fdadef8e13995e233ce2907c7b49"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add11fdadef8e13995e233ce2907c7b49">&#9670;&#160;</a></span>~IGrid()</h2>
@@ -230,6 +235,56 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a03f575d681294f1ab5ae84f129c81c2b" name="a03f575d681294f1ab5ae84f129c81c2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03f575d681294f1ab5ae84f129c81c2b">&#9670;&#160;</a></span>boundary_faces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; size_t &gt; cfd::IGrid::boundary_faces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a689696bca79e67e86adc5c793d340c21" name="a689696bca79e67e86adc5c793d340c21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a689696bca79e67e86adc5c793d340c21">&#9670;&#160;</a></span>boundary_points()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; size_t &gt; cfd::IGrid::boundary_points </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9ac75b5894654b003c3bb143f9f64b80" name="a9ac75b5894654b003c3bb143f9f64b80"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9ac75b5894654b003c3bb143f9f64b80">&#9670;&#160;</a></span>cell_center()</h2>
 

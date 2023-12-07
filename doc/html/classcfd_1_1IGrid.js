@@ -1,6 +1,8 @@
 var classcfd_1_1IGrid =
 [
     [ "~IGrid", "classcfd_1_1IGrid.html#add11fdadef8e13995e233ce2907c7b49", null ],
+    [ "boundary_faces", "classcfd_1_1IGrid.html#a03f575d681294f1ab5ae84f129c81c2b", null ],
+    [ "boundary_points", "classcfd_1_1IGrid.html#a689696bca79e67e86adc5c793d340c21", null ],
     [ "cell_center", "classcfd_1_1IGrid.html#a9ac75b5894654b003c3bb143f9f64b80", null ],
     [ "cell_volume", "classcfd_1_1IGrid.html#a876882fe503acf95f17d78d5f9cbc7c7", null ],
     [ "dim", "classcfd_1_1IGrid.html#a90269fe849be663314ed86dc5fed5e1e", null ],

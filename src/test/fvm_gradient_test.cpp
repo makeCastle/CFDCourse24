@@ -1,5 +1,5 @@
 #include "cfd24_test.hpp"
-#include "cfd24/geom/primitives.hpp"
+#include "cfd24/geom/point.hpp"
 #include "cfd24/grid/regular_grid2d.hpp"
 #include "cfd24/grid/unstructured_grid2d.hpp"
 #include "cfd24/fvm/fvm_assembler.hpp"

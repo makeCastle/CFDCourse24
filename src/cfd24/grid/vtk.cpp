@@ -177,7 +177,7 @@ void write_point_string(std::string fname, const std::string& data, size_t ndata
 
 	// vertex data do not exist write caption
 	std::fstream f2(fname, std::ios::app);
-	if (fnd[0] == std::string::npos) append_point_data_header(data.size(), f2);
+	if (fnd[0] == std::string::npos) append_point_data_header(ndata, f2);
 	// write data
 	f2 << data;
 	f2.close();
