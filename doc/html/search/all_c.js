@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['macros_2ehpp_0',['macros.hpp',['../macros_8hpp.html',1,'']]],
-  ['main_5fpage_2emd_1',['main_page.md',['../main__page_8md.html',1,'']]],
-  ['matlab_2',['Octave/Matlab',['../howto.html#autotoc_md11',1,'']]],
-  ['mult_5fmat_3',['mult_mat',['../classcfd_1_1DenseMatrix.html#a0c4bd726fc2d6dddb7af5fac27f9a0ef',1,'cfd::DenseMatrix']]],
-  ['mult_5fvec_4',['mult_vec',['../classcfd_1_1CsrMatrix.html#a630fcc0f51d7f5c43b20a89326cd995c',1,'cfd::CsrMatrix::mult_vec(size_t irow, const std::vector&lt; double &gt; &amp;u) const override'],['../classcfd_1_1CsrMatrix.html#a2797bf04223048447a4fe5df012c0b33',1,'cfd::CsrMatrix::mult_vec(const std::vector&lt; double &gt; &amp;u) const override'],['../classcfd_1_1DenseMatrix.html#aa8096827d8d8924607a2ea2831001fd4',1,'cfd::DenseMatrix::mult_vec(const std::vector&lt; double &gt; &amp;u) const override'],['../classcfd_1_1DenseMatrix.html#aca570a80a58268182ae7e85ad5f23801',1,'cfd::DenseMatrix::mult_vec(size_t irow, const std::vector&lt; double &gt; &amp;u) const override'],['../classcfd_1_1IMatrix.html#ad89bf7e8992820267b0fff370849b029',1,'cfd::IMatrix::mult_vec(const std::vector&lt; double &gt; &amp;u) const =0'],['../classcfd_1_1IMatrix.html#a128a317f0200cdd4e11dfdd65c002ea6',1,'cfd::IMatrix::mult_vec(size_t irow, const std::vector&lt; double &gt; &amp;u) const =0'],['../classcfd_1_1LodMatrix.html#a02d0e9d976b1f33a362b9951b1cd44c0',1,'cfd::LodMatrix::mult_vec(const std::vector&lt; double &gt; &amp;u) const override'],['../classcfd_1_1LodMatrix.html#a3ca27f86d192a9d852f3f51e4f65a58f',1,'cfd::LodMatrix::mult_vec(size_t irow, const std::vector&lt; double &gt; &amp;u) const override']]]
+  ['librecalc_0',['LibreCalc',['../howto.html#autotoc_md10',1,'']]],
+  ['lodmat_2ehpp_1',['lodmat.hpp',['../lodmat_8hpp.html',1,'']]],
+  ['lodmatrix_2',['lodmatrix',['../classcfd_1_1LodMatrix.html',1,'cfd::LodMatrix'],['../classcfd_1_1LodMatrix.html#a6ec2d72892698f2045d9fef03cfd852a',1,'cfd::LodMatrix::LodMatrix()']]],
+  ['lx_3',['Lx',['../classcfd_1_1RegularGrid2D.html#a16eca6066d8d779b76a05e8b09beed98',1,'cfd::RegularGrid2D']]],
+  ['ly_4',['Ly',['../classcfd_1_1RegularGrid2D.html#a787c26166b6e4f1a12c60b804571eec3',1,'cfd::RegularGrid2D']]]
 ];

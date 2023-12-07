@@ -14,6 +14,7 @@ set (SRC
 	poisson_fvm_solve_test.cpp
 	fvm_gradient_test.cpp
 	cylinder_fvm_simple_test.cpp
+	poisson_fem_solve_test.cpp
 
 	utils/filesystem.cpp
 	utils/vecmat.cpp

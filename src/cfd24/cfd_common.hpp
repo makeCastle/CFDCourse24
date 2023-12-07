@@ -15,6 +15,13 @@
 
 namespace cfd{
 
+/**
+ * @brief invalid index
+ *
+ * Used in grid connectivity tables to define blank connection
+ */
+constexpr size_t INVALID_INDEX = (size_t)-1;
+
 }
 
 #endif

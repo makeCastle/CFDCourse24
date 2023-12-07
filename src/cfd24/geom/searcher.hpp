@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <vector>
-#include "cfd24/geom/primitives.hpp"
+#include "cfd24/geom/point.hpp"
 
 namespace cfd{
 

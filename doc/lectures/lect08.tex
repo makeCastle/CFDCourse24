@@ -21,7 +21,11 @@
 \end{figure}
 
 Проинтегрируем исходное уравнение
-по одной из подобластей. К интегралу в левой части применим формулу интегрирования по частям. Получим
+по одной из подобластей $E_i$:
+\begin{equation*}
+-\arint{\nabla^2 u}{E_i}{s} = \arint{f}{E_i}{\vec x}.
+\end{equation*}
+К интегралу в левой части применим формулу интегрирования по частям \cref{eq:partint_laplace}. Получим
 \begin{equation}
 \label{eq:fvm_pois_int}
 -\arint{\dfr{u}{n}}{\partial E_i}{s} = \arint{f}{E_i}{\vec x}.
@@ -412,14 +416,19 @@ $$
 \begin{equation}
 \label{eq:fvm_assem_f}
 \begin{array}{ll}                                         & \\
-\textbf{for } i = \overline{0,N-1}                        & \textrm{-- цикл по строкам}\\ 
-\qquad b_i \pluseq |E_i| f_i                              & \\
+\textbf{for } i = \overline{0,N-1}                        & \textrm{-- цикл по ячейкам}\\ 
+\qquad b_i = |E_i| f_i                                    & \\
 \textbf{endfor}                                           &
 \end{array}
 \end{equation}
 
-\subsection{Конечнообъёмная сетка}
+\subsection{Работа с конечнообъёмной сеткой}
 \label{sec:fvm-grid-algos}
+Конечнообъёмная сетка разбивает область решения $D$ на непересекающиеся подобласти (ячейки) $E_i$
+с плоскими гранями. Выпуклость каждой из подобластей математически не требуется,
+но желательна для качественной аппроксимации нормальных производных через грань.
+Для ячеек, узлов и граней сетки вводится нумерация. 
+
 Для реализации сборки системы линейных уравнений по 
 алгоритму \cref{eq:fvm_assem_internal,eq:fvm_assem_bc1,eq:fvm_assem_bc2,eq:fvm_assem_bc3,eq:fvm_assem_f}
 необходимо уметь вычислять следующие параметры конечнообъёмной сетки:
@@ -438,14 +447,387 @@ $$
 нормаль к грани.
 \end{itemize}
 
-\subsubsection{Определение конечнообъёмной сетки}
-TODO
-\subsubsection{Объём ячейки и площадь грани}
-TODO
-\subsubsection{Центры ячейки и грани}
-TODO
-\subsubsection{Аппроксимация значения в заданной точке}
-TODO
+\subsubsection{Двумерная сетка}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.4\linewidth]{fvm-mesh-2d.pdf}
+\caption{Двумерная конечнообъёмная сетка. Нумерация узлов (синим), ячеек (красным) и граней (чёрным)}
+\label{fig:fvm-mesh-2d}
+\end{figure}
+
+\subsubsubsection{Определение двумерной конечнообъёмной сетки}
+Подобласти представляют собой полигоны с произвольным количеством узлов.
+Для однозначного задания такой сетки достаточно таблицы с координатами узлов и таблицы, определяющей ячейки как
+последовательности узлов против часовой стрелки (таблица связности \quo{ячейка--узел}).
+Для сетки, представленной на \figref{fig:fvm-mesh-2d} эти таблицы будут иметь вид, представленный в 
+таблицах \ref{tab:fvm_tab_point}, \ref{tab:fvm_tab_cell_point}.
+\begin{table}[H]
+\begin{center}
+  \begin{minipage}[t]{.4\textwidth}
+    \begin{tabular}[t]{c|c|c}
+    Узел & X & Y \\
+    \hline
+    0 & 1 & 1 \\
+    1 & 4 & 1 \\
+    2 & 2.6 & 2.3 \\
+    3 & 1 & 4 \\
+    4 & 3 & 4 \\
+    5 & 4 & 3 \\
+    \end{tabular}
+    \caption{\label{tab:fvm_tab_point}Таблица узлов}
+  \end{minipage}%
+  \quad
+  \begin{minipage}[t]{.4\textwidth}
+    \begin{tabular}[t]{c|l}
+    Ячейка & Узлы \\
+    \hline
+    0 &  0 2 4 3\\
+    1 &  2 5 4\\
+    2 &  0 1 2\\
+    3 &  1 5 2\\
+    \end{tabular}
+    \caption{\label{tab:fvm_tab_cell_point}Таблица \quo{ячейка--узел}}
+  \end{minipage}
+\end{center}
+\end{table}
+
+\subsubsubsection{Вспомогательные таблицы связности}
+
+На основании таблицы \quo{ячейка--узел} можно собрать все присутсвующие в сетке
+грани в таблицу связности \quo{грань-узел} (см. таблицу \ref{tab:fvm_tab_face_point}).
+Направление отрезка границы здесь выбирается произвольно.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{c|c|c}
+Грань & Начальный узел & Конечный узел \\
+\hline
+0 &  0 & 1\\
+1 &  1 & 2\\
+2 &  2 & 5\\
+3 &  1 & 5\\
+4 &  4 & 5\\
+5 &  2 & 4\\
+6 &  0 & 2\\
+7 &  0 & 3\\
+8 &  3 & 4\\
+\end{tabular}
+\caption{\label{tab:fvm_tab_face_point}Таблица связности \quo{грань--узел}}
+\end{center}
+\end{table}
+
+Так же необходимо собрать таблицу связности \quo{грань-ячейка} (таблица \ref{tab:fvm_tab_face_cell}). Очевидно,
+у внутренних граней будет две соседние ячейки, а у граничных -- одна.
+При сборке этой таблицы будем учитывать направление отрезка грани. На первую
+позицию будем помещать ячейку, расположенную справа от отрезка, а на вторую -- слева.
+Первую позицию будем называть отрицательной стороной (поскольку она расположена против направления
+нормали к этой грани), а вторую -- положительной.
+Если с какой-то из сторон ячейка отсутствует (для граничных граней),
+то на соответсвующее место поставим невалидный индекс (в зависимости от реализации это может быть $-1$, максимальное положительное число и т.п.).
+Наличие невалидного индекса в таблице \quo{грань-ячейка} можно использовать для выделения граничных граней.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{c|c|c}
+Грань & \makecell{Ячейка справа \\ (отрицательная)} & \makecell{Ячейка слева \\ (положительная)}\\
+\hline
+0 &  -- & 2  \\
+1 &  3  & 2  \\
+2 &  3  & 1  \\
+3 &  -- & 3  \\
+4 &  1  & -- \\
+5 &  1  & 0  \\
+6 &  2  & 0  \\
+7 &  0  & -- \\
+8 &  0  & -- \\
+\end{tabular}
+\caption{\label{tab:fvm_tab_face_cell}Таблица связности \quo{грань--ячейка}}
+\end{center}
+\end{table}
+
+\subsubsubsection{Геометрические свойства сетки}
+После определения всех связной, можно приступить к вычислению геометрических
+параметров сетки. На основании таблицы узлов (таб.~\ref{tab:fvm_tab_point}) и таблицы \quo{грань-узел} (таб.~\ref{tab:fvm_tab_face_point})
+вычислим площади граней $|\gamma|$ (в двумерном случае площадь грани -- есть длина отрезка грани)
+по формуле
+$$
+|\gamma| = \sqrt{(x_1-x_0)^2 + (y_1 - y_0)^2},
+$$
+где $x_{0,1}, y_{0,1}$ -- кординаты начальной и конечной точек отрезка грани (таб.~\ref{tab:fvm_tab_face_area}).
+Центр грани $\vec g$ (таб.~\ref{tab:fvm_tab_face_center}) определяется как геометрический центр соответствующего отрезка
+$$
+g_x = \frac{x_0 + x_1}2, \qquad g_y = \frac{y_0 + y_1}2.
+$$
+Вектор единичной нормали к граням $\vec n$ (таб.~\ref{tab:fvm_tab_face_normal}),
+смотрящий влево от направленного отрезка грани, вычисляется по формуле
+$$
+n_x = -\frac{y_1 - y_0}{|\gamma|}, \qquad n_y = \frac{x_1 - x_0}{|\gamma|}.
+$$
+
+\begin{table}[H]
+\centering
+    \begin{minipage}[t]{.3\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l}
+        Грань & Площадь\\
+        \hline
+        0 &  3      \\
+        1 &  1.91   \\
+        2 &  1.57   \\
+        3 &  2      \\
+        4 &  1.41   \\
+        5 &  1.75   \\
+        6 &  2.06   \\
+        7 &  3      \\
+        8 &  2      \\
+        \end{tabular}
+        \caption{\label{tab:fvm_tab_face_area} Площадь граней}
+    \end{minipage}
+    \;
+    \begin{minipage}[t]{.3\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l|l}
+        Грань & $g_x$ & $g_y$ \\
+        \hline
+        0 &  2.5    &  1    \\
+        1 &  3.3    &  1.65 \\
+        2 &  3.3    &  2.65 \\
+        3 &  4      &  2    \\
+        4 &  3.5    &  3.5  \\
+        5 &  2.8    &  3.15 \\
+        6 &  1.8    &  1.65 \\
+        7 &  1      &  2.5  \\
+        8 &  2      &  4    \\
+        \end{tabular}
+        \caption{\label{tab:fvm_tab_face_center} Центр граней}
+    \end{minipage}
+    \;
+    \begin{minipage}[t]{.3\linewidth}
+      \centering
+      \begin{tabular}[t]{c|l|l}
+      Грань & $n_x$ & $n_y$ \\
+      \hline
+        0 & $ 0   $   & $ 1   $ \\
+        1 & $-0.68$   & $-0.73$ \\
+        2 & $-0.45$   & $ 0.89$ \\
+        3 & $-1   $   & $ 0   $ \\
+        4 & $ 0.71$   & $ 0.71$ \\
+        5 & $-0.97$   & $ 0.23$ \\
+        6 & $-0.63$   & $ 0.78$ \\
+        7 & $-1   $   & $ 0   $ \\
+        8 & $ 0   $   & $ 1   $ \\
+      \end{tabular}
+      \caption{\label{tab:fvm_tab_face_normal} Нормаль к граням}
+    \end{minipage}
+\end{table}
+
+Для вычисления объёмов (площадей) (таб.~\ref{tab:fvm_tab_cell_volume}) и центров масс (таб.~\ref{tab:fvm_tab_cell_center}) ячеек воспользуемся таблицей \quo{ячейка-узел},
+где задана нумерация узлов ячеек против часовой стрелки.
+Алгоритмы вычисления представлены в пп.~\ref{sec:polygon_area}, ~\ref{sec:polygon_center}.
+\begin{table}[H]
+\centering
+    \begin{minipage}[t]{.4\linewidth}
+      \centering
+      \begin{tabular}[t]{c|l}
+      Ячейка & Объём\\
+      \hline
+      0 &  4.1    \\
+      1 &  1.05   \\
+      2 &  1.95   \\
+      3 &  1.4    \\
+      \end{tabular}
+      \caption{\label{tab:fvm_tab_cell_volume} Объём ячеек}
+    \end{minipage}
+    \qquad
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l|l}
+        Ячейка & Центр X & Центр Y \\
+        \hline
+        0 &  1.81   &  2.85 \\
+        1 &  3.2    &  3.1  \\
+        2 &  2.53   &  1.43 \\
+        3 &  3.53   &  2.1  \\
+        \end{tabular}
+        \caption{\label{tab:fvm_tab_cell_center} Центр ячеек}
+    \end{minipage}
+\end{table}
+
+\subsubsection{Трёхмерная сетка}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.45\textwidth]{fvm-mesh-3d-1.png}
+\includegraphics[width=0.54\textwidth]{fvm-mesh-3d-2.png}
+\caption{Трёхмерная конечнообъёмная сетка в двух проекциях. Нумерация узлов (синим), ячеек (красным) и граней (чёрным)}
+\label{fig:fvm-mesh-2d}
+\end{figure}
+
+\subsubsubsection{Определение трёхмерной конечнообъёмной сетки}
+Подобласти представляют собой многогранники с произвольным количеством многоугольных граней.
+Для примера рассмотрим сетку, представленную на рисунке~\ref{fig:fvm-mesh-2d}.
+Чтобы задать такую сетку однозначно, необходимы
+\begin{itemize}
+\item
+таблица узлов (таб.~\ref{tab:fvm3_tab_point});
+\item
+таблица \quo{грань-узел} (таб.~\ref{tab:fvm3_tab_face_point}), где набор услов задан в последовательном порядке. Направление закрутки здесь произвольное;
+\item
+таблица \quo{грань-ячейка} (таб.~\ref{tab:fvm3_tab_face_cell}). Порядок задания ячеек зависит от направления закрутки, заданной в предыдущей таблице (\quo{грань-узел}).
+Будем смотреть на грань со стороны нормали (с этой стороны обход узлов будет против часовой стрелки).
+Тогда на первом месте должна стоять ячейка, находящаяся за плоскостью грани (отрицательная сторона), а на втором -- перед плоскостью грани (положительная сторона).
+Если с одной из сторон нет ячейки (для границ), то на это место ставится невалидный индекс.
+\end{itemize}
+
+\begin{table}[H]
+\begin{center}
+  \begin{minipage}[t]{.4\textwidth}
+    \centering
+    \begin{tabular}[t]{c|c|c|c}
+    Узел & X & Y & Z \\
+    \hline
+    0 & 0   & 1.5 & 0   \\
+    1 & 1   & 1   & 1.5 \\
+    2 & 1   & 2   & 0   \\
+    3 & 1   & 0   & 0   \\
+    4 & 2   & 1   & 1   \\
+    \end{tabular}
+    \caption{\label{tab:fvm3_tab_point}Таблица узлов}
+  \end{minipage}%
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \begin{minipage}[t]{.4\textwidth}
+    \centering
+    \begin{tabular}[t]{c|l}
+    Грань & Узлы \\
+    \hline
+    0 & 0 1 2\\
+    1 & 0 3 2\\
+    2 & 3 2 4\\
+    3 & 3 2 1\\
+    4 & 2 1 4\\
+    5 & 3 4 1\\
+    6 & 3 0 1\\
+    \end{tabular}
+    \caption{\label{tab:fvm3_tab_face_point}Таблица \quo{грань--узел}}
+  \end{minipage}%
+  \begin{minipage}[t]{.4\textwidth}
+    \centering
+    \begin{tabular}[t]{c|c|c}
+    Грань & \makecell{Ячейка снизу \\ (отрицательная)} & \makecell{Ячейка сверху \\ (положительная) }\\
+    \hline
+    0 &  0  & --  \\
+    1 & --  &  0  \\
+    2 &  1  & --  \\
+    3 &  0  &  1  \\
+    4 &  1  & --  \\
+    5 &  1  & --  \\
+    6 & --  &  0  \\
+    \end{tabular}
+    \caption{\label{tab:fvm3_tab_face_cell}Таблица \quo{грань--ячейка}}
+  \end{minipage}%
+\end{center}
+\end{table}
+
+\subsubsubsection{Геометрические свойства сетки}
+
+Площадь (таб.~\ref{tab:fvm3_tab_face_area}) и центр (таб.~\ref{tab:fvm3_tab_face_center})
+граней вычисляются согласно алгоритмам из пп.~\ref{sec:polygon_area}, \ref{sec:polygon_center}.
+Для определения нормали к плоской грани (таб.~\ref{tab:fvm3_tab_face_normal}) необходимо
+взять три последовательные, не лежащие на одной прямой точки
+грани из упорядоченной таблицы связности
+\quo{грань--узел}:
+$\vec{p}_0$, $\vec{p}_1$, $\vec{p}_2$,
+и провести векторное умножение:
+$$
+\vec n = \frac{\vec k}{|\vec k|}, \qquad \vec k = (\vec{p}_1 - \vec{p}_0)\times(\vec{p}_2 - \vec{p}_0).
+$$
+
+\begin{table}[H]
+\centering
+    \begin{minipage}[t]{.3\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l}
+        Грань & Площадь\\
+        \hline
+        0 &  0.98   \\
+        1 &  1      \\
+        2 &  1.41   \\
+        3 &  1.5    \\
+        4 &  0.94   \\
+        5 &  0.94   \\
+        6 &  1.44   \\
+        \end{tabular}
+        \caption{\label{tab:fvm3_tab_face_area} Площадь граней}
+    \end{minipage}
+    \;
+    \begin{minipage}[t]{.3\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l|l|l}
+        Грань & $g_x$ & $g_y$ & $g_z$\\
+        \hline
+        0 & 0.67  & 1.5  & 0.5   \\
+        1 & 0.67  & 1.17 & 0     \\
+        2 & 1.33  & 1    & 0.33  \\
+        3 & 1     & 1    & 0.5   \\
+        4 & 1.33  & 1.33 & 0.83  \\
+        5 & 1.33  & 0.67 & 0.83  \\
+        6 & 0.67  & 0.83 & 0.5   \\
+        \end{tabular}
+        \caption{\label{tab:fvm3_tab_face_center} Центр граней}
+    \end{minipage}
+    \;
+    \begin{minipage}[t]{.3\linewidth}
+      \centering
+      \begin{tabular}[t]{c|l|l|l}
+      Грань & $n_x$ & $n_y$ & $n_z$ \\
+      \hline
+        0 & $-0.38$   & $ 0.77$  &  $ 0.51$ \\
+        1 & $  0  $   & $  0  $  &  $  1  $ \\
+        2 & $ 0.71$   & $  0  $  &  $-0.71$ \\
+        3 & $  1  $   & $  0  $  &  $  0  $ \\
+        4 & $ 0.27$   & $ 0.8 $  &  $ 0.53$ \\
+        5 & $ 0.27$   & $-0.8 $  &  $ 0.53$ \\
+        6 & $ 0.78$   & $ 0.52$  &  $-0.35$ \\
+      \end{tabular}
+      \caption{\label{tab:fvm3_tab_face_normal} Нормаль к граням}
+    \end{minipage}
+\end{table}
+
+Вычисление объёма (таб.~\ref{tab:fvm3_tab_cell_volume}) и
+центра масс (таб.~\ref{tab:fvm3_tab_cell_center}) ячеек
+осуществляется по формулам из пп.~\ref{sec:polyhedron_volume}, \ref{sec:polyhedron_center}
+соответственно.
+
+\begin{table}[H]
+\centering
+    \begin{minipage}[t]{.4\linewidth}
+      \centering
+      \begin{tabular}[t]{c|l}
+      Ячейка & Объём\\
+      \hline
+      0 &  0.5  \\
+      1 &  0.5  \\
+      \end{tabular}
+      \caption{\label{tab:fvm3_tab_cell_volume} Объём ячеек}
+    \end{minipage}
+    \qquad
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \begin{tabular}[t]{c|l|l|l}
+        Ячейка & $c_x$ & $c_y$ & $c_z$ \\
+        \hline
+        0 &  0.75   &  1.13 & 0.38 \\
+        1 &  1.25   &  1    & 0.63 \\
+        \end{tabular}
+        \caption{\label{tab:fvm3_tab_cell_center} Центр ячеек}
+    \end{minipage}
+\end{table}
+
+
 \subsubsection{Интегрирование сеточной функции}
 Пусть задана сеточная функция $\gvec{u_i}$, которая аппроксимирует функцию $u$.
 Интеграл по области расчёта от этой функции можно расписать через сумму интегралов
@@ -483,12 +865,12 @@ $$
 \cref{eq:norm2_common}:
 \begin{equation}
 \label{eq:fvm_norm2}
-||u - u^e||_2 = \sqrt{\frac{1}{D}\arint{\left(u - u^e\right)}{D}{\vec x}}.
+||u - u^e||_2 = \sqrt{\frac{1}{D}\arint{\left(u - u^e\right)^2}{D}{\vec x}}.
 \end{equation}
 \end{itemize}
 
 Пример программы лежит в файле \ename{poisson_fvm_solve_test.cpp}
-в тесте \cvar{[poisson2-fvm]}.
+в тесте \cvar{[]}.
 Программа использует регулярную двумерную
 сетку в единичном квадрате квадрате с разбиением
 в 20 ячеек по каждой оси.

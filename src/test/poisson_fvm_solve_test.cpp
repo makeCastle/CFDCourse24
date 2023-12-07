@@ -91,11 +91,8 @@ double TestPoisson2FvmWorker::solve(){
 void TestPoisson2FvmWorker::save_vtk(const std::string& filename) const{
 	// save grid
 	_grid.save_vtk(filename);
-	
 	// save numerical solution
-	std::vector<double> ucells(_u.begin(), _u.begin() + _grid.n_cells());
-	VtkUtils::add_cell_data(ucells, "numerical", filename);
-
+	VtkUtils::add_cell_data(_u, "numerical", filename, _grid.n_cells());
 	// save exact solution
 	std::vector<double> exact(_grid.n_cells());
 	for (size_t i=0; i<_grid.n_cells(); ++i){

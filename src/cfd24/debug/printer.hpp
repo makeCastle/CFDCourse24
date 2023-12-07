@@ -8,6 +8,8 @@ namespace cfd{
 /// @brief debug procedures
 namespace dbg{
 
+void ping_printer_cpp();
+
 /**
  * @brief prints sparse matrix to std::cout
  *
@@ -41,7 +43,6 @@ void print(const std::vector<double>& vec);
  * @param vec input vector
  */
 void print_feat(const std::vector<double>& vec);
-
 }
 }
 #endif

@@ -23,7 +23,6 @@ struct CylinderFvmSimpleWorker{
 	double step();
 	double to_next_time_step();
 	void save_current_fields(double time) const;
-	double compute_nu() const;
 
 	size_t vec_size() const{
 		return _collocations.size();

@@ -18,6 +18,7 @@ public:
 	 * @param cols  column vector
 	 */
 	void set_stencil(std::vector<size_t>&& addr, std::vector<size_t>&& cols);
+	void set_stencil(const std::vector<std::set<size_t>>& stencil_set);
 
 	/**
 	 * @brief Address array getter
@@ -34,11 +35,15 @@ public:
 	 */
 	virtual void validate() const;
 
+	size_t get_address(size_t irow, size_t icol) const;
+
 	// overrides
 	size_t n_rows() const override;
 	size_t n_nonzeros() const override;
 	bool is_in_stencil(size_t irow, size_t icol) const override;
 	double value(size_t irow, size_t icol) const override;
+	std::vector<double> mult_vec(const std::vector<double>& u) const override;
+	double mult_vec(size_t irow, const std::vector<double>& u) const override;
 private:
 	std::vector<size_t> _addr = {0};
 	std::vector<size_t> _cols;
@@ -49,6 +54,9 @@ private:
  */
 class CsrMatrix: public CsrStencil{
 public:
+	CsrMatrix() = default;
+	CsrMatrix(const CsrStencil& stencil): CsrStencil(stencil), _vals(stencil.n_nonzeros(), 0.0){}
+
 	/**
 	 * @brief Set matrix values
 	 * 
@@ -60,22 +68,15 @@ public:
 	 * @brief Values array getter
 	 */
 	const std::vector<double>& vals() const;
+	std::vector<double>& vals();
 
-
-	/**
-	 * @brief matrix-vector product for the specified row
-	 *
-	 * @param irow  index of matrix row
-	 * @param u     argument vector
-	 *
-	 * @return result of the multiplication for the given row
-	 */
-	double mult_vec(size_t irow, const std::vector<double>& u) const override;
+	void set_unit_row(size_t irow);
 
 	// overrides
 	void validate() const override;
 	double value(size_t irow, size_t icol) const override;
 	std::vector<double> mult_vec(const std::vector<double>& u) const override;
+	double mult_vec(size_t irow, const std::vector<double>& u) const override;
 private:
 	std::vector<double> _vals;
 };

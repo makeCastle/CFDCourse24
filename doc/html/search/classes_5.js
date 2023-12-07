@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lodmatrix_0',['LodMatrix',['../classcfd_1_1LodMatrix.html',1,'cfd']]]
+  ['jacobimatrix_0',['JacobiMatrix',['../structcfd_1_1JacobiMatrix.html',1,'cfd']]]
 ];

@@ -60,3 +60,12 @@ $$\nabla\cdot(f\vec u) = f\nabla\vec u + \vec u \cdot \nabla f$$
 \label{eq:partint_laplace}
 \arint{\nabla^2 g}{E}{\vec x} = \arint{\dfr{g}{n}}{\Gamma}{s}
 \end{equation}
+
+\subsubsection{Численное интегрирование в заданной области}
+Квадратурная формула
+\begin{equation}
+\label{eq:quadrature_formula}
+\arint{f(\vec x)}{E}{\vec x} = \sum_{i=0}^{N-1} w_i f(\vec x_i)
+\end{equation}
+Она определяется заданием узлов интегрирования $\vec x_i$ 
+и соответствующих весов $w_i$.

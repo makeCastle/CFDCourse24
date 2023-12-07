@@ -17,6 +17,7 @@ public:
 	DenseMatrix inverse() const;
 
 	size_t n_cols() const;
+	const std::vector<double>& vals() const;
 
 	// overriden
 	size_t n_rows() const override;

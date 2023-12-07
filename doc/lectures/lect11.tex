@@ -1,0 +1,42 @@
+\section{Лекция 11 (25.11)}
+\subsection{Метод взвешенных невязок}
+\subsection{Метод Бубнова--Галёркина}
+\subsubsection{Степенные базисные функции}
+\subsection{Метод конечных элементов}
+\subsubsection{Узловые базисные функции}
+\subsubsection{Одномерное уравнение Пуассона}
+\subsubsubsection{Слабая интегральная постановка задачи}
+\subsubsubsection{Линейный одномерный базис}
+\subsubsubsection{Элементные матрицы}
+Матрица масс
+\begin{equation}
+\label{eq:mass_matrix}
+M^E_{ij} = \arint{\phi_i(x) \phi_j(\vec x)}{E}{\vec x} = \arint{\phi_i(\vec \xi) \phi_j(\vec \xi) |J(\vec \xi)|}{E^p}{\vec \xi}
+\end{equation}
+Вектор нагрузок
+\begin{equation}
+\label{eq:load_vector}
+L^E_{i} = \arint{\phi_i(x)}{E}{\vec x} = \arint{\phi_i(\vec \xi) |J(\vec \xi)|}{E^p}{\vec \xi}
+\end{equation}
+Матрица жёсткости
+\begin{equation}
+\label{eq:stiff_matrix}
+S^E_{ij} = \arint{\nabla \phi_i \cdot \nabla \phi_j}{E}{\vec x} = \arint{\nabla \phi_i \cdot \nabla \phi_j |J(\vec \xi)|}{E^p}{\vec \xi}
+\end{equation}
+\subsubsubsection{Сборка глобальных матриц и векторов}
+\subsubsection{Двумерное уравнение Пуассона}
+\subsubsubsection{Треугольный элемент. Линейный двумерный базис}
+Матрица масс (из \cref{eq:mass_matrix}):
+\begin{equation}
+\label{eq:mass_matrix_lintri}
+M^E_{ij} = \int\limits_0^1 \int\limits_0^{1-\xi} \phi_i(\xi, \eta) \phi_j(\xi, \eta) |J| \, d\eta d\xi =
+\frac{|J|}{24}\left(
+\begin{array}{ccc}
+2 & 1 & 1 \\
+1 & 2 & 1 \\
+1 & 1 & 2
+\end{array}
+\right)
+\end{equation}
+
+\subsubsubsection{Пример сборки матрицы для двумерной задачи}

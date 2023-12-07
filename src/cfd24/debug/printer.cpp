@@ -56,3 +56,5 @@ void dbg::print_feat(const std::vector<double>& vec){
 	std::cout << "SUM:     " << std::accumulate(vec.begin(), vec.end(), 0.0) << std::endl;
 	std::cout << "ABS_SUM: " << abs_sum << std::endl;
 }
+
+void dbg::ping_printer_cpp(){ }

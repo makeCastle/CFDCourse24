@@ -101,7 +101,7 @@ Cavern2DFvmSimpleWorker::Cavern2DFvmSimpleWorker(const IGrid& grid, double Re, d
 	_p = std::vector<double>(vec_size(), 0);
 	_dpdn_face = std::vector<double>(_grid.n_faces(), 0);
 	_un_face = std::vector<double>(_grid.n_faces(), 0);
-	_grad_p = std::vector<Vector>(_grid.n_faces(), {0, 0, 0});
+	_grad_p = std::vector<Vector>(_grid.n_cells(), {0, 0, 0});
 	to_next_iteration();
 }
 

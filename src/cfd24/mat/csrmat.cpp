@@ -7,6 +7,19 @@ void CsrStencil::set_stencil(std::vector<size_t>&& addr, std::vector<size_t>&& c
 	_cols = std::move(cols);
 }
 
+void CsrStencil::set_stencil(const std::vector<std::set<size_t>>& stencil_set){
+	_addr = std::vector<size_t>(1, 0);
+	_cols.clear();
+
+	for (size_t irow=0; irow<stencil_set.size(); ++irow){
+		const std::set<size_t>& cols = stencil_set[irow];
+		_addr.push_back(_addr.back() + cols.size());
+		for (size_t col: cols){
+			_cols.push_back(col);
+		}
+	}
+}
+
 size_t CsrStencil::n_nonzeros() const{
 	return _cols.size();
 }
@@ -54,11 +67,34 @@ double CsrStencil::value(size_t irow, size_t icol) const{
 	throw std::runtime_error("CsrStencil has no values");
 }
 
+std::vector<double> CsrStencil::mult_vec(const std::vector<double>& u) const{
+	throw std::runtime_error("CsrStencil has no values");
+}
+
+double CsrStencil::mult_vec(size_t irow, const std::vector<double>& u) const{
+	throw std::runtime_error("CsrStencil has no values");
+}
+
+size_t CsrStencil::get_address(size_t irow, size_t icol) const{
+	std::vector<size_t>::const_iterator it_start = _cols.begin() + _addr.at(irow);
+	std::vector<size_t>::const_iterator it_end = _cols.begin() + _addr.at(irow+1);
+	auto fnd = std::lower_bound(it_start, it_end, icol);
+	if (fnd != it_end && *fnd == icol){
+		size_t a = fnd - _cols.begin();
+		return a;
+	}
+	return INVALID_INDEX;
+}
+
 void CsrMatrix::set_values(std::vector<double>&& vals){
 	_vals = std::move(vals);
 }
 
 const std::vector<double>& CsrMatrix::vals() const{
+	return _vals;
+}
+
+std::vector<double>& CsrMatrix::vals(){
 	return _vals;
 }
 
@@ -72,16 +108,12 @@ void CsrMatrix::validate() const{
 }
 
 double CsrMatrix::value(size_t irow, size_t icol) const{
-	const std::vector<size_t>& a = addr();
-	const std::vector<size_t>& c = cols();
-	std::vector<size_t>::const_iterator it_start = c.begin() + a.at(irow);
-	std::vector<size_t>::const_iterator it_end = c.begin() + a.at(irow+1);
-	auto fnd = std::lower_bound(it_start, it_end, icol);
-	if (fnd != it_end && *fnd == icol){
-		size_t a = fnd - c.begin();
+	size_t a = get_address(irow, icol);
+	if (a != INVALID_INDEX){
 		return _vals[a];
+	} else {
+		return 0.0;
 	}
-	return 0;
 }
 
 std::vector<double> CsrMatrix::mult_vec(const std::vector<double>& u) const{
@@ -113,4 +145,15 @@ double CsrMatrix::mult_vec(size_t irow, const std::vector<double>& u) const{
 		ret += v[i] * u[c[i]];
 	}
 	return ret;
+}
+
+void CsrMatrix::set_unit_row(size_t irow){
+	const std::vector<size_t>& a = addr();
+	const std::vector<size_t>& c = cols();
+
+	size_t start = a.at(irow);
+	size_t end = a.at(irow+1);
+	for (size_t i=start; i<end; ++i){
+		_vals[i] = (c[i] == irow) ? 1.0 : 0.0;
+	}
 }
