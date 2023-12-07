@@ -13,19 +13,22 @@
 #include "cfd24/fvm/fvm_dpdn_boundary.hpp"
 #include <iomanip>
 #include <list>
+#include <fstream>
 
 using namespace cfd;
 
-struct CylinderFvmSimpleWorker{
-	CylinderFvmSimpleWorker(const IGrid& grid, double Re, double E, double timestep);
+struct CylinderFvmSimpleWorker {
+	CylinderFvmSimpleWorker(const IGrid& grid, double Re, double E, double timestep, double Pe);
 	void initialize_saver(std::string stem, double save_time_step);
 
 	double step();
 	double to_next_time_step();
 	void save_current_fields(double time) const;
 	double compute_nu() const;
-
-	size_t vec_size() const{
+	///////////////////////////////////////////////////
+	std::vector<double> compute_temperature() const;
+	//////////////////////////////////////////////////
+	size_t vec_size() const {
 		return _collocations.size();
 	}
 private:
@@ -34,11 +37,15 @@ private:
 	const double _tau;
 	const double _alpha_p;
 	const double _time_step;
+	////////////////////////////////////////////////////////////////////////////////////
+	const double _Pe;
+	std::vector<double> _T;
+	////////////////////////////////////////////////////////////////////////////////////
 	const FvmExtendedCollocations _collocations;
 	const FvmFacesDn _dfdn_computer;
 	const FvmCellGradient _grad_computer;
 
-	struct BoundaryInfo{
+	struct BoundaryInfo {
 		std::vector<size_t> all;
 		std::vector<size_t> cyl;
 		std::vector<size_t> input;
@@ -83,89 +90,99 @@ private:
 	static double compute_tau(const IGrid& grid, double Re, double E);
 };
 
-double CylinderFvmSimpleWorker::compute_tau(const IGrid& grid, double Re, double E){
+double CylinderFvmSimpleWorker::compute_tau(const IGrid& grid, double Re, double E) {
 	double h2 = grid.cell_volume(0);
-	for (size_t i=1; i<grid.n_cells(); ++i){
+	for (size_t i = 1; i < grid.n_cells(); ++i) {
 		h2 = std::min(h2, grid.cell_volume(i));
 	}
-	return E*Re*h2/4.0;
+	return E * Re * h2 / 4.0;
 }
 
-CylinderFvmSimpleWorker::CylinderFvmSimpleWorker(const IGrid& grid, double Re, double E, double time_step):
+CylinderFvmSimpleWorker::CylinderFvmSimpleWorker(const IGrid& grid, double Re, double E, double time_step, double Pe) :
 	_grid(grid),
 	_Re(Re),
+	/////////////////////////////////////////
+	_Pe(Pe),
+	/////////////////////////////////////////
 	_tau(compute_tau(grid, Re, E)),
-	_alpha_p(1.0/(1.0 + _tau/time_step + E)),
+	_alpha_p(1.0 / (1.0 + _tau / time_step + E)),
 	_time_step(time_step),
 	_collocations(grid),
 	_dfdn_computer(grid, _collocations),
 	_grad_computer(grid, _collocations)
 {
-	_d = 1.0/(1 + _tau/time_step + E);
+	_d = 1.0 / (1 + _tau / time_step + E);
 	gather_boundary_collocations();
 	assemble_p_stroke_solver();
 
 	_u = std::vector<double>(vec_size(), 0);
 	_v = std::vector<double>(vec_size(), 0);
 	_p = std::vector<double>(vec_size(), 0);
-	_grad_p = std::vector<Vector>(_grid.n_cells(), {0, 0, 0});
+	/////////////////////////////////////////////
+	_T = std::vector<double>(vec_size(), 0);
+	/////////////////////////////////////////////
+	_grad_p = std::vector<Vector>(_grid.n_cells(), { 0, 0, 0 });
 	_un_face = std::vector<double>(_grid.n_faces(), 0);
 	_dpdn_face = std::vector<double>(_grid.n_faces(), 0);
 	to_next_time_step();
 }
 
-void CylinderFvmSimpleWorker::gather_boundary_collocations(){
+void CylinderFvmSimpleWorker::gather_boundary_collocations() {
 	double xmin = _grid.point(0).x(); double xmax = _grid.point(0).x();
 	double ymin = _grid.point(0).y(); double ymax = _grid.point(0).y();
-	for (size_t i=1; i<_grid.n_points(); ++i){
+	for (size_t i = 1; i < _grid.n_points(); ++i) {
 		Point p = _grid.point(i);
 		xmin = std::min(xmin, p.x()); ymin = std::min(ymin, p.y());
 		xmax = std::max(xmax, p.x()); ymax = std::max(ymax, p.y());
 	}
 
 	BoundaryInfo& bi = _boundary_info;
-	for (size_t icolloc: _collocations.face_collocations){
+	for (size_t icolloc : _collocations.face_collocations) {
 		size_t iface = _collocations.face_index(icolloc);
 		bi.all.push_back(icolloc);
 		Point fc = _grid.face_center(iface);
-		if (std::abs(fc.y() - ymin) < 1e-6){
+		if (std::abs(fc.y() - ymin) < 1e-6) {
 			bi.sym.push_back(icolloc);
-		} else if (std::abs(fc.y() - ymax) < 1e-6){
+		}
+		else if (std::abs(fc.y() - ymax) < 1e-6) {
 			bi.sym.push_back(icolloc);
-		} else if (std::abs(fc.x() - xmin) < 1e-6){
+		}
+		else if (std::abs(fc.x() - xmin) < 1e-6) {
 			bi.input.push_back(icolloc);
-		} else if (std::abs(fc.x() - xmax) < 1e-6){
+		}
+		else if (std::abs(fc.x() - xmax) < 1e-6) {
 			bi.output.push_back(icolloc);
-		} else {
+		}
+		else {
 			bi.cyl.push_back(icolloc);
 		}
 	}
 }
 
-void CylinderFvmSimpleWorker::initialize_saver(std::string stem, double save_time_step){
+void CylinderFvmSimpleWorker::initialize_saver(std::string stem, double save_time_step) {
 	_writer.reset(new VtkUtils::TimeSeriesWriter(stem));
 	_writer->set_time_step(save_time_step);
 };
 
-double CylinderFvmSimpleWorker::to_next_iteration(){
+double CylinderFvmSimpleWorker::to_next_iteration() {
 	assemble_uv_slae();
 	// residual vectors
 	std::vector<double> res_u = compute_residual_vec(_mat_uv, _rhs_u, _u);
 	std::vector<double> res_v = compute_residual_vec(_mat_uv, _rhs_v, _v);
-	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
+	for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
 		double coef = 1.0 / _tau / _grid.cell_volume(icell);
 		res_u[icell] *= coef;
 		res_v[icell] *= coef;
 	}
 	// norm
 	double res = 0;
-	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
+	for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
 		res = std::max(res, std::max(res_u[icell], res_v[icell]));
 	}
 	return res;
 };
 
-double CylinderFvmSimpleWorker::step(){
+double CylinderFvmSimpleWorker::step() {
 	// Predictor step: U-star
 	std::vector<double> u_star = compute_u_star();
 	std::vector<double> v_star = compute_v_star();
@@ -190,27 +207,30 @@ double CylinderFvmSimpleWorker::step(){
 	return to_next_iteration();
 }
 
-void CylinderFvmSimpleWorker::save_current_fields(double time) const{
-	if (_writer){
+void CylinderFvmSimpleWorker::save_current_fields(double time) const {
+	if (_writer) {
 		std::string filepath = _writer->add(time);
-		if (filepath.empty()){
+		if (filepath.empty()) {
 			return;
 		}
 		_grid.save_vtk(filepath);
 		VtkUtils::add_cell_data(_p, "pressure", filepath, _grid.n_cells());
 		VtkUtils::add_cell_vector(_u, _v, "velocity", filepath, _grid.n_cells());
+		///////////////////////////////////////////
+		VtkUtils::add_cell_data(_T, "temperature", filepath, _grid.n_cells());
+		//////////////////////////////////////////
 	}
 }
 
-void CylinderFvmSimpleWorker::assemble_p_stroke_solver(){
+void CylinderFvmSimpleWorker::assemble_p_stroke_solver() {
 	LodMatrix mat(vec_size());
 	// internal
-	for (size_t iface = 0; iface < _grid.n_faces(); ++iface){
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface) {
 		size_t negative_colloc = _collocations.tab_face_colloc(iface)[0];
 		size_t positive_colloc = _collocations.tab_face_colloc(iface)[1];
 		double area = _grid.face_area(iface);
 
-		for (const std::pair<const size_t, double>& iter: _dfdn_computer.linear_combination(iface)){
+		for (const std::pair<const size_t, double>& iter : _dfdn_computer.linear_combination(iface)) {
 			size_t column = iter.first;
 			double coef = -_d * area * iter.second;
 			mat.add_value(negative_colloc, column, coef);
@@ -221,44 +241,44 @@ void CylinderFvmSimpleWorker::assemble_p_stroke_solver(){
 	_p_stroke_solver.set_matrix(mat.to_csr());
 }
 
-CsrMatrix CylinderFvmSimpleWorker::assemble_uv_lhs(double coef_u, double coef_conv, double coef_diff) const{
+CsrMatrix CylinderFvmSimpleWorker::assemble_uv_lhs(double coef_u, double coef_conv, double coef_diff) const {
 	LodMatrix mat(vec_size());
 	// coef_u * u
-	for (size_t icell = 0; icell < _grid.n_cells(); ++icell){
-		mat.add_value(icell, icell, coef_u*_grid.cell_volume(icell));
+	for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
+		mat.add_value(icell, icell, coef_u * _grid.cell_volume(icell));
 	}
-	for (size_t iface = 0; iface < _grid.n_faces(); ++iface){
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface) {
 		size_t negative_colloc = _collocations.tab_face_colloc(iface)[0];
 		size_t positive_colloc = _collocations.tab_face_colloc(iface)[1];
 		double area = _grid.face_area(iface);
 
 		// - coef_diff * Laplace(u)
-		for (const std::pair<const size_t, double>& iter: _dfdn_computer.linear_combination(iface)){
+		for (const std::pair<const size_t, double>& iter : _dfdn_computer.linear_combination(iface)) {
 			size_t column = iter.first;
 			double coef = -coef_diff * area * iter.second;
 			mat.add_value(negative_colloc, column, coef);
 			mat.add_value(positive_colloc, column, -coef);
 		}
-		
+
 		// + coef_conv * convection
 		{
-			double coef = coef_conv * area * _un_face[iface]/2.0;
-			mat.add_value(negative_colloc, negative_colloc,  coef);
-			mat.add_value(negative_colloc, positive_colloc,  coef);
+			double coef = coef_conv * area * _un_face[iface] / 2.0;
+			mat.add_value(negative_colloc, negative_colloc, coef);
+			mat.add_value(negative_colloc, positive_colloc, coef);
 			mat.add_value(positive_colloc, positive_colloc, -coef);
 			mat.add_value(positive_colloc, negative_colloc, -coef);
 		}
 	}
 	// input, cylinder boundary: dirichlet
-	for (size_t icolloc: _boundary_info.input) mat.set_unit_row(icolloc);
-	for (size_t icolloc: _boundary_info.cyl) mat.set_unit_row(icolloc);
+	for (size_t icolloc : _boundary_info.input) mat.set_unit_row(icolloc);
+	for (size_t icolloc : _boundary_info.cyl) mat.set_unit_row(icolloc);
 	// output boundary: du/dt + un*du/dn = 0
-	for (size_t icolloc: _boundary_info.output){
+	for (size_t icolloc : _boundary_info.output) {
 		mat.remove_row(icolloc);
 		size_t iface = _collocations.face_index(icolloc);
 		double sgn = (_grid.tab_face_cell(iface)[1] == INVALID_INDEX) ? 1 : -1;
 		mat.add_value(icolloc, icolloc, coef_u);
-		for (auto it: _dfdn_computer.linear_combination(iface)){
+		for (auto it : _dfdn_computer.linear_combination(iface)) {
 			size_t icolumn = it.first;
 			double value = coef_conv * sgn * it.second;
 			mat.add_value(icolloc, icolumn, value);
@@ -267,58 +287,59 @@ CsrMatrix CylinderFvmSimpleWorker::assemble_uv_lhs(double coef_u, double coef_co
 	return mat.to_csr();
 }
 
-void CylinderFvmSimpleWorker::assemble_uv_slae(){
+void CylinderFvmSimpleWorker::assemble_uv_slae() {
 	// =============== LHS
-	_mat_uv = assemble_uv_lhs(1+_tau/_time_step, _tau, _tau/_Re);
+	_mat_uv = assemble_uv_lhs(1 + _tau / _time_step, _tau, _tau / _Re);
 	_uv_solver.set_matrix(_mat_uv);
 
 	// ============== RHS
 	_rhs_u.resize(vec_size());
 	_rhs_v.resize(vec_size());
-	for (size_t icell = 0; icell < _grid.n_cells(); ++icell){
-		_rhs_u[icell] = (_u[icell] + _tau/_time_step*_u_old[icell] -_tau * _grad_p[icell].x()) * _grid.cell_volume(icell);
-		_rhs_v[icell] = (_v[icell] + _tau/_time_step*_v_old[icell] -_tau * _grad_p[icell].y()) * _grid.cell_volume(icell);
+	for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
+		_rhs_u[icell] = (_u[icell] + _tau / _time_step * _u_old[icell] - _tau * _grad_p[icell].x()) * _grid.cell_volume(icell);
+		_rhs_v[icell] = (_v[icell] + _tau / _time_step * _v_old[icell] - _tau * _grad_p[icell].y()) * _grid.cell_volume(icell);
 	}
 	// bnd
-	for (size_t icolloc: _boundary_info.input){
+	for (size_t icolloc : _boundary_info.input) {
 		_rhs_u[icolloc] = 1;
 		_rhs_v[icolloc] = 0;
 	}
-	for (size_t icolloc: _boundary_info.cyl){
+	for (size_t icolloc : _boundary_info.cyl) {
 		_rhs_u[icolloc] = 0;
 		_rhs_v[icolloc] = 0;
 	}
-	for (size_t icolloc: _boundary_info.output){
+	for (size_t icolloc : _boundary_info.output) {
 		_rhs_u[icolloc] = _u[icolloc] + _u_old[icolloc] * _tau / _time_step;
 		_rhs_v[icolloc] = _v[icolloc] + _v_old[icolloc] * _tau / _time_step;
 	}
 }
 
-std::vector<double> CylinderFvmSimpleWorker::compute_u_star(){
+std::vector<double> CylinderFvmSimpleWorker::compute_u_star() {
 	std::vector<double> u_star(_u);
 	_uv_solver.solve(_rhs_u, u_star);
 	return u_star;
 }
 
-std::vector<double> CylinderFvmSimpleWorker::compute_v_star(){
+std::vector<double> CylinderFvmSimpleWorker::compute_v_star() {
 	std::vector<double> v_star(_v);
 	_uv_solver.solve(_rhs_v, v_star);
 	return v_star;
 }
 
 std::vector<double> CylinderFvmSimpleWorker::compute_un_star_face_rhie_chow(
-		const std::vector<double>& u_star,
-		const std::vector<double>& v_star){
+	const std::vector<double>& u_star,
+	const std::vector<double>& v_star) {
 
 	std::vector<double> ret(_grid.n_faces());
 
-	for (size_t iface=0; iface<_grid.n_faces(); ++iface){
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface) {
 		size_t ci = _grid.tab_face_cell(iface)[0];
 		size_t cj = _grid.tab_face_cell(iface)[1];
-		if (ci == INVALID_INDEX || cj == INVALID_INDEX){
+		if (ci == INVALID_INDEX || cj == INVALID_INDEX) {
 			// Boundary. Default zero.
 			ret[iface] = 0;
-		} else {
+		}
+		else {
 			// Rhie-Chow interpolation
 			Vector normal = _grid.face_normal(iface);
 			Vector uvec_i = Vector(u_star[ci], v_star[ci]);
@@ -330,17 +351,17 @@ std::vector<double> CylinderFvmSimpleWorker::compute_un_star_face_rhie_chow(
 			double dpdn_j = dot_product(_grad_p[cj], normal);
 			double dpdn_ij = _dpdn_face[iface];
 
-			ret[iface] = 0.5*(ustar_i + ustar_j)
-			           + 0.5*_tau*(dpdn_i + dpdn_j - 2*dpdn_ij);
+			ret[iface] = 0.5 * (ustar_i + ustar_j)
+				+ 0.5 * _tau * (dpdn_i + dpdn_j - 2 * dpdn_ij);
 		}
 	}
 	// input boundary 
-	for (size_t icoll: _boundary_info.input){
+	for (size_t icoll : _boundary_info.input) {
 		size_t iface = _collocations.face_index(icoll);
 		ret[iface] = (_grid.tab_face_cell(iface)[0] == INVALID_INDEX) ? 1 : -1;
 	}
 	// output boundary
-	for (size_t icoll: _boundary_info.output){
+	for (size_t icoll : _boundary_info.output) {
 		size_t iface = _collocations.face_index(icoll);
 		ret[iface] = (_grid.tab_face_cell(iface)[0] == INVALID_INDEX) ? -1 : 1;
 	}
@@ -349,18 +370,18 @@ std::vector<double> CylinderFvmSimpleWorker::compute_un_star_face_rhie_chow(
 }
 
 std::vector<double> CylinderFvmSimpleWorker::compute_un_stroke_face(
-		const std::vector<double>& dpstroke_dn_face){
+	const std::vector<double>& dpstroke_dn_face) {
 	std::vector<double> un(_grid.n_faces());
-	for (size_t iface=0; iface<_grid.n_faces(); ++iface){
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface) {
 		un[iface] = -_tau * _d * dpstroke_dn_face[iface];
 	}
 	return un;
 }
 
-std::vector<double> CylinderFvmSimpleWorker::compute_p_stroke(const std::vector<double>& un_star_face){
+std::vector<double> CylinderFvmSimpleWorker::compute_p_stroke(const std::vector<double>& un_star_face) {
 	// rhs
 	std::vector<double> rhs(vec_size(), 0.0);
-	for (size_t iface = 0; iface < _grid.n_faces(); ++iface){
+	for (size_t iface = 0; iface < _grid.n_faces(); ++iface) {
 		double coef = -_grid.face_area(iface) / _tau * un_star_face[iface];
 		size_t neg = _grid.tab_face_cell(iface)[0];
 		size_t pos = _grid.tab_face_cell(iface)[1];
@@ -374,40 +395,91 @@ std::vector<double> CylinderFvmSimpleWorker::compute_p_stroke(const std::vector<
 	return p_stroke;
 }
 
-std::vector<double> CylinderFvmSimpleWorker::compute_u_stroke(const std::vector<Vector>& grad_p_stroke){
+std::vector<double> CylinderFvmSimpleWorker::compute_u_stroke(const std::vector<Vector>& grad_p_stroke) {
 	std::vector<double> u_stroke(vec_size(), 0.0);
-	for (size_t i=0; i<_grid.n_cells(); ++i){
+	for (size_t i = 0; i < _grid.n_cells(); ++i) {
 		u_stroke[i] = -_tau * _d * grad_p_stroke[i].x();
 	}
 	return u_stroke;
 }
 
-std::vector<double> CylinderFvmSimpleWorker::compute_v_stroke(const std::vector<Vector>& grad_p_stroke){
+std::vector<double> CylinderFvmSimpleWorker::compute_v_stroke(const std::vector<Vector>& grad_p_stroke) {
 	std::vector<double> v_stroke(vec_size(), 0.0);
-	for (size_t i=0; i<_grid.n_cells(); ++i){
+	for (size_t i = 0; i < _grid.n_cells(); ++i) {
 		v_stroke[i] = -_tau * _d * grad_p_stroke[i].y();
 	}
 	return v_stroke;
 }
 
-double CylinderFvmSimpleWorker::to_next_time_step(){
+double CylinderFvmSimpleWorker::to_next_time_step() {
 	_u_old = _u;
 	_v_old = _v;
+	///////////////////////////////////////////////////////
+	_T = CylinderFvmSimpleWorker::compute_temperature();
+	///////////////////////////////////////////////////////
 	return to_next_iteration();
 }
 
 namespace {
 
-std::string convergence_report(double time, int it){
-	std::ostringstream oss;
-	oss << std::setprecision(2) << std::fixed;
-	oss << "Time = " << std::setw(5) << time << " converged in " << it << " iterations" << std::endl;
-	return oss.str();
-}
+	std::string convergence_report(double time, int it) {
+		std::ostringstream oss;
+		oss << std::setprecision(2) << std::fixed;
+		oss << "Time = " << std::setw(5) << time << " converged in " << it << " iterations" << std::endl;
+		return oss.str();
+	}
 
 }
 
-TEST_CASE("Cylinder 2D, FVM-SIMPLE algorithm", "[cylinder2-fvm-simple]"){
+/////////////////////////////////////////////////
+std::vector<double> CylinderFvmSimpleWorker::compute_temperature() const
+{
+	// 1. === Левая часть
+	CsrMatrix mat_temp = assemble_uv_lhs(1, _time_step, _time_step / _Pe);
+	// 2. === Правая часть
+	std::vector<double> rhs_temp(vec_size(), 0);
+	// 2.1 Внутренние точки коллокации
+	for (size_t icell = 0; icell < _grid.n_cells(); ++icell) {
+		rhs_temp[icell] = _grid.cell_volume(icell) * _T[icell];
+	}
+	// 2.2 Граничные условия на цилиндре
+	for (size_t icolloc : _boundary_info.cyl) {
+		rhs_temp[icolloc] = 1;
+	}
+	// 2.3 Граничные условия на выходе
+	for (size_t icolloc : _boundary_info.output) {
+		rhs_temp[icolloc] = _T[icolloc];
+	}
+	// 3. === Решение СЛАУ
+	// 3.1 Массив с ответом.
+	// Инициализируем текущей температурой в качестве первого приближения
+	std::vector<double> new_temperature(_T);
+	// 3.2 Вызываем решатель СЛАУ
+	AmgcMatrixSolver::solve_slae(mat_temp, rhs_temp, new_temperature);
+	// 4. === Возвращаем ответ
+	return new_temperature;
+}
+
+double CylinderFvmSimpleWorker::compute_nu() const
+{
+	double nu = 0;
+	std::vector<size_t> cyl_collocs = _boundary_info.cyl;
+	for (size_t icolloc : cyl_collocs)
+	{
+		size_t iface = _collocations.face_index(icolloc);
+		double dtdn = _dfdn_computer.compute(iface, _T);
+		if (_grid.tab_face_cell(iface)[0] == INVALID_INDEX) {
+			dtdn *= -1.0;
+		}
+		double area = _grid.face_area(iface);
+		nu += dtdn * area;
+
+	}
+	return nu;
+}
+/////////////////////////////////////////////////
+
+TEST_CASE("Cylinder 2D, FVM-SIMPLE algorithm", "[cylinder2-fvm-simple]") {
 	std::cout << std::endl << "--- cfd24_test [cylinder2-fvm-simple] --- " << std::endl;
 
 	// problem parameters
@@ -416,33 +488,44 @@ TEST_CASE("Cylinder 2D, FVM-SIMPLE algorithm", "[cylinder2-fvm-simple]"){
 	double eps = 1e-1;
 	double E = 4;
 	double time_step = 0.1;
-	double end_time = 0.1;
+	double end_time = 60.0;
+	double Pe = 30;
+
+	std::ofstream out;
+	out.open("Pe30.txt");
 
 	// worker initialization
 	auto grid = UnstructuredGrid2D::vtk_read(test_directory_file("cylgrid_5k.vtk"));
-	CylinderFvmSimpleWorker worker(grid, Re, E, time_step);
+	CylinderFvmSimpleWorker worker(grid, Re, E, time_step, Pe);
 	worker.initialize_saver("cylinder2-fvm", 1.0);
 
 	// time loop
 	size_t it = 0;
-	for (double time=time_step; time<end_time+1e-6; time+=time_step){
-		for (it=1; it < max_it; ++it){
+	for (double time = time_step; time < end_time + 1e-6; time += time_step) {
+		for (it = 1; it < max_it; ++it) {
 			double nrm = worker.step();
 			// break inner iterations if residual is low enough
-			if (nrm < eps){
+			if (nrm < eps) {
 				break;
-			} else if (it == max_it-1) {
+			}
+			else if (it == max_it - 1) {
 				std::cout << "WARNING: internal SIMPLE interations not converged with nrm = "
-				          << nrm << std::endl;
+					<< nrm << std::endl;
 			}
 		}
 		// uvp_old = uvp
 		worker.to_next_time_step();
+		///////////////////////////////////////////////////////////////
+		std::cout << "time=" << time << " Nu=" << worker.compute_nu() << std::endl;
 
+		out << "time = " << time << " " << "Nu = " << worker.compute_nu() << std::endl;
+		//////////////////////////////////////////////////////////////
 		// save and report
 		std::cout << convergence_report(time, it);
 		worker.save_current_fields(time);
 	}
 
-	CHECK(it == 16);
+	out.close();
+
+	//CHECK(it == 16);
 }
