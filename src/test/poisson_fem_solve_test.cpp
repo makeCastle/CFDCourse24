@@ -236,7 +236,7 @@ FemAssembler TestPoissonLinearTriangleWorker::build_fem(const IGrid& grid){
 TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri]"){
 	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri] --- " << std::endl;
 
-	std::string grid_fn = test_directory_file("trigrid_500.vtk");
+	std::string grid_fn = test_directory_file("trigrid.vtk");
 	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
 	TestPoissonLinearTriangleWorker worker(grid);
 	double nrm = worker.solve();
@@ -245,6 +245,73 @@ TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri]"){
 	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
 }
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TestPoissonTriQuadrangleWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoissonLinearTriQuadWorker : public ITestPoisson2FemWorker {
+	std::vector<size_t> dirichlet_bases() const override {
+		return _grid.boundary_points();
+	}
+	static FemAssembler build_fem(const IGrid& grid);
+	TestPoissonLinearTriQuadWorker(const IGrid& grid) :
+		ITestPoisson2FemWorker(grid, build_fem(grid)) { }
+};
+
+FemAssembler TestPoissonLinearTriQuadWorker::build_fem(const IGrid& grid) {
+	size_t n_bases = grid.n_points();
+	std::vector<FemElement> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis;
+
+	// elements
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
+		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
+
+		if (ipoints.size() == 3)
+		{
+			Point p0 = grid.point(ipoints[0]);
+			Point p1 = grid.point(ipoints[1]);
+			Point p2 = grid.point(ipoints[2]);
+
+			auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
+			auto basis = std::make_shared<TriangleLinearBasis>();
+			JacobiMatrix jac = geom->jacobi({ 0, 0 });
+			auto integrals = std::make_shared<TriangleLinearIntegrals>(jac);
+			FemElement elem{ geom, basis, integrals };
+			elements.push_back(elem);
+			tab_elem_basis.push_back(ipoints);
+		}
+		else {
+			Point p0 = grid.point(ipoints[0]);
+			Point p1 = grid.point(ipoints[1]);
+			Point p2 = grid.point(ipoints[2]);
+			Point p3 = grid.point(ipoints[3]);
+			auto geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
+			auto basis = std::make_shared<QuadrangleLinearBasis>();
+			const Quadrature* quadrature = quadrature_square_gauss2();
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature, geom, basis);
+			FemElement elem{ geom, basis, integrals };
+			elements.push_back(elem);
+			tab_elem_basis.push_back(ipoints);
+		}
+	}
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
+TEST_CASE("Poisson-fem 2D solver, triangles & quadrangles", "[poisson2-fem-tri-quad]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri-quad] --- " << std::endl;
+
+	std::string grid_fn = test_directory_file("tetragrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+	TestPoissonLinearTriQuadWorker worker(grid);
+	double nrm = worker.solve();
+	worker.save_vtk("poisson2_fem_tetra_quad.vtk");
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // TestPoissonBilinearQuadrangleWorker
 ///////////////////////////////////////////////////////////////////////////////
@@ -317,7 +384,7 @@ FemAssembler TestPoissonLinearTriangleGaussWorker::build_fem(const IGrid& grid){
 		
 		auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
 		auto basis = std::make_shared<TriangleLinearBasis>();
-		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss2(), geom, basis);
+		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss4(), geom, basis);
 
 		elements.push_back(FemElement{geom, basis, integrals});
 		tab_elem_basis.push_back(ipoints);
@@ -335,3 +402,65 @@ TEST_CASE("Poisson-fem 2D solver, triangles numerical integration", "[poisson2-f
 	double nrm = worker.solve();
 	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TestPoissonTriQuadrangleQuadratureWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoissonLinearTriQuadQuadratureWorker : public ITestPoisson2FemWorker {
+	std::vector<size_t> dirichlet_bases() const override {
+		return _grid.boundary_points();
+	}
+	static FemAssembler build_fem(const IGrid& grid);
+	TestPoissonLinearTriQuadQuadratureWorker(const IGrid& grid) :
+		ITestPoisson2FemWorker(grid, build_fem(grid)) { }
+};
+
+FemAssembler TestPoissonLinearTriQuadQuadratureWorker::build_fem(const IGrid& grid) {
+	size_t n_bases = grid.n_points();
+	std::vector<FemElement> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis;
+
+	// elements
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
+		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
+
+		if (ipoints.size() == 3)
+		{
+			Point p0 = grid.point(ipoints[0]);
+			Point p1 = grid.point(ipoints[1]);
+			Point p2 = grid.point(ipoints[2]);
+
+			auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
+			auto basis = std::make_shared<TriangleLinearBasis>();
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss4(), geom, basis);
+
+			elements.push_back(FemElement{ geom, basis, integrals });
+			tab_elem_basis.push_back(ipoints);
+		}
+		else {
+			Point p0 = grid.point(ipoints[0]);
+			Point p1 = grid.point(ipoints[1]);
+			Point p2 = grid.point(ipoints[2]);
+			Point p3 = grid.point(ipoints[3]);
+			auto geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
+			auto basis = std::make_shared<QuadrangleLinearBasis>();
+			const Quadrature* quadrature = quadrature_square_gauss4();
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature, geom, basis);
+			FemElement elem{ geom, basis, integrals };
+			elements.push_back(elem);
+			tab_elem_basis.push_back(ipoints);
+		}
+	}
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+TEST_CASE("Poisson-fem 2D solver, triangles and quadrangles numerical integration", "[poisson2-fem-tri-quad-quadrature]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri-quad-quadrature] --- " << std::endl;
+
+	std::string grid_fn = test_directory_file("tetragrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn, true);
+	TestPoissonLinearTriQuadQuadratureWorker worker(grid);
+	double nrm = worker.solve();
+	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
