@@ -28,6 +28,7 @@ var namespacecfd =
     [ "IGrid2D", "classcfd_1_1IGrid2D.html", "classcfd_1_1IGrid2D" ],
     [ "IGrid3D", "classcfd_1_1IGrid3D.html", "classcfd_1_1IGrid3D" ],
     [ "IMatrix", "classcfd_1_1IMatrix.html", "classcfd_1_1IMatrix" ],
+    [ "IPointFunction", "structcfd_1_1IPointFunction.html", "structcfd_1_1IPointFunction" ],
     [ "ISparseMatrix", "classcfd_1_1ISparseMatrix.html", "classcfd_1_1ISparseMatrix" ],
     [ "JacobiMatrix", "structcfd_1_1JacobiMatrix.html", "structcfd_1_1JacobiMatrix" ],
     [ "LodMatrix", "classcfd_1_1LodMatrix.html", "classcfd_1_1LodMatrix" ],

@@ -15,6 +15,12 @@ public:
 	 * @param eps    tolerance value
 	 */
 	AmgcMatrixSolver(int maxit=1000, double eps=1e-8);
+
+	/**
+	 * @param amgc_params  set of AMGCL non-default parameters
+	 */
+	AmgcMatrixSolver(std::initializer_list<std::pair<std::string, std::string>> amgc_params);
+
 	~AmgcMatrixSolver();
 
 	/**
@@ -51,6 +57,7 @@ public:
 private:
 	int _maxit;
 	double _tolerance;
+	std::map<std::string, std::string> _params;
 
 	struct Impl;
 	std::unique_ptr<Impl> _pimpl;

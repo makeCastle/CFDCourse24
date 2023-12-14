@@ -241,9 +241,6 @@ TEST_CASE("Poisson-fem 2D solver, triangles & quadrangles", "[poisson2-fem-tri-q
 и новый рабочий класс
 \begin{cppcode}
 struct TestPoissonLinearTriQuadWorker: public ITestPoisson2FemWorker{
-	std::vector<size_t> dirichlet_bases() const override{
-		return _grid.boundary_points();
-	}
 	static FemAssembler build_fem(const IGrid& grid);
 	TestPoissonLinearTriQuadWorker(const IGrid& grid):
 		ITestPoisson2FemWorker(grid, build_fem(grid)){ }

@@ -1,13 +1,15 @@
 <map id="point.hpp" name="point.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="427,5,501,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="535,5,609,31"/>
 <area shape="rect" id="Node000002" href="$i__grid_8hpp.html" title=" " alt="" coords="265,79,343,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="427,39,331,81,329,76,425,34"/>
-<area shape="rect" id="Node000008" href="$jacobi_8hpp.html" title=" " alt="" coords="367,79,449,104"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="448,43,419,80,415,77,444,40"/>
-<area shape="rect" id="Node000009" href="$searcher_8hpp.html" title=" " alt="" coords="473,79,570,104"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="484,40,514,77,510,80,480,43"/>
-<area shape="rect" id="Node000010" href="$simplex_8hpp.html" title=" " alt="" coords="594,79,686,104"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="506,33,612,76,610,81,504,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="522,35,344,82,343,77,520,30"/>
+<area shape="rect" id="Node000008" href="$i__point__function_8hpp.html" title=" " alt="" coords="368,79,507,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="540,39,461,81,458,76,537,35"/>
+<area shape="rect" id="Node000009" href="$jacobi_8hpp.html" title=" " alt="" coords="531,79,613,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="575,44,575,79,569,79,569,44"/>
+<area shape="rect" id="Node000010" href="$searcher_8hpp.html" title=" " alt="" coords="637,79,734,104"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="604,36,668,76,665,81,601,40"/>
+<area shape="rect" id="Node000011" href="$simplex_8hpp.html" title=" " alt="" coords="758,79,850,104"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="623,32,767,76,766,81,621,37"/>
 <area shape="rect" id="Node000003" href="$grid1d_8hpp.html" title=" " alt="" coords="5,152,88,177"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="252,110,89,155,87,149,251,105"/>
 <area shape="rect" id="Node000004" href="$regular__grid2d_8hpp.html" title=" " alt="" coords="112,152,240,177"/>

@@ -26,9 +26,15 @@ set (SRC
 
 	fem/fem_assembler.cpp
 	fem/fem_numeric_integrals.cpp
+        fem/fem_sorted_cell_info.cpp
 	fem/elem1d/segment_linear.cpp
+	fem/elem1d/segment_quadratic.cpp
+	fem/elem1d/segment_cubic.cpp
 	fem/elem2d/triangle_linear.cpp
 	fem/elem2d/quadrangle_linear.cpp
+	fem/elem2d/triangle_quadratic.cpp
+	fem/elem2d/quadrangle_quadratic.cpp
+	fem/elem2d/triangle_cubic.cpp
 
 	debug/printer.cpp
 	debug/saver.cpp
@@ -51,6 +57,7 @@ set (HEADERS
 	geom/simplex.hpp
 	geom/searcher.hpp
 	geom/jacobi.hpp
+	geom/i_point_function.hpp
 
 	grid/vtk.hpp
 	grid/i_grid.hpp
@@ -69,9 +76,15 @@ set (HEADERS
 	fem/fem_assembler.hpp
 	fem/fem_element.hpp
 	fem/fem_numeric_integrals.hpp
+        fem/fem_sorted_cell_info.hpp
 	fem/elem1d/segment_linear.hpp
+	fem/elem1d/segment_quadratic.hpp
+	fem/elem1d/segment_cubic.hpp
 	fem/elem2d/triangle_linear.hpp
 	fem/elem2d/quadrangle_linear.hpp
+	fem/elem2d/triangle_quadratic.hpp
+	fem/elem2d/quadrangle_quadratic.hpp
+	fem/elem2d/triangle_cubic.hpp
 
 	debug/printer.hpp
 	debug/saver.hpp

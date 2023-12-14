@@ -45,6 +45,10 @@ size_t QuadrangleLinearBasis::size() const {
 	return 4;
 }
 
+std::vector<BasisType> QuadrangleLinearBasis::basis_types() const {
+	return std::vector<BasisType>(size(), BasisType::Nodal);
+}
+
 std::vector<Point> QuadrangleLinearBasis::parametric_reference_points() const {
 	return {Point(-1, -1), Point(1, -1), Point(1, 1), Point(-1, 1)};
 }

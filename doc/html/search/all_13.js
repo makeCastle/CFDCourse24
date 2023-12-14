@@ -14,5 +14,6 @@ var searchData=
   ['to_5fsplit_5fpoint_5findex_11',['to_split_point_index',['../classcfd_1_1RegularGrid2D.html#af3ccb104b568a2356fcbbf9badc00653',1,'cfd::RegularGrid2D']]],
   ['toc_12',['Toc',['../namespacecfd_1_1dbg.html#aab26fd3a8881ea43dde8e7a95e2ad7ed',1,'cfd::dbg']]],
   ['transpose_13',['transpose',['../classcfd_1_1DenseMatrix.html#a66d19739664001979d7313df3e3aa4ae',1,'cfd::DenseMatrix']]],
-  ['triangle_5farea_14',['triangle_area',['../namespacecfd.html#afbc6cd545711891692a5f483d91fd239',1,'cfd']]]
+  ['triangle_5farea_14',['triangle_area',['../namespacecfd.html#afbc6cd545711891692a5f483d91fd239',1,'cfd']]],
+  ['txtin_15',['txtin',['../namespaceconvert__from__maxima.html#aa02b7f9298d9fc2bd8d8466ba6811642',1,'convert_from_maxima']]]
 ];

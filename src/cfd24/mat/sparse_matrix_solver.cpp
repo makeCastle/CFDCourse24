@@ -49,6 +49,12 @@ private:
 
 
 AmgcMatrixSolver::AmgcMatrixSolver(int maxit, double tolerance): _maxit(maxit), _tolerance(tolerance) {}
+AmgcMatrixSolver::AmgcMatrixSolver(std::initializer_list<std::pair<std::string, std::string>> amgc_params): AmgcMatrixSolver() {
+	for (auto it: amgc_params){
+		_params[it.first] = it.second;
+	}
+}
+
 AmgcMatrixSolver::~AmgcMatrixSolver() = default;
 
 void AmgcMatrixSolver::set_matrix(const CsrMatrix& mat){
@@ -70,6 +76,11 @@ void AmgcMatrixSolver::set_matrix(const CsrStencil& stencil, const std::vector<d
 	prm.put("solver.maxiter", _maxit);
 	prm.put("precond.coarsening.type", "smoothed_aggregation");
 	prm.put("precond.relax.type", "spai0");
+	//prm.put("precond.relax.type", "gauss_seidel");
+	
+	for (auto it: _params){
+		prm.put(it.first, it.second);
+	}
 
 	_pimpl.reset(new Impl(amgcl_matrix, prm));
 }

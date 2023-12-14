@@ -1,0 +1,105 @@
+\section{Лекция 13 (09.12)}
+
+\subsection{Узловые элементы высокого порядка точности}
+\subsection{Эрмитовы элементы}
+\subsection{Разбор программной реализации МКЭ третьего порядка}
+\subsection{Задание для самостоятельной работы}
+Провести сравнительный анализ на порядок аппроксимации решения двумерного
+уравнения Пуассона с граничными условиями первого рода
+следующих конечноэлементных схем
+\begin{enumerate}
+\item
+Линейные треугольные элементы (\figref{fig:triangle_basis_points}а)
+\item
+Квадратричные треугольные элементы (\figref{fig:triangle_basis_points}б)
+\item
+Кубические треугольные элементы (\figref{fig:triangle_basis_points}в)
+\item
+Квадратичные четырехугольные элементы (\figref{fig:quadrangle_basis_points}б)
+\item
+Неполные 8-узловые квадратичные четырёхугольные элементы (\figref{fig:quadrangle_basis_points}г). В качестве базисных функций использовать полиномы вида
+$$
+P(\xi, \eta) =
+  A^{(00)}
++ A^{(10)}\xi
++ A^{(01)}\eta
++ A^{(11)}\xi\eta
++ A^{(20)} \xi^2
++ A^{(02)}\eta^2
++ A^{(21)}\xi^2\eta
++ A^{(12)}\xi\eta^2
++ \xcancel{\color{gray} A^{(22)}\xi^2 \eta^2}
+$$
+\item
+Неполные 9-узловые кубические треугольные элементы (\figref{fig:triangle_basis_points}г). В качестве базисных функций использовать полиномы вида
+$$
+P(\xi, \eta) =
+  A^{(00)}
++ A^{(10)}\xi
++ A^{(01)}\eta
++ \xcancel{\color{gray} A^{(11)}\xi\eta}
++ A^{(20)}\xi^2
++ A^{(02)}\eta^2
++ A^{(21)}\xi^2\eta
++ A^{(12)}\xi\eta^2
++ A^{(30)}\xi^3
++ A^{(03)}\eta^3
+$$
+\end{enumerate}
+
+Все необходимые тесты находятся в файле \ename{poisson_fem_solve_test.cpp}.
+
+Для {\bf линейных треугольных} элементов использовать тест \ename{[poisson2-fem-tri]}.
+
+Для {\bf квадратичных треугольных} и {\bf квадратичных четырёхгольных} элементов -- \ename{[poisson2-fem-quadratic]}.
+
+Для {\bf кубических треугольных} элементов -- \ename{[poisson2-fem-cubic]}.
+
+Для {\bf неполных квадтратичных четырёхугольных} элементов в качестве основы взять тест \ename{poisson2-fem-quadratic}.
+При этом необходимо изменить тип использованного четырёхугольного элемента: вместо
+класса \cvar{QuadrangleQuadraticBasis} использовать \cvar{QuadrangleQuadratic8Basis}.
+Кроме того, поскольку центральная точка четырёхугольника больше не используется, нужно
+убрать последние (девятые) записи в таблицах связности \cvar{tab_elem_basis} для четырёхугольных элементов и
+уменьшить общее количество базисных функций до
+\begin{cppcode}
+size_t n_bases = grid.n_points() + grid.n_faces();
+\end{cppcode}
+
+Для {\bf неполных кубических треугольных} элементов систему базисных функций нужно
+вычислить самостоятельно используя алгоритм из п.\ref{sec:triangle_bases}.
+На основе полученных соотношений нужно создать класс
+\begin{cppcode}
+class TriangleCubicNo11Basis: public IElementBasis{
+public:
+	size_t size() const override;
+	std::vector<Point> parametric_reference_points() const override;
+	std::vector<BasisType> basis_types() const override;
+	std::vector<double> value(Point xi) const override;
+	std::vector<Vector> grad(Point xi) const override;
+};
+\end{cppcode}
+и реализовать все необходимые функции:
+\begin{itemize}
+\item \cvar{size} -- общее количество базисных функций. Здесь будет девять,
+\item \cvar{parametric_reference_points} -- параметрические координаты девяти узловых точек (соблюдая порядок локальной индексации),
+\item \cvar{basis_types} -- типы базисных функций. Здесь все базисы узловые (\cvar{BasisType::Nodal}),
+\item \cvar{value} -- значение девяти базисных функций в заданной параметрической точке. Здесь нужно подставить полученные при вычислении базисы,
+\item \cvar{grad} -- градиенты вычисленных базисных функций. Для заполнения нужно подсчитать аналитические производные по $\xi$ и $\eta$ вычислиенных базисов.
+\end{itemize}
+Реализовать этот класс можно взяв в качестве основы уже реализованный класс \cvar{TrinagleCubic9Basis} из файла \ename{cfd24/fem/elem2d/traingle_cubic.hpp}.
+После того, как базис будет реализован, его нужно использовать в тесте \ename{poisson2-fem-cubic}:
+\begin{cppcode}
+auto basis = std::make_shared<TriangleCubicNo11Basis>();
+\end{cppcode}
+Аналогично ранее рассмотренному неполному квадратичному элементу,
+следует убрать последний базис из таблицы связности
+\begin{cppcode}
+tab_elem_basis.push_back({
+	bas0, bas1, bas2,
+	bas3, bas4, bas5, bas6, bas7, bas8
+});
+\end{cppcode}
+и сократить общее количество базисных функций
+\begin{cppcode}
+size_t n_bases = grid.n_points() + 2*grid.n_faces();
+\end{cppcode}

@@ -7,5 +7,6 @@ var searchData=
   ['_7eigrid2d_4',['~IGrid2D',['../classcfd_1_1IGrid2D.html#a8c7f9155e0881b3cf78b4d2e1ee18faf',1,'cfd::IGrid2D']]],
   ['_7eigrid3d_5',['~IGrid3D',['../classcfd_1_1IGrid3D.html#a5846ce42a5c80274cad9cce5e0cac999',1,'cfd::IGrid3D']]],
   ['_7eimatrix_6',['~IMatrix',['../classcfd_1_1IMatrix.html#a0cf68abb69b5a84ad0fcabb97a90b5ca',1,'cfd::IMatrix']]],
-  ['_7eisparsematrix_7',['~ISparseMatrix',['../classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0',1,'cfd::ISparseMatrix']]]
+  ['_7eipointfunction_7',['~IPointFunction',['../structcfd_1_1IPointFunction.html#af2573fb84d702937bbe738baf5e65e1a',1,'cfd::IPointFunction']]],
+  ['_7eisparsematrix_8',['~ISparseMatrix',['../classcfd_1_1ISparseMatrix.html#a7be27b296a6900565765b6e642c7e7f0',1,'cfd::ISparseMatrix']]]
 ];
