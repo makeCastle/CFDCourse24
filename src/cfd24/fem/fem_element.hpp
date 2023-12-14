@@ -22,12 +22,21 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // Element Basis
 ///////////////////////////////////////////////////////////////////////////////
+enum struct BasisType{
+	Custom,
+	Nodal,
+	Dx,
+	Dy,
+	Dz
+};
+
 class IElementBasis{
 public:
 	virtual ~IElementBasis() = default;
 
 	virtual size_t size() const = 0;
 	virtual std::vector<Point> parametric_reference_points() const = 0;
+	virtual std::vector<BasisType> basis_types() const = 0;
 	virtual std::vector<double> value(Point xi) const = 0;
 	virtual std::vector<Vector> grad(Point xi) const = 0;
 };

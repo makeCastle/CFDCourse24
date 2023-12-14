@@ -36,6 +36,10 @@ std::vector<Point> TriangleLinearBasis::parametric_reference_points() const {
 	return {Point(0, 0), Point(1, 0), Point(0, 1)};
 }
 
+std::vector<BasisType> TriangleLinearBasis::basis_types() const {
+	return {BasisType::Nodal, BasisType::Nodal, BasisType::Nodal};
+}
+
 std::vector<double> TriangleLinearBasis::value(Point xi_) const {
 	double xi = xi_.x();
 	double eta = xi_.y();

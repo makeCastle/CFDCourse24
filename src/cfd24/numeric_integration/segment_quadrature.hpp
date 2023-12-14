@@ -9,6 +9,8 @@ const Quadrature* quadrature_segment_gauss1();
 const Quadrature* quadrature_segment_gauss2();
 const Quadrature* quadrature_segment_gauss3();
 const Quadrature* quadrature_segment_gauss4();
+const Quadrature* quadrature_segment_gauss5();
+const Quadrature* quadrature_segment_gauss6();
 
 }
 #endif

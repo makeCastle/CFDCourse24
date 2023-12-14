@@ -35,15 +35,18 @@ FemAssembler::FemAssembler(size_t n_bases, const std::vector<FemElement>& elemen
 		}
 	}
 
-	// basis reference points
+	// basis types and reference points
 	_ref_points.resize(n_bases);
+	_bas_types.resize(n_bases);
 	for (size_t ielem=0; ielem < elements.size(); ++ielem){
 		auto geom = _elements[ielem].geometry;
 		std::vector<Point> xi = _elements[ielem].basis->parametric_reference_points();
+		std::vector<BasisType> types = _elements[ielem].basis->basis_types();
 		for (size_t ibas = 0; ibas < xi.size(); ++ibas){
 			Point p = geom->to_physical(xi[ibas]);
 			size_t ind = _tab_elem_basis[ielem][ibas];
 			_ref_points[ind] = p;
+			_bas_types[ind] = types[ibas];
 		}
 	}
 }
@@ -62,6 +65,21 @@ const FemElement& FemAssembler::element(size_t ielem) const{
 
 Point FemAssembler::reference_point(size_t ibas) const{
 	return _ref_points[ibas];
+}
+
+std::vector<double> FemAssembler::approximate(const IPointFunction& func) const{
+	std::vector<double> ret;
+	for (size_t ibas=0; ibas < n_bases(); ++ibas){
+		Point p = reference_point(ibas);
+		switch (_bas_types[ibas]){
+			case BasisType::Nodal: ret.push_back(func(p)); break;
+			case BasisType::Dx: ret.push_back(func.grad(p).x()); break;
+			case BasisType::Dy: ret.push_back(func.grad(p).y()); break;
+			case BasisType::Dz: ret.push_back(func.grad(p).z()); break;
+			default: _THROW_NOT_IMP_;
+		};
+	}
+	return ret;
 }
 
 void FemAssembler::add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const{

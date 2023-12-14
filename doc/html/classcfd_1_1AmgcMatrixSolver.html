@@ -133,6 +133,8 @@ $(document).ready(function(){initNavTree('classcfd_1_1AmgcMatrixSolver.html','')
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4685781e0cc47041c1e7eb72431b4836" id="r_a4685781e0cc47041c1e7eb72431b4836"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#a4685781e0cc47041c1e7eb72431b4836">AmgcMatrixSolver</a> (int maxit=1000, double eps=1e-8)</td></tr>
 <tr class="separator:a4685781e0cc47041c1e7eb72431b4836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1efca7eaecff9613b24f93baa328c42" id="r_ad1efca7eaecff9613b24f93baa328c42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#ad1efca7eaecff9613b24f93baa328c42">AmgcMatrixSolver</a> (std::initializer_list&lt; std::pair&lt; std::string, std::string &gt; &gt; amgc_params)</td></tr>
+<tr class="separator:ad1efca7eaecff9613b24f93baa328c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad135e9cc3c2b96ea2f76eb5fd15cbbd" id="r_aad135e9cc3c2b96ea2f76eb5fd15cbbd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#aad135e9cc3c2b96ea2f76eb5fd15cbbd">~AmgcMatrixSolver</a> ()</td></tr>
 <tr class="separator:aad135e9cc3c2b96ea2f76eb5fd15cbbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17b15b066507f1379b0b02804460c5b3" id="r_a17b15b066507f1379b0b02804460c5b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcfd_1_1AmgcMatrixSolver.html#a17b15b066507f1379b0b02804460c5b3">set_matrix</a> (const <a class="el" href="classcfd_1_1CsrMatrix.html">CsrMatrix</a> &amp;mat)</td></tr>
@@ -156,7 +158,7 @@ Static Public Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="sparse__matrix__solver_8hpp_source.html#l00011">11</a> of file <a class="el" href="sparse__matrix__solver_8hpp_source.html">sparse_matrix_solver.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4685781e0cc47041c1e7eb72431b4836" name="a4685781e0cc47041c1e7eb72431b4836"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4685781e0cc47041c1e7eb72431b4836">&#9670;&#160;</a></span>AmgcMatrixSolver()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4685781e0cc47041c1e7eb72431b4836">&#9670;&#160;</a></span>AmgcMatrixSolver() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -184,6 +186,30 @@ Static Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">maxit</td><td>maximum allowed number of iterations </td></tr>
     <tr><td class="paramname">eps</td><td>tolerance value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad1efca7eaecff9613b24f93baa328c42" name="ad1efca7eaecff9613b24f93baa328c42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1efca7eaecff9613b24f93baa328c42">&#9670;&#160;</a></span>AmgcMatrixSolver() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cfd::AmgcMatrixSolver::AmgcMatrixSolver </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; std::pair&lt; std::string, std::string &gt; &gt;&#160;</td>
+          <td class="paramname"><em>amgc_params</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">amgc_params</td><td>set of AMGCL non-default parameters </td></tr>
   </table>
   </dd>
 </dl>

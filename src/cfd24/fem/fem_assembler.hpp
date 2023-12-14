@@ -4,6 +4,7 @@
 #include "cfd24/fem/fem_element.hpp"
 #include "cfd24/mat/csrmat.hpp"
 #include "cfd24/grid/i_grid.hpp"
+#include "cfd24/geom/i_point_function.hpp"
 
 namespace cfd{
 
@@ -22,6 +23,8 @@ struct FemAssembler{
 
 	Point reference_point(size_t ibas) const;
 
+	std::vector<double> approximate(const IPointFunction& func) const;
+
 	void add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 	void add_to_global_vector(size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
 protected:
@@ -30,6 +33,7 @@ protected:
 	std::vector<std::vector<size_t>> _tab_elem_basis;
 	std::vector<std::vector<size_t>> _tab_elem_csr_address;
 	std::vector<Point> _ref_points;
+	std::vector<BasisType> _bas_types;
 
 	CsrStencil _stencil;
 };

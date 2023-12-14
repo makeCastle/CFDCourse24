@@ -59,3 +59,44 @@ const Quadrature* cfd::quadrature_segment_gauss4(){
 		});
 	return &quad;
 }
+
+const Quadrature* cfd::quadrature_segment_gauss5(){
+	static Quadrature quad(
+		{
+			Point{0.0000000000000000},
+			Point{-0.5384693101056831},
+			Point{0.5384693101056831},
+			Point{-0.9061798459386640},
+			Point{0.9061798459386640}
+		},
+		{
+			0.5688888888888889,
+			0.4786286704993665,
+			0.4786286704993665,
+			0.2369268850561891,
+			0.2369268850561891
+		});
+	return &quad;
+}
+
+
+const Quadrature* cfd::quadrature_segment_gauss6(){
+	static Quadrature quad(
+		{
+			Point{0.6612093864662645},
+			Point{-0.6612093864662645},
+			Point{-0.2386191860831969},
+			Point{0.2386191860831969},
+			Point{-0.9324695142031521},
+			Point{0.9324695142031521}
+		},
+		{
+			0.3607615730481386,
+			0.3607615730481386,
+			0.4679139345726910,
+			0.4679139345726910,
+			0.1713244923791704,
+			0.1713244923791704
+		});
+	return &quad;
+}

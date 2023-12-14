@@ -31,6 +31,10 @@ std::vector<Point> SegmentLinearBasis::parametric_reference_points() const {
 	return {Point(-1), Point(1)};
 }
 
+std::vector<BasisType> SegmentLinearBasis::basis_types() const {
+	return {BasisType::Nodal, BasisType::Nodal};
+}
+
 std::vector<double> SegmentLinearBasis::value(Point xi_) const {
 	double xi = xi_.x();
 	return { (1 - xi)/2, (1 + xi)/2 };
