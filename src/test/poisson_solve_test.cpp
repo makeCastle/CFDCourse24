@@ -13,6 +13,17 @@ using namespace cfd;
 // Poisson 1D solver
 ///////////////////////////////////////////////////////////////////////////////
 
+double kronecker_delta(size_t i, size_t j) {
+	if (i == j)
+	{
+		return 1.0;
+	}
+	else {
+		return 0.0;
+	}
+}
+
+
 class TestPoisson1Worker{
 public:
 	// u(x) = sin(10*x^2)
@@ -128,7 +139,7 @@ public:
 		return -100 * x * x * sin(10 * x * y);
 	}
 
-	TestPoisson2Worker(size_t n_cellsX, size_t n_cellsY) : grid(0.0, 1.0, 0.0, 1.0, n_cellsX, n_cellsY), _hx(1.0 / n_cellsX), _hy(1.0 / n_cellsY) {}
+	TestPoisson2Worker(size_t n_cellsX, size_t n_cellsY) : grid(0.0, 1.0, 0.0, 1.0, n_cellsX, n_cellsY), _hx(1.0 / n_cellsX), _hy(1.0 / n_cellsY), _nx(n_cellsX + 1), _ny(n_cellsY + 1) {}
 
 	// returns norm2(u - u_exact)
 	double solve() {
@@ -162,9 +173,12 @@ public:
 		}
 		VtkUtils::add_point_data(exact, "exact", filename);
 	}
+
 protected:
 	double _hx;
 	double _hy;
+	size_t _ny;
+	size_t _nx;
 private:
 	const RegularGrid2D grid;
 	std::vector<double> u;
@@ -179,25 +193,14 @@ private:
 
 		// fill using 'easy-to-construct' sparse matrix format
 		LodMatrix mat(grid.n_points());
-		mat.add_value(0, 0, 1);
-		mat.add_value(grid.n_points() - 1, grid.n_points() - 1, 1);
+		//mat.add_value(0, 0, 1);
+		//mat.add_value(grid.n_points() - 1, grid.n_points() - 1, 1);
 
-		/*for (size_t i = 0; i <= b; ++i)
-		{
-			mat.add_value(i, 0, 1);
-			mat.add_value(i, b, 1);
-		}
-		for (size_t i = 0; i <= b; ++i)
-		{
-			mat.add_value(0, i, 1);
-			mat.add_value(a, i, 1);
-		}*/
-
-		double nondiag1 = -1.0 / (_hx * _hx); // A[i - 1][j] (a)
-		double nondiag2 = -1.0 / (_hx * _hx); // A[i + 1][j] (b)
-		double diag = 2.0 / (_hx * _hx) + 2.0 / (_hy * _hy); // A[i][j] (ñ)
-		double nondiag3 = -1.0 / (_hy * _hy); // A[i][j - 1] (d)
-		double nondiag4 = -1.0 / (_hy * _hy); // A[i][j + 1] (e)
+		double nondiag1 = -1.0 / (_hx * _hx);
+		double nondiag2 = -1.0 / (_hy * _hy);
+		double diag = 2.0 / (_hx * _hx) + 2.0 / (_hy * _hy);
+		double nondiag3 = -1.0 / (_hy * _hy);
+		double nondiag4 = -1.0 / (_hx * _hx);
 		
 		/*mat.add_value(1, 0, diag); mat.add_value(1, 1, nondiag3); mat.add_value(1, 2, nondiag4);
 		mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 2, nondiag2); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, diag);
@@ -205,18 +208,85 @@ private:
 		mat.add_value(grid.n_points() - 3, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 3, grid.n_points() - 3, nondiag2); 
 		mat.add_value(grid.n_points() - 3, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 3, grid.n_points() - 1, nondiag3);*/
 
-		mat.add_value(1, 0, nondiag2); mat.add_value(1, 1, diag); mat.add_value(1, 2, nondiag3); mat.add_value(1, 3, nondiag4);
-		mat.add_value(grid.n_points() - 2, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag2);
-		mat.add_value(grid.n_points() - 2, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, nondiag3);
+		//mat.add_value(1, 0, nondiag2); mat.add_value(1, 1, diag); mat.add_value(1, 2, nondiag3); mat.add_value(1, 3, nondiag4);
+		//mat.add_value(grid.n_points() - 2, grid.n_points() - 4, nondiag1); mat.add_value(grid.n_points() - 2, grid.n_points() - 3, nondiag2);
+		//mat.add_value(grid.n_points() - 2, grid.n_points() - 2, diag); mat.add_value(grid.n_points() - 2, grid.n_points() - 1, nondiag3);
 		
-		for (size_t i = 2; i < grid.n_points() - 2; ++i) {
-			mat.add_value(i, i - 2, nondiag1);
-			mat.add_value(i, i - 1, nondiag2);
-			mat.add_value(i, i, diag);
-			mat.add_value(i, i + 1, nondiag3);
-			mat.add_value(i, i + 2, nondiag4);
+		mat.add_value(0, 0, 1);
+		mat.add_value(grid.n_points() - 1, grid.n_points() - 1, 1);
+		for (size_t i = 1; i < _ny - 1; ++i)
+		{
+			for (size_t j = 1; j < _nx - 1; ++j)
+			{
+				size_t index = grid.to_linear_point_index({ j, i });
+				mat.add_value(index, index - 1, nondiag2);
+				mat.add_value(index, index + 1, nondiag3);
+				mat.add_value(index, index, diag);
+				mat.add_value(index - 1, index, nondiag1);
+				mat.add_value(index + 1, index, nondiag4);
+			}
 		}
-		//dbg::print(mat);
+
+		//for (size_t i = 0; i < grid.n_points(); ++i) {
+		//	cfd::RegularGrid2D::split_index_t irow_col = grid.to_split_point_index(i);
+		//	size_t irow = irow_col[1]; size_t icol = irow_col[0];
+		//	if (i == 24)
+		//	{
+		//		int a = 0;
+		//	}
+		//	//// BEGIN boundary conditions
+		//	//if (irow == 0)
+		//	//{
+		//	//	for (size_t j = 0; j < _nx; ++j)
+		//	//	{
+		//	//		mat.add_value(i, j * _nx, kronecker_delta(irow, icol));
+		//	//	}
+		//	//}
+		//	//else if (icol == 0 || icol == _nx - 1)
+		//	//{
+		//	//	for (size_t j = 0; j < _ny; ++j)
+		//	//	{
+		//	//		mat.add_value(i + j, i, kronecker_delta(irow, icol));
+		//	//	}
+		//	//}
+		//	//// END boundary conditions
+		//	
+		//	if ((i == 0) || (i == grid.n_points() - 1))
+		//	{
+		//		mat.add_value(i, i, 1);
+		//	}
+
+		//	if ((irow > 0) && (irow < _ny - 1))
+		//	{
+		//		if (irow == 1)
+		//		{
+		//			mat.add_value(i, i - 1, nondiag2);
+		//			mat.add_value(i, i, diag);
+		//			mat.add_value(i, i + 1, nondiag3);
+		//			mat.add_value(i, i + _nx - 1, nondiag4);
+		//		}
+		//		else if (irow == _ny - 2)
+		//		{
+		//			mat.add_value(i, i - _nx + 1, nondiag1);
+		//			mat.add_value(i, i - 1, nondiag2);
+		//			mat.add_value(i, i, diag);
+		//			mat.add_value(i, i + 1, nondiag3);
+		//		}
+		//		else {
+		//			mat.add_value(i, i - _nx + 1, nondiag1);
+		//			mat.add_value(i, i - 1, nondiag2);
+		//			mat.add_value(i, i, diag);
+		//			mat.add_value(i, i + 1, nondiag3);
+		//			mat.add_value(i, i + _nx - 1, nondiag4);
+		//		}
+		//	}
+		//	
+
+		//	
+
+		//}
+
+		dbg::print(mat);
 		// return 'easy-to-use' sparse matrix format
 		return mat.to_csr();
 	}
@@ -224,36 +294,36 @@ private:
 	std::vector<double> approximate_rhs2() const {
 		std::vector<double> ret(grid.n_points());
 
-		unsigned long a = grid.point(grid.n_points() - 1).x() / _hx;
-		unsigned long b = grid.point(grid.n_points() - 1).y() / _hy;
+		//unsigned long a = grid.point(grid.n_points() - 1).x() / _hx;
+		//unsigned long b = grid.point(grid.n_points() - 1).y() / _hy;
 
 		//ret[0] = exact_solution(grid.point(0).x(), grid.point(0).y());
 		// boundary left
-		for (size_t i = 0; i <= a; ++i)
-		{
-			ret[grid.to_linear_point_index({ i, 0 })] = exact_solution(grid.point(i).x(), grid.point(0).y());
-		}
-		// boundary right
-		for (size_t i = 0; i <= a; ++i)
-		{
-			ret[grid.to_linear_point_index({ i, b})] = exact_solution(grid.point(i).x(), grid.point(b).y());
-		}
-		// boundary top
-		for (size_t i = 0; i <= b; ++i)
+		for (size_t i = 0; i < _ny; ++i)
 		{
 			ret[grid.to_linear_point_index({ 0, i })] = exact_solution(grid.point(0).x(), grid.point(i).y());
 		}
-		// boundary bottom
-		for (size_t i = 0; i <= b; ++i)
+		// boundary right
+		for (size_t i = 0; i < _ny; ++i)
 		{
-			ret[grid.to_linear_point_index({ a, i })] = exact_solution(grid.point(a).x(), grid.point(i).y());
+			ret[grid.to_linear_point_index({ _nx - 1, i})] = exact_solution(grid.point(_nx - 1).x(), grid.point(i).y());
+		}
+		// boundary top
+		for (size_t i = 0; i < _nx; ++i)
+		{
+			ret[grid.to_linear_point_index({ i, 0 })] = exact_solution(grid.point(i).x(), grid.point(0).y());
+		}
+		// boundary bottom
+		for (size_t i = 0; i < _nx; ++i)
+		{
+			ret[grid.to_linear_point_index({ i, _ny - 1})] = exact_solution(grid.point(i).x(), grid.point(_ny - 1).y());
 		}
 		
-		for (size_t i = 1; i < b; ++i) {
-			for (size_t j = 1; j < a; ++j)
+		for (size_t i = 1; i < _ny - 1; ++i) {
+			for (size_t j = 1; j < _nx - 1; ++j)
 			{
-				ret[grid.to_linear_point_index({ i, j })] = exact_rhsX(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y()) + 
-					exact_rhsY(grid.point(grid.to_linear_point_index({ i, j })).x(), grid.point(grid.to_linear_point_index({ i, j })).y());
+				ret[grid.to_linear_point_index({ j, i})] = exact_rhsX(grid.point(grid.to_linear_point_index({ j, i})).x(), grid.point(grid.to_linear_point_index({ j, i})).y()) + 
+					exact_rhsY(grid.point(grid.to_linear_point_index({ j, i})).x(), grid.point(grid.to_linear_point_index({ j, i})).y());
 			}
 		}
 		//ret[grid.n_points() - 1] = exact_solution(grid.point(grid.n_points() - 1).x(), grid.point(grid.n_points() - 1).y());
@@ -268,23 +338,23 @@ private:
 		//double hx = grid.point(1).x() - grid.point(0).x();
 		//double hy = grid.point(2 * a + 1).y() - grid.point(a).y();
 		std::vector<double> w(grid.n_points(), _hx * _hy);
-		unsigned long long ny = grid.point(grid.n_points() - 1).y() / _hy;
-		unsigned long long nx = grid.point(grid.n_points() - 1).x() / _hx;
-		w[grid.to_linear_point_index({0, 0})] = w[grid.to_linear_point_index({ 0,  ny})] = w[grid.to_linear_point_index({ nx,  ny })] = 
-			w[grid.to_linear_point_index({ nx,  0 })] = (_hx * _hy) / 4.0;
-		for (size_t i = 1; i < nx; ++i)
+		//unsigned long long ny = grid.point(grid.n_points() - 1).y() / _hy;
+		//unsigned long long nx = grid.point(grid.n_points() - 1).x() / _hx;
+		w[grid.to_linear_point_index({0, 0})] = w[grid.to_linear_point_index({ _nx - 1, 0 })] = w[grid.to_linear_point_index({ _nx - 1,  _ny - 1 })] = 
+			w[grid.to_linear_point_index({ 0,  _ny - 1 })] = (_hx * _hy) / 4.0;
+		for (size_t i = 1; i < _nx - 1; ++i)
 		{
 			w[grid.to_linear_point_index({ i, 0 })] = (_hx * _hy) / 2.0;
 		}
-		for (size_t i = 1; i < ny; ++i)
+		for (size_t i = 1; i < _ny - 1; ++i)
 		{
-			w[grid.to_linear_point_index({ nx, i })] = (_hx * _hy) / 2.0;
+			w[grid.to_linear_point_index({ _nx - 1, i })] = (_hx * _hy) / 2.0;
 		}
-		for (size_t i = 1; i < nx; ++i)
+		for (size_t i = 1; i < _nx - 1; ++i)
 		{
-			w[grid.to_linear_point_index({ i, ny })] = (_hx * _hy) / 2.0;
+			w[grid.to_linear_point_index({ i, _ny - 1 })] = (_hx * _hy) / 2.0;
 		}
-		for (size_t i = 1; i < ny; ++i)
+		for (size_t i = 1; i < _ny - 1; ++i)
 		{
 			w[grid.to_linear_point_index({ 0, i })] = (_hx * _hy) / 2.0;
 		}
@@ -351,7 +421,7 @@ TEST_CASE("Poisson 2D solver", "[poisson2]") {
 
 	// loop over n_cells value
 	//for (size_t n_cells : {10, 20, 50, 100, 200, 500, 1000}) {
-	size_t n_cells = 100;
+	size_t n_cells = 3;
 			// build test solver
 			TestPoisson2Worker worker(n_cells, n_cells);
 
