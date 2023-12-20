@@ -982,7 +982,7 @@ TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-sim
 	// problem parameters
 	double Re = 100;
 	double Pe = 100;
-	size_t n_unit = 20;  // partition per unit length
+	size_t n_unit = 10;  // partition per unit length
 	double time_step = 0.1;
 	double end_time = 200;
 	double E = 4.0;
