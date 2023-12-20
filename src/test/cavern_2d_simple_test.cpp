@@ -474,11 +474,11 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 
 	// problem parameters
 	double Re = 100;
-	double tau = 0.03;
-	double alpha = 0.8;
-	size_t n_cells = 30;
+	double tau = 0.01;
+	double alpha = 0.08;
+	size_t n_cells = 100;
 	size_t max_it = 1000;
-	double eps = 1e-1;
+	double eps = 0.01;
 	double u_bottom = 0.0;
 
 	// worker initialization
