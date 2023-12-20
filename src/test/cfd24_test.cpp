@@ -4,6 +4,8 @@
 #include "cfd24/grid/regular_grid2d.hpp"
 #include "cfd24/grid/vtk.hpp"
 
+double M_PI = 3.1415926535;
+
 double func(double x, double y, double t){
 	//x = x - t;
 	//if (x >= -1 && x <=-0.8 && y >= -0.1 && y <= 0.1){
