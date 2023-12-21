@@ -180,16 +180,13 @@ private:
 		LodMatrix mat(_grid.n_points());
 
 		for (size_t i_point = 0; i_point < _grid.n_points(); i_point++) {
-			// i_point
 			RegularGrid2D::split_index_t ij = _grid.to_split_point_index(i_point);
 			size_t i = ij[0];
 			size_t j = ij[1];
-			//��� �������
+			// boundary conditions
 			if (i == 0 || i == n_cellsX || j == n_cellsY || j == 0) {
 				mat.add_value(i_point, i_point, 1);
 			}
-
-
 			else {
 				//k[i-1,j]
 				RegularGrid2D::split_index_t ij_im_j{ i - 1, j };
@@ -222,20 +219,16 @@ private:
 		std::vector<double> ret(_grid.n_points());
 		for (size_t i_point = 0; i_point < _grid.n_points(); i_point++) {
 			Point p = _grid.point(i_point);
-			// i_point
 			RegularGrid2D::split_index_t ij = _grid.to_split_point_index(i_point);
 			size_t i = ij[0];
 			size_t j = ij[1];
-			//
+			// boundary conditions
 			if (i == 0 || i == n_cellsX || j == n_cellsY || j == 0) {
 				ret[i_point] = exact_solution(p.x(), p.y());
 			}
-
-
 			else {
 				ret[i_point] = exact_rhs(p.x(), p.y());
 			}
-
 		}
 		return ret;
 	}
@@ -246,16 +239,16 @@ private:
 		for (size_t i = 0; i < n_cellsX + 1; ++i) {
 			for (size_t j = 0; j < n_cellsY + 1; ++j)
 			{
-				double Ek = _hx * _hy;
+				double w = _hx * _hy;
 				size_t k = _grid.to_linear_point_index({ i,j });
 				if ((i == 0 && j == 0) || (i == n_cellsX && j == 0) || (i == 0 && j == n_cellsY) || (i == n_cellsX && j == n_cellsY)) {
-					Ek = Ek / 4;
+					w = w / 4;
 				}
 				else if (i == 0 || j == 0 || i == n_cellsX || j == n_cellsY) {
-					Ek = Ek / 2;
+					w = w / 2;
 				}
 				double diff = _u[k] - exact_solution(_grid.point(k).x(), _grid.point(k).y());
-				sum += Ek * diff * diff;
+				sum += w * diff * diff;
 			}
 		}
 		return sqrt(sum);
