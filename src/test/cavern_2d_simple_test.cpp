@@ -504,31 +504,31 @@ std::vector<double> Cavern2DSimpleWorker::omega_solver() {
 	{
 		for (size_t i = 1; i < _grid.ny(); i++)
 		{
-			size_t k1 = _grid.xface_grid_index_ip_j(i, j); // v[i+1/2][j]
-			size_t k1_minus = _grid.xface_grid_index_ip_j(i - 1, j); // v[i-1/2][j]
-			size_t k2 = _grid.yface_grid_index_i_jp(i, j); // u[i][j+1/2]
-			size_t k2_minus = _grid.yface_grid_index_i_jp(i, j - 1); // u[i][j-1/2]
-			size_t k = _grid.to_linear_point_index(std::array<size_t, 2>{ {i, j}});
-			omega[k] = (_v[k1] - _v[k1_minus]) / _hx - (_u[k2] - _u[k2_minus]) / _hy;
+			size_t v1 = _grid.xface_grid_index_ip_j(i, j); // v[i+1/2][j]
+			size_t v2 = _grid.xface_grid_index_ip_j(i - 1, j); // v[i-1/2][j]
+			size_t u1 = _grid.yface_grid_index_i_jp(i, j); // u[i][j+1/2]
+			size_t u2 = _grid.yface_grid_index_i_jp(i, j - 1); // u[i][j-1/2]
+			size_t k = _grid.to_linear_point_index({i, j});
+			omega[k] = (_v[v1] - _v[v2]) / _hx - (_u[u1] - _u[u2]) / _hy;
 		}
 	}
 
 	// top/bottom boundary
 	for (size_t i = 0; i <= _grid.nx(); i++)
 	{
-		size_t k2 = _grid.yface_grid_index_i_jp(i, 0); // u[i][1/2]
-		size_t k2_bottom = _grid.yface_grid_index_i_jp(i, _grid.ny() - 1); // u[i][ny - 1/2]
+		size_t u1 = _grid.yface_grid_index_i_jp(i, 0); // u[i][1/2]
+		size_t u2 = _grid.yface_grid_index_i_jp(i, _grid.ny() - 1); // u[i][ny - 1/2]
 		size_t k = _grid.to_linear_point_index({ i, _grid.ny() }); // top on 
-		omega[i] = 2.0 * _u[k2] / _hy; //bottom
-		omega[k] = 2.0 * (1 - _u[k2_bottom]) / _hy; //top
+		omega[i] = 2.0 * _u[u1] / _hy; //bottom
+		omega[k] = 2.0 * (1 - _u[u2]) / _hy; //top
 	}
 	for (size_t j = 0; j <= _grid.ny(); j++)
 	{
-		size_t k1 = _grid.xface_grid_index_ip_j(0, j); //grid to v
-		size_t k1_right = _grid.xface_grid_index_ip_j(_grid.nx() - 1, j); //grid to v
+		size_t v1 = _grid.xface_grid_index_ip_j(0, j); //grid to v
+		size_t v2 = _grid.xface_grid_index_ip_j(_grid.nx() - 1, j); //grid to v
 		size_t k = _grid.to_linear_point_index({ 0, j });
-		omega[k] = 2.0 * _v[k1] / _hx; //left boundary
-		omega[k + _grid.nx()] = -2.0 * _v[k1_right] / _hx; //right boundary
+		omega[k] = 2.0 * _v[v1] / _hx; //left boundary
+		omega[k + _grid.nx()] = -2.0 * _v[v2] / _hx; //right boundary
 	}
 
 	return omega;
@@ -550,24 +550,22 @@ std::vector<double> Cavern2DSimpleWorker::psi_solver() {
 	while (e1 > e) {
 		for (size_t i = 1; i < _grid.n_points() - 1; ++i)
 		{
-			size_t i_row = _grid.to_split_point_index(i)[0];
-			size_t i_coll = _grid.to_split_point_index(i)[1];
+			size_t i_coll = _grid.to_split_point_index(i)[0];
+			size_t i_row = _grid.to_split_point_index(i)[1];
 
-			if (i_row == 0 || i_row == _grid.nx() || i_coll == 0 || i_coll == _grid.ny())
+			if (i_row == 0 || i_row == _grid.ny() || i_coll == 0 || i_coll == _grid.nx())
 			{
 				int c = 5;
 			}
 			else
 			{
-				psi[i] = (omega[i] + 1.0 / (_hx * _hx) * psi[_grid.to_linear_point_index({ i_row - 1, i_coll })]
-					+ 1.0 / (_hx * _hx) * psi[_grid.to_linear_point_index({ i_row + 1, i_coll })]
-					+ 1.0 / (_hy * _hy) * psi[_grid.to_linear_point_index({ i_row, i_coll - 1 })]
-					+ 1.0 / (_hy * _hy) * psi[_grid.to_linear_point_index({ i_row, i_coll + 1 })])
+				psi[i] = (omega[i] + 1.0 / (_hx * _hx) * psi[_grid.to_linear_point_index({ i_coll - 1, i_row })]
+					+ 1.0 / (_hx * _hx) * psi[_grid.to_linear_point_index({ i_coll + 1, i_row })]
+					+ 1.0 / (_hy * _hy) * psi[_grid.to_linear_point_index({ i_coll, i_row - 1 })]
+					+ 1.0 / (_hy * _hy) * psi[_grid.to_linear_point_index({ i_coll, i_row + 1 })])
 					/ ((1.0 / (_hx * _hx) + 1.0 / (_hy * _hy)) * 2.0);
 			}
 		}
-
-		//double e1 = 0.0;
 
 		std::vector<double> result(_grid.n_points());
 		for (int i = 0; i < _grid.n_points(); i++)
@@ -580,51 +578,6 @@ std::vector<double> Cavern2DSimpleWorker::psi_solver() {
 
 		psi0 = psi;
 	}
-	/*
-	// internal points
-	for (size_t i = 1; i < x_points*x_points - 1; ++i)
-	{
-		for (size_t j = 1; j < y_points*y_points - 1; ++j)
-		{
-			mat.set_value(i - 1, j, -1.0 / (_hx * _hx));
-			mat.set_value(i + 1, j, -1.0 / (_hx * _hx));
-			mat.set_value(i, j, 2.0 / (_hx * _hx) + 2.0 / (_hy * _hy));
-			mat.set_value(i, j - 1, -1.0 / (_hy * _hy));
-			mat.set_value(i, j + 1, -1.0 / (_hy * _hy));
-		}
-	}
-
-	// boundary left
-	for (size_t i = 0; i < y_points*y_points; ++i)
-	{
-		mat.set_value(i, 0, 0.0);
-	}
-
-	//dbg::print(mat);
-	//mat.set_value(0, 0, 1);
-	// boundary right
-	for (size_t i = 0; i < y_points*y_points; ++i)
-	{
-		mat.set_value(i, x_points*x_points - 1, 0.0);
-	}
-	//dbg::print(mat);
-	//mat.set_value(y_points - 1, x_points - 1, 1);
-	// boundary top
-	for (size_t i = 0; i < x_points*x_points; ++i)
-	{
-		mat.set_value(0, i, 0.0);
-	}
-	//dbg::print(mat);
-	// boundary bottom
-	for (size_t i = 0; i < x_points*x_points; ++i)
-	{
-		mat.set_value(y_points*y_points - 1, i, 0.0);
-	}
-	*/
-
-
-	//AmgcMatrixSolver::solve_slae(mat.to_csr(), omega, psi);
-
 
 	return psi;
 }
