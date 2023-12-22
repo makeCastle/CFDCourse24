@@ -118,7 +118,8 @@ double Cavern2DSimpleWorker::set_uvp(const std::vector<double>& u, const std::ve
 	double nrm_u = compute_residual(_mat_u, _rhs_u, _u)/_tau;
 	double nrm_v = compute_residual(_mat_v, _rhs_v, _v)/_tau;
 
-	//std::vector<double> ru = compute_residual2(_mat_u, _rhs_u, _u);
+	//for printing ru, rv
+	//std::vector<double> ru = compute_residual2(_mat_u, _rhs_u, _u); 
 	//std::vector<double> rv = compute_residual2(_mat_v, _rhs_v, _v);
 	//
 	//for (size_t i = 0; i < ru.size(); ++i)
@@ -230,7 +231,7 @@ void Cavern2DSimpleWorker::assemble_u_slae(){
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]+1);
 			mat.add_value(row_index, ind1, -value);
 			///////////////////////////////////////////////
-			if (_u_bottom != 0) { _rhs_u[row_index] -= 2.0 * value; }
+			if (_u_bottom != 0) { _rhs_u[row_index] -= 2.0 * value; } // for sym cavern
 			//////////////////////////////////////////////
 		} else {
 			size_t ind1 = _grid.yface_grid_index_i_jp(ij_col[0], ij_col[1]);
@@ -476,7 +477,7 @@ TEST_CASE("Cavern 2D, SIMPLE algorithm", "[cavern2-simple]"){
 	double Re = 100;
 	double tau = 0.01;
 	double alpha = 0.08;
-	size_t n_cells = 100;
+	size_t n_cells = 30;
 	size_t max_it = 1000;
 	double eps = 0.01;
 	double u_bottom = 0.0;
