@@ -991,8 +991,8 @@ TEST_CASE("Obstacle 2D nonstationary, SIMPLE algorithm", "[obstacle2-nonstat-sim
 
 	// worker initialization
 	RegularGrid2D grid(0, 12, -2, 2, 12 * n_unit, 4 * n_unit);
-	grid.deactivate_cells({ 2, -0.7 }, { 2.5, 0.3 });
-	grid.deactivate_cells({ 4, -0.3 }, { 4.5, 0.7 });
+	grid.deactivate_cells({ 2, -0.7 }, { 2.5, 0.3 }); // first obstacle
+	grid.deactivate_cells({ 4, -0.3 }, { 4.5, 0.7 }); // second obstacle
 	ObstacleNonstat2DSimpleWorker worker(Re, Pe, grid, E, time_step);
 	worker.initialize_saver(false, "obstacle2-nonstat-2");
 
