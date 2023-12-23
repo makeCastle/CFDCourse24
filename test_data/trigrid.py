@@ -1,7 +1,7 @@
 from hybmeshpack import hmscript as hm
 import math
 
-N = 3000
+N = 1000
 output_name = "trigrid.vtk"
 
 step = math.pow(N/math.exp(0.87025576215809), -1.0/2.02352892745984)

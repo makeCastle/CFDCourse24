@@ -27,10 +27,10 @@ using namespace cfd;
 ///////////////////////////////////////////////////////////////////////////////
 // ITestPoissonFemWorker
 ///////////////////////////////////////////////////////////////////////////////
-struct ITestPoissonFemWorker{
+struct ITestPoissonFemWorker {
 	virtual double exact_solution(Point p) const = 0;
 	virtual double exact_rhs(Point p) const = 0;
-	virtual std::vector<size_t> dirichlet_bases() const{
+	virtual std::vector<size_t> dirichlet_bases() const {
 		return _grid.boundary_points();
 	}
 
@@ -47,15 +47,15 @@ protected:
 	double compute_norm2() const;
 };
 
-ITestPoissonFemWorker::ITestPoissonFemWorker(const IGrid& grid, const FemAssembler& fem): _grid(grid), _fem(fem){
+ITestPoissonFemWorker::ITestPoissonFemWorker(const IGrid& grid, const FemAssembler& fem) : _grid(grid), _fem(fem) {
 }
 
-double ITestPoissonFemWorker::solve(){
+double ITestPoissonFemWorker::solve() {
 	// 1. build SLAE
 	CsrMatrix mat = approximate_lhs();
 	std::vector<double> rhs = approximate_rhs();
 	// 2. Dirichlet bc
-	for (size_t ibas: dirichlet_bases()){
+	for (size_t ibas : dirichlet_bases()) {
 		mat.set_unit_row(ibas);
 		Point p = _fem.reference_point(ibas);
 		rhs[ibas] = exact_solution(p);
@@ -68,22 +68,22 @@ double ITestPoissonFemWorker::solve(){
 	return compute_norm2();
 }
 
-void ITestPoissonFemWorker::save_vtk(const std::string& filename) const{
+void ITestPoissonFemWorker::save_vtk(const std::string& filename) const {
 	// save grid
 	_grid.save_vtk(filename);
 	// save numerical solution
 	VtkUtils::add_point_data(_u, "numerical", filename, _grid.n_points());
 	// save exact solution
 	std::vector<double> exact(_grid.n_points());
-	for (size_t i=0; i<_grid.n_points(); ++i){
+	for (size_t i = 0; i < _grid.n_points(); ++i) {
 		exact[i] = exact_solution(_grid.point(i));
 	}
 	VtkUtils::add_point_data(exact, "exact", filename, _grid.n_points());
 }
 
-CsrMatrix ITestPoissonFemWorker::approximate_lhs() const{
+CsrMatrix ITestPoissonFemWorker::approximate_lhs() const {
 	CsrMatrix ret(_fem.stencil());
-	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+	for (size_t ielem = 0; ielem < _fem.n_elements(); ++ielem) {
 		const FemElement& elem = _fem.element(ielem);
 		std::vector<double> local_stiff = elem.integrals->stiff_matrix();
 		_fem.add_to_global_matrix(ielem, local_stiff, ret.vals());
@@ -91,98 +91,98 @@ CsrMatrix ITestPoissonFemWorker::approximate_lhs() const{
 	return ret;
 }
 
-std::vector<double> ITestPoissonFemWorker::approximate_rhs() const{
+std::vector<double> ITestPoissonFemWorker::approximate_rhs() const {
 	// mass matrix
 	CsrMatrix mass(_fem.stencil());
-	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+	for (size_t ielem = 0; ielem < _fem.n_elements(); ++ielem) {
 		const FemElement& elem = _fem.element(ielem);
 		std::vector<double> local_mass = elem.integrals->mass_matrix();
 		_fem.add_to_global_matrix(ielem, local_mass, mass.vals());
 	}
 	// rhs = Mass * f
 	std::vector<double> fvec(_fem.n_bases());
-	for (size_t ibas=0; ibas < _fem.n_bases(); ++ibas){
+	for (size_t ibas = 0; ibas < _fem.n_bases(); ++ibas) {
 		Point p = _fem.reference_point(ibas);
 		fvec[ibas] = exact_rhs(p);
 	}
 	return mass.mult_vec(fvec);
 }
 
-double ITestPoissonFemWorker::compute_norm2() const{
+double ITestPoissonFemWorker::compute_norm2() const {
 	std::vector<double> force_vec(_fem.n_bases(), 0);
-	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+	for (size_t ielem = 0; ielem < _fem.n_elements(); ++ielem) {
 		const FemElement& elem = _fem.element(ielem);
 		std::vector<double> v = elem.integrals->load_vector();
 		_fem.add_to_global_vector(ielem, v, force_vec);
 	}
 	double integral = 0;
 	double full_area = 0;
-	for (size_t ibas=0; ibas<_fem.n_bases(); ++ibas){
+	for (size_t ibas = 0; ibas < _fem.n_bases(); ++ibas) {
 		Point p = _fem.reference_point(ibas);
 		double diff = _u[ibas] - exact_solution(p);
 		integral += force_vec[ibas] * (diff * diff);
 		full_area += force_vec[ibas];
 	}
-	return std::sqrt(integral/full_area);
+	return std::sqrt(integral / full_area);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // ITestPoisson1FemWorker
 ////////////////////////////////////////////////////////////////////////////////
-struct ITestPoisson1FemWorker: public ITestPoissonFemWorker{
-	double exact_solution(Point p) const override{
+struct ITestPoisson1FemWorker : public ITestPoissonFemWorker {
+	double exact_solution(Point p) const override {
 		double x = p.x();
-		return sin(10*x*x);
+		return sin(10 * x * x);
 	}
-	double exact_rhs(Point p) const override{
+	double exact_rhs(Point p) const override {
 		double x = p.x();
-		return 400*x*x*sin(10*x*x) - 20*cos(10*x*x);
+		return 400 * x * x * sin(10 * x * x) - 20 * cos(10 * x * x);
 	}
-	ITestPoisson1FemWorker(const IGrid& grid, const FemAssembler& fem): ITestPoissonFemWorker(grid, fem){ }
+	ITestPoisson1FemWorker(const IGrid& grid, const FemAssembler& fem) : ITestPoissonFemWorker(grid, fem) { }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // ITestPoisson2FemWorker
 ////////////////////////////////////////////////////////////////////////////////
-struct ITestPoisson2FemWorker: public ITestPoissonFemWorker{
-	double exact_solution(Point p) const override{
+struct ITestPoisson2FemWorker : public ITestPoissonFemWorker {
+	double exact_solution(Point p) const override {
 		double x = p.x();
 		double y = p.y();
-		return cos(10*x*x)*sin(10*y) + sin(10*x*x)*cos(10*x);
+		return cos(10 * x * x) * sin(10 * y) + sin(10 * x * x) * cos(10 * x);
 	}
-	double exact_rhs(Point p) const override{
+	double exact_rhs(Point p) const override {
 		double x = p.x();
 		double y = p.y();
-		return (20*sin(10*x*x)+(400*x*x+100)*cos(10*x*x))*sin(10*y)
-				+(400*x*x+100)*cos(10*x)*sin(10*x*x)
-				+(400*x*sin(10*x)-20*cos(10*x))*cos(10*x*x);
+		return (20 * sin(10 * x * x) + (400 * x * x + 100) * cos(10 * x * x)) * sin(10 * y)
+			+ (400 * x * x + 100) * cos(10 * x) * sin(10 * x * x)
+			+ (400 * x * sin(10 * x) - 20 * cos(10 * x)) * cos(10 * x * x);
 	}
-	ITestPoisson2FemWorker(const IGrid& grid, const FemAssembler& fem): ITestPoissonFemWorker(grid, fem){ }
+	ITestPoisson2FemWorker(const IGrid& grid, const FemAssembler& fem) : ITestPoissonFemWorker(grid, fem) { }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 // TestPoissonLinearSegmentWorker
 ///////////////////////////////////////////////////////////////////////////////
-struct TestPoissonLinearSegmentWorker: public ITestPoisson1FemWorker{
-	TestPoissonLinearSegmentWorker(const IGrid& grid): ITestPoisson1FemWorker(grid, build_fem(grid)){ }
+struct TestPoissonLinearSegmentWorker : public ITestPoisson1FemWorker {
+	TestPoissonLinearSegmentWorker(const IGrid& grid) : ITestPoisson1FemWorker(grid, build_fem(grid)) { }
 	static FemAssembler build_fem(const IGrid& grid);
 };
 
-FemAssembler TestPoissonLinearSegmentWorker::build_fem(const IGrid& grid){
+FemAssembler TestPoissonLinearSegmentWorker::build_fem(const IGrid& grid) {
 	size_t n_bases = grid.n_points();
 	std::vector<FemElement> elements;
 	std::vector<std::vector<size_t>> tab_elem_basis;
 
 	// elements
-	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
 		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
 		Point p0 = grid.point(ipoints[0]);
 		Point p1 = grid.point(ipoints[1]);
-		
+
 		auto geom = std::make_shared<SegmentLinearGeometry>(p0, p1);
 		auto basis = std::make_shared<SegmentLinearBasis>();
 		auto integrals = std::make_shared<SegmentLinearIntegrals>(geom->jacobi({}));
-		FemElement elem{geom, basis, integrals};
+		FemElement elem{ geom, basis, integrals };
 
 		elements.push_back(elem);
 		tab_elem_basis.push_back(ipoints);
@@ -191,7 +191,7 @@ FemAssembler TestPoissonLinearSegmentWorker::build_fem(const IGrid& grid){
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
-TEST_CASE("Poisson-fem 1D solver, segments", "[poisson1-fem-segm]"){
+TEST_CASE("Poisson-fem 1D solver, segments", "[poisson1-fem-segm]") {
 	std::cout << std::endl << "--- cfd24_test [poisson1-fem-segm] --- " << std::endl;
 	Grid1D grid(0, 1, 10);
 	TestPoissonLinearSegmentWorker worker(grid);
@@ -204,28 +204,28 @@ TEST_CASE("Poisson-fem 1D solver, segments", "[poisson1-fem-segm]"){
 ///////////////////////////////////////////////////////////////////////////////
 // TestPoissonLinearTriangleWorker
 ///////////////////////////////////////////////////////////////////////////////
-struct TestPoissonLinearTriangleWorker: public ITestPoisson2FemWorker{
+struct TestPoissonLinearTriangleWorker : public ITestPoisson2FemWorker {
 	static FemAssembler build_fem(const IGrid& grid);
-	TestPoissonLinearTriangleWorker(const IGrid& grid): ITestPoisson2FemWorker(grid, build_fem(grid)){ }
+	TestPoissonLinearTriangleWorker(const IGrid& grid) : ITestPoisson2FemWorker(grid, build_fem(grid)) { }
 };
 
-FemAssembler TestPoissonLinearTriangleWorker::build_fem(const IGrid& grid){
+FemAssembler TestPoissonLinearTriangleWorker::build_fem(const IGrid& grid) {
 	size_t n_bases = grid.n_points();
 	std::vector<FemElement> elements;
 	std::vector<std::vector<size_t>> tab_elem_basis;
 
 	// elements
-	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
 		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
 		Point p0 = grid.point(ipoints[0]);
 		Point p1 = grid.point(ipoints[1]);
 		Point p2 = grid.point(ipoints[2]);
-		
+
 		auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
 		auto basis = std::make_shared<TriangleLinearBasis>();
-		JacobiMatrix jac = geom->jacobi({0, 0});
+		JacobiMatrix jac = geom->jacobi({ 0, 0 });
 		auto integrals = std::make_shared<TriangleLinearIntegrals>(jac);
-		FemElement elem{geom, basis, integrals};
+		FemElement elem{ geom, basis, integrals };
 
 		elements.push_back(elem);
 		tab_elem_basis.push_back(ipoints);
@@ -234,10 +234,10 @@ FemAssembler TestPoissonLinearTriangleWorker::build_fem(const IGrid& grid){
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
-TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri]"){
+TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri]") {
 	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri] --- " << std::endl;
 
-	std::string grid_fn = test_directory_file("trigrid_500.vtk");
+	std::string grid_fn = test_directory_file("trigrid.vtk");
 	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn, true);
 	TestPoissonLinearTriangleWorker worker(grid);
 	double nrm = worker.solve();
@@ -246,21 +246,15 @@ TEST_CASE("Poisson-fem 2D solver, triangles", "[poisson2-fem-tri]"){
 	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// TestPoissonTriQuadrangleWorker
 ///////////////////////////////////////////////////////////////////////////////
-struct TestPoissonLinearTriQuadWorker : public ITestPoisson2FemWorker {
-	std::vector<size_t> dirichlet_bases() const override {
-		return _grid.boundary_points();
-	}
+// TestPoissonBilinearQuadrangleWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoissonBilinearQuadrangleWorker : public ITestPoisson2FemWorker {
 	static FemAssembler build_fem(const IGrid& grid);
-	TestPoissonLinearTriQuadWorker(const IGrid& grid) :
-		ITestPoisson2FemWorker(grid, build_fem(grid)) { }
+	TestPoissonBilinearQuadrangleWorker(const IGrid& grid) : ITestPoisson2FemWorker(grid, build_fem(grid)) { }
 };
 
-FemAssembler TestPoissonLinearTriQuadWorker::build_fem(const IGrid& grid) {
+FemAssembler TestPoissonBilinearQuadrangleWorker::build_fem(const IGrid& grid) {
 	size_t n_bases = grid.n_points();
 	std::vector<FemElement> elements;
 	std::vector<std::vector<size_t>> tab_elem_basis;
@@ -268,86 +262,25 @@ FemAssembler TestPoissonLinearTriQuadWorker::build_fem(const IGrid& grid) {
 	// elements
 	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
 		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
-
-		if (ipoints.size() == 3)
-		{
-			Point p0 = grid.point(ipoints[0]);
-			Point p1 = grid.point(ipoints[1]);
-			Point p2 = grid.point(ipoints[2]);
-
-			auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
-			auto basis = std::make_shared<TriangleLinearBasis>();
-			JacobiMatrix jac = geom->jacobi({ 0, 0 });
-			auto integrals = std::make_shared<TriangleLinearIntegrals>(jac);
-			FemElement elem{ geom, basis, integrals };
-			elements.push_back(elem);
-			tab_elem_basis.push_back(ipoints);
-		}
-		else {
-			Point p0 = grid.point(ipoints[0]);
-			Point p1 = grid.point(ipoints[1]);
-			Point p2 = grid.point(ipoints[2]);
-			Point p3 = grid.point(ipoints[3]);
-			auto geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
-			auto basis = std::make_shared<QuadrangleLinearBasis>();
-			const Quadrature* quadrature = quadrature_square_gauss2();
-			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature, geom, basis);
-			FemElement elem{ geom, basis, integrals };
-			elements.push_back(elem);
-			tab_elem_basis.push_back(ipoints);
-		}
-	}
-
-	return FemAssembler(n_bases, elements, tab_elem_basis);
-}
-
-TEST_CASE("Poisson-fem 2D solver, triangles & quadrangles", "[poisson2-fem-tri-quad]") {
-	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri-quad] --- " << std::endl;
-
-	std::string grid_fn = test_directory_file("tetragrid.vtk");
-	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
-	TestPoissonLinearTriQuadWorker worker(grid);
-	double nrm = worker.solve();
-	worker.save_vtk("poisson2_fem_tetra_quad.vtk");
-	std::cout << grid.n_cells() << " " << nrm << std::endl;
-	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// TestPoissonBilinearQuadrangleWorker
-///////////////////////////////////////////////////////////////////////////////
-struct TestPoissonBilinearQuadrangleWorker: public ITestPoisson2FemWorker{
-	static FemAssembler build_fem(const IGrid& grid);
-	TestPoissonBilinearQuadrangleWorker(const IGrid& grid): ITestPoisson2FemWorker(grid, build_fem(grid)){ }
-};
-
-FemAssembler TestPoissonBilinearQuadrangleWorker::build_fem(const IGrid& grid){
-	size_t n_bases = grid.n_points();
-	std::vector<FemElement> elements;
-	std::vector<std::vector<size_t>> tab_elem_basis;
-
-	// elements
-	for (size_t icell=0; icell < grid.n_cells(); ++icell){
-		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
 		Point p0 = grid.point(ipoints[0]);
 		Point p1 = grid.point(ipoints[1]);
 		Point p2 = grid.point(ipoints[2]);
 		Point p3 = grid.point(ipoints[3]);
-		
+
 		auto geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
 		auto basis = std::make_shared<QuadrangleLinearBasis>();
 		const Quadrature* quadrature = quadrature_square_gauss2();
 		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature, geom, basis);
-		FemElement elem{geom, basis, integrals};
+		FemElement elem{ geom, basis, integrals };
 
-		elements.push_back(FemElement{geom, basis, integrals});
+		elements.push_back(FemElement{ geom, basis, integrals });
 		tab_elem_basis.push_back(ipoints);
 	}
 
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
-TEST_CASE("Poisson-fem 2D solver, quadrangles", "[poisson2-fem-quad]"){
+TEST_CASE("Poisson-fem 2D solver, quadrangles", "[poisson2-fem-quad]") {
 	std::cout << std::endl << "--- cfd24_test [poisson2-fem-quad] --- " << std::endl;
 	RegularGrid2D grid(0, 1, 0, 1, 10, 10);
 	TestPoissonBilinearQuadrangleWorker worker(grid);
@@ -360,35 +293,35 @@ TEST_CASE("Poisson-fem 2D solver, quadrangles", "[poisson2-fem-quad]"){
 ///////////////////////////////////////////////////////////////////////////////
 // TestPoissonLinearTriangleGaussWorker
 ///////////////////////////////////////////////////////////////////////////////
-struct TestPoissonLinearTriangleGaussWorker: public ITestPoisson2FemWorker{
+struct TestPoissonLinearTriangleGaussWorker : public ITestPoisson2FemWorker {
 	static FemAssembler build_fem(const IGrid& grid);
-	TestPoissonLinearTriangleGaussWorker(const IGrid& grid): ITestPoisson2FemWorker(grid, build_fem(grid)){ }
+	TestPoissonLinearTriangleGaussWorker(const IGrid& grid) : ITestPoisson2FemWorker(grid, build_fem(grid)) { }
 };
 
-FemAssembler TestPoissonLinearTriangleGaussWorker::build_fem(const IGrid& grid){
+FemAssembler TestPoissonLinearTriangleGaussWorker::build_fem(const IGrid& grid) {
 	size_t n_bases = grid.n_points();
 	std::vector<FemElement> elements;
 	std::vector<std::vector<size_t>> tab_elem_basis;
 
 	// elements
-	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
 		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
 		Point p0 = grid.point(ipoints[0]);
 		Point p1 = grid.point(ipoints[1]);
 		Point p2 = grid.point(ipoints[2]);
-		
+
 		auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
 		auto basis = std::make_shared<TriangleLinearBasis>();
-		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss4(), geom, basis);
+		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss2(), geom, basis);
 
-		elements.push_back(FemElement{geom, basis, integrals});
+		elements.push_back(FemElement{ geom, basis, integrals });
 		tab_elem_basis.push_back(ipoints);
 	}
 
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
-TEST_CASE("Poisson-fem 2D solver, triangles numerical integration", "[poisson2-fem-tri-quadrature]"){
+TEST_CASE("Poisson-fem 2D solver, triangles numerical integration", "[poisson2-fem-tri-quadrature]") {
 	std::cout << std::endl << "--- cfd24_test [poisson2-fem-tri-quadrature] --- " << std::endl;
 
 	std::string grid_fn = test_directory_file("trigrid_500.vtk");
@@ -396,4 +329,249 @@ TEST_CASE("Poisson-fem 2D solver, triangles numerical integration", "[poisson2-f
 	TestPoissonLinearTriangleGaussWorker worker(grid);
 	double nrm = worker.solve();
 	CHECK(nrm == Approx(0.0638327072).margin(1e-6));
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// TestPoissonQuadraticWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoissonQuadraticWorker : public ITestPoisson2FemWorker {
+	std::vector<size_t> dirichlet_bases() const override {
+		std::vector<size_t> ret = _grid.boundary_points();
+		for (size_t iface : _grid.boundary_faces()) {
+			ret.push_back(_grid.n_points() + iface);
+		}
+		return ret;
+	}
+	static FemAssembler build_fem(const IGrid& grid);
+	TestPoissonQuadraticWorker(const IGrid& grid) : ITestPoisson2FemWorker(grid, build_fem(grid)) { }
+
+};
+
+FemAssembler TestPoissonQuadraticWorker::build_fem(const IGrid& grid) {
+	std::vector<FemElement> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis;
+
+	// elements
+	size_t n_quad_cells = 0;
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
+		PolygonElementInfo cell_info(grid, icell);
+		if (cell_info.n_points() == 3) {
+			Point p0 = grid.point(cell_info.ipoints[0]);
+			Point p1 = grid.point(cell_info.ipoints[1]);
+			Point p2 = grid.point(cell_info.ipoints[2]);
+
+			auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
+			auto basis = std::make_shared<TriangleQuadraticBasis>();
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss4(), geom, basis);
+
+			elements.push_back(FemElement{ geom, basis, integrals });
+			tab_elem_basis.push_back({
+				cell_info.ipoints[0],
+				cell_info.ipoints[1],
+				cell_info.ipoints[2],
+				grid.n_points() + cell_info.ifaces[0],
+				grid.n_points() + cell_info.ifaces[1],
+				grid.n_points() + cell_info.ifaces[2]
+				});
+		}
+		else if (cell_info.n_points() == 4) {
+			Point p0 = grid.point(cell_info.ipoints[0]);
+			Point p1 = grid.point(cell_info.ipoints[1]);
+			Point p2 = grid.point(cell_info.ipoints[2]);
+			Point p3 = grid.point(cell_info.ipoints[3]);
+
+			auto geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
+			//	auto basis = std::make_shared<QuadrangleQuadraticBasis>();
+			auto basis = std::make_shared<QuadrangleQuadratic8Basis>();
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_square_gauss4(), geom, basis);
+
+			elements.push_back(FemElement{ geom, basis, integrals });
+			tab_elem_basis.push_back({
+				cell_info.ipoints[0],
+				cell_info.ipoints[1],
+				cell_info.ipoints[2],
+				cell_info.ipoints[3],
+				grid.n_points() + cell_info.ifaces[0],
+				grid.n_points() + cell_info.ifaces[1],
+				grid.n_points() + cell_info.ifaces[2],
+				grid.n_points() + cell_info.ifaces[3],
+				//grid.n_points() + grid.n_faces() + n_quad_cells
+				});
+			n_quad_cells++;
+		}
+		else {
+			throw std::runtime_error("Invalid fem grid");
+		}
+	}
+
+	//size_t n_bases = grid.n_points() + grid.n_faces() + n_quad_cells;
+	size_t n_bases = grid.n_points() + grid.n_faces();
+
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
+TEST_CASE("Poisson-fem 2D solver, quadratic", "[poisson2-fem-quadratic]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fem-quadratic] --- " << std::endl;
+
+	std::string grid_fn = test_directory_file("tetragrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+	TestPoissonQuadraticWorker worker(grid);
+	double nrm = worker.solve();
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+	CHECK(nrm == Approx(0.0012520815).margin(1e-6));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// TestPoissonCubicWorker
+///////////////////////////////////////////////////////////////////////////////
+struct TestPoissonCubicWorker : public ITestPoisson2FemWorker {
+	std::vector<size_t> dirichlet_bases() const override {
+		std::vector<size_t> ret = _grid.boundary_points();
+		for (size_t iface : _grid.boundary_faces()) {
+			ret.push_back(_grid.n_points() + 2 * iface);
+			ret.push_back(_grid.n_points() + 2 * iface + 1);
+		}
+		return ret;
+	}
+	static FemAssembler build_fem(const IGrid& grid);
+	TestPoissonCubicWorker(const IGrid& grid) : ITestPoisson2FemWorker(grid, build_fem(grid)) { }
+
+};
+
+//////////////////////////////////////////////////////////////////////////////////////
+class TriangleCubicNo11Basis : public IElementBasis {
+public:
+	size_t size() const override;
+	std::vector<Point> parametric_reference_points() const override;
+	std::vector<BasisType> basis_types() const override;
+	std::vector<double> value(Point xi) const override;
+	std::vector<Vector> grad(Point xi) const override;
+};
+
+size_t TriangleCubicNo11Basis::size() const {
+	return 9;
+}
+
+std::vector<Point> TriangleCubicNo11Basis::parametric_reference_points() const {
+	return {
+		{0, 0},
+		{1, 0},
+		{0, 1},
+		{1.0 / 3.0, 0},
+		{2.0 / 3.0, 0},
+		{2.0 / 3.0, 1.0 / 3.0},
+		{1.0 / 3.0, 2.0 / 3.0},
+		{0, 2.0 / 3.0},
+		{0, 1.0 / 3.0}
+	};
+}
+
+std::vector<BasisType> TriangleCubicNo11Basis::basis_types() const {
+	return std::vector<BasisType>(size(), BasisType::Nodal);
+}
+
+std::vector<double> TriangleCubicNo11Basis::value(Point xi) const {
+	double x = xi.x();
+	double y = xi.y();
+	return {
+		1 - 11 / 2 * x - 11 / 2 * y + 9 * x * x + 9 * y * y + 9 / 2 * x * x * y + 9 / 2 * y * y * x - 9 / 2 * x * x * x - 9 / 2 * y * y * y,
+		x - 9 / 2 * x * x + 9 / 2 * x * x * x,
+		y - 9 / 2 * y * y + 9 / 2 * y * y * y,
+		9 * x - 45 / 2 * x * x + 9 / 2 * x * x * y - 9 * x * y * y + 27 / 2 * x * x * x,
+		-9 / 2 * x + 18 * x * x - 9 * x * x * y + 9 / 2 * x * y * y - 27 / 2 * x * x * x,
+		9 * x * x * y - 9 / 2 * x * y * y,
+		-9 / 2 * x * x * y + 9 * x * y * y,
+		-9 / 2 * y + 18 * y * y + 9 / 2 * x * x * y - 9 * x * y * y - 27 / 2 * y * y * y,
+		9 * y - 45 / 2 * y * y - 9 * x * x * y + 9 / 2 * x * y * y + 27 / 2 * y * y * y
+	};
+
+}
+
+std::vector<Vector> TriangleCubicNo11Basis::grad(Point xi) const {
+	double x = xi.x();
+	double y = xi.y();
+	return {
+		Vector{-11 / 2 + 18 * x + 9 * x * y + 9 / 2 * y * y - 27 / 2 * x * x, -11 / 2 + 18 * y + 9 / 2 * x * x + 9 * x * y - 27 / 2 * y * y},
+		Vector{1 - 9 * x + 27 / 2 * x * x,      0},
+		Vector{0,                 1 - 9 * y + 27 / 2 * y * y},
+		Vector{9 - 45 * x + 9 * x * y - 9 * y * y + 27 * 3 / 2 * x * x,       9 / 2 * x * x - 18 * x * y},
+		Vector{-9 / 2 + 36 * x - 9 * y * 2 * x + 9 / 2 * y * y - 27 * 3 / 2 * x * x,       -9 * x * x + 9 * x * y},
+		Vector{18 * x * y - 9 / 2 * y * y,                   9 * x * x - 9 * x * y},
+		Vector{-9 * x * y + 9 * y * y,                  -9 / 2 * x * x + 18 * x * y},
+		Vector{9 * x * y - 9 * y * y,                         -9 / 2 + 36 * y + 9 / 2 * x * x - 18 * x * y - 27 * 3 / 2 * y * y},
+		Vector{-18 * x * y + 9 / 2 * y * y,                         9 - 45 * y - 9 * x * x + 9 * x * y + 27 * 3 / 2 * y * y}
+	};
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
+FemAssembler TestPoissonCubicWorker::build_fem(const IGrid& grid) {
+	std::vector<FemElement> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis;
+
+	// elements
+	for (size_t icell = 0; icell < grid.n_cells(); ++icell) {
+		PolygonElementInfo cell_info(grid, icell);
+
+		if (cell_info.n_points() == 3) {
+			Point p0 = grid.point(cell_info.ipoints[0]);
+			Point p1 = grid.point(cell_info.ipoints[1]);
+			Point p2 = grid.point(cell_info.ipoints[2]);
+
+			auto geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
+			//auto basis = std::make_shared<TriangleCubicBasis>();
+			// 
+			//////////////////////////////////////////////////////////////////////
+			auto basis = std::make_shared<TriangleCubicNo11Basis>();
+			///////////////////////////////////////////////////////////////////////
+
+			auto integrals = std::make_shared<NumericElementIntegrals>(quadrature_triangle_gauss4(), geom, basis);
+
+			elements.push_back(FemElement{ geom, basis, integrals });
+
+			size_t bas0 = cell_info.ipoints[0];
+			size_t bas1 = cell_info.ipoints[1];
+			size_t bas2 = cell_info.ipoints[2];
+			size_t bas3 = grid.n_points() + 2 * cell_info.ifaces[0];
+			size_t bas4 = grid.n_points() + 2 * cell_info.ifaces[0] + 1;
+			size_t bas5 = grid.n_points() + 2 * cell_info.ifaces[1];
+			size_t bas6 = grid.n_points() + 2 * cell_info.ifaces[1] + 1;
+			size_t bas7 = grid.n_points() + 2 * cell_info.ifaces[2];
+			size_t bas8 = grid.n_points() + 2 * cell_info.ifaces[2] + 1;
+			//size_t bas9 = grid.n_points() + 2*grid.n_faces() + icell;
+			if (cell_info.is_face_reverted[0]) std::swap(bas3, bas4);
+			if (cell_info.is_face_reverted[1]) std::swap(bas5, bas6);
+			if (cell_info.is_face_reverted[2]) std::swap(bas7, bas8);
+
+			tab_elem_basis.push_back({
+				bas0, bas1, bas2,
+				bas3, bas4, bas5, bas6, bas7, bas8
+				//bas9
+				});
+		}
+		else {
+			throw std::runtime_error("Invalid fem grid");
+		}
+	}
+
+	//size_t n_bases = grid.n_points() + 2*grid.n_faces() + grid.n_cells();
+
+	size_t n_bases = grid.n_points() + 2 * grid.n_faces();
+
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
+
+
+
+TEST_CASE("Poisson-fem 2D solver, cubic", "[poisson2-fem-cubic]") {
+	std::cout << std::endl << "--- cfd24_test [poisson2-fem-cubic] --- " << std::endl;
+
+	std::string grid_fn = test_directory_file("trigrid.vtk");
+	UnstructuredGrid2D grid = UnstructuredGrid2D::vtk_read(grid_fn);
+	TestPoissonCubicWorker worker(grid);
+	double nrm = worker.solve();
+	std::cout << grid.n_cells() << " " << nrm << std::endl;
+	CHECK(nrm == Approx(0.0005724831).margin(1e-6));
 }
