@@ -51,6 +51,10 @@ public:
 	virtual std::vector<double> load_vector() const  { _THROW_NOT_IMP_; }
 	virtual std::vector<double> mass_matrix() const  { _THROW_NOT_IMP_; }
 	virtual std::vector<double> stiff_matrix() const { _THROW_NOT_IMP_; }
+	virtual std::vector<double> transport_matrix(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,87 @@
+\section{Лекция 16 (23.03)}
+
+\subsection{Условие устойчивости}
+\begin{equation}
+\label{eq:femtvd_tau}
+1 + \tau(1 - \theta)\min_i\frac{l_{ii}}{m_i} \geq 0.
+\end{equation}
+\subsection{FEM-TVD алгоритм}
+TODO
+
+\begin{equation}
+\begin{array}{l}
+P_i^{+} = \sum\limits_{j\neq i}\min\{0, k_{ij}\}\min\{0, u_j - u_i\}\\
+P_i^{-} = \sum\limits_{j\neq i}\min\{0, k_{ij}\}\max\{0, u_j - u_i\}\\
+Q_i^{+} = \sum\limits_{j\neq i}\max\{0, k_{ij}\}\max\{0, u_j - u_i\}\\
+Q_i^{-} = \sum\limits_{j\neq i}\max\{0, k_{ij}\}\min\{0, u_j - u_i\}
+\end{array}
+\end{equation}
+
+\begin{equation}
+d_{ij} = d_{ji} = \max\{0, -k_{ij}, -k_{ji}\}.
+\end{equation}
+
+\begin{equation}
+l_{ij} = k_{ij} + d_{ij}
+\end{equation}
+
+\begin{equation}
+\label{femtvd_fa}
+f_{ji}^a = \begin{cases}
+\min\{ F(r_i^+) d_{ij}, l_{ji} \}, &\text{если } u_i \geq u_j,\\
+\min\{ F(r_i^-) d_{ij}, l_{ji} \}, &\text{если } u_i < u_j,
+\end{cases},
+\qquad f^a_{ij} = -f^a_{ji},
+\qquad f^a_{ii} = -\sum\limits_{i\neq j} f^a_{ij}.
+\end{equation}
+$F(r)$ -- функция-ограничитель.
+\begin{equation}
+F(r) = \left\{
+\begin{array}{ll}
+0 & - upwind\\
+1 & - symmetric \\
+\max(0, \min(r, 1)) & - minmod\\
+\max(0, \min(2, |r|), \min(1, 2|r|))   & - superbee
+\end{array}
+\right.
+\end{equation}
+
+\subsection{Задание для самостоятельной работы}
+В тестовом примере \cvar{[transport2-fem-upwind-explicit]}
+из файла \ename{transport-fem-solve-test.cpp}
+реализовано решение двумерного уравнения переноса 
+методом конечных объёмов с явной алгебраической
+противопотоковой схемой.
+
+В этом тесте используя явную схему необходимо
+\begin{enumerate}
+\item Реализовать TVD-схему с ограничителями minmod и superbee;
+\item Создать сравнительную анимацию численного решения, полученного этими тремя схемами;
+\item Нарисовать норму отклонения точного решения от численного в зависимости от времени для трёх схем.
+      В качестве нормы рассмотреть среднеквадратичное отклонение и отклонение максимума от единицы;
+\item Изучить влияние шага по времени на точность результата на финальный момент времени ($t=0.5$).
+      Для этого необходимо провести серию расчётов с шагами по времени $\tau = k^\tau \tau_r$,
+      где $\tau_r$ -- это максимально допустимый условием \eqref{eq:femtvd_tau} шаг по времени,
+      а $k^\tau$ -- варьируемый коэффициент, изменяющийся от $0.1$ до тех пор, пока решение остаётся устойчивым (может быть и большим единицы).
+      По результатом этих расчётов нужно для трёх схем (upwind, minmod, superbee) построить графики нормы отклонения от параметра $k^\tau$. 
+\end{enumerate}
+
+
+Вычиление матрицы антидиффузии $F^a$ по формулам \eqref{femtvd_fa} необходимо вести в цикле по упорядоченным связям $ij$ (\cvar{_edges}).
+Для быстрого доступа к коэффициентам разреженной матрицы, связянным с текущей связью,
+необходимо использовать поля \cvar{..._addr} структруры \cvar{Edge}.
+Процедура заполнения матрицы $F^a$ в цикле по граням должна иметь примерно такой вид
+\begin{cppcode}
+CsrMatrix Fa(_fem.stencil());   // заполнить шаблон нулевыми значениями
+for (const Edge& e: _edges}{
+    // compute
+    double fa_ji = ...;
+    double fa_ij = -fa_ji;
+
+    // assign
+    Fa.vals()[e.ij_addr] =  fa_ij;
+    Fa.vals()[e.ii_addr] -= fa_ij;
+    Fa.vals()[e.ji_addr] =  fa_ji;
+    Fa.vals()[e.jj_addr] -= fa_ji;
+}
+\end{cppcode}

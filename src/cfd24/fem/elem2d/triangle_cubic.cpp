@@ -122,6 +122,55 @@ std::vector<Vector> TriangleCubic9Basis::grad(Point xi) const{
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// Basis, 9 node cubic no11
+///////////////////////////////////////////////////////////////////////////////
+size_t TriangleCubicNo11Basis::size() const{
+	return 9;
+}
+
+std::vector<Point> TriangleCubicNo11Basis::parametric_reference_points() const{
+	return {
+		{0, 0},
+		{1, 0},
+		{0, 1},
+		{1.0/3.0, 0},
+		{2.0/3.0, 0},
+		{2.0/3.0, 1.0/3.0},
+		{1.0/3.0, 2.0/3.0},
+		{0, 2.0/3.0},
+		{0, 1.0/3.0}
+	};
+}
+
+std::vector<BasisType> TriangleCubicNo11Basis::basis_types() const{
+	return std::vector<BasisType>(size(), BasisType::Nodal);
+}
+
+std::vector<double> TriangleCubicNo11Basis::value(Point xi) const{
+	double x = xi.x();
+	double y = xi.y();
+	return {
+		//
+	};
+
+}
+
+std::vector<Vector> TriangleCubicNo11Basis::grad(Point xi) const{
+	double x = xi.x();
+	double y = xi.y();
+	return {
+		0.25*Vector{-(18*y*y)+(36-36*x)*y-54*x*x+72*x-22, -(54*y*y)+(72-36*x)*y-18*x*x+36*x-22},
+		0.25*Vector{9*y*y+(18*x-9)*y+54*x*x-36*x+4,       18*x*y+9*x*x-9*x},
+		0.25*Vector{9*y*y+(18*x-9)*y,                     54*y*y+(18*x-36)*y+9*x*x-9*x+4},
+		0.25*Vector{(108*x-36)*y+162*x*x-180*x+36,        54*x*x-36*x},
+		0.25*Vector{(18-108*x)*y-162*x*x+144*x-18,        18*x-54*x*x},
+		0.25*Vector{(54*x+9)*y-27*y*y,                    -(54*x*y)+27*x*x+9*x},
+		0.25*Vector{27*y*y+(9-54*x)*y,                    54*x*y-27*x*x+9*x},
+		0.25*Vector{18*y-54*y*y,                          -(162*y*y)+(144-108*x)*y+18*x-18},
+		0.25*Vector{54*y*y-36*y,                          162*y*y+(108*x-180)*y-36*x+36}
+	};
+}
+///////////////////////////////////////////////////////////////////////////////
 // Basis, hermite cubic
 ///////////////////////////////////////////////////////////////////////////////
 TriangleHermiteBasis::TriangleHermiteBasis(std::shared_ptr<const IElementGeometry> geom): _geom(geom){

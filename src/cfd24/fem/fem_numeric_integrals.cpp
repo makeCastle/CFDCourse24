@@ -98,3 +98,39 @@ std::vector<double> NumericElementIntegrals::stiff_matrix() const{
 	std::vector<double> upper_stiff = _quad->integrate(values);
 	return matrix_upper_to_sym(_basis->size(), upper_stiff);
 }
+
+std::vector<double> NumericElementIntegrals::transport_matrix(
+		const std::vector<double>& vx,
+		const std::vector<double>& vy,
+		const std::vector<double>& vz) const{
+
+	std::vector<std::vector<double>> values;
+
+	for (size_t iquad = 0; iquad < _quad->size(); ++iquad){
+		Point quad_xi = _quad->points()[iquad];
+		std::vector<Vector> phi_grad_x;
+		for (Vector phi_grad_xi: _basis->grad(quad_xi)){
+			phi_grad_x.push_back(gradient_to_physical(_quad_jacobi[iquad], phi_grad_xi));
+		}
+		std::vector<double> phi = _basis->value(quad_xi);
+
+		Vector vel;
+		for (size_t i=0; i<_basis->size(); ++i){
+			if (!vx.empty()) vel.x() += vx[i] * phi[i];
+			if (!vy.empty()) vel.y() += vy[i] * phi[i];
+			if (!vz.empty()) vel.z() += vz[i] * phi[i];
+		}
+
+
+		std::vector<double> quad_stiff;
+		for (size_t irow = 0; irow < _basis->size(); ++irow)
+		for (size_t icol = 0; icol < _basis->size(); ++icol){
+			double d = dot_product(vel, phi_grad_x[icol]) * phi[irow];
+			quad_stiff.push_back(d * _quad_jacobi[iquad].modj);
+		}
+
+		values.push_back(quad_stiff);
+	}
+
+	return _quad->integrate(values);
+}

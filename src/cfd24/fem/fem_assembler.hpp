@@ -24,6 +24,7 @@ struct FemAssembler{
 	Point reference_point(size_t ibas) const;
 
 	std::vector<double> approximate(const IPointFunction& func) const;
+	std::vector<double> local_vector(size_t ielem, const std::vector<double>& v) const;
 
 	void add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 	void add_to_global_vector(size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
