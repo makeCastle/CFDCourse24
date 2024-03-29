@@ -82,6 +82,14 @@ std::vector<double> FemAssembler::approximate(const IPointFunction& func) const{
 	return ret;
 }
 
+std::vector<double> FemAssembler::local_vector(size_t ielem, const std::vector<double>& v) const{
+	std::vector<double> ret;
+	for (size_t bas: _tab_elem_basis[ielem]){
+		ret.push_back(v[bas]);
+	}
+	return ret;
+}
+
 void FemAssembler::add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const{
 	for (size_t ival=0; ival < local_matrix.size(); ++ival){
 		size_t a = _tab_elem_csr_address[ielem][ival];

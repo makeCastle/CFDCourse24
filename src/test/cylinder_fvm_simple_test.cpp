@@ -416,11 +416,12 @@ TEST_CASE("Cylinder 2D, FVM-SIMPLE algorithm", "[cylinder2-fvm-simple]"){
 	double E = 4;
 	double time_step = 0.1;
 	double end_time = 0.1;
+	//double end_time = 100.0;
 
 	// worker initialization
 	auto grid = UnstructuredGrid2D::vtk_read(test_directory_file("cylgrid_5k.vtk"));
 	CylinderFvmSimpleWorker worker(grid, Re, E, time_step);
-	worker.initialize_saver("cylinder2-fvm", 1.0);
+	worker.initialize_saver("cylinder2-fvm", 0.5);
 
 	// time loop
 	size_t it = 0;

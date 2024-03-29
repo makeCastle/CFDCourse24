@@ -16,6 +16,10 @@ public:
 	std::vector<double> mass_matrix() const override;
 	std::vector<double> load_vector() const override;
 	std::vector<double> stiff_matrix() const override;
+	std::vector<double> transport_matrix(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
 private:
 	const Quadrature* _quad;
 	std::shared_ptr<const IElementGeometry> _geom;
