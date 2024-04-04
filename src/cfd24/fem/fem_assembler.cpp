@@ -90,18 +90,26 @@ std::vector<double> FemAssembler::local_vector(size_t ielem, const std::vector<d
 	return ret;
 }
 
-void FemAssembler::add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const{
+void FemAssembler::add_to_global_matrix(double coef, size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const{
 	for (size_t ival=0; ival < local_matrix.size(); ++ival){
 		size_t a = _tab_elem_csr_address[ielem][ival];
-		global_csr_vals[a] += local_matrix[ival];
+		global_csr_vals[a] += coef*local_matrix[ival];
+	}
+}
+
+void FemAssembler::add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const{
+	add_to_global_matrix(1.0, ielem, local_matrix, global_csr_vals);
+}
+
+void FemAssembler::add_to_global_vector(double coef, size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const{
+	for (size_t i=0; i<local_vector.size(); ++i){
+		size_t gi = _tab_elem_basis[ielem][i];
+		global_vector[gi] += coef*local_vector[i];
 	}
 }
 
 void FemAssembler::add_to_global_vector(size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const{
-	for (size_t i=0; i<local_vector.size(); ++i){
-		size_t gi = _tab_elem_basis[ielem][i];
-		global_vector[gi] += local_vector[i];
-	}
+	add_to_global_vector(1, ielem, local_vector, global_vector);
 }
 
 const CsrStencil& FemAssembler::stencil() const{

@@ -3,7 +3,6 @@
 #include "cfd24/grid/regular_grid2d.hpp"
 #include "cfd24/mat/lodmat.hpp"
 #include "cfd24/mat/sparse_matrix_solver.hpp"
-#include "cfd24/debug/printer.hpp"
 #include "utils/vecmat.hpp"
 #include "cfd24/debug/tictoc.hpp"
 #include "cfd24/debug/saver.hpp"
@@ -11,6 +10,19 @@
 #include "utils/filesystem.hpp"
 #include "cfd24/grid/unstructured_grid2d.hpp"
 #include "cfd24/fvm/fvm_dpdn_boundary.hpp"
+#include "cfd24/fem/fem_assembler.hpp"
+#include "cfd24/fem/fem_assembler.hpp"
+#include "cfd24/fem/elem1d/segment_linear.hpp"
+#include "cfd24/fem/elem2d/triangle_linear.hpp"
+#include "cfd24/fem/elem2d/triangle_quadratic.hpp"
+#include "cfd24/fem/elem2d/quadrangle_linear.hpp"
+#include "cfd24/fem/elem2d/quadrangle_quadratic.hpp"
+#include "cfd24/numeric_integration/segment_quadrature.hpp"
+#include "cfd24/numeric_integration/square_quadrature.hpp"
+#include "cfd24/numeric_integration/triangle_quadrature.hpp"
+#include "cfd24/fem/fem_numeric_integrals.hpp"
+#include "cfd24/debug/printer.hpp"
+#include "cfd24/fem/fem_sorted_cell_info.hpp"
 #include <list>
 
 using namespace cfd;
@@ -22,6 +34,8 @@ struct Cavern2DFemSimpleWorker{
 	void save_current_fields(size_t iter);
 private:
 	const IGrid& _grid;
+	FemAssembler _fem_linear;
+	FemAssembler _fem_quadratic;
 	const double _Re;
 	const double _tau;
 	const double _alpha_p;
@@ -54,14 +68,15 @@ private:
 	std::vector<double> compute_v_stroke(const std::vector<double>& p_stroke);
 
 	static double compute_tau(const IGrid& grid, double Re, double E);
+	static FemAssembler build_fem(unsigned power, const IGrid& grid);
 };
 
 size_t Cavern2DFemSimpleWorker::u_size() const{
-	_THROW_NOT_IMP_;
+	return _fem_quadratic.n_bases();
 }
 
 size_t Cavern2DFemSimpleWorker::p_size() const{
-	_THROW_NOT_IMP_;
+	return _fem_linear.n_bases();
 }
 
 double Cavern2DFemSimpleWorker::compute_tau(const IGrid& grid, double Re, double E){
@@ -74,6 +89,8 @@ double Cavern2DFemSimpleWorker::compute_tau(const IGrid& grid, double Re, double
 
 Cavern2DFemSimpleWorker::Cavern2DFemSimpleWorker(const IGrid& grid, double Re, double E):
 	_grid(grid),
+	_fem_linear(build_fem(1, _grid)),
+	_fem_quadratic(build_fem(2, _grid)),
 	_Re(Re),
 	_tau(compute_tau(grid, Re, E)),
 	_alpha_p(1.0/(1.0 + E))
@@ -133,16 +150,22 @@ void Cavern2DFemSimpleWorker::save_current_fields(size_t iter){
 	if (_writer){
 		std::string filepath = _writer->add(iter);
 		_grid.save_vtk(filepath);
-		VtkUtils::add_cell_data(_p, "pressure", filepath, _grid.n_cells());
-		VtkUtils::add_cell_vector(_u, _v, "velocity", filepath, _grid.n_cells());
+		VtkUtils::add_point_data(_p, "pressure", filepath, _grid.n_points());
+		VtkUtils::add_point_vector(_u, _v, "velocity", filepath, _grid.n_points());
 	}
 }
 
 void Cavern2DFemSimpleWorker::assemble_p_stroke_solver(){
-	LodMatrix mat(p_size());
-	_THROW_NOT_IMP_;
-	mat.set_unit_row(0);
-	_p_stroke_solver.set_matrix(mat.to_csr());
+	auto& _fem = _fem_linear;
+	CsrMatrix ret(_fem.stencil());
+	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+		const FemElement& elem = _fem.element(ielem);
+		std::vector<double> local_stiff = elem.integrals->stiff_matrix();
+		for (auto& v: local_stiff) v *= _d;
+		_fem.add_to_global_matrix(ielem, local_stiff, ret.vals());
+	}
+	ret.set_unit_row(0);
+	_p_stroke_solver.set_matrix(ret);
 }
 
 void Cavern2DFemSimpleWorker::assemble_uv_slae(){
@@ -190,6 +213,72 @@ std::vector<double> Cavern2DFemSimpleWorker::compute_v_stroke(const std::vector<
 	return v_stroke;
 }
 
+FemAssembler Cavern2DFemSimpleWorker::build_fem(unsigned power, const IGrid& grid){
+	std::vector<FemElement> elements;
+	std::vector<std::vector<size_t>> tab_elem_basis;
+
+	if (power > 2) throw std::runtime_error("power should equal 1 or 2");
+
+	std::shared_ptr<IElementBasis> basis3, basis4;
+	if (power == 1){
+		basis3.reset(new TriangleLinearBasis());
+		basis4.reset(new QuadrangleLinearBasis());
+	} else {
+		basis3.reset(new TriangleQuadraticBasis());
+		basis4.reset(new QuadrangleQuadraticBasis());
+	}
+	// elements
+	int n_quad_cells = 0;
+	for (size_t icell=0; icell < grid.n_cells(); ++icell){
+		PolygonElementInfo cell_info(grid, icell);
+
+
+		std::shared_ptr<IElementGeometry> geom;
+		std::shared_ptr<IElementBasis> basis;
+		const Quadrature* quadrature;
+
+		std::vector<size_t> ipoints = grid.tab_cell_point(icell);
+		Point p0 = grid.point(ipoints[0]);
+		Point p1 = grid.point(ipoints[1]);
+		Point p2 = grid.point(ipoints[2]);
+
+		tab_elem_basis.push_back(ipoints);
+
+		if (ipoints.size() == 3){
+			geom = std::make_shared<TriangleLinearGeometry>(p0, p1, p2);
+			basis = basis3;
+			quadrature = quadrature_triangle_gauss3();
+			if (power == 2){
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[0]);
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[1]);
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[2]);
+			}
+		} else if (ipoints.size() == 4){
+			Point p3 = grid.point(ipoints[3]);
+
+			geom = std::make_shared<QuadrangleLinearGeometry>(p0, p1, p2, p3);
+			basis = basis4;
+			quadrature = quadrature_square_gauss3();
+			if (power == 2){
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[0]);
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[1]);
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[2]);
+				tab_elem_basis.back().push_back(grid.n_points() + cell_info.ifaces[3]);
+				tab_elem_basis.back().push_back(grid.n_points() + grid.n_faces() + n_quad_cells);
+			}
+			n_quad_cells++;
+		} else {
+			throw std::runtime_error("invalid fem grid");
+		}
+		auto integrals = std::make_shared<NumericElementIntegrals>(quadrature, geom, basis);
+		elements.push_back(FemElement{geom, basis, integrals});
+	}
+
+	size_t n_bases = grid.n_points();
+	if (power == 2) n_bases += grid.n_faces() + n_quad_cells;
+	return FemAssembler(n_bases, elements, tab_elem_basis);
+}
+
 TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[cavern2-fem-simple]"){
 	std::cout << std::endl << "--- cfd24_test [cavern2-fem-simple] --- " << std::endl;
 
@@ -200,7 +289,7 @@ TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[cavern2-fem-simple]"){
 	double E = 2;
 
 	// worker initialization
-	RegularGrid2D grid(0, 1, 0, 1, 30, 30);
+	RegularGrid2D grid(0, 1, 0, 1, 3, 3);
 	Cavern2DFemSimpleWorker worker(grid, Re, E);
 	worker.initialize_saver("cavern2-fem");
 

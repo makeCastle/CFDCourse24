@@ -20,6 +20,23 @@ public:
 			const std::vector<double>& vx,
 			const std::vector<double>& vy={},
 			const std::vector<double>& vz={}) const override;
+
+	std::vector<double> mass_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> load_vector_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> stiff_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> transport_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
 private:
 	const Quadrature* _quad;
 	std::shared_ptr<const IElementGeometry> _geom;
