@@ -39,6 +39,7 @@ public:
 	virtual std::vector<BasisType> basis_types() const = 0;
 	virtual std::vector<double> value(Point xi) const = 0;
 	virtual std::vector<Vector> grad(Point xi) const = 0;
+	virtual std::vector<std::array<double, 6>> upper_hessian(Point xi) const { _THROW_NOT_IMP_; } 
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,6 +53,22 @@ public:
 	virtual std::vector<double> mass_matrix() const  { _THROW_NOT_IMP_; }
 	virtual std::vector<double> stiff_matrix() const { _THROW_NOT_IMP_; }
 	virtual std::vector<double> transport_matrix(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }
+	virtual std::vector<double> mass_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }
+	virtual std::vector<double> load_vector_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }
+	virtual std::vector<double> stiff_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }
+	virtual std::vector<double> transport_matrix_stab_supg(
 			const std::vector<double>& vx,
 			const std::vector<double>& vy={},
 			const std::vector<double>& vz={}) const { _THROW_NOT_IMP_; }

@@ -28,6 +28,8 @@ struct FemAssembler{
 
 	void add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 	void add_to_global_vector(size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
+	void add_to_global_matrix(double coef, size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
+	void add_to_global_vector(double coef, size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
 protected:
 	std::vector<FemElement> _elements;
 

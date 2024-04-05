@@ -31,6 +31,7 @@ Vector gradient_to_physical(const JacobiMatrix& jac, Vector grad_xi);
 Vector gradient_to_physical_1d(const JacobiMatrix& jac, Vector grad_xi);
 Vector gradient_to_physical_2d(const JacobiMatrix& jac, Vector grad_xi);
 
+double laplace_to_physical(const JacobiMatrix& jac, const std::array<double, 6>& upper_hessian_xi);
 
 }
 #endif
