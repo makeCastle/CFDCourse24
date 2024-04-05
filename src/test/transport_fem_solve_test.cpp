@@ -1,4 +1,4 @@
-#include "cfd24_test.hpp"
+﻿#include "cfd24_test.hpp"
 #include "cfd24/grid/unstructured_grid2d.hpp"
 #include "cfd24/grid/grid1d.hpp"
 #include "cfd24/mat/csrmat.hpp"
@@ -39,7 +39,75 @@ public:
 		return init_solution(p-_time*Point(1, 1));
 	}
 
-	ATestTransport2FemWorker(const IGrid& g): _grid(g), _fem(build_fem(g)), _u(_grid.n_points()){
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	CsrMatrix D;
+	void Fa_filling() {
+		_Fa = _fem.stencil();
+		std::vector<double> P_plus(_grid.n_points());
+		std::vector<double> Q_plus(_grid.n_points());
+		std::vector<double> P_minus(_grid.n_points());
+		std::vector<double> Q_minus(_grid.n_points());
+		for (const Edge& e: _edges)
+		{
+			P_plus[e.i] += std::min(0.0, _K.vals()[e.ij_addr]) * std::min(0.0, _u[e.j] - _u[e.i]);
+			Q_plus[e.i] += std::max(0.0, _K.vals()[e.ij_addr]) * std::max(0.0, _u[e.j] - _u[e.i]);
+			P_minus[e.i] += std::min(0.0, _K.vals()[e.ij_addr]) * std::max(0.0, _u[e.j] - _u[e.i]);
+			Q_minus[e.i] += std::max(0.0, _K.vals()[e.ij_addr]) * std::min(0.0, _u[e.j] - _u[e.i]);
+
+			P_plus[e.j] += std::min(0.0, _K.vals()[e.ji_addr]) * std::min(0.0, _u[e.i] - _u[e.j]);
+			Q_plus[e.j] += std::max(0.0, _K.vals()[e.ji_addr]) * std::max(0.0, _u[e.i] - _u[e.j]);
+			P_minus[e.j] += std::min(0.0, _K.vals()[e.ji_addr]) * std::max(0.0, _u[e.i] - _u[e.j]);
+			Q_minus[e.j] += std::max(0.0, _K.vals()[e.ji_addr]) * std::min(0.0, _u[e.i] - _u[e.j]);
+		}
+		for (const Edge& e : _edges)
+		{
+			// compute
+			double lij = _L.vals()[e.ij_addr];
+			double lji = _L.vals()[e.ji_addr];
+			double dij = lij - _K.vals()[e.ij_addr];
+			//double dij = std::max(0.0, std::max(-lij, -lji));
+			//double dij = D.vals()[e.ij_addr];
+			size_t i = e.i;
+			double r_plus = P_plus[i] / Q_plus[i];
+			double r_minus = P_minus[i] / Q_minus[i];
+
+			// upwind
+			double F_plus = 0.0;
+			double F_minus = 0.0;
+			// upwind
+
+			// minmod
+			/*double F_plus = std::max(0.0, std::min(r_plus, 1.0));
+			double F_minus = std::max(0.0, std::min(r_minus, 1.0));*/
+			// minmod
+
+			// superbee
+			/*double F_plus = std::max(0.0, std::max(std::min(2.0, abs(r_plus)), std::min(1.0, 2.0*abs(r_plus))));
+			double F_minus = std::max(0.0, std::max(std::min(2.0, abs(r_minus)), std::min(1.0, 2.0 * abs(r_minus))));*/
+			// superbee
+
+			double fa_ji;
+			size_t j1 = e.j;
+			if (_u[i] >= _u[j1])
+			{
+				fa_ji = std::min(F_plus * dij, lji);
+			}
+			else {
+				fa_ji = std::min(F_minus * dij, lji);
+			}
+			double fa_ij = -fa_ji;
+			// assign
+			_Fa.vals()[e.ij_addr] = fa_ij;
+			_Fa.vals()[e.ii_addr] -= fa_ij;
+			_Fa.vals()[e.ji_addr] = fa_ji;
+			_Fa.vals()[e.jj_addr] -= fa_ji;
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	ATestTransport2FemWorker(const IGrid& g): _grid(g), _fem(build_fem(g)), _u(_grid.n_points()) {
 		// 1. Lumped mass
 		CsrMatrix full_mass(_fem.stencil());
 		for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
@@ -47,7 +115,7 @@ public:
 			std::vector<double> local_mass = elem.integrals->mass_matrix();
 			_fem.add_to_global_matrix(ielem, local_mass, full_mass.vals());
 		}
-		_mass = full_mass.mult_vec(std::vector<double>(g.n_points(), 1));
+		_mass = full_mass.mult_vec(std::vector<double>(g.n_points(), 1.0));
 		// 2. 2nd order transport
 		std::vector<double> vx(_grid.n_points(), 1.0);
 		std::vector<double> vy(_grid.n_points(), 1.0);
@@ -58,7 +126,7 @@ public:
 				_fem.local_vector(ielem, vx), _fem.local_vector(ielem, vy));
 			_fem.add_to_global_matrix(ielem, local_transport, _K.vals());
 		}
-		for (double& v: _K.vals()) v*= -1;
+		for (double& v: _K.vals()) v*= -1.0;
 		// 3. edges
 		const auto& addr = _K.addr();
 		const auto& cols = _K.cols();
@@ -87,7 +155,7 @@ public:
 			lji += dij;
 			if (lji < lij) edge.reverse();
 		}
-		
+
 		// 5. initial solution
 		for (size_t i=0; i<_grid.n_points(); ++i){
 			_u[i] = init_solution(_grid.point(i));
@@ -152,6 +220,10 @@ protected:
 	std::vector<Edge> _edges;
 	double _time = 0;
 
+	///////////////////////////////////////////////////////////////////////////////////////
+	CsrMatrix _Fa; 
+	///////////////////////////////////////////////////////////////////////////////////////
+
 private:
 	static FemAssembler build_fem(const IGrid& grid){
 		size_t n_bases = grid.n_points();
@@ -213,7 +285,11 @@ private:
 	void impl_step(double tau) override {
 		std::vector<double> uold = _u;
 		for (size_t i=0; i<_grid.n_points(); ++i){
-			_u[i] += tau/_mass[i] * _L.mult_vec(i, uold);
+			_u[i] += tau/_mass[i] * (_L.mult_vec(i, uold));
+		}
+		Fa_filling();
+		for (size_t i = 0; i < _grid.n_points(); ++i) {
+			_u[i] += _Fa.mult_vec(i, uold);
 		}
 	}
 };
@@ -234,7 +310,7 @@ TEST_CASE("Transport 2D fem solver, explicit", "[transport2-fem-upwind-explicit]
 	std::string out_filename = writer.add(0);
 	worker.save_vtk(out_filename);
 
-	double n2=0, nm=0;
+	double n2=0.0, nm=0.0;
 	while (worker.current_time() < tend - 1e-6) {
 		// solve problem
 		worker.step(tau);
