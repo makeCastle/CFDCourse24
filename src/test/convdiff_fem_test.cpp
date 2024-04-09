@@ -169,7 +169,7 @@ TEST_CASE("Stationar 1d convection-diffustion", "[stat-convdiff-fem-supg]"){
 
 namespace{
 
-class CNConvDiffFemWorker{
+class ACNConvDiffFemWorker{
 	double nonstat_solution(Point p, double t) const {
 		constexpr double pi = 3.141592653589793238462643;
 		Vector vel = velocity(p);
@@ -184,9 +184,11 @@ public:
 		return nonstat_solution(p, _time);
 	}
 
-	CNConvDiffFemWorker(const IGrid& g, double eps, double tau, double supg_coef)
-			: _grid(g), _eps(eps), _tau(tau), _supg_coef(supg_coef),
-			  _fem(build_fem(g)), _u(_fem.n_bases(), 0){
+	ACNConvDiffFemWorker(const IGrid& g, double eps, double tau)
+			: _grid(g), _eps(eps), _tau(tau),
+			  _fem(build_fem(g)), _u(_fem.n_bases(), 0){};
+	
+	void initialize(){
 		// velocity
 		for (size_t i=0; i<_fem.n_bases(); ++i){
 			Vector v = velocity(_fem.reference_point(i));
@@ -240,11 +242,10 @@ public:
 		return std::sqrt(sum / vol);
 	}
 
-private:
+protected:
 	const IGrid& _grid;
 	const double _eps;
 	const double _tau;
-	const double _supg_coef;
 	FemAssembler _fem;
 	std::vector<double> _u, _vx, _vy, _vz;
 	CsrMatrix _M, _Rhs;
@@ -304,7 +305,28 @@ private:
 		_solver.solve(rhs, _u);
 	}
 
-	void assemble_solver(){
+	virtual void assemble_solver() = 0;
+
+	std::vector<double> assemble_rhs(){
+		// matrix mult
+		std::vector<double> ret = _Rhs.mult_vec(_u);
+		// boundary_condition
+		ret[0] = exact_solution(_grid.point(0));
+		ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));
+
+		return ret;
+	}
+};
+
+class SupgWorker: public ACNConvDiffFemWorker{
+public:
+	SupgWorker(const IGrid& grid, double eps, double tau, double s_supg)
+		:ACNConvDiffFemWorker(grid, eps, tau), _supg_coef(s_supg){}
+
+protected:
+	const double _supg_coef;
+
+	void assemble_solver() override{
 		// Galerkin
 		CsrMatrix M(_fem.stencil());
 		CsrMatrix K(_fem.stencil());
@@ -386,17 +408,8 @@ private:
 		_M = std::move(M);
 		_Rhs = std::move(Rhs);
 	}
-
-	std::vector<double> assemble_rhs(){
-		// matrix mult
-		std::vector<double> ret = _Rhs.mult_vec(_u);
-		// boundary_condition
-		ret[0] = exact_solution(_grid.point(0));
-		ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));
-
-		return ret;
-	}
 };
+
 }
 
 TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
@@ -411,10 +424,11 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 	// solver
 	Grid1D grid(0, Lx, Lx / h);
 	double tau = Cu * h;
-	CNConvDiffFemWorker worker(grid, eps, tau, s_supg);
+	SupgWorker worker(grid, eps, tau, s_supg);
+	worker.initialize();
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("convdiff-fem");
+	VtkUtils::TimeSeriesWriter writer("convdiff-supg");
 	std::string out_filename = writer.add(worker.current_time());
 	worker.save_vtk(out_filename);
 
@@ -431,4 +445,111 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 		std::cout << worker.current_time() << " " << n2 << std::endl;
 	};
 	CHECK(n2 == Approx(0.615742).margin(1e-6));
+}
+
+namespace {
+
+class CgWorker: public ACNConvDiffFemWorker{
+public:
+	CgWorker(const IGrid& grid, double eps, double tau)
+		:ACNConvDiffFemWorker(grid, eps, tau){}
+
+protected:
+	void assemble_solver() override{
+		// Galerkin
+		CsrMatrix M(_fem.stencil());
+		CsrMatrix K(_fem.stencil());
+		CsrMatrix D(_fem.stencil());
+		// CG
+		CsrMatrix Ks(_fem.stencil());
+		for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+			const FemElement& elem = _fem.element(ielem);
+			auto vx = _fem.local_vector(ielem, _vx);
+			auto vy = _fem.local_vector(ielem, _vy);
+			auto vz = _fem.local_vector(ielem, _vz);
+			// ====================== Galerkin
+			// mass
+			{
+				std::vector<double> local = elem.integrals->mass_matrix();
+				_fem.add_to_global_matrix(ielem, local, M.vals());
+			}
+			// transport
+			{
+				std::vector<double> local = elem.integrals->transport_matrix(vx, vy, vz);
+				_fem.add_to_global_matrix(ielem, local, K.vals());
+			}
+			// diffusion
+			{
+				std::vector<double> local = elem.integrals->stiff_matrix();
+				_fem.add_to_global_matrix(ielem, local, D.vals());
+			}
+			// ======================== Stabilization
+			// transport
+			{
+				std::vector<double> local = elem.integrals->transport_matrix_stab_supg(vx, vy, vz);
+				_fem.add_to_global_matrix(ielem, local, Ks.vals());
+			}
+		}
+		// slae matrix
+		double theta = 0.5;
+		CsrMatrix Lhs(_fem.stencil());
+		CsrMatrix Rhs(_fem.stencil());
+		for (size_t a=0; a<Lhs.n_nonzeros(); ++a){
+			Lhs.vals()[a] =
+				M.vals()[a]
+				+ _tau*theta*_eps * D.vals()[a]
+				;
+			Rhs.vals()[a] =
+				M.vals()[a]
+				- _tau*K.vals()[a]
+				- _tau*(1 - theta)*_eps*D.vals()[a]
+				- _tau*_tau/2.0*Ks.vals()[a]
+				;
+		}
+
+		// Boundary conditions
+		Lhs.set_unit_row(0);
+		Lhs.set_unit_row(_grid.n_points()-1);
+
+		// Solver
+		_solver.set_matrix(Lhs);
+
+		_M = std::move(M);
+		_Rhs = std::move(Rhs);
+	}
+};
+}
+
+TEST_CASE("1D convection-diffusion with CG", "[convdiff-fem-cg]"){
+	std::cout << std::endl << "--- cfd24_test [convdiff-fem-cg] --- " << std::endl;
+	double tend = 2.0;
+	double h = 0.1;
+	double Lx = 4;
+	double Cu = 0.5;
+	double eps = 1e-3;
+
+	// solver
+	Grid1D grid(0, Lx, Lx / h);
+	double tau = Cu * h;
+	CgWorker worker(grid, eps, tau);
+	worker.initialize();
+
+	// saver
+	VtkUtils::TimeSeriesWriter writer("convdiff-cg");
+	std::string out_filename = writer.add(worker.current_time());
+	worker.save_vtk(out_filename);
+
+	double n2;
+	while (worker.current_time() < tend - 1e-6) {
+		// solve problem
+		worker.step();
+		// export solution to vtk
+		out_filename = writer.add(worker.current_time());
+		worker.save_vtk(out_filename);
+
+		n2 = worker.compute_norm2();
+
+		std::cout << worker.current_time() << " " << n2 << std::endl;
+	};
+	CHECK(n2 == Approx(0.937086).margin(1e-6));
 }
