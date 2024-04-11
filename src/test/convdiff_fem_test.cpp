@@ -26,6 +26,7 @@
 #include "cfd24/fem/fem_numeric_integrals.hpp"
 #include "cfd24/debug/printer.hpp"
 #include "cfd24/fem/fem_sorted_cell_info.hpp"
+#include <numeric>
 
 using namespace cfd;
 
@@ -173,12 +174,21 @@ class CNConvDiffFemWorker{
 	double nonstat_solution(Point p, double t) const {
 		constexpr double pi = 3.141592653589793238462643;
 		Vector vel = velocity(p);
-		double r2 = (p.x() - vel.x()*t)*(p.x() - vel.x()*t);
-		return 1.0/std::sqrt(4*pi*_eps*(t + _t0)) * exp(-r2/(4*_eps*(t + _t0)));
+		//double r2 = (p.x() - vel.x()*t)*(p.x() - vel.x()*t);
+		//return 1.0/std::sqrt(4*pi*_eps*(t + _t0)) * exp(-r2/(4*_eps*(t + _t0)));
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		double r2 = (p.x() - vel.x() * t) * (p.x() - vel.x() * t) + (p.y() - vel.y() * t) * (p.y() - vel.y() * t);
+		return 1.0 / (4 * pi * _eps * (t + _t0)) * exp(-r2 / (4 * _eps * (t + _t0)));
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 public:
 	Vector velocity(Point p) const{
-		return {1, 0, 0};
+		//return {1, 0, 0};
+
+		//////////////////////////////////////////////////////////////////////
+		return { 1, 1, 0 };
+		/////////////////////////////////////////////////////////////////////
 	};
 	double exact_solution(Point p) const{
 		return nonstat_solution(p, _time);
@@ -377,9 +387,17 @@ private:
 		}
 
 		// Boundary conditions
-		Lhs.set_unit_row(0);
+		//Lhs.set_unit_row(0);
 		Lhs.set_unit_row(_grid.n_points()-1);
 
+		////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<size_t> boundaries = _grid.boundary_points();
+		for (size_t i : boundaries)
+		{
+			Lhs.set_unit_row(i);
+		}
+		////////////////////////////////////////////////////////////////////////////////////////
+		
 		// Solver
 		_solver.set_matrix(Lhs);
 
@@ -391,8 +409,17 @@ private:
 		// matrix mult
 		std::vector<double> ret = _Rhs.mult_vec(_u);
 		// boundary_condition
-		ret[0] = exact_solution(_grid.point(0));
-		ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));
+		//ret[0] = exact_solution(_grid.point(0));
+		//ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));
+
+
+		////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<size_t> boundaries = _grid.boundary_points();
+		for (size_t i: boundaries)
+		{
+			ret[i] = exact_solution(_grid.point(i));
+		}
+		////////////////////////////////////////////////////////////////////////////////////////
 
 		return ret;
 	}
@@ -406,7 +433,7 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 	double Lx = 4;
 	double Cu = 0.5;
 	double eps = 1e-3;
-	double s_supg = 1e-2;
+	double s_supg = 0.027;
 
 	// solver
 	Grid1D grid(0, Lx, Lx / h);
@@ -414,7 +441,7 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 	CNConvDiffFemWorker worker(grid, eps, tau, s_supg);
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("convdiff-fem");
+	VtkUtils::TimeSeriesWriter writer("convdiff-fem-s");
 	std::string out_filename = writer.add(worker.current_time());
 	worker.save_vtk(out_filename);
 
@@ -432,3 +459,42 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 	};
 	CHECK(n2 == Approx(0.615742).margin(1e-6));
 }
+
+// 2D
+/////////////////////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("2D convection-diffusion with SUPG", "[convdiff-fem-supg-2]") {
+	std::cout << std::endl << "--- cfd24_test [convdiff-fem-supg-2] --- " << std::endl;
+	double tend = 1.0;
+	double h = 0.01;
+	double Lx = 4;
+	double Cu = 0.5;
+	double eps = 1e-3;
+	double s_supg = 0.027;
+
+	// solver
+	//std::string fn = test_directory_file("trigrid_500.vtk");
+	//auto g = UnstructuredGrid2D::vtk_read(fn);
+	RegularGrid2D g(0.0, 1.0, 0.0, 1.0, 23, 23);
+	double tau = Cu * h;
+	CNConvDiffFemWorker worker(g, eps, tau, s_supg);
+
+	// saver
+	VtkUtils::TimeSeriesWriter writer("convdiff-fem-2d-regural_grid");
+	std::string out_filename = writer.add(worker.current_time());
+	worker.save_vtk(out_filename);
+
+	double n2;
+	while (worker.current_time() < tend - 1e-6) {
+		// solve problem
+		worker.step();
+		// export solution to vtk
+		out_filename = writer.add(worker.current_time());
+		worker.save_vtk(out_filename);
+
+		n2 = worker.compute_norm2();
+
+		std::cout << worker.current_time() << " " << n2 << std::endl;
+	};
+	CHECK(n2 == Approx(0.615742).margin(1e-6));
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
