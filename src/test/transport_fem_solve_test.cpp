@@ -218,7 +218,7 @@ private:
 	}
 };
 
-TEST_CASE("Transport 2D fem solver, explicit", "[.transport2-fem-upwind-explicit]"){
+TEST_CASE("Transport 2D fem solver, explicit", "[transport2-fem-upwind-explicit]"){
 	std::cout << std::endl << "--- cfd24_test [transport2-fem-upwind-explicit] --- " << std::endl;
 	double tend = 0.5;
 
