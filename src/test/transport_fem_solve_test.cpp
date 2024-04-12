@@ -73,8 +73,8 @@ public:
 			double r_minus = P_minus[i] / Q_minus[i];
 
 			// upwind
-			double F_plus = 0.0;
-			double F_minus = 0.0;
+			/*double F_plus = 0.0;
+			double F_minus = 0.0;*/
 			// upwind
 
 			// minmod
@@ -83,8 +83,8 @@ public:
 			// minmod
 
 			// superbee
-			/*double F_plus = std::max(0.0, std::max(std::min(2.0, abs(r_plus)), std::min(1.0, 2.0*abs(r_plus))));
-			double F_minus = std::max(0.0, std::max(std::min(2.0, abs(r_minus)), std::min(1.0, 2.0 * abs(r_minus))));*/
+			double F_plus = std::max(0.0, std::max(std::min(2.0, abs(r_plus)), std::min(1.0, 2.0*abs(r_plus))));
+			double F_minus = std::max(0.0, std::max(std::min(2.0, abs(r_minus)), std::min(1.0, 2.0 * abs(r_minus))));
 			// superbee
 
 			double fa_ji;
@@ -303,10 +303,12 @@ TEST_CASE("Transport 2D fem solver, explicit", "[transport2-fem-upwind-explicit]
 	std::string fn = test_directory_file("tetragrid_500.vtk");
 	auto g = UnstructuredGrid2D::vtk_read(fn);
 	TestTransport2FemUpwindExplicit worker(g);
-	double tau = worker.recommended_tau(0.0);
+	//double tau = worker.recommended_tau(0.0);
+	double k = 1.95;
+	double tau = k * worker.recommended_tau(0.0);
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("transport2-fem-upwind-explicit");
+	VtkUtils::TimeSeriesWriter writer("transport2-fem-superbee-explicit");
 	std::string out_filename = writer.add(0);
 	worker.save_vtk(out_filename);
 
