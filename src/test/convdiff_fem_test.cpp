@@ -26,6 +26,7 @@
 #include "cfd24/fem/fem_numeric_integrals.hpp"
 #include "cfd24/debug/printer.hpp"
 #include "cfd24/fem/fem_sorted_cell_info.hpp"
+#include<numeric>
 
 using namespace cfd;
 
@@ -172,13 +173,24 @@ namespace{
 class ACNConvDiffFemWorker{
 	double nonstat_solution(Point p, double t) const {
 		constexpr double pi = 3.141592653589793238462643;
-		Vector vel = velocity(p);
-		double r2 = (p.x() - vel.x()*t)*(p.x() - vel.x()*t);
-		return 1.0/std::sqrt(4*pi*_eps*(t + _t0)) * exp(-r2/(4*_eps*(t + _t0)));
+		//Vector vel = velocity(p);
+		/*double r2 = (p.x() - vel.x()*t)*(p.x() - vel.x()*t);
+		return 1.0/std::sqrt(4*pi*_eps*(t + _t0)) * exp(-r2/(4*_eps*(t + _t0)));*/
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		double x1 = 0.5 + (_x01 - 0.5) * cos(t) + (_y01 - 0.5) * sin(t);
+		double y1 = 0.5 + (_x01 - 0.5) * sin(t) + (_y01 - 0.5) * cos(t);
+		double r2 = (p.x() - x1) * (p.x() - x1) + (p.y() - y1) * (p.y() - y1);
+		return 1.0 / (4 * pi * _eps * (t + _t0)) * exp(-r2 / (4 * _eps * (t + _t0)));
+		////////////////////////////////////////////////////////////////////////////////////////////
 	}
 public:
 	Vector velocity(Point p) const{
-		return {1, 0, 0};
+		/*return {1, 0, 0};*/
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		return { - p.y() + 0.5, p.x() - 0.5, 0};
+		////////////////////////////////////////////////////////////////////////////////////////////
 	};
 	double exact_solution(Point p) const{
 		return nonstat_solution(p, _time);
@@ -250,8 +262,17 @@ protected:
 	std::vector<double> _u, _vx, _vy, _vz;
 	CsrMatrix _M, _Rhs;
 	double _time = 0.0;
-	double _t0 = 3.0;
+	//double _t0 = 3.0;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	double _t0 = 0.3;
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	AmgcMatrixSolver _solver;
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	double _x01 = 0.8; double _y01 = 0.5;
+	/////////////////////////////////////////////////////////////////////////////////////
 
 	static FemAssembler build_fem(const IGrid& grid){
 		size_t n_bases = grid.n_points();
@@ -311,8 +332,16 @@ protected:
 		// matrix mult
 		std::vector<double> ret = _Rhs.mult_vec(_u);
 		// boundary_condition
-		ret[0] = exact_solution(_grid.point(0));
-		ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));
+		/*ret[0] = exact_solution(_grid.point(0));
+		ret[_grid.n_points()-1] = exact_solution(_grid.point(_grid.n_points()-1));*/
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<size_t> boundaries = _grid.boundary_points();
+		for (size_t i : boundaries)
+		{
+			ret[i] = exact_solution(_grid.point(i));
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		return ret;
 	}
@@ -399,8 +428,16 @@ protected:
 		}
 
 		// Boundary conditions
-		Lhs.set_unit_row(0);
-		Lhs.set_unit_row(_grid.n_points()-1);
+		//Lhs.set_unit_row(0);
+		//Lhs.set_unit_row(_grid.n_points()-1);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<size_t> boundaries = _grid.boundary_points();
+		for (size_t i : boundaries)
+		{
+			Lhs.set_unit_row(i);
+		}
+		////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Solver
 		_solver.set_matrix(Lhs);
@@ -525,12 +562,15 @@ TEST_CASE("1D convection-diffusion with CG", "[convdiff-fem-cg]"){
 	double tend = 2.0;
 	double h = 0.1;
 	double Lx = 4;
-	double Cu = 0.5;
+	double Cu = 0.1;
 	double eps = 1e-3;
 
 	// solver
 	Grid1D grid(0, Lx, Lx / h);
 	double tau = Cu * h;
+	/////////////////////////////////////////////////////////////////////////////////////
+	std::cout << "tau = " << tau << std::endl;
+	/////////////////////////////////////////////////////////////////////////////////////
 	CgWorker worker(grid, eps, tau);
 	worker.initialize();
 
@@ -553,3 +593,42 @@ TEST_CASE("1D convection-diffusion with CG", "[convdiff-fem-cg]"){
 	};
 	CHECK(n2 == Approx(0.937086).margin(1e-6));
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("2D convection-diffusion with CG", "[convdiff-fem-cg-2D]") {
+	std::cout << std::endl << "--- cfd24_test [convdiff-fem-cg-2D] --- " << std::endl;
+	double tend = 6.283185307179;
+	double h = 0.014;
+	double Lx = 1.0;
+	double Cu = 0.5;
+	double eps = 1e-3;
+
+	// solver
+	RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, 71, 71);
+	double tau = Cu * h;
+	/////////////////////////////////////////////////////////////////////////////////////
+	std::cout << "tau = " << tau << std::endl;
+	/////////////////////////////////////////////////////////////////////////////////////
+	CgWorker worker(grid, eps, tau);
+	worker.initialize();
+
+	// saver
+	VtkUtils::TimeSeriesWriter writer("convdiff-cg");
+	std::string out_filename = writer.add(worker.current_time());
+	worker.save_vtk(out_filename);
+
+	double n2;
+	while (worker.current_time() < tend - 1e-6) {
+		// solve problem
+		worker.step();
+		// export solution to vtk
+		out_filename = writer.add(worker.current_time());
+		worker.save_vtk(out_filename);
+
+		n2 = worker.compute_norm2();
+
+		std::cout << worker.current_time() << " " << n2 << std::endl;
+	};
+	CHECK(n2 == Approx(0.937086).margin(1e-6));
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
