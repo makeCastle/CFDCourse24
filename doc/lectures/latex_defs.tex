@@ -29,6 +29,8 @@
 \newcommand{\pluseq}{{{+}{=}}}
 \newcommand{\minuseq}{{{-}{=}}}
 \newcommand{\arint}[3]{\int\limits_{#2}#1 \, d #3}
+\newcommand{\feint}[1]{\arint{#1}{\Omega}{\vec x}}
+\newcommand{\febint}[1]{\arint{#1}{\partial\Omega}{s}}
 \newcommand\vecangle[2]{
   \setbox0=\hbox{$\!\vec{#1},\vec{#2}\!$}
   \ht0=\dimexpr\ht0-1pt\relax
@@ -37,3 +39,4 @@
 \newcommand{\gvec}[1]{\left\{#1\right\}}
 \newcommand{\quo}[1]{``#1''}
 \newcommand{\const}{{\rm const}}
+\newcommand{\mat}[1]{{\rm #1}}

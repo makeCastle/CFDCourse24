@@ -279,7 +279,7 @@ FemAssembler Cavern2DFemSimpleWorker::build_fem(unsigned power, const IGrid& gri
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
-TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[cavern2-fem-simple]"){
+TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[.cavern2-fem-simple]"){
 	std::cout << std::endl << "--- cfd24_test [cavern2-fem-simple] --- " << std::endl;
 
 	// problem parameters
