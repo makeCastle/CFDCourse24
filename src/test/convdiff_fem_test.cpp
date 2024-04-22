@@ -173,12 +173,12 @@ namespace{
 class ACNConvDiffFemWorker{
 	double nonstat_solution(Point p, double t) const {
 		constexpr double pi = 3.141592653589793238462643;
-		//Vector vel = velocity(p);
+		Vector vel = velocity(p);
 		/*double r2 = (p.x() - vel.x()*t)*(p.x() - vel.x()*t);
 		return 1.0/std::sqrt(4*pi*_eps*(t + _t0)) * exp(-r2/(4*_eps*(t + _t0)));*/
 
 		////////////////////////////////////////////////////////////////////////////////////////////
-		double x1 = 0.5 + (_x01 - 0.5) * cos(t) + (_y01 - 0.5) * sin(t);
+		double x1 = 0.5 + (_x01 - 0.5) * cos(t) - (_y01 - 0.5) * sin(t);
 		double y1 = 0.5 + (_x01 - 0.5) * sin(t) + (_y01 - 0.5) * cos(t);
 		double r2 = (p.x() - x1) * (p.x() - x1) + (p.y() - y1) * (p.y() - y1);
 		return 1.0 / (4 * pi * _eps * (t + _t0)) * exp(-r2 / (4 * _eps * (t + _t0)));
@@ -545,9 +545,15 @@ protected:
 		}
 
 		// Boundary conditions
-		Lhs.set_unit_row(0);
-		Lhs.set_unit_row(_grid.n_points()-1);
+		//Lhs.set_unit_row(0);
+		//Lhs.set_unit_row(_grid.n_points()-1);
 
+		std::vector<size_t> boundaries = _grid.boundary_points();
+		for (size_t i : boundaries)
+		{
+			Lhs.set_unit_row(i);
+		}
+		
 		// Solver
 		_solver.set_matrix(Lhs);
 
@@ -569,7 +575,7 @@ TEST_CASE("1D convection-diffusion with CG", "[convdiff-fem-cg]"){
 	Grid1D grid(0, Lx, Lx / h);
 	double tau = Cu * h;
 	/////////////////////////////////////////////////////////////////////////////////////
-	std::cout << "tau = " << tau << std::endl;
+	//std::cout << "tau = " << tau << std::endl;
 	/////////////////////////////////////////////////////////////////////////////////////
 	CgWorker worker(grid, eps, tau);
 	worker.initialize();
@@ -598,22 +604,27 @@ TEST_CASE("1D convection-diffusion with CG", "[convdiff-fem-cg]"){
 TEST_CASE("2D convection-diffusion with CG", "[convdiff-fem-cg-2D]") {
 	std::cout << std::endl << "--- cfd24_test [convdiff-fem-cg-2D] --- " << std::endl;
 	double tend = 6.283185307179;
-	double h = 0.014;
+	double h = 1.0/sqrt(5000);
 	double Lx = 1.0;
 	double Cu = 0.5;
 	double eps = 1e-3;
 
 	// solver
-	RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, 71, 71);
-	double tau = Cu * h;
+	//RegularGrid2D grid(0.0, 1.0, 0.0, 1.0, 1.0/h, 1.0/h);
+	//double tau = Cu * h;
+	double tau = 0.005;
 	/////////////////////////////////////////////////////////////////////////////////////
-	std::cout << "tau = " << tau << std::endl;
+	//std::cout << "tau = " << tau << std::endl;
+	
+	std::string fn = test_directory_file("tetragrid.vtk");
+	auto grid = UnstructuredGrid2D::vtk_read(fn);
+	 
 	/////////////////////////////////////////////////////////////////////////////////////
 	CgWorker worker(grid, eps, tau);
 	worker.initialize();
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("convdiff-cg");
+	VtkUtils::TimeSeriesWriter writer("convdiff-cg-tetra");
 	std::string out_filename = writer.add(worker.current_time());
 	worker.save_vtk(out_filename);
 
