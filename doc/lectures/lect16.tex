@@ -13,9 +13,12 @@ TODO
 P_i^{+} = \sum\limits_{j\neq i}\min\{0, k_{ij}\}\min\{0, u_j - u_i\}\\
 P_i^{-} = \sum\limits_{j\neq i}\min\{0, k_{ij}\}\max\{0, u_j - u_i\}\\
 Q_i^{+} = \sum\limits_{j\neq i}\max\{0, k_{ij}\}\max\{0, u_j - u_i\}\\
-Q_i^{-} = \sum\limits_{j\neq i}\max\{0, k_{ij}\}\min\{0, u_j - u_i\}
+Q_i^{-} = \sum\limits_{j\neq i}\max\{0, k_{ij}\}\min\{0, u_j - u_i\}\\
+r_i^{+} = Q_i^{+} / P_i^{+},\\
+r_i^{-} = Q_i^{-} / P_i^{-}
 \end{array}
 \end{equation}
+Чтобы избежать деления на ноль в случае $P_i^{\pm} = 0$, в этих случаях его можно положить малому числу.
 
 \begin{equation}
 d_{ij} = d_{ji} = \max\{0, -k_{ij}, -k_{ji}\}.
@@ -27,11 +30,10 @@ l_{ij} = k_{ij} + d_{ij}
 
 \begin{equation}
 \label{femtvd_fa}
-f_{ji}^a = \begin{cases}
-\min\{ F(r_i^+) d_{ij}, l_{ji} \}, &\text{если } u_i \geq u_j,\\
-\min\{ F(r_i^-) d_{ij}, l_{ji} \}, &\text{если } u_i < u_j,
+f_{ij}^a = f_{ji}^a = \begin{cases}
+-\min\{ F(r_i^+) d_{ij}, l_{ji} \}, &\text{если } u_i \geq u_j,\\
+-\min\{ F(r_i^-) d_{ij}, l_{ji} \}, &\text{если } u_i < u_j,
 \end{cases},
-\qquad f^a_{ij} = -f^a_{ji},
 \qquad f^a_{ii} = -\sum\limits_{i\neq j} f^a_{ij}.
 \end{equation}
 $F(r)$ -- функция-ограничитель.
@@ -41,7 +43,7 @@ F(r) = \left\{
 0 & - upwind\\
 1 & - symmetric \\
 \max(0, \min(r, 1)) & - minmod\\
-\max(0, \min(2, |r|), \min(1, 2|r|))   & - superbee
+\max(0, \min(2, r), \min(1, 2 r))   & - superbee
 \end{array}
 \right.
 \end{equation}
@@ -55,7 +57,7 @@ F(r) = \left\{
 
 В этом тесте используя явную схему необходимо
 \begin{enumerate}
-\item Реализовать TVD-схему с ограничителями minmod и superbee;
+\item Реализовать TVD-схему с ограничителями upwind, minmod и superbee;
 \item Создать сравнительную анимацию численного решения, полученного этими тремя схемами;
 \item Нарисовать норму отклонения точного решения от численного в зависимости от времени для трёх схем.
       В качестве нормы рассмотреть среднеквадратичное отклонение и отклонение максимума от единицы;
@@ -75,13 +77,12 @@ F(r) = \left\{
 CsrMatrix Fa(_fem.stencil());   // заполнить шаблон нулевыми значениями
 for (const Edge& e: _edges}{
     // compute
-    double fa_ji = ...;
-    double fa_ij = -fa_ji;
+    double fa_ij = ...
 
     // assign
     Fa.vals()[e.ij_addr] =  fa_ij;
     Fa.vals()[e.ii_addr] -= fa_ij;
-    Fa.vals()[e.ji_addr] =  fa_ji;
-    Fa.vals()[e.jj_addr] -= fa_ji;
+    Fa.vals()[e.ji_addr] =  fa_ij;
+    Fa.vals()[e.jj_addr] -= fa_ij;
 }
 \end{cppcode}
