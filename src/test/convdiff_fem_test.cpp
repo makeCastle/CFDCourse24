@@ -179,7 +179,7 @@ class CNConvDiffFemWorker{
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		double r2 = (p.x() - vel.x() * t) * (p.x() - vel.x() * t) + (p.y() - vel.y() * t) * (p.y() - vel.y() * t);
-		return 1.0 / (4 * pi * _eps * (t + _t0)) * exp(-r2 / (4 * _eps * (t + _t0)));
+		return 1.0 / (4.0 * pi * _eps * (t + _t0)) * exp(-r2 / (4.0 * _eps * (t + _t0)));
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 public:
@@ -388,7 +388,7 @@ private:
 
 		// Boundary conditions
 		//Lhs.set_unit_row(0);
-		Lhs.set_unit_row(_grid.n_points()-1);
+		//Lhs.set_unit_row(_grid.n_points()-1);
 
 		////////////////////////////////////////////////////////////////////////////////////////
 		std::vector<size_t> boundaries = _grid.boundary_points();
@@ -431,7 +431,7 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 	double tend = 2.0;
 	double h = 0.1;
 	double Lx = 4;
-	double Cu = 0.5;
+	double Cu = 0.4;
 	double eps = 1e-3;
 	double s_supg = 0.027;
 
@@ -465,21 +465,21 @@ TEST_CASE("1D convection-diffusion with SUPG", "[convdiff-fem-supg]"){
 TEST_CASE("2D convection-diffusion with SUPG", "[convdiff-fem-supg-2]") {
 	std::cout << std::endl << "--- cfd24_test [convdiff-fem-supg-2] --- " << std::endl;
 	double tend = 1.0;
-	double h = 0.01;
+	double h = 0.005;
 	double Lx = 4;
-	double Cu = 0.5;
+	double Cu = 0.3;
 	double eps = 1e-3;
-	double s_supg = 0.027;
+	double s_supg = 0.01;
 
 	// solver
-	//std::string fn = test_directory_file("trigrid_500.vtk");
-	//auto g = UnstructuredGrid2D::vtk_read(fn);
-	RegularGrid2D g(0.0, 1.0, 0.0, 1.0, 23, 23);
+	std::string fn = test_directory_file("tetragrid.vtk");
+	auto g = UnstructuredGrid2D::vtk_read(fn);
+	//RegularGrid2D g(0.0, 1.0, 0.0, 1.0, 1.0/h, 1.0/h);
 	double tau = Cu * h;
 	CNConvDiffFemWorker worker(g, eps, tau, s_supg);
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("convdiff-fem-2d-regural_grid");
+	VtkUtils::TimeSeriesWriter writer("convdiff-fem-2d-tetragrid");
 	std::string out_filename = writer.add(worker.current_time());
 	worker.save_vtk(out_filename);
 
