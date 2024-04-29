@@ -25,15 +25,46 @@ public:
 			const std::vector<double>& vx,
 			const std::vector<double>& vy={},
 			const std::vector<double>& vz={}) const override;
-	std::vector<double> load_vector_stab_supg(
-			const std::vector<double>& vx,
-			const std::vector<double>& vy={},
-			const std::vector<double>& vz={}) const override;
 	std::vector<double> stiff_matrix_stab_supg(
 			const std::vector<double>& vx,
 			const std::vector<double>& vy={},
 			const std::vector<double>& vz={}) const override;
 	std::vector<double> transport_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> divergence_vector(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> divergence_vector_byparts(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dx_matrix() const override;
+	std::vector<double> dy_matrix() const override;
+	std::vector<double> dz_matrix() const override;
+	std::vector<double> dx_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dy_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dz_matrix_stab_supg(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dx_matrix_stab_supg2(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dy_matrix_stab_supg2(
+			const std::vector<double>& vx,
+			const std::vector<double>& vy={},
+			const std::vector<double>& vz={}) const override;
+	std::vector<double> dz_matrix_stab_supg2(
 			const std::vector<double>& vx,
 			const std::vector<double>& vy={},
 			const std::vector<double>& vz={}) const override;

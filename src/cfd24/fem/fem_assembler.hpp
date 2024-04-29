@@ -23,13 +23,16 @@ struct FemAssembler{
 
 	Point reference_point(size_t ibas) const;
 
+	std::vector<size_t> tab_elem_basis(size_t icell) const;
 	std::vector<double> approximate(const IPointFunction& func) const;
 	std::vector<double> local_vector(size_t ielem, const std::vector<double>& v) const;
 
-	void add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 	void add_to_global_vector(size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
-	void add_to_global_matrix(double coef, size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 	void add_to_global_vector(double coef, size_t ielem, const std::vector<double>& local_vector, std::vector<double>& global_vector) const;
+	void add_to_global_vector(double coef, size_t ielem, const std::vector<double>& local_matrix, const std::vector<double>& u, std::vector<double>& global_vector) const;
+
+	void add_to_global_matrix(size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
+	void add_to_global_matrix(double coef, size_t ielem, const std::vector<double>& local_matrix, std::vector<double>& global_csr_vals) const;
 protected:
 	std::vector<FemElement> _elements;
 

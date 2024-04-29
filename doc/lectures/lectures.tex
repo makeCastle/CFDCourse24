@@ -37,12 +37,27 @@
 % enumeration
 \numberwithin{equation}{section}
 
+%\usepackage{fdsymbol}       % Contains a symbol for ⌀ -- use \diameter
+\usepackage{newunicodechar}
 \usepackage{xcolor}
 \usepackage{mdframed}
 \usepackage{cancel}
 \include{latex_defs}
 \include{clisting}
 \include{sub3}
+
+\newunicodechar{ϕ}{\ensuremath{\phi}}
+\newunicodechar{ᵢ}{\ensuremath{_i}}
+\newunicodechar{ⱼ}{\ensuremath{_j}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{⋅}{\ensuremath{\cdot}}
+\newunicodechar{𝜕}{\ensuremath{\partial}}
+\newunicodechar{─}{-}
+\DeclareUnicodeCharacter{20D7}{\ensuremath{\vec {}}}
+\newunicodechar{⌠}{|}
+\newunicodechar{⎮}{|}
+\newunicodechar{⌡}{|}
 
 \begin{document}
 
@@ -68,6 +83,7 @@
 \include{lect16}
 \include{lect17}
 \include{lect18}
+\include{lect19}
 
 \appendix
 \section{Формулы и обозначения}

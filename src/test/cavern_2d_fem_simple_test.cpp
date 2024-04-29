@@ -24,129 +24,48 @@
 #include "cfd24/debug/printer.hpp"
 #include "cfd24/fem/fem_sorted_cell_info.hpp"
 #include <list>
+#include <iomanip>
 
 using namespace cfd;
 
-struct Cavern2DFemSimpleWorker{
-	Cavern2DFemSimpleWorker(const IGrid& grid, double Re, double E);
+namespace {
+
+// ========================== ACavern2DFemWorker ========================
+struct ACavern2DFemWorker{
+	ACavern2DFemWorker(const IGrid& grid, double Re);
 	void initialize_saver(std::string stem);
-	double step();
-	void save_current_fields(size_t iter);
-private:
+	virtual void save_current_fields(size_t iter);
+protected:
 	const IGrid& _grid;
-	FemAssembler _fem_linear;
-	FemAssembler _fem_quadratic;
 	const double _Re;
-	const double _tau;
-	const double _alpha_p;
 
 	std::vector<double> _p;
 	std::vector<double> _u;
 	std::vector<double> _v;
-
-	AmgcMatrixSolver _p_stroke_solver;
-	AmgcMatrixSolver _uv_solver;
-
-	CsrMatrix _mat_uv;
-	std::vector<double> _rhs_u;
-	std::vector<double> _rhs_v;
-	double _d;
+	void init_vectors();
 
 	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer;
 
-	size_t u_size() const;
-	size_t p_size() const;
+	virtual size_t u_size() const = 0;
+	virtual size_t p_size() const = 0;
 
-	double to_next_iteration();
-	void assemble_p_stroke_solver();
-	void assemble_uv_slae();
-
-	std::vector<double> compute_u_star();
-	std::vector<double> compute_v_star();
-	std::vector<double> compute_p_stroke(const std::vector<double>& u_star, const std::vector<double>& v_star);
-	std::vector<double> compute_u_stroke(const std::vector<double>& p_stroke);
-	std::vector<double> compute_v_stroke(const std::vector<double>& p_stroke);
-
-	static double compute_tau(const IGrid& grid, double Re, double E);
 	static FemAssembler build_fem(unsigned power, const IGrid& grid);
 };
 
-size_t Cavern2DFemSimpleWorker::u_size() const{
-	return _fem_quadratic.n_bases();
-}
+ACavern2DFemWorker::ACavern2DFemWorker(const IGrid& grid, double Re):
+	_grid(grid), _Re(Re) {}
 
-size_t Cavern2DFemSimpleWorker::p_size() const{
-	return _fem_linear.n_bases();
-}
-
-double Cavern2DFemSimpleWorker::compute_tau(const IGrid& grid, double Re, double E){
-	double h2 = grid.cell_volume(0);
-	for (size_t i=1; i<grid.n_cells(); ++i){
-		h2 = std::max(h2, grid.cell_volume(i));
-	}
-	return E*Re*h2/4.0;
-}
-
-Cavern2DFemSimpleWorker::Cavern2DFemSimpleWorker(const IGrid& grid, double Re, double E):
-	_grid(grid),
-	_fem_linear(build_fem(1, _grid)),
-	_fem_quadratic(build_fem(2, _grid)),
-	_Re(Re),
-	_tau(compute_tau(grid, Re, E)),
-	_alpha_p(1.0/(1.0 + E))
-{
-	_d = 1.0/(1 + E);
-	assemble_p_stroke_solver();
-
+void ACavern2DFemWorker::init_vectors(){
 	_u = std::vector<double>(u_size(), 0);
 	_v = std::vector<double>(u_size(), 0);
 	_p = std::vector<double>(p_size(), 0);
-	to_next_iteration();
 }
 
-void Cavern2DFemSimpleWorker::initialize_saver(std::string stem){
+void ACavern2DFemWorker::initialize_saver(std::string stem){
 	_writer.reset(new VtkUtils::TimeSeriesWriter(stem));
 };
 
-double Cavern2DFemSimpleWorker::to_next_iteration(){
-	assemble_uv_slae();
-
-	// residual vectors
-	std::vector<double> res_u = compute_residual_vec(_mat_uv, _rhs_u, _u);
-	std::vector<double> res_v = compute_residual_vec(_mat_uv, _rhs_v, _v);
-	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
-		double coef = 1.0 / _tau / _grid.cell_volume(icell);
-		res_u[icell] *= coef;
-		res_v[icell] *= coef;
-	}
-
-	// norm
-	double res = 0;
-	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
-		res = std::max(res, std::max(res_u[icell], res_v[icell]));
-	}
-	return res;
-};
-
-double Cavern2DFemSimpleWorker::step(){
-	// Predictor step: U-star
-	std::vector<double> u_star = compute_u_star();
-	std::vector<double> v_star = compute_v_star();
-	// Pressure correction
-	std::vector<double> p_stroke = compute_p_stroke(u_star, v_star);
-	// Velocity correction
-	std::vector<double> u_stroke = compute_u_stroke(p_stroke);
-	std::vector<double> v_stroke = compute_v_stroke(p_stroke);
-
-	// Set final values
-	_u = vector_sum(u_star, 1.0, u_stroke);
-	_v= vector_sum(v_star, 1.0, v_stroke);
-	_p = vector_sum(_p, _alpha_p, p_stroke);
-
-	return to_next_iteration();
-}
-
-void Cavern2DFemSimpleWorker::save_current_fields(size_t iter){
+void ACavern2DFemWorker::save_current_fields(size_t iter){
 	if (_writer){
 		std::string filepath = _writer->add(iter);
 		_grid.save_vtk(filepath);
@@ -155,65 +74,7 @@ void Cavern2DFemSimpleWorker::save_current_fields(size_t iter){
 	}
 }
 
-void Cavern2DFemSimpleWorker::assemble_p_stroke_solver(){
-	auto& _fem = _fem_linear;
-	CsrMatrix ret(_fem.stencil());
-	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
-		const FemElement& elem = _fem.element(ielem);
-		std::vector<double> local_stiff = elem.integrals->stiff_matrix();
-		for (auto& v: local_stiff) v *= _d;
-		_fem.add_to_global_matrix(ielem, local_stiff, ret.vals());
-	}
-	ret.set_unit_row(0);
-	_p_stroke_solver.set_matrix(ret);
-}
-
-void Cavern2DFemSimpleWorker::assemble_uv_slae(){
-	// =============== Left side
-	LodMatrix mat(u_size());
-	_THROW_NOT_IMP_;
-	_mat_uv = mat.to_csr();
-	_uv_solver.set_matrix(_mat_uv);
-
-	// ============== right side
-	_rhs_u.resize(u_size());
-	_rhs_v.resize(u_size());
-}
-
-std::vector<double> Cavern2DFemSimpleWorker::compute_u_star(){
-	std::vector<double> u_star(_u);
-	_uv_solver.solve(_rhs_u, u_star);
-	return u_star;
-}
-
-std::vector<double> Cavern2DFemSimpleWorker::compute_v_star(){
-	std::vector<double> v_star(_v);
-	_uv_solver.solve(_rhs_v, v_star);
-	return v_star;
-}
-
-std::vector<double> Cavern2DFemSimpleWorker::compute_p_stroke(const std::vector<double>& u_star, const std::vector<double>& v_star){
-	std::vector<double> rhs(p_size(), 0.0);
-	_THROW_NOT_IMP_;
-	// solve
-	std::vector<double> p_stroke;
-	_p_stroke_solver.solve(rhs, p_stroke);
-	return p_stroke;
-}
-
-std::vector<double> Cavern2DFemSimpleWorker::compute_u_stroke(const std::vector<double>& p_stroke){
-	std::vector<double> u_stroke(u_size(), 0.0);
-	_THROW_NOT_IMP_;
-	return u_stroke;
-}
-
-std::vector<double> Cavern2DFemSimpleWorker::compute_v_stroke(const std::vector<double>& p_stroke){
-	std::vector<double> v_stroke(u_size(), 0.0);
-	_THROW_NOT_IMP_;
-	return v_stroke;
-}
-
-FemAssembler Cavern2DFemSimpleWorker::build_fem(unsigned power, const IGrid& grid){
+FemAssembler ACavern2DFemWorker::build_fem(unsigned power, const IGrid& grid){
 	std::vector<FemElement> elements;
 	std::vector<std::vector<size_t>> tab_elem_basis;
 
@@ -278,6 +139,175 @@ FemAssembler Cavern2DFemSimpleWorker::build_fem(unsigned power, const IGrid& gri
 	if (power == 2) n_bases += grid.n_faces() + n_quad_cells;
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
+}
+
+namespace{
+// ================================= Cavern2DFemSimpleWorker =================================
+struct Cavern2DFemSimpleWorker: public ACavern2DFemWorker{
+	Cavern2DFemSimpleWorker(const IGrid& grid, double Re, double E);
+	double step();
+private:
+	FemAssembler _fem_linear;
+	FemAssembler _fem_quadratic;
+	const double _tau;
+	const double _alpha_p;
+
+	std::vector<double> _p;
+	std::vector<double> _u;
+	std::vector<double> _v;
+
+	AmgcMatrixSolver _p_stroke_solver;
+	AmgcMatrixSolver _uv_solver;
+
+	CsrMatrix _mat_uv;
+	std::vector<double> _rhs_u;
+	std::vector<double> _rhs_v;
+	double _d;
+
+	size_t u_size() const override;
+	size_t p_size() const override;
+
+	double to_next_iteration();
+	void assemble_p_stroke_solver();
+	void assemble_uv_slae();
+
+	std::vector<double> compute_u_star();
+	std::vector<double> compute_v_star();
+	std::vector<double> compute_p_stroke(const std::vector<double>& u_star, const std::vector<double>& v_star);
+	std::vector<double> compute_u_stroke(const std::vector<double>& p_stroke);
+	std::vector<double> compute_v_stroke(const std::vector<double>& p_stroke);
+
+	static double compute_tau(const IGrid& grid, double Re, double E);
+};
+
+Cavern2DFemSimpleWorker::Cavern2DFemSimpleWorker(const IGrid& grid, double Re, double E):
+	ACavern2DFemWorker(grid, Re),
+	_fem_linear(build_fem(1, _grid)),
+	_fem_quadratic(build_fem(2, _grid)),
+	_tau(compute_tau(grid, Re, E)),
+	_alpha_p(1.0/(1.0 + E))
+{
+	_d = 1.0/(1 + E);
+	assemble_p_stroke_solver();
+
+	init_vectors();
+	to_next_iteration();
+}
+
+size_t Cavern2DFemSimpleWorker::u_size() const{
+	return _fem_quadratic.n_bases();
+}
+
+size_t Cavern2DFemSimpleWorker::p_size() const{
+	return _fem_linear.n_bases();
+}
+
+double Cavern2DFemSimpleWorker::compute_tau(const IGrid& grid, double Re, double E){
+	double h2 = grid.cell_volume(0);
+	for (size_t i=1; i<grid.n_cells(); ++i){
+		h2 = std::max(h2, grid.cell_volume(i));
+	}
+	return E*Re*h2/4.0;
+}
+
+double Cavern2DFemSimpleWorker::to_next_iteration(){
+	assemble_uv_slae();
+
+	// residual vectors
+	std::vector<double> res_u = compute_residual_vec(_mat_uv, _rhs_u, _u);
+	std::vector<double> res_v = compute_residual_vec(_mat_uv, _rhs_v, _v);
+	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
+		double coef = 1.0 / _tau / _grid.cell_volume(icell);
+		res_u[icell] *= coef;
+		res_v[icell] *= coef;
+	}
+
+	// norm
+	double res = 0;
+	for (size_t icell=0; icell < _grid.n_cells(); ++icell){
+		res = std::max(res, std::max(res_u[icell], res_v[icell]));
+	}
+	return res;
+};
+
+double Cavern2DFemSimpleWorker::step(){
+	// Predictor step: U-star
+	std::vector<double> u_star = compute_u_star();
+	std::vector<double> v_star = compute_v_star();
+	// Pressure correction
+	std::vector<double> p_stroke = compute_p_stroke(u_star, v_star);
+	// Velocity correction
+	std::vector<double> u_stroke = compute_u_stroke(p_stroke);
+	std::vector<double> v_stroke = compute_v_stroke(p_stroke);
+
+	// Set final values
+	_u = vector_sum(u_star, 1.0, u_stroke);
+	_v= vector_sum(v_star, 1.0, v_stroke);
+	_p = vector_sum(_p, _alpha_p, p_stroke);
+
+	return to_next_iteration();
+}
+
+void Cavern2DFemSimpleWorker::assemble_p_stroke_solver(){
+	auto& _fem = _fem_linear;
+	CsrMatrix ret(_fem.stencil());
+	for (size_t ielem=0; ielem < _fem.n_elements(); ++ielem){
+		const FemElement& elem = _fem.element(ielem);
+		std::vector<double> local_stiff = elem.integrals->stiff_matrix();
+		for (auto& v: local_stiff) v *= _d;
+		_fem.add_to_global_matrix(ielem, local_stiff, ret.vals());
+	}
+	ret.set_unit_row(0);
+	_p_stroke_solver.set_matrix(ret);
+}
+
+void Cavern2DFemSimpleWorker::assemble_uv_slae(){
+	// =============== Left side
+	LodMatrix mat(u_size());
+	_THROW_NOT_IMP_;
+	_mat_uv = mat.to_csr();
+	_uv_solver.set_matrix(_mat_uv);
+
+	// ============== right side
+	_rhs_u.resize(u_size());
+	_rhs_v.resize(u_size());
+}
+
+std::vector<double> Cavern2DFemSimpleWorker::compute_u_star(){
+	std::vector<double> u_star(_u);
+	_uv_solver.solve(_rhs_u, u_star);
+	return u_star;
+}
+
+std::vector<double> Cavern2DFemSimpleWorker::compute_v_star(){
+	std::vector<double> v_star(_v);
+	_uv_solver.solve(_rhs_v, v_star);
+	return v_star;
+}
+
+std::vector<double> Cavern2DFemSimpleWorker::compute_p_stroke(const std::vector<double>& u_star, const std::vector<double>& v_star){
+	std::vector<double> rhs(p_size(), 0.0);
+	_THROW_NOT_IMP_;
+	// solve
+	std::vector<double> p_stroke;
+	_p_stroke_solver.solve(rhs, p_stroke);
+	return p_stroke;
+}
+
+std::vector<double> Cavern2DFemSimpleWorker::compute_u_stroke(const std::vector<double>& p_stroke){
+	std::vector<double> u_stroke(u_size(), 0.0);
+	_THROW_NOT_IMP_;
+	return u_stroke;
+}
+
+std::vector<double> Cavern2DFemSimpleWorker::compute_v_stroke(const std::vector<double>& p_stroke){
+	std::vector<double> v_stroke(u_size(), 0.0);
+	_THROW_NOT_IMP_;
+	return v_stroke;
+}
+
+
+}
 
 TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[.cavern2-fem-simple]"){
 	std::cout << std::endl << "--- cfd24_test [cavern2-fem-simple] --- " << std::endl;
@@ -294,8 +324,7 @@ TEST_CASE("Cavern 2D, FEM-SIMPLE algorithm", "[.cavern2-fem-simple]"){
 	worker.initialize_saver("cavern2-fem");
 
 	// iterations loop
-	size_t it = 0;
-	for (it=1; it < max_it; ++it){
+	for (size_t it=1; it < max_it; ++it){
 		double nrm = worker.step();
 
 		// print norm and pressure value at the top-right corner

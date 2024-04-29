@@ -9,6 +9,7 @@ set (SRC
 	cavern_2d_simple_test.cpp
 	cavern_2d_fvm_simple_test.cpp
 	cavern_2d_fem_simple_test.cpp
+	cavern_2d_fem_cbs_test.cpp
 	obstacle_2d_simple_test.cpp
 	obstacle_nonstat_2d_simple_test.cpp
 	poiseuille_2d_simple_test.cpp
