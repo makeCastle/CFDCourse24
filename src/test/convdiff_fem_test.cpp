@@ -26,6 +26,7 @@
 #include "cfd24/fem/fem_numeric_integrals.hpp"
 #include "cfd24/debug/printer.hpp"
 #include "cfd24/fem/fem_sorted_cell_info.hpp"
+#include<numeric>
 
 using namespace cfd;
 

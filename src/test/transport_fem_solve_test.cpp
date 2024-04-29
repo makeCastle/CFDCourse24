@@ -48,60 +48,73 @@ public:
 		std::vector<double> Q_plus(_grid.n_points());
 		std::vector<double> P_minus(_grid.n_points());
 		std::vector<double> Q_minus(_grid.n_points());
-		for (const Edge& e: _edges)
-		{
-			P_plus[e.i] += std::min(0.0, _K.vals()[e.ij_addr]) * std::min(0.0, _u[e.j] - _u[e.i]);
-			Q_plus[e.i] += std::max(0.0, _K.vals()[e.ij_addr]) * std::max(0.0, _u[e.j] - _u[e.i]);
-			P_minus[e.i] += std::min(0.0, _K.vals()[e.ij_addr]) * std::max(0.0, _u[e.j] - _u[e.i]);
-			Q_minus[e.i] += std::max(0.0, _K.vals()[e.ij_addr]) * std::min(0.0, _u[e.j] - _u[e.i]);
 
-			P_plus[e.j] += std::min(0.0, _K.vals()[e.ji_addr]) * std::min(0.0, _u[e.i] - _u[e.j]);
-			Q_plus[e.j] += std::max(0.0, _K.vals()[e.ji_addr]) * std::max(0.0, _u[e.i] - _u[e.j]);
-			P_minus[e.j] += std::min(0.0, _K.vals()[e.ji_addr]) * std::max(0.0, _u[e.i] - _u[e.j]);
-			Q_minus[e.j] += std::max(0.0, _K.vals()[e.ji_addr]) * std::min(0.0, _u[e.i] - _u[e.j]);
+		for (auto& edge : _edges) {
+			size_t ei = edge.i;
+			size_t ej = edge.j;
+			double kij = _K.vals()[edge.ij_addr];
+			double kji = _K.vals()[edge.ji_addr];
+			double du = _u[ej] - _u[ei];
+
+			P_plus[ei] += std::min(0.0, kij) * std::min(0.0, du);
+			P_minus[ei] += std::min(0.0, kij) * std::max(0.0, du);
+			Q_minus[ei] += std::max(0.0, kij) * std::min(0.0, du);
+			Q_plus[ei] += std::max(0.0, kij) * std::max(0.0, du);
+
+			P_plus[ej] += std::min(0.0, kji) * std::min(0.0, -du);
+			P_minus[ej] += std::min(0.0, kji) * std::max(0.0, -du);
+			Q_minus[ej] += std::max(0.0, kji) * std::min(0.0, -du);
+			Q_plus[ej] += std::max(0.0, kji) * std::max(0.0, -du);
 		}
-		for (const Edge& e : _edges)
-		{
-			// compute
-			double lij = _L.vals()[e.ij_addr];
-			double lji = _L.vals()[e.ji_addr];
-			double dij = lij - _K.vals()[e.ij_addr];
-			//double dij = std::max(0.0, std::max(-lij, -lji));
-			//double dij = D.vals()[e.ij_addr];
-			size_t i = e.i;
-			double r_plus = P_plus[i] / Q_plus[i];
-			double r_minus = P_minus[i] / Q_minus[i];
+
+		for (auto& edge : _edges) {
+			size_t ei = edge.i;
+			size_t ej = edge.j;
+
+			double kij = _K.vals()[edge.ij_addr];
+			double kji = _K.vals()[edge.ji_addr];
+			double dij = std::max(0.0, std::max(-kij, -kji));
+			double lji = _L.vals()[edge.ji_addr];
+
+			if (abs(P_plus[ei] - 0.0) < 1e-9)
+			{
+				P_plus[ei] = 1e-9;
+			}
+			if (abs(P_minus[ei] - 0.0) < 1e-9)
+			{
+				P_minus[ei] = 1e-9;
+			}
+			double r_plus = Q_plus[ei] / P_plus[ei];
+			double r_minus = Q_minus[ei] / P_minus[ei];
 
 			// upwind
-			double F_plus = 0.0;
-			double F_minus = 0.0;
+			/*double F_plus = 0.0;
+			double F_minus = 0.0;*/
 			// upwind
 
 			// minmod
 			/*double F_plus = std::max(0.0, std::min(r_plus, 1.0));
 			double F_minus = std::max(0.0, std::min(r_minus, 1.0));*/
-			// minmod
+			//// minmod
 
 			// superbee
-			/*double F_plus = std::max(0.0, std::max(std::min(2.0, abs(r_plus)), std::min(1.0, 2.0*abs(r_plus))));
-			double F_minus = std::max(0.0, std::max(std::min(2.0, abs(r_minus)), std::min(1.0, 2.0 * abs(r_minus))));*/
+			double F_plus = std::max(0.0, std::max(std::min(2.0, r_plus), std::min(1.0, 2.0*r_plus)));
+			double F_minus = std::max(0.0, std::max(std::min(2.0, r_minus), std::min(1.0, 2.0 * r_minus)));
 			// superbee
-
+			
 			double fa_ji;
-			size_t j1 = e.j;
-			if (_u[i] >= _u[j1])
+			if (_u[ei] >= _u[ej])
 			{
-				fa_ji = std::min(F_plus * dij, lji);
+				fa_ji = -std::min(F_plus * dij, lji);
 			}
 			else {
-				fa_ji = std::min(F_minus * dij, lji);
+				fa_ji = -std::min(F_minus * dij, lji);
 			}
-			double fa_ij = -fa_ji;
-			// assign
-			_Fa.vals()[e.ij_addr] = fa_ij;
-			_Fa.vals()[e.ii_addr] -= fa_ij;
-			_Fa.vals()[e.ji_addr] = fa_ji;
-			_Fa.vals()[e.jj_addr] -= fa_ji;
+
+			_Fa.vals()[edge.ij_addr] = fa_ji;
+			_Fa.vals()[edge.ii_addr] -= fa_ji;
+			_Fa.vals()[edge.ji_addr] = fa_ji;
+			_Fa.vals()[edge.jj_addr] -= fa_ji;
 		}
 	}
 
@@ -284,12 +297,9 @@ public:
 private:
 	void impl_step(double tau) override {
 		std::vector<double> uold = _u;
-		for (size_t i=0; i<_grid.n_points(); ++i){
-			_u[i] += tau/_mass[i] * (_L.mult_vec(i, uold));
-		}
 		Fa_filling();
-		for (size_t i = 0; i < _grid.n_points(); ++i) {
-			_u[i] += _Fa.mult_vec(i, uold);
+		for (size_t i=0; i<_grid.n_points(); ++i){
+			_u[i] += tau/_mass[i] * (_L.mult_vec(i, uold) + _Fa.mult_vec(i, uold));
 		}
 	}
 };
@@ -300,23 +310,29 @@ TEST_CASE("Transport 2D fem solver, explicit", "[transport2-fem-upwind-explicit]
 
 	// solver
 	//std::string fn = tmp_directory_file("tetragrid_10k.vtk");
-	std::string fn = test_directory_file("tetragrid_500.vtk");
+	std::string fn = test_directory_file("tetragrid5000.vtk");
 	auto g = UnstructuredGrid2D::vtk_read(fn);
 	TestTransport2FemUpwindExplicit worker(g);
-	double tau = worker.recommended_tau(0.0);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	double k = 2.75;
+	double tau = k * worker.recommended_tau(0.0);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//double tau = worker.recommended_tau(0.0);
 
 	// saver
-	VtkUtils::TimeSeriesWriter writer("transport2-fem-upwind-explicit");
-	std::string out_filename = writer.add(0);
-	worker.save_vtk(out_filename);
+	//VtkUtils::TimeSeriesWriter writer("transport2-fem-superbee-explicit");
+	//std::string out_filename = writer.add(0);
+	//worker.save_vtk(out_filename);
 
 	double n2=0.0, nm=0.0;
 	while (worker.current_time() < tend - 1e-6) {
 		// solve problem
 		worker.step(tau);
 		// export solution to vtk
-		out_filename = writer.add(worker.current_time());
-		worker.save_vtk(out_filename);
+		//out_filename = writer.add(worker.current_time());
+		//worker.save_vtk(out_filename);
 
 		n2 = worker.compute_norm2();
 		nm = worker.compute_norm_max();

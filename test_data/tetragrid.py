@@ -1,8 +1,8 @@
 from hybmeshpack import hmscript as hm
 import math
 
-N = 1000
-output_name = "tetragrid.vtk"
+N = 5000
+output_name = "tetragrid5000.vtk"
 
 step = math.sqrt(1.5/N)
 c1 = hm.add_rect_contour([0, 0], [1, 1])
