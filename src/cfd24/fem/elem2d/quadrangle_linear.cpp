@@ -37,6 +37,10 @@ Point QuadrangleLinearGeometry::to_physical(Point xi_) const{
 	return _c_1 + xi * _c_xi + eta * _c_eta + xi * eta * _c_xieta;
 }
 
+Point QuadrangleLinearGeometry::parametric_center() const{
+	return {0, 0};
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Basis

@@ -67,6 +67,10 @@ Point FemAssembler::reference_point(size_t ibas) const{
 	return _ref_points[ibas];
 }
 
+std::vector<size_t> FemAssembler::tab_elem_basis(size_t icell) const{
+	return _tab_elem_basis[icell];
+}
+
 std::vector<double> FemAssembler::approximate(const IPointFunction& func) const{
 	std::vector<double> ret;
 	for (size_t ibas=0; ibas < n_bases(); ++ibas){
@@ -105,6 +109,23 @@ void FemAssembler::add_to_global_vector(double coef, size_t ielem, const std::ve
 	for (size_t i=0; i<local_vector.size(); ++i){
 		size_t gi = _tab_elem_basis[ielem][i];
 		global_vector[gi] += coef*local_vector[i];
+	}
+}
+
+void FemAssembler::add_to_global_vector(
+		double coef,
+		size_t ielem,
+		const std::vector<double>& local_matrix,
+		const std::vector<double>& u,
+		std::vector<double>& global_vector) const{
+
+	size_t n = _tab_elem_basis[ielem].size();
+	for (size_t i=0; i<n; ++i){
+		size_t gi = _tab_elem_basis[ielem][i];
+		for (size_t j=0; j<n; ++j){
+			size_t gj = _tab_elem_basis[ielem][j];
+			global_vector[gi] += coef * local_matrix[n*i + j] * u[gj];
+		}
 	}
 }
 
