@@ -38,6 +38,12 @@ struct ACavern2DCbsWorker{
 	void save_current_fields(size_t iter);
 	void convergence_report(size_t iter);
 	bool is_converged(double eps) const;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	void loadFilling();
+	void EFilling();
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
 protected:
 	const IGrid& _grid;
 	const double _Re;
@@ -55,6 +61,11 @@ protected:
 	std::vector<double> _p;
 	std::vector<double> _u;
 	std::vector<double> _v;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	double _E;
+	std::vector<double> _load_vector;
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	std::shared_ptr<VtkUtils::TimeSeriesWriter> _writer;
 
@@ -206,6 +217,27 @@ FemAssembler ACavern2DCbsWorker::build_fem(unsigned power, const IGrid& grid){
 	return FemAssembler(n_bases, elements, tab_elem_basis);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void ACavern2DCbsWorker::loadFilling() {
+	std::vector<double> load_vector(_fem.n_bases(), 0);
+	for (size_t ielem = 0; ielem < _fem.n_elements(); ++ielem) {
+		auto elem = _fem.element(ielem);
+		auto local_load_vector = elem.integrals->load_vector();
+		_fem.add_to_global_vector(ielem, local_load_vector, load_vector);
+	}
+	_load_vector = load_vector;
+	}
+void ACavern2DCbsWorker::EFilling() {
+	double E = 0.0;
+	for (size_t i = 0; i < _grid.n_points(); ++i)
+	{
+		double implModule = _u[i] * _u[i] + _v[i] * _v[i];
+		E += implModule * _load_vector[i];
+	}
+	_E = 0.5 * E;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ACavern2DCbsWorker::step(){
 	std::vector<double> beta = calculate_beta();
 	std::vector<double> tau = calculate_timestep(beta);
@@ -281,6 +313,11 @@ void ACavern2DCbsWorker::convergence_report(size_t iter){
 	std::cout << "|dudt| = " << std::setprecision(3)  << _n2_dudt << "  ";
 	std::cout << "|dvdt| = " << std::setprecision(3)  << _n2_dvdt << "  ";
 	std::cout << "|dpdt| = " << std::setprecision(3)  << _n2_dpdt << "  ";
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	std::cout << "|E| = " << std::setprecision(3) << _E << "  ";
+	/////////////////////////////////////////////////////////////////////////////////////////
+
 	std::cout << std::endl;
 	
 }
@@ -470,19 +507,34 @@ TEST_CASE("Cavern 2D, FEM CBS algorithm", "[cavern2-fem-si-cbs]"){
 
 	double Re = 100;
 	size_t max_it = 10'000;
-	double eps = 1e-3;
-	double tau_coef = 0.6;
+	double eps = 1e-6;
+	double tau_coef = 0.3;
 
-	cfd::RegularGrid2D grid(0, 1, 0, 1, 20, 20);
+	//cfd::RegularGrid2D grid(0, 1, 0, 1, 50, 50);
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	std::string fn = test_directory_file("tetragrid.vtk");
+	auto grid = UnstructuredGrid2D::vtk_read(fn);
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	SemiImplicitCbsWorker worker(grid, Re, tau_coef);
-	worker.initialize_saver("cavern2-cbs");
+	//worker.initialize_saver("cavern2-cbs-si");
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	worker.loadFilling();
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	size_t it = 0;
 	for (it=0; it<max_it; ++it){
 		worker.step();
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		worker.EFilling();
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+
 		if (it % 100 == 0){
-			worker.save_current_fields(it);
+			//worker.save_current_fields(it);
 		}
 		if (it % 20 == 0){
 			worker.convergence_report(it);
@@ -586,19 +638,33 @@ TEST_CASE("Cavern 2D, FEM Explicit CBS algorithm", "[cavern2-fem-ex-cbs]"){
 
 	double Re = 100;
 	size_t max_it = 10'000;
-	double eps = 1e-2;
+	double eps = 1e-6;
 	double tau_coef = 0.6;
 
-	cfd::RegularGrid2D grid(0, 1, 0, 1, 20, 20);
+	//cfd::RegularGrid2D grid(0, 1, 0, 1, 50, 50);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	std::string fn = test_directory_file("tetragrid.vtk");
+	auto grid = UnstructuredGrid2D::vtk_read(fn);
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	ExplicitCbsWorker worker(grid, Re, tau_coef);
-	worker.initialize_saver("cavern2-cbs");
+	//worker.initialize_saver("cavern2-cbs");
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	worker.loadFilling();
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	size_t it = 0;
 	for (it=0; it<max_it; ++it){
 		worker.step();
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		worker.EFilling();
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+
 		if (it % 100 == 0){
-			worker.save_current_fields(it);
+			//worker.save_current_fields(it);
 		}
 		if (it % 20 == 0){
 			worker.convergence_report(it);
